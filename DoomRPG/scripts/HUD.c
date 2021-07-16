@@ -195,16 +195,22 @@ NamedScript Type_ENTER void OverviewHUD()
     Credits.OldValue = Credits.Value;
     Credits.StartValue = Credits.Value;
     Credits.DisplayValue = Credits.Value;
+    Credits.Timer = 0;
+    Credits.TimerMax = 0;
     Credits.TimerMaxCap = 2;
     Modules.Value = CheckInventory("DRPGModule");
     Modules.OldValue = Modules.Value;
     Modules.StartValue = Modules.Value;
     Modules.DisplayValue = Modules.Value;
+    Modules.Timer = 0;
+    Modules.TimerMax = 0;
     Modules.TimerMaxCap = 2;
     Medkit.Value = Player.Medkit;
     Medkit.OldValue = Medkit.Value;
     Medkit.StartValue = Medkit.Value;
     Medkit.DisplayValue = Medkit.Value;
+    Medkit.Timer = 0;
+    Medkit.TimerMax = 0;
     Medkit.TimerMaxCap = 2;
 
     // Collection
@@ -313,12 +319,40 @@ NamedScript Type_ENTER void ComboHUD()
 
     // Interpolators
     InterpData Combo;
-    Combo.TimerMaxCap = 1;
     InterpData XP;
-    XP.TimerMaxCap = 1;
     InterpData Rank;
-    Rank.TimerMaxCap = 1;
     InterpData Bonus;
+
+    Combo.Value = 0;
+    Combo.OldValue = 0;
+    Combo.StartValue = 0;
+    Combo.DisplayValue = 0;
+    Combo.Timer = 0;
+    Combo.TimerMax = 0;
+    Combo.TimerMaxCap = 1;
+
+    XP.Value = 0;
+    XP.OldValue = 0;
+    XP.StartValue = 0;
+    XP.DisplayValue = 0;
+    XP.Timer = 0;
+    XP.TimerMax = 0;
+    XP.TimerMaxCap = 1;
+
+    Rank.Value = 0;
+    Rank.OldValue = 0;
+    Rank.StartValue = 0;
+    Rank.DisplayValue = 0;
+    Rank.Timer = 0;
+    Rank.TimerMax = 0;
+    Rank.TimerMaxCap = 1;
+
+    Bonus.Value = 0;
+    Bonus.OldValue = 0;
+    Bonus.StartValue = 0;
+    Bonus.DisplayValue = 0;
+    Bonus.Timer = 0;
+    Bonus.TimerMax = 0;
     Bonus.TimerMaxCap = 1;
 
     fixed X, Y;
@@ -1105,7 +1139,15 @@ NamedScript Type_ENTER void TurretHUD()
         "Green"
     };
 
+    // Interpolators
     InterpData Health;
+
+    Health.Value = 0;
+    Health.OldValue = 0;
+    Health.StartValue = 0;
+    Health.DisplayValue = 0;
+    Health.Timer = 0;
+    Health.TimerMax = 0;
     Health.TimerMaxCap = 2;
 
     fixed X, Y;
