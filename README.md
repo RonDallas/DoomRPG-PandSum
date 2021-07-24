@@ -12,11 +12,14 @@ Compatible source ports:
 
 ### Launcher:
 https://github.com/Forevener/DRPGSEL/releases
+
 It can download the mod and launch it.
 
 ### Manually:
 https://github.com/Sumwunn/DoomRPG 
+
 Click the green "Code" button, then "Download ZIP." Extract, and then read the wiki for help.
+
 https://github.com/Sumwunn/DoomRPG/wiki
 
 ## Compatible mods
@@ -29,10 +32,13 @@ https://github.com/Sumwunn/DoomRPG/wiki
 - Custom version of Jimmy's Jukebox Instant Randomizer has been included which allows DRPG's map events and Outpost music to play.
 
 #### Compatible Combos:
-DoomRL Arsenal + DoomRL Monsters
-DoomRL Arsenal + Colourful Hell
-LegenDoom + DoomRL Monsters
-LegenDoom + Colourful Hell
+- DoomRL Arsenal + DoomRL Monsters
+
+- DoomRL Arsenal + Colourful Hell
+
+- LegenDoom + DoomRL Monsters
+
+- LegenDoom + Colourful Hell
 
 Due to how DRPG is programmed, unlisted combos are unsupported and could lead to unstable behaviour.
 
