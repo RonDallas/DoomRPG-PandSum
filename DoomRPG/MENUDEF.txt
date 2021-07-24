@@ -530,6 +530,9 @@ OptionMenu "DoomRPGMenus"
     StaticText ""
 
     Option "Menu background border", "drpg_menu_background_border", "OnOff"
+    StaticText ""
+    StaticText "Emulates the effect of holding down key(s) while navigating menus. May cause input lag. Only works in singleplayer.", "Orange"
+    Option "Input Repetition", "drpg_menu_repetition", "OnOff"
 }
 
 OptionMenu "DoomRPGHUD"

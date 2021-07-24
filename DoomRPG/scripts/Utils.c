@@ -27,6 +27,35 @@ int const AuraTID = 20000;
 // Skill levels stuff
 int SkillLevelsMax;
 
+// ----------------------
+// Input
+//
+
+// Used with bindingStates in order
+int const bindingValues[13] =
+{
+    BT_FORWARD,
+    BT_BACK,
+    BT_MOVELEFT,
+    BT_MOVERIGHT,
+    BT_CROUCH,
+    BT_SPEED,
+    BT_USE,
+    BT_ATTACK,
+    BT_ALTATTACK,
+    BT_ZOOM,
+    BT_JUMP,
+    BT_USER1,
+    BT_USER2
+};
+
+// Keep track of KeyDown for multiple keys (requried for key combos, such as switching pages)
+bool bindingStates[13];
+// Currently pressed key
+int keyCurrent;
+// Determines whether certain held down keys can repeat themselves
+bool keyRepetition = false;
+
 str const ColorNames[26] =
 {
     "Brick",
@@ -2668,23 +2697,159 @@ void CreateTranslations()
     CreateTranslationEnd();
 }
 
-// Needs reworked
 bool CheckInput(int Key, int State, bool ModInput, int PlayerNumber)
 {
-    int Input = INPUT_BUTTONS;
-    int InputOld = INPUT_OLDBUTTONS;
+    if (InMultiplayer)
+        return CheckInputACS(Key, State, ModInput, PlayerNumber);
+    else
+    {
+        int i = State;
+
+        if (Key == (BT_FORWARD | BT_BACK | BT_MOVELEFT | BT_MOVERIGHT))
+            i = KEY_ANYMOVEMENT;
+
+        return CheckInputZS(Key, i);
+    }
+}
+
+// Singleplayer Input is managed by ZScript and updated via this function
+NamedScript DECORATE void UpdateInput(int Key, bool KeyDown, bool KeyRepeat)
+{
+    // ACS lags behind a tick, so it must wait
+    Delay(1);
+
+    // Misc
+    keyRepetition = KeyRepeat;
+
+    // Check binding states
+    for (int i = 0; i < sizeof (bindingValues); i++)
+        if (Key == bindingValues[i])
+            bindingStates[i] = KeyDown;
+
+    // Single Key Processing
+    if (KeyDown)
+    {
+        keyCurrent = Key;
+        Delay(1);
+        keyCurrent = 0;
+    }
+}
+
+// New
+bool CheckInputZS(int Key, int State)
+{
+    switch (State)
+    {
+    case KEY_PRESSED:
+    {
+        if (Key == keyCurrent)
+            return true;
+    }
+    break;
+    case KEY_ONLYPRESSED:
+    {
+        if (Key == keyCurrent)
+        {
+            // Check if any other keys are being used
+            for (int i = 0; i < sizeof (bindingValues); i++)
+                if (Key != bindingValues[i] && bindingStates[i])
+                    return false;
+
+            // Yay
+            return true;
+        }
+    }
+    break;
+    case KEY_HELD:
+    {
+        // Check binding states
+        for (int i = 0; i < sizeof (bindingValues); i++)
+            if (Key == bindingValues[i] && bindingStates[i])
+                return true;
+    }
+    break;
+    case KEY_ONLYHELD:
+    {
+        // Check binding states
+        for (int i = 0; i < sizeof (bindingValues); i++)
+            if (Key != bindingValues[i] && bindingStates[i])
+                return false;
+
+        // Check binding states
+        for (int i = 0; i < sizeof (bindingValues); i++)
+            if (Key == bindingValues[i] && bindingStates[i])
+                return true;
+    }
+    break;
+    case KEY_ANYIDLE:
+    {
+        // Check binding states
+        for (int i = 0; i < sizeof (bindingValues); i++)
+            if (bindingStates[i])
+                return false;
+
+        return true;
+    }
+    break;
+    case KEY_ANYNOTIDLE:
+    {
+        // Check binding states
+        for (int i = 0; i < sizeof (bindingValues); i++)
+            if (bindingStates[i])
+                return true;
+
+        return false;
+    }
+    break;
+    case KEY_ANYMOVEMENT:
+    {
+        // Check binding states
+        // bindingStates values 0 - 3 are movement keys
+        for (int i = 0; i < 4; i++)
+            if (bindingStates[i])
+                return true;
+
+        return false;
+    }
+    break;
+    case KEY_REPEAT:
+    {
+        if (keyRepetition)
+        {
+            // Limit repetition
+            if ((Timer() % 5) == 0)
+                // Check binding states
+                for (int i = 0; i < sizeof (bindingValues); i++)
+                    if (Key == bindingValues[i] && bindingStates[i])
+                        return true;
+        }
+        else
+        {
+            // No repetition
+            if (Key == keyCurrent)
+                return true;
+        }
+    }
+    break;
+    }
+
+    return false;
+}
+
+// Original
+bool CheckInputACS(int Key, int State, bool ModInput, int PlayerNumber)
+{
+    int Input;
+    int InputOld;
     int Buttons;
     int OldButtons;
-    static bool CheckInputRepeat;
-    static int CheckInputRepeatTimer;
-    double AxisY;
-    double AxisX;
-    // These two are meant to mimic OldButtons
-    static double OldAxisY;
-    static double OldAxisX;
-    bool UseAxis = false;
 
-    if (ModInput)
+    if (!ModInput)
+    {
+        Input = INPUT_BUTTONS;
+        InputOld = INPUT_OLDBUTTONS;
+    }
+    else
     {
         Input = MODINPUT_BUTTONS;
         InputOld = MODINPUT_OLDBUTTONS;
@@ -2693,68 +2858,23 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNumber)
     Buttons = GetPlayerInput(PlayerNumber, Input);
     OldButtons = GetPlayerInput(PlayerNumber, InputOld);
 
-    // Proper navigation support for joystick, binding movement keys no longer necessary
-    if (Key & BT_FORWARD || Key & BT_BACK || Key & BT_MOVELEFT || Key & BT_MOVERIGHT)
-    {
-        AxisY = GetPlayerInput(PlayerNumber, INPUT_FORWARDMOVE);
-        AxisX = GetPlayerInput(PlayerNumber, INPUT_SIDEMOVE);
-
-        // Simplify
-        if (AxisY > 1.0) AxisY = 1.0;
-        if (AxisY < -1.0) AxisY = -1.0;
-        if (AxisX > 1.0) AxisX = 1.0;
-        if (AxisX < -1.0) AxisX = -1.0;
-
-        // Decide if the axises are old and moldy
-        if (AxisY < OldAxisY || AxisY > OldAxisY)
-            OldAxisY = 0;
-        if (AxisX > OldAxisX || AxisX < OldAxisX)
-            OldAxisX = 0;
-
-        if (OldAxisY == 0 && OldAxisX == 0)
-        {
-            if (Key & BT_FORWARD && AxisY == 1.0)
-                UseAxis = true;
-            else if (Key & BT_BACK && AxisY == -1.0)
-                UseAxis = true;
-            else if (Key & BT_MOVELEFT && AxisX == -1.0)
-                UseAxis = true;
-            else if (Key & BT_MOVERIGHT && AxisX == 1.0)
-                UseAxis = true;
-        }
-    }
-
     switch (State)
     {
     case KEY_PRESSED:
     {
-        if (UseAxis)
-        {
-            OldAxisY = AxisY;
-            OldAxisX = AxisX;
-            return true;
-        }
-        else if (Buttons & Key && !(OldButtons & Key))
+        if (Buttons & Key && !(OldButtons & Key))
             return true;
     }
     break;
     case KEY_ONLYPRESSED:
     {
-        if (UseAxis)
-        {
-            OldAxisY = AxisY;
-            OldAxisX = AxisX;
-            return true;
-        }
-        else if (Buttons & Key && !(OldButtons & Key))
+        if (Buttons & Key && !(OldButtons & Key))
             return true;
     }
     break;
     case KEY_HELD:
     {
-        if (UseAxis)
-            return true;
-        else if (Buttons & Key)
+        if (Buttons & Key)
             return true;
     }
     break;
@@ -2766,7 +2886,7 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNumber)
     break;
     case KEY_ANYIDLE:
     {
-        if (!UseAxis && Buttons == 0 && OldButtons == 0)
+        if (Buttons & Key && !(OldButtons & Key))
             return true;
     }
     break;
@@ -2776,27 +2896,11 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNumber)
             return true;
     }
     break;
+    // Originally not compatible with multiplayer, so it is now KEY_PRESSED
     case KEY_REPEAT:
     {
-        if (UseAxis || Buttons & Key)
-        {
-            int CurrentTime = Timer();
-            if (CurrentTime + 5 + 1 < CheckInputRepeatTimer) CheckInputRepeat = false;
-            if (!CheckInputRepeat)
-            {
-                CheckInputRepeatTimer = CurrentTime;
-                CheckInputRepeatTimer += 5;
-                CheckInputRepeat = true;
-                return true;
-            }
-            else
-            {
-                if (CurrentTime >= CheckInputRepeatTimer)
-                    CheckInputRepeat = false;
-                else
-                    return false;
-            }
-        }
+        if (Buttons & Key && !(OldButtons & Key))
+            return true;
     }
     break;
     }
@@ -2811,6 +2915,14 @@ NamedScript MenuEntry void SetHUDPreset(int Preset)
 
 NamedScript MenuEntry void ResetToDefaults()
 {
+    if (InMultiplayer)
+    {
+        ActivatorSound("menu/error", 127);
+        HudMessage("'Reset to Defaults' can only be done in singleplayer due to potential desync.");
+        EndHudMessage(HUDMSG_FADEOUT, 0, "Orange", 0.5, 0.5, 8.0, 1.0);
+        return;
+    }
+
     ScriptCall("DRPGZUtilities", "ResetToDefaults");
 }
 

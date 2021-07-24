@@ -377,7 +377,7 @@ void ShopLoop()
             Player.ShopIndex++;
             if (Player.ShopIndex > ItemMax[Player.ShopPage] - 1) Player.ShopIndex = ItemMax[Player.ShopPage] - 1;
         }
-    if (CheckInput(BT_USE, KEY_PRESSED, false, PlayerNumber()) && !Player.MenuBlock || Player.DelayTimer > 35.0 * GetActivatorCVarFixed("drpg_menu_repeat"))
+    if (CheckInput(BT_USE, KEY_PRESSED, false, PlayerNumber()) && !Player.MenuBlock)
         if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
         {
             if (Player.LockerMode)
@@ -410,8 +410,6 @@ void ShopLoop()
                 ActivatorSound("menu/error", 127);
             }
         }
-    if (CheckInput(BT_USE, KEY_HELD, false, PlayerNumber()) || (CheckInput(BT_USE, KEY_HELD, false, PlayerNumber()) && CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
-        Player.DelayTimer++;
     if (CheckInput(BT_ATTACK, KEY_PRESSED, false, PlayerNumber()))
     {
         if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
@@ -457,10 +455,6 @@ void ShopLoop()
         }
     }
 
-    // Reset the Delay Timer if no buttons are pressed
-    if (CheckInput(0, KEY_ANYIDLE, false, PlayerNumber()))
-        Player.DelayTimer = 0;
-
     // Reset the menu block
     Player.MenuBlock = false;
 }
@@ -474,11 +468,8 @@ void BuyItem(str Item)
     // If you're not the required rank, return
     if (ItemPtr->Rank > Player.RankLevel)
     {
-        if (Player.DelayTimer <= 35.0 * GetActivatorCVarFixed("drpg_menu_repeat"))
-        {
-            PrintError(StrParam("You need Rank %d (%S) to buy this item", ItemPtr->Rank, LongRanks[ItemPtr->Rank]));
-            ActivatorSound("menu/error", 127);
-        }
+        PrintError(StrParam("You need Rank %d (%S) to buy this item", ItemPtr->Rank, LongRanks[ItemPtr->Rank]));
+        ActivatorSound("menu/error", 127);
 
         return;
     }
@@ -486,11 +477,8 @@ void BuyItem(str Item)
     // If the item (or category) is flagged to never be buyable, return
     if (ItemPtr->Rank == -1 || ItemCategoryFlags[Player.ShopPage] & CF_NOBUY)
     {
-        if (Player.DelayTimer <= 35.0 * GetActivatorCVarFixed("drpg_menu_repeat"))
-        {
-            PrintError("You cannot buy this item");
-            ActivatorSound("menu/error", 127);
-        }
+        PrintError("You cannot buy this item");
+        ActivatorSound("menu/error", 127);
 
         return;
     }
@@ -498,11 +486,8 @@ void BuyItem(str Item)
     // If you don't have enough Credits, return
     if (CheckInventory("DRPGCredits") < ItemPtr->Price - ItemPtr->Price * Player.ShopDiscount / 100)
     {
-        if (Player.DelayTimer <= 35.0 * GetActivatorCVarFixed("drpg_menu_repeat"))
-        {
-            PrintError("You don't have enough Credits to buy this item");
-            ActivatorSound("menu/error", 127);
-        }
+        PrintError("You don't have enough Credits to buy this item");
+        ActivatorSound("menu/error", 127);
 
         return;
     }
@@ -510,8 +495,7 @@ void BuyItem(str Item)
     // If the item has no cost, return
     if (Cost == 0)
     {
-        if (Player.DelayTimer <= 35.0 * GetActivatorCVarFixed("drpg_menu_repeat"))
-            ActivatorSound("menu/error", 127);
+        ActivatorSound("menu/error", 127);
 
         return;
     }
@@ -530,7 +514,7 @@ void BuyItem(str Item)
         ActivatorSound("menu/buy", 127);
         TakeInventory("DRPGCredits", Cost);
     }
-    else if (Player.DelayTimer <= 35.0 * GetActivatorCVarFixed("drpg_menu_repeat"))
+    else
     {
         PrintError("Could not teleport the requested item to your location");
         ActivatorSound("menu/error", 127);
@@ -578,11 +562,8 @@ int SellItem(str Item, int SellAmount, bool AutoSold)
     // You must be at least Rank 1 or in the Outpost to sell items
     if (Player.RankLevel == 0 && !CurrentLevel->UACBase)
     {
-        if (Player.DelayTimer <= 35.0 * GetActivatorCVarFixed("drpg_menu_repeat"))
-        {
-            PrintError("You cannot sell items outside the Outpost until you reach the first rank");
-            ActivatorSound("menu/error", 127);
-        }
+        PrintError("You cannot sell items outside the Outpost until you reach the first rank");
+        ActivatorSound("menu/error", 127);
 
         return 0;
     }
@@ -590,11 +571,8 @@ int SellItem(str Item, int SellAmount, bool AutoSold)
     // If you're on a page that doesn't allow selling or you don't have any of the required item, fail
     if (!AutoSold && (CheckInventory(Item) == 0 || ItemCategoryFlags[Player.ShopPage] & CF_NOSELL))
     {
-        if (Player.DelayTimer <= 35.0 * GetActivatorCVarFixed("drpg_menu_repeat"))
-        {
-            PrintError("You cannot sell these items");
-            ActivatorSound("menu/error", 127);
-        }
+        PrintError("You cannot sell these items");
+        ActivatorSound("menu/error", 127);
 
         return 0;
     }
@@ -623,7 +601,7 @@ int SellItem(str Item, int SellAmount, bool AutoSold)
 
         GiveInventory("DRPGCredits", SellCost);
     }
-    else if (Player.DelayTimer <= 35.0 * GetActivatorCVarFixed("drpg_menu_repeat"))
+    else
     {
         PrintError("You are not carrying any of the specified item");
         ActivatorSound("menu/error", 127);
@@ -690,7 +668,7 @@ void DepositItem(int Page, int Index, bool CharSave, bool NoSound)
         if (!NoSound)
             ActivatorSound("menu/move", 127);
     }
-    else if (Player.DelayTimer <= 35.0 * GetActivatorCVarFixed("drpg_menu_repeat") && !NoSound)
+    else if (!NoSound)
     {
         if (Player.EP < LOCKER_EPRATE)
             PrintError("Not enough EP to deposit this item");
@@ -765,7 +743,7 @@ int WithdrawItem(int Page, int Index)
             Player.EP -= LOCKER_EPRATE;
         ActivatorSound("menu/move", 127);
     }
-    else if (Player.DelayTimer <= 35.0 * GetActivatorCVarFixed("drpg_menu_repeat"))
+    else
     {
         if (Player.EP < LOCKER_EPRATE)
             PrintError("Not enough EP to withdraw this item");

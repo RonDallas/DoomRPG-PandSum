@@ -1485,7 +1485,10 @@ NamedScript bool TurretWantsToSwitchToPlayerTarget()
     if (!SetActivator(0, AAPTR_FRIENDPLAYER))
         return false;
 
-    return CheckInput(BT_ATTACK, KEY_HELD, true, -1) && CheckInput(BT_SPEED, KEY_HELD, true, -1);
+    if (CheckInput(BT_ATTACK, KEY_PRESSED, true, -1) && CheckInput(BT_SPEED, KEY_HELD, true, -1))
+        return true;
+    else
+        return false;
 }
 
 void BuildTurretData()

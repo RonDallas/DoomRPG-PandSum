@@ -310,6 +310,9 @@ NamedScript MapSpecial void LevelTransport()
     SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
     Player.OutpostMenu = OMENU_LEVELTRANSPORT;
 
+    // So the player's initial interaction is not processed as a menu action
+    Delay(1);
+
     while (true)
     {
         // Stop Underflow
@@ -726,6 +729,9 @@ NamedScript MapSpecial void SkillComputer()
     Player.OutpostMenu = OMENU_SKILLCOMPUTER;
     SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
 
+    // So the player's initial interaction is not processed as a menu action
+    Delay(1);
+
     while (Player.OutpostMenu == OMENU_SKILLCOMPUTER)
     {
         // Draw the background
@@ -836,6 +842,7 @@ NamedScript MapSpecial void SelectArenaWave()
 
     WaveChoice = ArenaMaxWave;
 
+    // So the player's initial interaction is not processed as a menu action
     Delay(1);
 
     while (Player.OutpostMenu == OMENU_WAVESELECTOR)
@@ -1248,6 +1255,9 @@ NamedScript MapSpecial void ShopSpecial()
     SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
     Player.OutpostMenu = OMENU_SHOPSPECIAL;
 
+    // So the player's initial interaction is not processed as a menu action
+    Delay(1);
+
     while (Player.OutpostMenu == OMENU_SHOPSPECIAL)
     {
         str Name = ShopSpecialItem->Name;
@@ -1343,6 +1353,9 @@ NamedScript MapSpecial void MissionBBS()
     Player.OutpostMenu = OMENU_BBS;
 
     ActivatorSound("menu/move", 127);
+
+    // So the player's initial interaction is not processed as a menu action
+    Delay(1);
 
     while (Player.OutpostMenu == OMENU_BBS)
     {

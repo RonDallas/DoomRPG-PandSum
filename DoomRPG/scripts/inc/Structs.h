@@ -773,7 +773,6 @@ struct PlayerData_S
     int StimImmunity;
     int ShopDiscount;
     int ShopCard;
-    int DelayTimer;
     bool AutosaveTimerReset;
     bool SeenEventTip[MAPEVENT_MAX];
 

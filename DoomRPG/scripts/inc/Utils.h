@@ -178,7 +178,10 @@ NamedScript Console void GiveCompounds(int);
 
 // System
 void CreateTranslations();
+NamedScript DECORATE void UpdateInput(int, bool, bool);
 bool CheckInput(int, int /* = KEY_PRESSED */, bool, int);
+bool CheckInputZS(int, int /* = KEY_PRESSED */);
+bool CheckInputACS(int, int /* = KEY_PRESSED */, bool, int);
 OptionalArgs(1) void LogMessage(str, int /* = LOG_NORMAL */);
 void ClearInfo(CharSaveInfo *);
 
