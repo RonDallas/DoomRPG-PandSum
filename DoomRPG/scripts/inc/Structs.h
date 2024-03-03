@@ -11,15 +11,6 @@ AddressSpace extern GlobalArraySpace    RPGGlobal;
 
 // Generic
 
-struct DynamicArray_S
-{
-    str Name;
-    int Position;
-    int Size;
-    int ItemSize;
-    void *Data;
-};
-
 struct InterpData_S
 {
     long Value;
