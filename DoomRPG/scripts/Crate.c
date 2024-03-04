@@ -172,9 +172,10 @@ NamedScript DECORATE void UseCrate(int ID)
         SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
 
         DrawCrate();
-        CrateInput();
 
         Delay(1);
+
+        CrateInput(); // After delay so open and take are not processed at the same time
     }
 
     SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);

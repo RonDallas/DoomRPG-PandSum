@@ -83,37 +83,31 @@ NamedScript void InitMission()
 
         if (MonsterID <= 1) return; // No monsters, no assassination.
 
-        auto DynamicArray PotentialTargets;
-        // Initialise to prevent junk data from crashing ArrayCreate()
-        // Name & Position are initialised by ArrayCreate()
-        PotentialTargets.Size = 0;
-        PotentialTargets.ItemSize = 0;
-        PotentialTargets.Data = NULL;
-        ArrayCreate(&PotentialTargets, "Targets", 32, sizeof(LevelInfo));
-
+        // Find valid monster to replace
         for (int i = 1; i < MonsterID; i++)
         {
             if (!Monsters[i].Init) // Skip removed monsters
                 continue;
 
+            // Valid monster
             str ActorToCheck = GetMissionMonsterActor(Player.Mission.Monster->Actor);
 
             LogMessage(StrParam("Checking: %S - Looking For: %S", Monsters[i].Actor, ActorToCheck), LOG_DEBUG);
 
+            // Check for valid monster
             if (StartsWith(Monsters[i].Actor, ActorToCheck, true))
-            {
-                if (PotentialTargets.Position == PotentialTargets.Size)
-                    ArrayResize(&PotentialTargets);
+                // Store valid monster ID into array
+                zsDynArrayUtils("PotentialTargets", 1, i, NULL);
 
-                ((int *)PotentialTargets.Data)[PotentialTargets.Position++] = i;
-            }
-
+            // Prevent script termination
             if (!(i % 1000)) Delay(1);
         }
 
-        if (PotentialTargets.Position)
+        // Replace target monster
+        if (zsDynArrayUtils("PotentialTargets", 2, NULL, NULL)) // Proceed only if array is populated
         {
-            int Chosen = ((int *)PotentialTargets.Data)[Random(0, PotentialTargets.Position - 1)];
+            // Randomly choose a valid monster to replace
+            int Chosen = zsDynArrayUtils("PotentialTargets", 3, NULL, NULL);
 
             int LevelMod = Player.Mission.Difficulty * Player.Level;
             LevelMod = (int)(LevelMod * RandomFixed(1.0, 1.25));
@@ -134,9 +128,10 @@ NamedScript void InitMission()
 
             if (DebugLog)
                 Log("\CdDEBUG: \C-Mission Target Chosen: \Ca%d", Chosen);
-        }
 
-        ArrayDestroy(&PotentialTargets);
+            // Cleanup
+            zsDynArrayUtils("PotentialTargets", 99, NULL, NULL);
+        }
     }
 }
 

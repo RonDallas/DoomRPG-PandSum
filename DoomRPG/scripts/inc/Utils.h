@@ -190,6 +190,7 @@ void ArrayCreate(DynamicArray *, str, int, int);
 void ArrayResize(DynamicArray *);
 void ArrayDestroy(DynamicArray *);
 //void ArrayDump(DynamicArray *);
+int zsDynArrayUtils(str, int, int, int);
 
 NamedScript DECORATE void SetDebugMode();
 

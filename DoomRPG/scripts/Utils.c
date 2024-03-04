@@ -3020,6 +3020,11 @@ void ClearInfo(CharSaveInfo *Info)
 // Dynamic Arrays
 //
 
+int zsDynArrayUtils(str arrayName, int Function, int Data, int PlayerNum)
+{
+    return ScriptCall("DRPGZData", "DynArrayUtils", arrayName, Function, Data, PlayerNum);
+}
+
 void ArrayCreate(DynamicArray *Array, str Name, int InitSize, int ItemSize)
 {
     if (DebugLog)

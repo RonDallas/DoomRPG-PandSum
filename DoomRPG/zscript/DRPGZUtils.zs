@@ -167,7 +167,7 @@ class DRPGZUtilities
         // 2 = Wide
 
         // Default
-        if 			(Preset == 1)
+        if 		(Preset == 1)
         {
             // Reset HUD CVars
             for (int i = 0; i < drpgHUDCVars.size(); i++)

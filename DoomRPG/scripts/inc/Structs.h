@@ -11,6 +11,15 @@ AddressSpace extern GlobalArraySpace    RPGGlobal;
 
 // Generic
 
+struct DynamicArray_S
+{
+    str Name;
+    int Position;
+    int Size;
+    int ItemSize;
+    void *Data;
+};
+
 struct InterpData_S
 {
     long Value;
@@ -743,8 +752,6 @@ struct PlayerData_S
     // Auto-Sell/Auto-Store
     int ItemAutoMode[ITEM_CATEGORIES][ITEM_MAX];
     bool ItemKeep[ITEM_CATEGORIES][ITEM_MAX];
-    struct DynamicArray_S AutoSellList;
-    struct DynamicArray_S AutoStoreList;
 
     // Toxicity Meter
     int ToxicTimer;

@@ -1169,7 +1169,6 @@ NamedScript void ItemHandler()
             // Skip this player if they are dead
             if (GetActorProperty(Players(i).TID, APROP_Health) <= 0) continue;
 
-
             int *ItemTID = (int *)Player.DropTID.Data;
 
             for (int j = 0; j < Players(i).DropTID.Position; j++)
