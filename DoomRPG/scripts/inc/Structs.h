@@ -774,9 +774,6 @@ struct PlayerData_S
     bool AutosaveTimerReset;
     bool SeenEventTip[MAPEVENT_MAX];
 
-    // Associated Drops
-    struct DynamicArray_S DropTID;
-
     // Structception
     struct
     {
@@ -897,7 +894,7 @@ struct PlayerData_S
     struct MissionInfo_S Mission;
 };
 
-//LegenDoom
+// LegenDoom
 struct LegendaryDef_S
 {
     str Effect;

@@ -194,6 +194,6 @@ int zsDynArrayUtils(str, int, int, int);
 
 NamedScript DECORATE void SetDebugMode();
 
-NamedScript Console void Test();
+NamedScript Console void DumpDrops();
 
 #endif

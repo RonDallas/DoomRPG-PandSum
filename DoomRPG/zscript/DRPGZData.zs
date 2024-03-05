@@ -10,6 +10,8 @@ class DRPGZData : EventHandler
     // - Replacement Dynamic Arrays for ACS -
     // Mission.c
     private Array<int> PotentialTargets;
+    // RPG.c
+    private dPlayerData PlayerDrops[MAXPLAYERS];
     // Shop.c
     private dPlayerData AutoSell[MAXPLAYERS];
     private dPlayerData AutoStore[MAXPLAYERS];
@@ -18,6 +20,48 @@ class DRPGZData : EventHandler
     {
         // Get class data pointer
         DRPGZData cData = DRPGZData(EventHandler.Find("DRPGZData"));
+
+        // - PlayerDrops Array Functions -
+        if (arrayName == "PlayerDrops")
+        {
+            // Init PlayerDrops playerData array
+            if (!cData.PlayerDrops[OwnerID])
+                cData.PlayerDrops[OwnerID] = new('dPlayerData');
+
+            // Direct pointer to playerData
+            let pData = cData.PlayerDrops[OwnerID];
+
+            switch(Function)
+            {
+                // Add
+                case 1:
+                {
+                    // Add item
+                    pData.iItem.push(Data);
+
+                    break;
+                }
+                // Get
+                case 2:
+                {
+                    return pData.iItem[Data];
+                }
+                // Return size of array
+                case 3:
+                {
+                    return pData.iItem.size();
+                }
+                // Delete
+                case 4:
+                {
+                    pData.iItem.Delete(Data);
+
+                    break;
+                }
+
+                return 0;
+            }
+        }
 
         // - AutoSell & AutoStore Array Functions -
         if (arrayName == "Auto-Sell" || arrayName == "Auto-Store")

@@ -599,12 +599,10 @@ int DropMonsterItem(int Killer, int TID, str Item, int Chance, fixed XAdd, fixed
         if (Players(Killer).Stim.PowerupTimer[STIM_MAGNETIC] <= 0) // Don't toss the item if we're Magnetic, it'll just confuse things
             SetActorVelocity(ItemTID, RandomFixed(-XSpeed, XSpeed), RandomFixed(-YSpeed, YSpeed), ZSpeed, false, false);
 
-        // Array has grown too big, resize it
-        if (Players(Killer).DropTID.Position == Players(Killer).DropTID.Size)
-            ArrayResize(&Players(Killer).DropTID);
+        //LogMessage(StrParam("Adding %S to Player %i's Drop array", Item, Players(Killer).TID));
 
         // Add item's TID to drop array
-        ((int *)Players(Killer).DropTID.Data)[Players(Killer).DropTID.Position++] = ItemTID;
+        zsDynArrayUtils("PlayerDrops", 1, ItemTID, Killer);
     }
 
     return ItemTID;
@@ -799,17 +797,21 @@ NamedScript DECORATE void ClearBurnout()
 
 NamedScript KeyBind void PurgeDrops()
 {
-    int *TID = (int *)Player.DropTID.Data;
-    for (int i = 0; i < Player.DropTID.Position; i++)
+    int pArraySize = zsDynArrayUtils("PlayerDrops", 3, NULL, PlayerNumber());
+
+    for (int i = 0; i < pArraySize; i++)
     {
-        if (ClassifyActor(TID[i]) == ACTOR_NONE)
+        int TID = zsDynArrayUtils("PlayerDrops", 2, i, PlayerNumber());
+
+        if (ClassifyActor(TID) == ACTOR_NONE)
             continue;
 
-        SpawnSpot("TeleportFog", TID[i], 0, 0);
-        Thing_Remove(TID[i]);
+        SpawnSpot("TeleportFog", TID, 0, 0);
+        Thing_Remove(TID);
     }
 
     CleanDropTIDArray();
+
     Print("\CdRemoved \Cgall\Cd monster-dropped items");
 }
 
@@ -3020,9 +3022,9 @@ void ClearInfo(CharSaveInfo *Info)
 // Dynamic Arrays
 //
 
-int zsDynArrayUtils(str arrayName, int Function, int Data, int PlayerNum)
+int zsDynArrayUtils(str arrayName, int Function, int Data, int OwnerID)
 {
-    return ScriptCall("DRPGZData", "DynArrayUtils", arrayName, Function, Data, PlayerNum);
+    return ScriptCall("DRPGZData", "DynArrayUtils", arrayName, Function, Data, OwnerID);
 }
 
 void ArrayCreate(DynamicArray *Array, str Name, int InitSize, int ItemSize)
@@ -3160,12 +3162,16 @@ NamedScript void Silly()
     SetMusic("Credits2");
 }
 
-NamedScript Console void Test()
+NamedScript Console void DumpDrops()
 {
-    int *TID = (int *)Player.DropTID.Data;
-    for (int i = 0; i < Player.DropTID.Position; i++)
+    int pArraySize = zsDynArrayUtils("PlayerDrops", 3, NULL, PlayerNumber());
+
+    for (int i = 0; i < pArraySize; i++)
     {
-        Log("%d: ID:%d, %S", i, TID[i], GetActorClass(TID[i]));
+        int TID = zsDynArrayUtils("PlayerDrops", 2, i, PlayerNumber());
+
+        Log("%d: ID:%d, %S", i, TID, GetActorClass(TID));
     }
+
     return;
 }

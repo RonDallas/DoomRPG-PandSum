@@ -2411,43 +2411,49 @@ NamedScript Console bool Recall(SkillLevelInfo *SkillLevel, void *Data)
 
 NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
 {
-    int *TID = (int *)Player.DropTID.Data;
+    int pArraySize = zsDynArrayUtils("PlayerDrops", 3, NULL, PlayerNumber());
+
     fixed Angle = GetActorAngle(0);
     fixed X = GetActorX(0);
     fixed Y = GetActorY(0);
     fixed Z = GetActorZ(0) + (GetActorPropertyFixed(0, APROP_Height) / 2);
-    int AngleDivide;
-    fixed AngleAdd;
-    int CreditCount;
+
+    int AngleDivide = 0;
+    fixed AngleAdd = 0.0;
+    int CreditCount = 0;
 
     // Count Credits
-    for (int i = 0; i < Player.DropTID.Position; i++)
-        if (ThingCount(0, TID[i]) > 0 && StartsWith(GetActorClass(TID[i]), "DRPGCredits"))
+    for (int i = 0; i < pArraySize; i++)
+    {
+        int TID = zsDynArrayUtils("PlayerDrops", 2, i, PlayerNumber());
+
+        if (ThingCount(0, TID) > 0 && StartsWith(GetActorClass(TID), "DRPGCredits"))
         {
-            if (GetActorClass(TID[i]) == "DRPGCredits1")
+            if (GetActorClass(TID) == "DRPGCredits1")
                 CreditCount++;
-            if (GetActorClass(TID[i]) == "DRPGCredits5")
+            if (GetActorClass(TID) == "DRPGCredits5")
                 CreditCount += 5;
-            if (GetActorClass(TID[i]) == "DRPGCredits10")
+            if (GetActorClass(TID) == "DRPGCredits10")
                 CreditCount += 10;
-            if (GetActorClass(TID[i]) == "DRPGCredits20")
+            if (GetActorClass(TID) == "DRPGCredits20")
                 CreditCount += 20;
-            if (GetActorClass(TID[i]) == "DRPGCredits50")
+            if (GetActorClass(TID) == "DRPGCredits50")
                 CreditCount += 50;
-            if (GetActorClass(TID[i]) == "DRPGCredits100")
+            if (GetActorClass(TID) == "DRPGCredits100")
                 CreditCount += 100;
-            if (GetActorClass(TID[i]) == "DRPGCredits250")
+            if (GetActorClass(TID) == "DRPGCredits250")
                 CreditCount += 250;
-            if (GetActorClass(TID[i]) == "DRPGCredits500")
+            if (GetActorClass(TID) == "DRPGCredits500")
                 CreditCount += 500;
-            if (GetActorClass(TID[i]) == "DRPGCredits1000")
+            if (GetActorClass(TID) == "DRPGCredits1000")
                 CreditCount += 1000;
 
             int HolderTID = UniqueTID();
-            SpawnSpot("DRPGCreditsEmpty", TID[i], HolderTID, Random(0, 255));
+            SpawnSpot("DRPGCreditsEmpty", TID, HolderTID, Random(0, 255));
             SetActorVelocity(HolderTID, RandomFixed(-8, 8), RandomFixed(-8, 8), RandomFixed(2, 8), false, false);
-            Thing_Remove(TID[i]);
+            Thing_Remove(TID);
         }
+    }
 
     // Give calculated Credits
     if (CreditCount > 0)
@@ -2459,25 +2465,31 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
         ActivatorSound("credits/pickup", 127);
     }
 
+    // Clean out removed TIDs
     CleanDropTIDArray();
 
-    AngleDivide = Player.DropTID.Position;
+    // Need updated pArraySize after cleaning
+    pArraySize = zsDynArrayUtils("PlayerDrops", 3, NULL, PlayerNumber());
 
     // Refund - If there are no items in the array
-    if (Player.DropTID.Position == 0 && CreditCount == 0)
+    if (pArraySize == 0 && CreditCount == 0)
     {
         PrintError("No magnetizeable items detected");
         ActivatorSound("menu/error", 127);
         return false;
     }
 
+    AngleDivide = pArraySize;
+
     // Overdrive - Pull the items on top of you and pick them all up
     if (Player.Overdrive)
     {
-        for (int i = 0; i < Player.DropTID.Position; i++)
+        for (int i = 0; i < pArraySize; i++)
         {
-            SetActorPosition(TID[i], X, Y, Z, 0);
-            SetActorVelocity(TID[i], 0, 0, 0, false, false);
+            int TID = zsDynArrayUtils("PlayerDrops", 2, i, PlayerNumber());
+
+            SetActorPosition(TID, X, Y, Z, 0);
+            SetActorVelocity(TID, 0, 0, 0, false, false);
         }
 
         SetActorVelocity(0, 0.01, 0.01, 0, true, false);
@@ -2489,17 +2501,20 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
 
     AngleAdd = 1.0 / AngleDivide;
 
-    for (int i = 0; i < Player.DropTID.Position; i++)
+    for (int i = 0; i < pArraySize; i++)
     {
+        int TID = zsDynArrayUtils("PlayerDrops", 2, i, PlayerNumber());
+
         X = GetActorX(0) + Cos(Angle) * 64.0;
         Y = GetActorY(0) + Sin(Angle) * 64.0;
-        SetActorPosition(TID[i], X, Y, Z, 0);
-        SetActorVelocity(TID[i], 0, 0, 0, false, false);
+        SetActorPosition(TID, X, Y, Z, 0);
+        SetActorVelocity(TID, 0, 0, 0, false, false);
         Angle += AngleAdd;
     }
 
     FadeRange(0, 0, 0, 0.5, 0, 0, 0, 0.0, 1.0);
     ActivatorSound("skills/magnet", 127);
+
     return true;
 }
 
@@ -2749,20 +2764,22 @@ NamedScript DECORATE void ClearStatusEffects()
 
 NamedScript void CleanDropTIDArray()
 {
-    // [KS] !!WARNING!! THIS CANNOT BE A FUNCTION.
-    int *TID = (int *)Player.DropTID.Data;
-    for (int i = 0; i < Player.DropTID.Position; i++)
+    for (int i = 0; i < zsDynArrayUtils("PlayerDrops", 3, NULL, PlayerNumber()); i++)
     {
-        if (TID[i] == 0 || ClassifyActor(TID[i]) == ACTOR_NONE)
+        int TID = zsDynArrayUtils("PlayerDrops", 2, i, PlayerNumber());
+
+        // Delete removed TIDs
+        if (TID == 0 || ClassifyActor(TID) == ACTOR_NONE)
         {
-            TID[i] = TID[Player.DropTID.Position - 1];
-            TID[Player.DropTID.Position - 1] = 0;
-            Player.DropTID.Position--;
+            zsDynArrayUtils("PlayerDrops", 4, i, PlayerNumber());
+
+            // Black magic
             i -= 2;
-            if (i < -1)
-                i = -1;
+            if (i < -1) i = -1;
         }
     }
+
+    return;
 }
 
 void BuildSkillData()
