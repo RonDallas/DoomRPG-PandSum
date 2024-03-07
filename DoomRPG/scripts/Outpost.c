@@ -311,7 +311,7 @@ NamedScript MapSpecial void LevelTransport()
     Player.OutpostMenu = OMENU_LEVELTRANSPORT;
 
     // So the player's initial interaction is not processed as a menu action
-    Delay(5);
+    Delay(1);
 
     while (true)
     {
