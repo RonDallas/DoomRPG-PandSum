@@ -16,23 +16,30 @@ class DRPGZDataSt : StaticEventHandler
             {
             // Add
             case 1:
+            {
                 cData.PotentialTargets.push(Data);
                 break;
+            }
             // Empty array check
             case 2:
+            {
                 if (cData.PotentialTargets.size() > 0)
                     return 1;
                 else
                     return 0;
+            }
             // Return random monster id
             case 3:
+            {
                 int arraySize = cData.PotentialTargets.size();
                 return cData.PotentialTargets[random(0, arraySize-1)];
-                break;
+            }
             // Clear array
             case 99:
+            {
                 cData.PotentialTargets.clear();
                 break;
+            }
             }
 
             return 0;

@@ -187,7 +187,6 @@ void ClearInfo(CharSaveInfo *);
 
 // Dynamic Arrays
 int zsDynArrayUtils(str, int, int, int);
-OptionalArgs(4) int zsDynArrayUtilsSt(str, int, int, int, int, int, int);
 
 NamedScript DECORATE void SetDebugMode();
 

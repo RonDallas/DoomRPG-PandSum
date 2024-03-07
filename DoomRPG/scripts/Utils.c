@@ -3034,12 +3034,10 @@ void ClearInfo(CharSaveInfo *Info)
 
 int zsDynArrayUtils(str arrayName, int Function, int Data, int OwnerID)
 {
-    return ScriptCall("DRPGZData", "DynArrayUtils", arrayName, Function, Data, OwnerID);
-}
-
-OptionalArgs(4) int zsDynArrayUtilsSt(str arrayName, int Function, int Data, int Data2, int Data3, int Data4, int Data5)
-{
-    return ScriptCall("DRPGZDataSt", "DynArrayUtils", arrayName, Function, Data, Data2, Data3, Data4, Data5);
+    if (OwnerID == NULL)
+        return ScriptCall("DRPGZDataSt", "DynArrayUtils", arrayName, Function, Data);
+    else
+        return ScriptCall("DRPGZData", "DynArrayUtils", arrayName, Function, Data, OwnerID);
 }
 
 NamedScript DECORATE void SetDebugMode()
