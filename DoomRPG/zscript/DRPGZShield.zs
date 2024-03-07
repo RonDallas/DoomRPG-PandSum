@@ -1,13 +1,3 @@
-// Damage Types
-const DT_NONE = -1;
-const DT_NORMAL = 0;
-const DT_TOXIC = 1;
-const DT_RADIATION = 2;
-const DT_MELEE = 3;
-const DT_FIRE = 4;
-const DT_PLASMA = 5;
-const DT_LIGHTNING = 6;
-
 class DRPGZShieldDamageHandler : Inventory
 {
     override void AbsorbDamage(int damage, Name damageType, out int newdamage)

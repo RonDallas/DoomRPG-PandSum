@@ -1,0 +1,4 @@
+Code Notes:
+- Players(i): Get pointer to player data structure
+- Player: Function caller/owner
+- int *TID = (int *)Player.DropTID.Data; : Direct pointer to Player's DropTID array

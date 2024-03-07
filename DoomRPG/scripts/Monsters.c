@@ -2893,6 +2893,22 @@ int FindMonster(int TID)
     return -1;
 }
 
+// Get total valid monsters
+int GetValidMonsterCount()
+{
+    int validMonsterCount = 0;
+
+    for (int i = 1; i < MonsterID; i++)
+    {
+        if (!Monsters[i].Init)
+            continue;
+        else
+            validMonsterCount++;
+    }
+
+    return validMonsterCount;
+}
+
 // For Debugging
 NamedScript Console void OutputMonsters()
 {

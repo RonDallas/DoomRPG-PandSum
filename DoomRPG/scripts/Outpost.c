@@ -311,7 +311,7 @@ NamedScript MapSpecial void LevelTransport()
     Player.OutpostMenu = OMENU_LEVELTRANSPORT;
 
     // So the player's initial interaction is not processed as a menu action
-    Delay(1);
+    Delay(5);
 
     while (true)
     {
@@ -320,10 +320,10 @@ NamedScript MapSpecial void LevelTransport()
             LevelChoice = 0;
 
         // And Overflow
-        if (LevelChoice >= KnownLevels->Position)
-            LevelChoice = KnownLevels->Position - 1;
+        if (LevelChoice >= GetKnownLevelCount())
+            LevelChoice = GetKnownLevelCount() - 1;
 
-        LevelInfo *TeleDest = &((LevelInfo *)KnownLevels->Data)[LevelChoice];
+        LevelInfo *TeleDest = klArrayUtils(2, LevelChoice);
 
         // Set the HUD Size
         SetHudSize(GetActivatorCVar("drpg_menu_width"), GetActivatorCVar("drpg_menu_height"), true);
@@ -351,9 +351,11 @@ NamedScript MapSpecial void LevelTransport()
             MapType = "UAC Base";
         if (TeleDest->UACArena)
             MapType = "UAC Arena";
+
         HudMessage("%S", TeleDest->NiceName);
         EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 1, TitleColor, X, Y + 32.1, 0.05, 0.5);
         SetFont("SMALLFONT");
+
         if (TeleDest->LevelNum > 0)
         {
             HudMessage("%S, level %d - %S", TeleDest->LumpName, TeleDest->LevelNum, MapType);
@@ -533,7 +535,7 @@ NamedScript MapSpecial void LevelTransport()
         if (CheckInput(BT_FORWARD, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
             ActivatorSound("menu/move", 127);
-            if (LevelChoice < KnownLevels->Position - 1)
+            if (LevelChoice < GetKnownLevelCount() - 1)
                 LevelChoice++;
             else
                 LevelChoice = 0;
@@ -544,79 +546,79 @@ NamedScript MapSpecial void LevelTransport()
             if (LevelChoice > 0)
                 LevelChoice--;
             else
-                LevelChoice = KnownLevels->Position - 1;
+                LevelChoice = GetKnownLevelCount() - 1;
         }
 
         // Wadsmoosh change MapPack support
         if (WadSmoosh)
         {
-            if ((CheckInput(BT_MOVELEFT, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
-            {
-                int MapPack = Player.SelectedMapPack;
-                do
-                {
-                    MapPack--;
-                    if (MapPackActive[MapPack])
-                    {
-                        break;
-                    }
-                }
-                while (MapPack > -1);
+            /*            if ((CheckInput(BT_MOVELEFT, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
+                       {
+                           int MapPack = Player.SelectedMapPack;
+                           do
+                           {
+                               MapPack--;
+                               if (MapPackActive[MapPack])
+                               {
+                                   break;
+                               }
+                           }
+                           while (MapPack > -1);
 
-                if (MapPack != -1)
-                {
-                    Player.SelectedMapPack = MapPack;
-                    KnownLevels = &WSMapPacks[MapPack]; //ah, probably means no mp support this way
-                    //will have to move the KnownLevels pointer into the Player Struct
-                    //or use a new pointer for outpost text rendering and swap the knownlevels
-                    //pointer before changing the map
-                    LevelChoice = 1;
-                    ActivatorSound("menu/move", 127);
-                }
-                else
-                {
-                    ActivatorSound("menu/error", 127);
-                }
-            }
-            else if (CheckInput(BT_MOVELEFT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice > 0)
-            {
-                ActivatorSound("menu/move", 127);
-                LevelChoice -= 10;
-            }
+                           if (MapPack != -1)
+                           {
+                               Player.SelectedMapPack = MapPack;
+                               KnownLevels = &WSMapPacks[MapPack]; //ah, probably means no mp support this way
+                               //will have to move the KnownLevels pointer into the Player Struct
+                               //or use a new pointer for outpost text rendering and swap the knownlevels
+                               //pointer before changing the map
+                               LevelChoice = 1;
+                               ActivatorSound("menu/move", 127);
+                           }
+                           else
+                           {
+                               ActivatorSound("menu/error", 127);
+                           }
+                       }
+                       else if (CheckInput(BT_MOVELEFT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice > 0)
+                       {
+                           ActivatorSound("menu/move", 127);
+                           LevelChoice -= 10;
+                       }
 
-            if ((CheckInput(BT_MOVERIGHT, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
-            {
-                int MapPack = Player.SelectedMapPack;
-                do
-                {
-                    MapPack++;
-                    if (MapPackActive[MapPack])
-                    {
-                        break;
-                    }
-                }
-                while (MapPack < MAX_WSMAPPACKS);
+                       if ((CheckInput(BT_MOVERIGHT, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
+                       {
+                           int MapPack = Player.SelectedMapPack;
+                           do
+                           {
+                               MapPack++;
+                               if (MapPackActive[MapPack])
+                               {
+                                   break;
+                               }
+                           }
+                           while (MapPack < MAX_WSMAPPACKS);
 
-                if (MapPack != MAX_WSMAPPACKS)
-                {
-                    Player.SelectedMapPack = MapPack;
-                    KnownLevels = &WSMapPacks[MapPack]; //ah, probably means no mp support this way
-                    //will have to move the KnownLevels pointer into the Player Struct
-                    //or use a new pointer for outpost text rendering and swap the knownlevels
-                    //pointer before changing the map
-                    LevelChoice = 1;
-                    ActivatorSound("menu/move", 127);
-                }
-                else
-                {
-                    ActivatorSound("menu/error", 127);
-                }
-            }
-            else if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice < KnownLevels->Position - 1)
-            {
-                ActivatorSound("menu/move", 127);
-                LevelChoice += 10;
-            }
+                           if (MapPack != MAX_WSMAPPACKS)
+                           {
+                               Player.SelectedMapPack = MapPack;
+                               KnownLevels = &WSMapPacks[MapPack]; //ah, probably means no mp support this way
+                               //will have to move the KnownLevels pointer into the Player Struct
+                               //or use a new pointer for outpost text rendering and swap the knownlevels
+                               //pointer before changing the map
+                               LevelChoice = 1;
+                               ActivatorSound("menu/move", 127);
+                           }
+                           else
+                           {
+                               ActivatorSound("menu/error", 127);
+                           }
+                       }
+                       else if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice < KnownLevels->Position - 1)
+                       {
+                           ActivatorSound("menu/move", 127);
+                           LevelChoice += 10;
+                       } */
         }
         else
         {
@@ -626,7 +628,7 @@ NamedScript MapSpecial void LevelTransport()
                 LevelChoice -= 10;
             }
 
-            if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice < KnownLevels->Position - 1)
+            if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice < GetKnownLevelCount() - 1)
             {
                 ActivatorSound("menu/move", 127);
                 LevelChoice += 10;

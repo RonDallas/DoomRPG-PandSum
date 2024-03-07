@@ -1,20 +1,3 @@
-// Monster Flags
-enum EMonsterFlags
-{
-    MF_BOSS         = 0x0001,
-    MF_NOXP         = 0x0002,
-    MF_NOSTATS      = 0x0004,
-    MF_NOAURA       = 0x0008,
-    MF_NOPAYKILL    = 0x0010,
-    MF_NODROPS      = 0x0020,
-    MF_NOHEALTHBAR  = 0x0040,
-    MF_NOWEAKEN     = 0x0080,
-    MF_MEGABOSS     = 0x0100,
-    MF_NAMEGEN      = 0x0200,
-    MF_NOAURAGEN    = 0x0400, // [KS] Separate from NoAura to tell MonsterInit that we've acquired an aura through other means.
-    MF_RANKLOSS     = 0x0800
-};
-
 class DRPGZEHandler : EventHandler
 {
     // Replaces exits with ACS_Execute which calls DRPG's map exit script instead

@@ -3,8 +3,7 @@
 
 #include "Defs.h"
 
-extern DynamicArray WSMapPacks[MAX_WSMAPPACKS];
-extern DynamicArray *KnownLevels;
+extern LevelInfo KnownLevels[MAX_WAD_LEVELS];
 extern LevelInfo *CurrentLevel;
 extern LevelInfo *PreviousLevel;
 extern LevelInfo *TransporterLevel;
@@ -115,5 +114,8 @@ OptionalArgs(1) LevelInfo *FindLevelInfo(str);
 OptionalArgs(1) int FindLevelInfoIndex(str);
 
 NamedScript void InitWadSmoosh();
+
+LevelInfo *klArrayUtils(int, int);
+int GetKnownLevelCount();
 
 #endif

@@ -186,11 +186,8 @@ OptionalArgs(1) void LogMessage(str, int /* = LOG_NORMAL */);
 void ClearInfo(CharSaveInfo *);
 
 // Dynamic Arrays
-void ArrayCreate(DynamicArray *, str, int, int);
-void ArrayResize(DynamicArray *);
-void ArrayDestroy(DynamicArray *);
-//void ArrayDump(DynamicArray *);
 int zsDynArrayUtils(str, int, int, int);
+OptionalArgs(4) int zsDynArrayUtilsSt(str, int, int, int, int, int, int);
 
 NamedScript DECORATE void SetDebugMode();
 

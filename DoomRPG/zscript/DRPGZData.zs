@@ -1,15 +1,50 @@
-// Used for storing data for X player
-class dPlayerData
+class DRPGZDataSt : StaticEventHandler
 {
-    Array<int> iItem;
-    //Array<string> sItem;
+    // - Replacement Dynamic Arrays for ACS -
+    // Mission.c
+    private Array<int> PotentialTargets;
+
+    static int DynArrayUtils(string arrayName, int Function, int Data)
+    {
+        // Get class data pointer
+        DRPGZDataSt cData = DRPGZDataSt(StaticEventHandler.Find("DRPGZDataSt"));
+
+        // - PotentialTargets Array Functions -
+        if (arrayName == "PotentialTargets")
+        {
+            switch(Function)
+            {
+            // Add
+            case 1:
+                cData.PotentialTargets.push(Data);
+                break;
+            // Empty array check
+            case 2:
+                if (cData.PotentialTargets.size() > 0)
+                    return 1;
+                else
+                    return 0;
+            // Return random monster id
+            case 3:
+                int arraySize = cData.PotentialTargets.size();
+                return cData.PotentialTargets[random(0, arraySize-1)];
+                break;
+            // Clear array
+            case 99:
+                cData.PotentialTargets.clear();
+                break;
+            }
+
+            return 0;
+        }
+
+        return 0;
+    }
 }
 
 class DRPGZData : EventHandler
 {
     // - Replacement Dynamic Arrays for ACS -
-    // Mission.c
-    private Array<int> PotentialTargets;
     // RPG.c
     private dPlayerData PlayerDrops[MAXPLAYERS];
     // Shop.c
@@ -33,33 +68,33 @@ class DRPGZData : EventHandler
 
             switch(Function)
             {
-                // Add
-                case 1:
-                {
-                    // Add item
-                    pData.iItem.push(Data);
+            // Add
+            case 1:
+            {
+                // Add item
+                pData.iItem.push(Data);
 
-                    break;
-                }
-                // Get
-                case 2:
-                {
-                    return pData.iItem[Data];
-                }
-                // Return size of array
-                case 3:
-                {
-                    return pData.iItem.size();
-                }
-                // Delete
-                case 4:
-                {
-                    pData.iItem.Delete(Data);
+                break;
+            }
+            // Get
+            case 2:
+            {
+                return pData.iItem[Data];
+            }
+            // Return size of array
+            case 3:
+            {
+                return pData.iItem.size();
+            }
+            // Delete
+            case 4:
+            {
+                pData.iItem.Delete(Data);
 
-                    break;
-                }
+                break;
+            }
 
-                return 0;
+            return 0;
             }
         }
 
@@ -88,70 +123,41 @@ class DRPGZData : EventHandler
 
             switch(Function)
             {
-                // Add
-                case 1:
-                {
-                    // Skip existing items
-                    for (int i = 0; i < pData.iItem.size(); i++)
-                        if (pData.iItem[i] == Data)
-                            return 0;  
-
-                    // Add item
-                    pData.iItem.push(Data);
-
-                    break;
-                }
-                // Get
-                case 2:
-                {
-                    return pData.iItem[Data];
-                }
-                // Return size of array
-                case 3:
-                {
-                    return pData.iItem.size();
-                }
-                // Check for Data item and delete
-                case 4:
-                {
-                    for (int i = 0; i < pData.iItem.size(); i++)
-                        if (pData.iItem[i] == Data)
-                            pData.iItem.Delete(i);
-
-                    break;
-                }
-
-                return 0;
-            }
-        }
-
-        // - PotentialTargets Array Functions -
-        if (arrayName == "PotentialTargets")
-        {
-            switch(Function)
+            // Add
+            case 1:
             {
-                 // Add
-                 case 1:
-                    cData.PotentialTargets.push(Data);
-                    break;
-                // Empty array check
-                case 2:
-                    if (cData.PotentialTargets.size() > 0)
-                        return 1;
-                    else
+                // Skip existing items
+                for (int i = 0; i < pData.iItem.size(); i++)
+                    if (pData.iItem[i] == Data)
                         return 0;
-                // Return random monster id
-                case 3:
-                    int arraySize = cData.PotentialTargets.size();
-                    return cData.PotentialTargets[random(0, arraySize-1)];
-                    break;
-                // Clear array
-                case 99:
-                    cData.PotentialTargets.clear();
-                    break;
+
+                // Add item
+                pData.iItem.push(Data);
+
+                break;
+            }
+            // Get
+            case 2:
+            {
+                return pData.iItem[Data];
+            }
+            // Return size of array
+            case 3:
+            {
+                return pData.iItem.size();
+            }
+            // Check for Data item and delete
+            case 4:
+            {
+                for (int i = 0; i < pData.iItem.size(); i++)
+                    if (pData.iItem[i] == Data)
+                        pData.iItem.Delete(i);
+
+                break;
             }
 
             return 0;
+            }
         }
 
         return 0;

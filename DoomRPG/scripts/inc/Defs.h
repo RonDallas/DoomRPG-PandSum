@@ -117,7 +117,6 @@
 // Macro functions
 #define MAKE_ID(a, b, c, d) ((int)((a) | ((b) << 8) | ((c) << 16) | ((d) << 24)))
 #define NOP
-#define BLANKDYNAMICARRAY(arr) { arr.Name = ""; arr.Position = 0; arr.Size = 0; arr.ItemSize = 0; arr.Data = NULL; }
 
 // Aliases
 #define CallACS(script)         ACS_NamedExecuteWithResult((script))
@@ -308,6 +307,7 @@ typedef enum
 
 #define MAP_EXIT_SCRIPTNUM          30000
 #define MAP_EXIT_TELEPORT_SCRIPTNUM 30001
+#define MAX_WAD_LEVELS              666
 
 typedef enum
 {
@@ -979,7 +979,6 @@ AddressSpace extern GlobalArraySpace    ShieldHealthArray;
 #include "Structs.h"
 
 // Generic
-typedef struct DynamicArray_S       DynamicArray;
 typedef struct InterpData_S         InterpData;
 typedef struct Position_S           Position;
 typedef struct DroppedItem_S        DroppedItem;

@@ -485,7 +485,6 @@ struct LevelInfo_S
     bool Init;
 
     // Event stuff
-    struct DynamicArray_S MonsterPositions;
     unsigned int Event;
     bool EventCompleted;
 

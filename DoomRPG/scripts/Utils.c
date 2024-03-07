@@ -514,21 +514,31 @@ NamedScript DECORATE void TeleportMonster()
     str Type = GetActorClass(0);
     int TID = UniqueTID();
     bool Success = false;
-    Position *ChosenPosition = NULL;
+    MonsterStatsPtr ChosenPosition;
+    int validMonsterCount = 0;
+
+    for (int i = 1; i < MonsterID; i++)
+    {
+        if (!Monsters[i].Init)
+            continue;
+        else
+            validMonsterCount++;
+    }
 
     // Check the position
     while (!Success)
     {
-        ChosenPosition = &((Position *)CurrentLevel->MonsterPositions.Data)[Random(0, CurrentLevel->MonsterPositions.Position)];
-        Success = Spawn(Type, ChosenPosition->X, ChosenPosition->Y, ChosenPosition->Z, TID, ChosenPosition->Angle);
+        ChosenPosition = &Monsters[Random(1, validMonsterCount)];
+        //ChosenPosition = &((Position *)CurrentLevel->MonsterPositions.Data)[Random(0, CurrentLevel->MonsterPositions.Position)];
+        Success = Spawn(Type, ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z, TID, ChosenPosition->spawnPos.Angle);
         Thing_Remove(TID);
         Delay(1);
     }
 
     // Teleport to this position
-    SetActorPosition(0, ChosenPosition->X, ChosenPosition->Y, ChosenPosition->Z, true);
-    SetActorAngle(0, ChosenPosition->Angle);
-    SetActorPitch(0, ChosenPosition->Pitch);
+    SetActorPosition(0, ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z, true);
+    SetActorAngle(0, ChosenPosition->spawnPos.Angle);
+    SetActorPitch(0, ChosenPosition->spawnPos.Pitch);
 }
 
 void DropMoney(int Killer, int TID, int Amount)
@@ -3027,130 +3037,10 @@ int zsDynArrayUtils(str arrayName, int Function, int Data, int OwnerID)
     return ScriptCall("DRPGZData", "DynArrayUtils", arrayName, Function, Data, OwnerID);
 }
 
-void ArrayCreate(DynamicArray *Array, str Name, int InitSize, int ItemSize)
+OptionalArgs(4) int zsDynArrayUtilsSt(str arrayName, int Function, int Data, int Data2, int Data3, int Data4, int Data5)
 {
-    if (DebugLog)
-    {
-        Log("acArgName: %S", Name);
-        Log("acArgInitSize: %i", InitSize);
-        Log("acArgItemSize: %i", ItemSize);
-
-        Log("Array: %i", Array);
-        Log("Array->Name: %S", Array->Name);
-        Log("Array->Position: %i", Array->Position);
-        Log("Array->Size: %i", Array->Size);
-        Log("Array->ItemSize: %i", Array->ItemSize);
-        Log("Array->Data: %i", Array->Data);
-    }
-
-    bool Recreate = false;
-    if (Array && Array->Data != NULL)
-        Recreate = true;
-
-    Array->Name = Name;
-    Array->Position = 0;
-
-    if (DebugLog)
-        Log("\CdDynamicArray: Allocating \Cj%S", Array->Name);
-
-    if (Recreate)
-    {
-        if(Array->Size != InitSize || Array->ItemSize != ItemSize)
-        {
-            LogMessage("Reallocating Array",LOG_DEBUG);
-            LogMessage(StrParam("Previously: @ %p Size: %i", Array->Data, Array->Size),LOG_DEBUG);
-            LogMessage(StrParam("To size: %i",Array->Size * Array->ItemSize),LOG_DEBUG);
-            Array->Size = InitSize;
-            Array->ItemSize = ItemSize;
-            Array->Data = realloc(Array->Data, Array->Size * Array->ItemSize);
-        }
-
-        LogMessage("Erasing Leftover data",LOG_DEBUG);
-        memset(Array->Data, NULL, Array->Size * Array->ItemSize);
-    }
-    else
-    {
-        Array->Size = InitSize;
-        Array->ItemSize = ItemSize;
-        LogMessage("Creating Array",LOG_DEBUG);
-        Array->Data = calloc(Array->Size, Array->ItemSize);
-    }
-
-    if (Array->Data == NULL)
-    {
-        Log("\CgERROR: \C-Could not allocate space for array \Cj%S", Array->Name);
-        return;
-    }
-
-    if (DebugLog)
-        Log("\CdDynamicArray: \Cj%S\Cd @ %p", Array->Name, Array->Data);
-
-    //memset(Array->Data, 0xAAAAAAAA, Array->Size * Array->ItemSize);
+    return ScriptCall("DRPGZDataSt", "DynArrayUtils", arrayName, Function, Data, Data2, Data3, Data4, Data5);
 }
-
-void ArrayResize(DynamicArray *Array)
-{
-    if (Array->Data == NULL)
-    {
-        Log("\CgERROR: \C-Tried to resize destroyed array \Cj%S", Array->Name);
-        return;
-    }
-
-    int OldSize = Array->Size;
-    Array->Size *= 2;
-
-    if (DebugLog)
-        Log("\CdAttempting to resize DynamicArray: \Cj%S\Cd @ %p", Array->Name, Array->Data);
-
-    void *tmp = realloc(Array->Data, Array->ItemSize * Array->Size);
-
-    if (tmp == NULL)
-    {
-        free(Array->Data);
-        Log("\CgERROR: \C-Cannot resize dynamic array \Cj%S", Array->Name);
-        return;
-    }
-
-    if (DebugLog)
-        Log("\CdDynamicArray: Resizing array \Cj%S\Cd @ %p to \Cj%d\Cd elements", Array->Name, Array->Data, Array->Size);
-
-    Array->Data = tmp;
-
-    memset((char *)Array->Data + (Array->ItemSize * OldSize), 0x00000000, (Array->Size * Array->ItemSize) - (Array->ItemSize * OldSize));
-}
-
-void ArrayDestroy(DynamicArray *Array)
-{
-    if (DebugLog)
-        Log("\CdDynamicArray: Destroying array \Cj%S\Cd @ %p", Array->Name, Array->Data);
-
-    free(Array->Data);
-
-    Array->Name = "";
-    Array->Position = 0;
-    Array->Size = 0;
-    Array->ItemSize = 0;
-    Array->Data = NULL;
-}
-
-/*void ArrayDump(DynamicArray *Array)
-{
-    Log("\CiDynamicArray \Cj%S\C- @ %p", Array->Name, Array->Data);
-    Log("\Cd* Array size: \Cj%d", Array->Size);
-    Log("\Cd* Item bytesize: \Cj%d", Array->ItemSize);
-    Log("\Cd* End Position: \Cj%d", Array->Position);
-    Log("");
-    Log("\CiItem data:");
-    for (int i = 0; i < Array->Size; i++)
-    {
-        str DataString = StrParam("  %X: ", i);
-        for (int b = 0; b < Array->ItemSize; b++)
-            DataString = StrParam("%S%X ", DataString, (char)((char *)Array->Data)[Array->ItemSize * i + b]);
-        if (i >= Array->Position)
-            DataString = StrParam("%s\Cj(\CgUnused\Cj)", DataString);
-        Log("%s", DataString);
-    }
-}*/
 
 NamedScript DECORATE void SetDebugMode()
 {
