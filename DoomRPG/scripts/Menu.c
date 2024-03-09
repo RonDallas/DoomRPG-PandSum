@@ -2043,7 +2043,6 @@ void MenuInput()
                 ActivatorSound("menu/move", 127);
                 Player.Menu = Player.MenuIndex + 1;
                 Player.MenuIndex = 0;
-                Player.DelayTimer = 0;
                 ClearToxicityMeter();
             }
         }
@@ -2124,7 +2123,7 @@ void MenuInput()
                 if (Player.MenuIndex > STAT_MAX - 1) Player.MenuIndex = 0;
             }
         }
-        if (CheckInput(BT_USE, KEY_ONLYPRESSED, false, PlayerNumber()) || Player.DelayTimer > 35.0)
+        if (CheckInput(BT_USE, KEY_ONLYPRESSED, false, PlayerNumber()))
             if (Player.StatPage == STATPAGE_STATS)
                 IncreaseStat(Player.MenuIndex);
             else if (Player.StatPage == STATPAGE_TEAM && Player.MenuIndex != PlayerNumber())
@@ -2141,8 +2140,6 @@ void MenuInput()
             Player.PlayerView = Player.MenuIndex;
             ActivatorSound("menu/move", 127);
         }
-        if (CheckInput(BT_USE, KEY_ONLYHELD, false, PlayerNumber()))
-            Player.DelayTimer++;
     }
 
     // Augmentations menu
@@ -2391,15 +2388,13 @@ void MenuInput()
             Player.StimSelected++;
             ActivatorSound("menu/move", 127);
         }
-        if (CheckInput(BT_USE, KEY_ONLYPRESSED, false, PlayerNumber()) || Player.DelayTimer > 35.0)
+        if (CheckInput(BT_USE, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
             if (Player.MenuIndex == 0)
                 SetStim(Player.StimSelected);
             else
                 MixStim(Player.MenuIndex - 1);
         }
-        if (CheckInput(BT_USE, KEY_ONLYHELD, false, PlayerNumber()))
-            Player.DelayTimer++;
     }
 
     // Turret Menu
@@ -2444,10 +2439,6 @@ void MenuInput()
             ActivatorSound("menu/move", 127);
         }
     }
-
-    // Reset the Delay Timer if no buttons are pressed
-    if (CheckInput(0, KEY_ANYIDLE, false, PlayerNumber()))
-        Player.DelayTimer = 0;
 }
 
 void IncreaseStat(int Stat)
@@ -2568,8 +2559,6 @@ void UpgradeTurret(int Index)
 
 void PrintStatError()
 {
-    if (Player.DelayTimer > 0) return;
-
     SetHudSize(0, 0, false);
     SetFont("BIGFONT");
     HudMessage("You cannot increase stats past %d", Player.StatCap);
