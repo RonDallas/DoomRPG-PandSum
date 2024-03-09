@@ -1,4 +1,4 @@
-class DRPGZEHandler : EventHandler
+class DRPGZHandler : EventHandler
 {
     // Replaces exits with ACS_Execute which calls DRPG's map exit script instead
     override void WorldLoaded(WorldEvent e)

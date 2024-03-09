@@ -27,35 +27,6 @@ int const AuraTID = 20000;
 // Skill levels stuff
 int SkillLevelsMax;
 
-// ----------------------
-// Input
-//
-
-// Used with bindingStates in order
-int const bindingValues[13] =
-{
-    BT_FORWARD,
-    BT_BACK,
-    BT_MOVELEFT,
-    BT_MOVERIGHT,
-    BT_CROUCH,
-    BT_SPEED,
-    BT_USE,
-    BT_ATTACK,
-    BT_ALTATTACK,
-    BT_ZOOM,
-    BT_JUMP,
-    BT_USER1,
-    BT_USER2
-};
-
-// Keep track of KeyDown for multiple keys (requried for key combos, such as switching pages)
-bool bindingStates[13];
-// Currently pressed key
-int keyCurrent;
-// Determines whether certain held down keys can repeat themselves
-bool keyRepetition = false;
-
 str const ColorNames[26] =
 {
     "Brick",
@@ -2709,166 +2680,68 @@ void CreateTranslations()
     CreateTranslationEnd();
 }
 
-bool CheckInput(int Key, int State, bool ModInput, int PlayerNumber)
+bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
 {
-    if (InMultiplayer)
-        return CheckInputACS(Key, State, ModInput, PlayerNumber);
-    else
+    int Input = INPUT_BUTTONS;
+    int InputOld = INPUT_OLDBUTTONS;
+    int Buttons, OldButtons;
+
+    double AxisY, AxisX;
+
+    // Static, so values aren't lost at function exit
+    static bool axesMode = false;
+    static fixed axesTic = 7.0;
+
+    // These don't need updated constantly
+    if ((Timer() % 35) == 0)
     {
-        int i = State;
-
-        if (Key == (BT_FORWARD | BT_BACK | BT_MOVELEFT | BT_MOVERIGHT))
-            i = KEY_ANYMOVEMENT;
-
-        return CheckInputZS(Key, i);
-    }
-}
-
-// Singleplayer Input is managed by ZScript and updated via this function
-NamedScript DECORATE void UpdateInput(int Key, bool KeyDown, bool KeyRepeat)
-{
-    // ACS lags behind a tick, so it must wait
-    Delay(1);
-
-    // Misc
-    keyRepetition = KeyRepeat;
-
-    // Check binding states
-    for (int i = 0; i < sizeof (bindingValues); i++)
-        if (Key == bindingValues[i])
-            bindingStates[i] = KeyDown;
-
-    // Single Key Processing
-    if (KeyDown)
-    {
-        keyCurrent = Key;
-        Delay(1);
-        keyCurrent = 0;
-    }
-}
-
-// New
-bool CheckInputZS(int Key, int State)
-{
-    switch (State)
-    {
-    case KEY_PRESSED:
-    {
-        if (Key == keyCurrent)
-            return true;
-    }
-    break;
-    case KEY_ONLYPRESSED:
-    {
-        if (Key == keyCurrent)
-        {
-            // Check if any other keys are being used
-            for (int i = 0; i < sizeof (bindingValues); i++)
-                if (Key != bindingValues[i] && bindingStates[i])
-                    return false;
-
-            // Yay
-            return true;
-        }
-    }
-    break;
-    case KEY_HELD:
-    {
-        // Check binding states
-        for (int i = 0; i < sizeof (bindingValues); i++)
-            if (Key == bindingValues[i] && bindingStates[i])
-                return true;
-    }
-    break;
-    case KEY_ONLYHELD:
-    {
-        // Check binding states
-        for (int i = 0; i < sizeof (bindingValues); i++)
-            if (Key != bindingValues[i] && bindingStates[i])
-                return false;
-
-        // Check binding states
-        for (int i = 0; i < sizeof (bindingValues); i++)
-            if (Key == bindingValues[i] && bindingStates[i])
-                return true;
-    }
-    break;
-    case KEY_ANYIDLE:
-    {
-        // Check binding states
-        for (int i = 0; i < sizeof (bindingValues); i++)
-            if (bindingStates[i])
-                return false;
-
-        return true;
-    }
-    break;
-    case KEY_ANYNOTIDLE:
-    {
-        // Check binding states
-        for (int i = 0; i < sizeof (bindingValues); i++)
-            if (bindingStates[i])
-                return true;
-
-        return false;
-    }
-    break;
-    case KEY_ANYMOVEMENT:
-    {
-        // Check binding states
-        // bindingStates values 0 - 3 are movement keys
-        for (int i = 0; i < 4; i++)
-            if (bindingStates[i])
-                return true;
-
-        return false;
-    }
-    break;
-    case KEY_REPEAT:
-    {
-        if (keyRepetition)
-        {
-            // Limit repetition
-            if ((Timer() % 5) == 0)
-                // Check binding states
-                for (int i = 0; i < sizeof (bindingValues); i++)
-                    if (Key == bindingValues[i] && bindingStates[i])
-                        return true;
-        }
-        else
-        {
-            // No repetition
-            if (Key == keyCurrent)
-                return true;
-        }
-    }
-    break;
+        axesMode = GetUserCVar(PlayerNum, "drpg_menu_input_axes");
+        axesTic = GetUserCVarFixed(PlayerNum, "drpg_menu_input_axes_tic");
     }
 
-    return false;
-}
-
-// Original
-bool CheckInputACS(int Key, int State, bool ModInput, int PlayerNumber)
-{
-    int Input;
-    int InputOld;
-    int Buttons;
-    int OldButtons;
-
-    if (!ModInput)
-    {
-        Input = INPUT_BUTTONS;
-        InputOld = INPUT_OLDBUTTONS;
-    }
-    else
+    if (ModInput)
     {
         Input = MODINPUT_BUTTONS;
         InputOld = MODINPUT_OLDBUTTONS;
     }
 
-    Buttons = GetPlayerInput(PlayerNumber, Input);
-    OldButtons = GetPlayerInput(PlayerNumber, InputOld);
+    Buttons = GetPlayerInput(PlayerNum, Input);
+    OldButtons = GetPlayerInput(PlayerNum, InputOld);
+
+    // Regulate Axes
+    if (axesMode && (Timer() % axesTic) == 0)
+        if (Key & BT_FORWARD || Key & BT_BACK || Key & BT_MOVELEFT || Key & BT_MOVERIGHT)
+        {
+            AxisY = GetPlayerInput(PlayerNum, INPUT_FORWARDMOVE);
+            AxisX = GetPlayerInput(PlayerNum, INPUT_SIDEMOVE);
+
+            // Simplify
+            if (AxisY > 1.0) AxisY = 1.0;
+            if (AxisY < -1.0) AxisY = -1.0;
+            if (AxisX > 1.0) AxisX = 1.0;
+            if (AxisX < -1.0) AxisX = -1.0;
+
+            if (Key & BT_FORWARD && AxisY == 1.0)
+            {
+                Buttons = BT_FORWARD;
+                OldButtons = 0;
+            }
+            else if (Key & BT_BACK && AxisY == -1.0)
+            {
+                Buttons = BT_BACK;
+                OldButtons = 0;
+            }
+            else if (Key & BT_MOVELEFT && AxisX == -1.0)
+            {
+                Buttons = BT_MOVELEFT;
+                OldButtons = 0;
+            }
+            else if (Key & BT_MOVERIGHT && AxisX == 1.0)
+            {
+                Buttons = BT_MOVERIGHT;
+                OldButtons = 0;
+            }
+        }
 
     switch (State)
     {
@@ -2880,7 +2753,7 @@ bool CheckInputACS(int Key, int State, bool ModInput, int PlayerNumber)
     break;
     case KEY_ONLYPRESSED:
     {
-        if (Buttons & Key && !(OldButtons & Key))
+        if (Buttons == Key && OldButtons != Key)
             return true;
     }
     break;
@@ -2892,13 +2765,13 @@ bool CheckInputACS(int Key, int State, bool ModInput, int PlayerNumber)
     break;
     case KEY_ONLYHELD:
     {
-        if (Buttons & Key)
+        if (Buttons == Key)
             return true;
     }
     break;
     case KEY_ANYIDLE:
     {
-        if (Buttons & Key && !(OldButtons & Key))
+        if (Buttons == 0 && OldButtons == 0)
             return true;
     }
     break;
@@ -2908,7 +2781,6 @@ bool CheckInputACS(int Key, int State, bool ModInput, int PlayerNumber)
             return true;
     }
     break;
-    // Originally not compatible with multiplayer, so it is now KEY_PRESSED
     case KEY_REPEAT:
     {
         if (Buttons & Key && !(OldButtons & Key))

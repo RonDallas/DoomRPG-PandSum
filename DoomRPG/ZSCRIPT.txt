@@ -1,7 +1,7 @@
 version "4.6"
 
 #include "zscript/DRPGZInc.zs"
-#include "zscript/DRPGZData.zs"
 #include "zscript/DRPGZHandler.zs"
+#include "zscript/DRPGZData.zs"
 #include "zscript/DRPGZShield.zs"
 #include "zscript/DRPGZUtils.zs"
