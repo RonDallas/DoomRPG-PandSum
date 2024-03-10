@@ -2682,6 +2682,7 @@ void CreateTranslations()
 
 bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
 {
+    bool rValue = false;
     int Input = INPUT_BUTTONS;
     int InputOld = INPUT_OLDBUTTONS;
     int Buttons, OldButtons;
@@ -2748,48 +2749,48 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     case KEY_PRESSED:
     {
         if (Buttons & Key && !(OldButtons & Key))
-            return true;
+            rValue = true;
     }
     break;
     case KEY_ONLYPRESSED:
     {
         if (Buttons == Key && OldButtons != Key)
-            return true;
+            rValue = true;
     }
     break;
     case KEY_HELD:
     {
         if (Buttons & Key)
-            return true;
+            rValue = true;
     }
     break;
     case KEY_ONLYHELD:
     {
         if (Buttons == Key)
-            return true;
+            rValue = true;
     }
     break;
     case KEY_ANYIDLE:
     {
         if (Buttons == 0 && OldButtons == 0)
-            return true;
+            rValue = true;
     }
     break;
     case KEY_ANYNOTIDLE:
     {
         if (Buttons > 0)
-            return true;
+            rValue = true;
     }
     break;
     case KEY_REPEAT:
     {
         if (Buttons & Key && !(OldButtons & Key))
-            return true;
+            rValue = true;
     }
     break;
     }
 
-    return false;
+    return rValue;
 }
 
 NamedScript MenuEntry void SetHUDPreset(int Preset)
@@ -2906,7 +2907,7 @@ void ClearInfo(CharSaveInfo *Info)
 
 int zsDynArrayUtils(str arrayName, int Function, int Data, int OwnerID)
 {
-    if (OwnerID == NULL)
+    if (OwnerID == -1)
         return ScriptCall("DRPGZDataSt", "DynArrayUtils", arrayName, Function, Data);
     else
         return ScriptCall("DRPGZData", "DynArrayUtils", arrayName, Function, Data, OwnerID);

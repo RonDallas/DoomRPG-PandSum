@@ -97,17 +97,17 @@ NamedScript void InitMission()
             // Check for valid monster
             if (StartsWith(Monsters[i].Actor, ActorToCheck, true))
                 // Store valid monster ID into array
-                zsDynArrayUtils("PotentialTargets", 1, i, NULL);
+                zsDynArrayUtils("PotentialTargets", 1, i, -1);
 
             // Prevent script termination
             if (!(i % 1000)) Delay(1);
         }
 
         // Replace target monster
-        if (zsDynArrayUtils("PotentialTargets", 2, NULL, NULL)) // Proceed only if array is populated
+        if (zsDynArrayUtils("PotentialTargets", 2, NULL, -1)) // Proceed only if array is populated
         {
             // Randomly choose a valid monster to replace
-            int Chosen = zsDynArrayUtils("PotentialTargets", 3, NULL, NULL);
+            int Chosen = zsDynArrayUtils("PotentialTargets", 3, NULL, -1);
 
             int LevelMod = Player.Mission.Difficulty * Player.Level;
             LevelMod = (int)(LevelMod * RandomFixed(1.0, 1.25));
@@ -130,7 +130,7 @@ NamedScript void InitMission()
                 Log("\CdDEBUG: \C-Mission Target Chosen: \Ca%d", Chosen);
 
             // Cleanup
-            zsDynArrayUtils("PotentialTargets", 99, NULL, NULL);
+            zsDynArrayUtils("PotentialTargets", 99, NULL, -1);
         }
     }
 }

@@ -1,3 +1,5 @@
+// All functions here return zero unless noted otherwise
+
 class DRPGZDataSt : StaticEventHandler
 {
     // - Replacement Dynamic Arrays for ACS -
@@ -8,6 +10,7 @@ class DRPGZDataSt : StaticEventHandler
     {
         // Get class data pointer
         DRPGZDataSt cData = DRPGZDataSt(StaticEventHandler.Find("DRPGZDataSt"));
+        int rValue = 0;
 
         // - PotentialTargets Array Functions -
         if (arrayName == "PotentialTargets")
@@ -18,34 +21,32 @@ class DRPGZDataSt : StaticEventHandler
             case 1:
             {
                 cData.PotentialTargets.push(Data);
-                break;
             }
-            // Empty array check
+            break;
+            // Empty array check; returns 1 if array is populated
             case 2:
             {
                 if (cData.PotentialTargets.size() > 0)
-                    return 1;
-                else
-                    return 0;
+                    rValue = 1;
             }
+            break;
             // Return random monster id
             case 3:
             {
                 int arraySize = cData.PotentialTargets.size();
-                return cData.PotentialTargets[random(0, arraySize-1)];
+                rValue = cData.PotentialTargets[random(0, arraySize-1)];
             }
+            break;
             // Clear array
             case 99:
             {
                 cData.PotentialTargets.clear();
-                break;
             }
+            break;
             }
-
-            return 0;
         }
 
-        return 0;
+        return rValue;
     }
 }
 
@@ -62,6 +63,7 @@ class DRPGZData : EventHandler
     {
         // Get class data pointer
         DRPGZData cData = DRPGZData(EventHandler.Find("DRPGZData"));
+        int rValue = 0;
 
         // - PlayerDrops Array Functions -
         if (arrayName == "PlayerDrops")
@@ -80,33 +82,30 @@ class DRPGZData : EventHandler
             {
                 // Add item
                 pData.iItem.push(Data);
-
-                break;
             }
+            break;
             // Get
             case 2:
             {
-                return pData.iItem[Data];
+                rValue = pData.iItem[Data];
             }
+            break;
             // Return size of array
             case 3:
             {
-                return pData.iItem.size();
+                rValue = pData.iItem.size();
             }
+            break;
             // Delete
             case 4:
             {
                 pData.iItem.Delete(Data);
-
-                break;
             }
-
-            return 0;
+            break;
             }
         }
-
         // - AutoSell & AutoStore Array Functions -
-        if (arrayName == "Auto-Sell" || arrayName == "Auto-Store")
+        else if (arrayName == "Auto-Sell" || arrayName == "Auto-Store")
         {
             // 0 = AutoSell
             // 1 = AutoStore
@@ -130,43 +129,45 @@ class DRPGZData : EventHandler
 
             switch(Function)
             {
-            // Add
+            // Add; returns 1 if item already exists
             case 1:
             {
                 // Skip existing items
                 for (int i = 0; i < pData.iItem.size(); i++)
                     if (pData.iItem[i] == Data)
-                        return 0;
+                        rValue = 1;
 
                 // Add item
-                pData.iItem.push(Data);
-
-                break;
+                if (rValue == 0)
+                    pData.iItem.push(Data);
             }
+            break;
             // Get
             case 2:
             {
-                return pData.iItem[Data];
+                rValue = pData.iItem[Data];
             }
+            break;
             // Return size of array
             case 3:
             {
-                return pData.iItem.size();
+                rValue = pData.iItem.size();
             }
-            // Check for Data item and delete
+            break;
+            // Check for Data item and delete; returns 1 if requested item is deleted
             case 4:
             {
                 for (int i = 0; i < pData.iItem.size(); i++)
                     if (pData.iItem[i] == Data)
+                    {
                         pData.iItem.Delete(i);
-
-                break;
+                        rValue = 1;
+                    }
             }
-
-            return 0;
+            break;
             }
         }
 
-        return 0;
+        return rValue;
     }
 }
