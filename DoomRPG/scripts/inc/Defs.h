@@ -307,7 +307,8 @@ typedef enum
 
 #define MAP_EXIT_SCRIPTNUM          30000
 #define MAP_EXIT_TELEPORT_SCRIPTNUM 30001
-#define MAX_WAD_LEVELS              666
+#define MAX_WADS                    100
+#define MAX_WAD_LEVELS              50
 
 typedef enum
 {
@@ -1031,22 +1032,6 @@ typedef struct PlayerData_S         PlayerData;
 
 //LegenDoom
 typedef struct LegendaryDef_S       LegendaryDef;
-
-//------------------------------------------------
-// WadSmoosh Compatibility
-//
-
-#define MAX_WSMAPPACKS  6
-
-typedef enum
-{
-    WS_DOOM1,
-    WS_DOOM2,
-    WS_MASTER,
-    WS_NERVE,
-    WS_PLUT,
-    WS_TNT
-} EnumWSMapSets;
 
 // --------------------------------------------------
 // Pointer Types

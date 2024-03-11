@@ -171,3 +171,101 @@ class DRPGZData : EventHandler
         return rValue;
     }
 }
+
+class DRPGZExtraWADs : EventHandler
+{
+    // Valid lumps
+    private Array<string> ewLumps;
+
+    static string ExtraWADTools(int Function, int Data)
+    {
+        // Used for detection
+        static const string elActors[] =
+        {
+            "DRPGWadSmooshActive"
+        };
+
+        // WadSmoosh WAD Lumps
+        static const string wsLumps[] =
+        {
+            "/MAPS/E1M1.WAD",
+            "/MAPS/E5M1.WAD",
+            "/MAPS/E6M1.WAD",
+            "/MAPS/MAP01.WAD",
+            "/MAPS/PL_MAP01.WAD",
+            "/MAPS/TN_MAP01.WAD",
+            "/MAPS/NV_MAP01.WAD",
+            "/MAPS/ML_MAP01.WAD"
+        };
+
+        // Get class data pointer
+        DRPGZExtraWADs cData = DRPGZExtraWADs(EventHandler.Find("DRPGZExtraWADs"));
+        string rValue = "";
+        int ewPack = 0;
+
+        // Determine which compatible map pack is loaded
+        for (int i = 0; i < AllActorClasses.size(); i++)
+        {
+            // ---- WadSmoosh ----
+            if (AllActorClasses[i].GetClassName() == elActors[EW_WS])
+            {
+                ewPack = EW_WS;
+                break;
+            }
+        }
+
+        // Detect lumps only if an Extra WAD exists
+        if (ewPack != EW_NONE)
+        {
+            // -------------------
+            // Copy detected lumps
+            // -------------------
+
+            if (cData.ewLumps.size() == 0)
+            {
+                // ---- WadSmoosh ----
+                if (ewPack == EW_WS)
+                    for (int i = 0; i < wsLumps.size(); i++)
+                        cData.ewLumps.push(wsLumps[i]);
+            }
+
+            // The tools
+            switch (Function)
+            {
+            // Process valid lump for return
+            case 1:
+            {
+                string Lump;
+
+                // ACS relies on -1 and -2 to stop
+                // -1 = WAD not detected
+                // -2 = No more WADs
+                if (Data >= cData.ewLumps.size())
+                {
+                    rValue = "-2";
+                    break;
+                }
+
+                Lump = cData.ewLumps[Data];
+
+                if (WADS.CheckNumForFullName(Lump) == -1)
+                    rValue = "-1";
+                else
+                {
+                    // Snip path
+                    Lump.remove(0, 6);
+                    // Snip extension
+                    Lump.remove((Lump.Length()-4), 4);
+                    // Done
+                    rValue = Lump;
+                }
+            }
+            break;
+            }
+        }
+        else
+            rValue = "-1"; // No Extra WADs detected
+
+        return rValue;
+    }
+}

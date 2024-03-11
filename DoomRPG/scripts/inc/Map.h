@@ -3,20 +3,25 @@
 
 #include "Defs.h"
 
-extern LevelInfo KnownLevels[MAX_WAD_LEVELS];
+extern LevelInfo KnownLevels[MAX_WAD_LEVELS][MAX_WADS];
 extern LevelInfo *CurrentLevel;
 extern LevelInfo *PreviousLevel;
 extern LevelInfo *TransporterLevel;
 extern LevelInfo *DefaultOutpost;
+
+extern int CurrentWAD;
 extern int PreviousLevelNum;
 extern int PreviousPrimaryLevelNum;
+
 extern bool UsedSecretExit;
 extern bool PreviousLevelSecret;
 extern bool WaitingForReplacements;
+
+extern bool ExtraWADsActive;
+extern int KnownWADCount;
+
 extern int AllBonusMaps;
 extern int CurrentSkill;
-
-extern bool MapPackActive[MAX_WSMAPPACKS];
 
 NamedScript Type_OPEN void MapInit();
 NamedScript Type_UNLOADING void MapExiting();
@@ -113,9 +118,10 @@ void MapEventReward();
 OptionalArgs(1) LevelInfo *FindLevelInfo(str);
 OptionalArgs(1) int FindLevelInfoIndex(str);
 
-NamedScript void InitWadSmoosh();
+NamedScript void InitExtraWADs();
 
-LevelInfo *klArrayUtils(int, int);
-int GetKnownLevelCount();
+// Level array stuff
+LevelInfo *klArrayUtils(int, int, int);
+int GetKnownLevelCount(int);
 
 #endif

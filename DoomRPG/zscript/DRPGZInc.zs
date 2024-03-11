@@ -43,3 +43,15 @@ const DT_MELEE = 3;
 const DT_FIRE = 4;
 const DT_PLASMA = 5;
 const DT_LIGHTNING = 6;
+
+// -------------------------
+// DRPGZData.zs - Extra WADs
+// -------------------------
+
+const MAX_WAD_LUMPS = 100;
+
+enum ewPacks
+{
+    EW_NONE = -1,
+    EW_WS
+};

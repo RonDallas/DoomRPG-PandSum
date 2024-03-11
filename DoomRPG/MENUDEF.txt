@@ -179,6 +179,8 @@ OptionString "OutpostStartLevel"
     "E2M1",    "E2M1 (Doom)"
     "E3M1",    "E3M1 (Doom)"
     "E4M1",    "E4M1 (Ultimate Doom)"
+    "E5M1",    "E5M1 (SIGIL)"
+    "E6M1",    "E6M1 (SIGIL II)"
     "MAP01",   "MAP01 (Doom II)"
     "LEVEL01", "LEVEL01 (Doom II BFG)"
 }

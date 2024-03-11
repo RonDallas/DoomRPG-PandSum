@@ -683,9 +683,6 @@ struct PlayerData_S
     int ShopIndex;
     int ShopPage;
 
-    // WadSmoosh
-    int SelectedMapPack;
-
     // Skill Info
     struct SkillLevelInfo_S SkillLevel[MAX_CATEGORIES][MAX_SKILLS];
     struct AuraInfo_S Aura;
