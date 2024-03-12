@@ -51,8 +51,6 @@ static int LevelSectorCount;
 LevelInfo *klArrayUtils(int Function, int WAD, int Level)
 {
     LevelInfo* Map = NULL;
-    // RewardList[Rarity][Max] = &ItemData[i][j];
-    // Reward = RewardList[Difficulty][Index];
 
     switch(Function)
     {
@@ -306,18 +304,14 @@ NamedScript Type_OPEN void MapInit()
     if (CurrentLevel->UACBase)
         DefaultOutpost = CurrentLevel;
 
-    // Extra Levels Loader
+    // Extra WADs Loader
     InitExtraWADs();
 
-    /*     // For Outpost starts without any pk3 wads
-        if (!ExtraWADsActive && !KnownWADCount)
-        {
-        } */
-
+    // [KS] These maps set themselves up, so nothing more to do.
     if (CurrentLevel->UACBase || CurrentLevel->UACArena)
     {
         CurrentLevel->Init = true;
-        return; // [KS] These maps set themselves up, so nothing more to do.
+        return;
     }
 
     // Flag to run monster replacements
@@ -767,10 +761,15 @@ NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNu
     while (GetKnownLevelCount(CurrentWAD) == 0)
         Delay(1);
 
+    // These WADs are already set up
+    if (ExtraWADsActive)
+        return;
+
     if (FindLevelInfo(Name) != NULL)
         return; // This map was already unlocked, so ignore it
 
     LevelInfo *NewMap = klArrayUtils(1, CurrentWAD, NULL);
+    LogMessage(StrParam("LumpName: %S", NewMap->LumpName));
     NewMap->LumpName = Name;
     NewMap->NiceName = DisplayName;
     NewMap->LevelNum = LevelNumber;
@@ -3328,7 +3327,7 @@ Start:
     goto Start;
 }
 
-// Extra Levels --------------------------------------------------
+// Extra WADs --------------------------------------------------
 NamedScript void InitExtraWADs()
 {
     bool OutpostStart = false;
@@ -3346,10 +3345,17 @@ NamedScript void InitExtraWADs()
     if (ExtraWADsActive)
         return;
 
-    LogMessage("\CdStarting Extra WAD(s) Initialization", LOG_DEBUG);
+    LogMessage("\CdExtra WAD(s): Started Initialization", LOG_DEBUG);
 
     // Get first lump
     Lump = (str)ScriptCall("DRPGZExtraWADs", "ExtraWADTools", 1, 0);
+
+    // No compatible Extra WADs detected
+    if (Lump == "-2")
+    {
+        LogMessage("\CdExtra WAD(s): None detected", LOG_DEBUG);
+        return;
+    }
 
     // Get first level
     TempMap = klArrayUtils(2, CurrentWAD, 2);
@@ -3370,10 +3376,10 @@ NamedScript void InitExtraWADs()
         TempMap->Completed = false;
         TempMap->NeedsRealInfo = true;
 
-        LogMessage(StrParam("Loaded on Outpost! - Added Lump %S", TempMap->LumpName), LOG_DEBUG);
+        LogMessage(StrParam("Extra WADs: Loaded on Outpost! - Added Lump %S", TempMap->LumpName), LOG_DEBUG);
     }
 
-    // Add all compatible extra level's first lumps to their own array
+    // Add all compatible Extra WADs first lumps into the levels array
     for (int i = 0; i < MAX_WAD_LEVELS; i++)
     {
         Lump = (str)ScriptCall("DRPGZExtraWADs", "ExtraWADTools", 1, i);
@@ -3404,8 +3410,11 @@ NamedScript void InitExtraWADs()
         TempMap->Completed = false;
         TempMap->NeedsRealInfo = true;
 
-        LogMessage(StrParam("Extra Levels - Added Lump: %S", TempMap->LumpName), LOG_DEBUG);
+        LogMessage(StrParam("Extra WADs: Added Lump: %S", TempMap->LumpName), LOG_DEBUG);
     }
+
+    // All done, clear array
+    ScriptCall("DRPGZExtraWADs", "ExtraWADTools", 2, NULL);
 
     ExtraWADsActive = true;
 }

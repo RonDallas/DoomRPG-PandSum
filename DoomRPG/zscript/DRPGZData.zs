@@ -174,13 +174,13 @@ class DRPGZData : EventHandler
 
 class DRPGZExtraWADs : EventHandler
 {
-    // Valid lumps
+    // Copied lumps stored here
     private Array<string> ewLumps;
 
     static string ExtraWADTools(int Function, int Data)
     {
         // Used for detection
-        static const string elActors[] =
+        static const string ewActors[] =
         {
             "DRPGWadSmooshActive"
         };
@@ -188,6 +188,7 @@ class DRPGZExtraWADs : EventHandler
         // WadSmoosh WAD Lumps
         static const string wsLumps[] =
         {
+            // Uses PK3 path
             "/MAPS/E1M1.WAD",
             "/MAPS/E5M1.WAD",
             "/MAPS/E6M1.WAD",
@@ -200,27 +201,38 @@ class DRPGZExtraWADs : EventHandler
 
         // Get class data pointer
         DRPGZExtraWADs cData = DRPGZExtraWADs(EventHandler.Find("DRPGZExtraWADs"));
-        string rValue = "";
-        int ewPack = 0;
 
-        // Determine which compatible map pack is loaded
+        string rValue = "";
+        // Position of ewActors and for detection, I suppose (I wanted pointers but oh well)
+        int ewPack = EW_NONE;
+
+        // ------
+        // Part 1
+        // ------
+        // Detect Extra WAD
+        // ----------------
         for (int i = 0; i < AllActorClasses.size(); i++)
         {
             // ---- WadSmoosh ----
-            if (AllActorClasses[i].GetClassName() == elActors[EW_WS])
+            if (AllActorClasses[i].GetClassName() == ewActors[EW_WS])
             {
                 ewPack = EW_WS;
                 break;
             }
         }
 
+        // ------
+        // Part 2
+        // ------
         // Detect lumps only if an Extra WAD exists
+        // ----------------------------------------
         if (ewPack != EW_NONE)
         {
-            // -------------------
-            // Copy detected lumps
-            // -------------------
-
+            // ------
+            // Part 3
+            // ----------------------------------------------------
+            // Copy detected lumps into a separate array for Part 4
+            // ----------------------------------------------------
             if (cData.ewLumps.size() == 0)
             {
                 // ---- WadSmoosh ----
@@ -229,7 +241,11 @@ class DRPGZExtraWADs : EventHandler
                         cData.ewLumps.push(wsLumps[i]);
             }
 
-            // The tools
+            // ------
+            // Part 4
+            // ----------------------------------------------------------
+            // Sift through copied lumps to detect existing lumps for ACS
+            // ----------------------------------------------------------
             switch (Function)
             {
             // Process valid lump for return
@@ -240,14 +256,18 @@ class DRPGZExtraWADs : EventHandler
                 // ACS relies on -1 and -2 to stop
                 // -1 = WAD not detected
                 // -2 = No more WADs
+
+                // End of copied lumps
                 if (Data >= cData.ewLumps.size())
                 {
                     rValue = "-2";
                     break;
                 }
 
+                // Get copied lump
                 Lump = cData.ewLumps[Data];
 
+                // Check if lump exists (mainly for WadSmoosh but good to have)
                 if (WADS.CheckNumForFullName(Lump) == -1)
                     rValue = "-1";
                 else
@@ -261,10 +281,16 @@ class DRPGZExtraWADs : EventHandler
                 }
             }
             break;
+            // Delete array; no longer needed
+            case 2:
+            {
+                cData.ewLumps.clear();
+            }
+            break;
             }
         }
-        else
-            rValue = "-1"; // No Extra WADs detected
+        else // No Extra WADs detected
+            rValue = "-2";
 
         return rValue;
     }
