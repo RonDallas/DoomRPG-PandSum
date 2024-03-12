@@ -761,6 +761,9 @@ NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNu
     while (GetKnownLevelCount(CurrentWAD) == 0)
         Delay(1);
 
+    // Give a chance for data to load
+    Delay(15);
+
     // These WADs are already set up
     if (ExtraWADsActive)
         return;
@@ -769,7 +772,6 @@ NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNu
         return; // This map was already unlocked, so ignore it
 
     LevelInfo *NewMap = klArrayUtils(1, CurrentWAD, NULL);
-    LogMessage(StrParam("LumpName: %S", NewMap->LumpName));
     NewMap->LumpName = Name;
     NewMap->NiceName = DisplayName;
     NewMap->LevelNum = LevelNumber;
@@ -3330,7 +3332,6 @@ Start:
 // Extra WADs --------------------------------------------------
 NamedScript void InitExtraWADs()
 {
-    bool OutpostStart = false;
     str Lump;
     LevelInfo *TempMap;
 
@@ -3357,36 +3358,10 @@ NamedScript void InitExtraWADs()
         return;
     }
 
-    // Get first level
-    TempMap = klArrayUtils(2, CurrentWAD, 2);
-    if (TempMap->LevelNum == 0)
-        OutpostStart = true;
-
-    // If player started on Outpost (third entry is first level), add the first compatible level
-    if (OutpostStart)
-    {
-        TempMap = klArrayUtils(1, 0, NULL);
-        TempMap->LumpName = Lump;
-        TempMap->NiceName = "Unknown Area";
-        TempMap->LevelNum = 0;
-        TempMap->SecretMap = 0;
-        TempMap->UACBase = false;
-        TempMap->UACArena = false;
-        TempMap->SecretMap = false;
-        TempMap->Completed = false;
-        TempMap->NeedsRealInfo = true;
-
-        LogMessage(StrParam("Extra WADs: Loaded on Outpost! - Added Lump %S", TempMap->LumpName), LOG_DEBUG);
-    }
-
     // Add all compatible Extra WADs first lumps into the levels array
     for (int i = 0; i < MAX_WAD_LEVELS; i++)
     {
         Lump = (str)ScriptCall("DRPGZExtraWADs", "ExtraWADTools", 1, i);
-
-        // Skip first WAD if already added
-        if (OutpostStart && i == 0)
-            continue;
 
         // ACS relies on -1 and -2 to stop
         // -1 = WAD not detected

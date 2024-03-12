@@ -351,50 +351,6 @@ map TN_MAP30 lookup "THUSTR_30"
 }
 
 clearepisodes
-episode e1m1
-{
-	// print names instead of using graphic lump - looks weird next to
-	// episodes that don't have em
-	//picname = "M_EPI1"
-	name = "$D1EP1NAME"
-	key = "k"
-	optional
-}
-
-episode map01
-{
-	name = "$D2EP1NAME"
-	key = "h"
-	optional
-}
-
-episode nv_map01
-{
-	name = "$D2EP2NAME"
-	key = "n"
-	optional
-}
-
-episode ml_map01
-{
-	name = "$D2MLNAME"
-	key = "m"
-	optional
-}
-
-episode tn_map01
-{
-	name = "$TNTNAME"
-	key = "t"
-	optional
-}
-
-episode pl_map01
-{
-	name = "$PLUNAME"
-	key = "p"
-	optional
-}
 
 episode OUTPOST
 {
