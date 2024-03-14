@@ -24,7 +24,7 @@ gameinfo
     menufontcolor_selection = "green"
     
     // ZScript
-    AddEventHandlers = "DRPGZHandler", "DRPGZData", "DRPGZDataSt", "DRPGZExtraWAD"
+    AddEventHandlers = "DRPGZHandler", "DRPGZData", "DRPGZDataSt", "DRPGZExtraWad"
 }
 
 // UAC Outpost

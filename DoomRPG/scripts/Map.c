@@ -34,7 +34,7 @@ bool UsedSecretExit;
 bool WaitingForReplacements;
 
 // Extra WAD(s)
-bool ExtraWadActive, ExtraWADHasHub;
+bool ExtraWadActive, ExtraWadHasHub;
 int KnownWadCount;
 
 int AllBonusMaps; // For the OCD Shield
@@ -127,7 +127,7 @@ NamedScript Type_OPEN void MapInit()
 
     // Hub compatibility: Maintain CurrentWAD so levels accumulate on their respective WAD
     // Don't switch for Outpost or Arena so Teleport selection is maintained
-    if (ExtraWadActive)
+    if (ExtraWadHasHub)
         if (ThingCountName("DRPGOutpostMarker", 0) == 0 && ThingCountName("DRPGArenaMarker", 0) == 0)
             SetCurrentWadWithString(StrParam("%tS", PRINTNAME_LEVEL));
 
@@ -1266,7 +1266,7 @@ NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
         }
 
         // No events on level 1
-        if (ExtraWadHasHub)
+        if (ExtraWadActive)
             if (TargetLevel->LevelNum == 1)
                 DisableEvent = true;
 
@@ -3341,12 +3341,8 @@ Start:
     goto Start;
 }
 
-// Hub compatibility: A chosen WAD in the Hub will accumulate on its own slot and not the Hub's
 void SetCurrentWadWithString(str TargetWAD)
 {
-    if (!ExtraWadActive)
-        return;
-
     for (int i = 0; i < MAX_WAD_LEVELS; i++)
     {
         LevelInfo *TempMap = klArrayUtils(2, i, 0);
@@ -3355,7 +3351,7 @@ void SetCurrentWadWithString(str TargetWAD)
         {
             CurrentWAD = i;
 
-            LogMessage(StrParam("Extra WAD(s)- CurrentWAD: %i", CurrentWAD), LOG_DEBUG);
+            LogMessage(StrParam("Extra WAD(s) - CurrentWAD: %i", CurrentWAD), LOG_DEBUG);
             break;
         }
         else if (TempMap->LumpName == "") // End of Extra WAD(s)
@@ -3406,14 +3402,14 @@ NamedScript void InitExtraWad()
             break;
 
         // Hub detection
-        if (!ExtraWADHasHub && Contains(Lump, ":HUB"))
+        if (!ExtraWadHasHub && Contains(Lump, ":HUB"))
         {
             // Hub level stored alongside WAD 0 for quick selection
             TempMap = klArrayUtils(1, 0, NULL);
             TempMap->NiceName = "Level Hub";
-            // Snip ":HUB"
+            // Exclude ":HUB" from Lump
             Lump = StrLeft(Lump, (StrLen(Lump)-4));
-            ExtraWADHasHub = true;
+            ExtraWadHasHub = true;
         }
         else
         {
