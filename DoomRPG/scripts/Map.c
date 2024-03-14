@@ -34,7 +34,7 @@ bool UsedSecretExit;
 bool WaitingForReplacements;
 
 // Extra WAD(s)
-bool ExtraWadActive, ExtraWadHasHub;
+bool ExtraWadInit, ExtraWadActive, ExtraWadHasHub;
 int KnownWadCount;
 
 int AllBonusMaps; // For the OCD Shield
@@ -3372,8 +3372,8 @@ NamedScript void InitExtraWad()
     if (CurrentLevel->LumpName == "TITLEMAP")
         return;
 
-    // Just in case..
-    if (ExtraWadActive)
+    // Only need one run
+    if (ExtraWadInit || ExtraWadActive)
         return;
 
     LogMessage("\CdExtra WAD(s): Started Initialization", LOG_DEBUG);
@@ -3384,6 +3384,7 @@ NamedScript void InitExtraWad()
     // No compatible Extra WAD(s) detected
     if (Lump == "-2")
     {
+        ExtraWadInit = true;
         LogMessage("\CdExtra WAD(s): None detected", LOG_DEBUG);
         return;
     }
@@ -3434,5 +3435,6 @@ NamedScript void InitExtraWad()
     // All done, clear array
     ScriptCall("DRPGZExtraWad", "ExtraWadTools", 2, NULL);
 
+    ExtraWadInit = true;
     ExtraWadActive = true;
 }
