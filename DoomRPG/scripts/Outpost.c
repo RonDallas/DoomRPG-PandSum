@@ -315,13 +315,13 @@ NamedScript MapSpecial void LevelTransport()
 
     while (true)
     {
-        // Stop Underflow - Extra WADs
+        // Stop Underflow - Extra WAD(s)
         if (CurrentWAD < 0)
             CurrentWAD = 0;
 
-        // And Overflow - Extra WADs
-        if (CurrentWAD >= KnownWADCount)
-            CurrentWAD = KnownWADCount;
+        // And Overflow - Extra WAD(s)
+        if (CurrentWAD >= KnownWadCount)
+            CurrentWAD = KnownWadCount;
 
         // Stop Underflow
         if (LevelChoice < 0)
@@ -557,8 +557,8 @@ NamedScript MapSpecial void LevelTransport()
                 LevelChoice = GetKnownLevelCount(CurrentWAD) - 1;
         }
 
-        // Extra Levels Input
-        if (ExtraWADsActive)
+        // Extra WAD(s) Input
+        if (ExtraWadActive)
         {
             if ((CheckInput(BT_MOVELEFT, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
             {

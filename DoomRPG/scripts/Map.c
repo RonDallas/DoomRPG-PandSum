@@ -23,19 +23,19 @@ LevelInfo *DefaultOutpost;
 
 int KnownLevelCount[MAX_WADS];
 
-// 0 = Default IWAD or Replacement WAD
+// 0 = Default IWAD or Replacement WAD, or Hub
 // 1 = Extra Wad #1 (E1M1 with WadSmoosh, for example)
 int CurrentWAD;
 
-int PreviousLevelNum;
-int PreviousPrimaryLevelNum;
+int PreviousLevelNum[MAX_WADS];
+int PreviousPrimaryLevelNum[MAX_WADS];
 
 bool UsedSecretExit;
 bool WaitingForReplacements;
 
-// Extra WADs
-bool ExtraWADsActive;
-int KnownWADCount;
+// Extra WAD(s)
+bool ExtraWadActive, ExtraWADHasHub;
+int KnownWadCount;
 
 int AllBonusMaps; // For the OCD Shield
 int CurrentSkill; // Keeps track of skill changes based on events
@@ -94,8 +94,8 @@ NamedScript Type_OPEN void MapInit()
         CurrentSkill = GameSkill() - 1;
         UsedSecretExit = false;
         PreviousLevelSecret = false;
-        PreviousLevelNum = StartMapNum - 1;
-        PreviousPrimaryLevelNum = StartMapNum - 1;
+        PreviousLevelNum[CurrentWAD] = StartMapNum - 1;
+        PreviousPrimaryLevelNum[CurrentWAD] = StartMapNum - 1;
         CurrentLevel = NULL;
         PreviousLevel = NULL;
         PassingEventTimer = GetCVar("drpg_mapevent_eventtime") * 35 * 60;
@@ -124,6 +124,12 @@ NamedScript Type_OPEN void MapInit()
             ArenaMap->NeedsRealInfo = false;
         }
     }
+
+    // Hub compatibility: Maintain CurrentWAD so levels accumulate on their respective WAD
+    // Don't switch for Outpost or Arena so Teleport selection is maintained
+    if (ExtraWadActive)
+        if (ThingCountName("DRPGOutpostMarker", 0) == 0 && ThingCountName("DRPGArenaMarker", 0) == 0)
+            SetCurrentWadWithString(StrParam("%tS", PRINTNAME_LEVEL));
 
     CurrentLevel = FindLevelInfo();
 
@@ -190,16 +196,16 @@ NamedScript Type_OPEN void MapInit()
 
             if (CurrentLevel->LevelNum == 0)
             {
-                PreviousLevelNum++;
+                PreviousLevelNum[CurrentWAD]++;
                 if (!UsedSecretExit)
-                    PreviousLevelNum = ++PreviousPrimaryLevelNum;
+                    PreviousLevelNum[CurrentWAD] = ++PreviousPrimaryLevelNum[CurrentWAD];
 
-                if (PreviousLevelNum > 1000)
-                    PreviousLevelNum = 1000;
-                if (PreviousPrimaryLevelNum > 1000)
-                    PreviousPrimaryLevelNum = 1000;
+                if (PreviousLevelNum[CurrentWAD] > 1000)
+                    PreviousLevelNum[CurrentWAD] = 1000;
+                if (PreviousPrimaryLevelNum[CurrentWAD] > 1000)
+                    PreviousPrimaryLevelNum[CurrentWAD] = 1000;
 
-                CurrentLevel->LevelNum = PreviousLevelNum;
+                CurrentLevel->LevelNum = PreviousLevelNum[CurrentWAD];
                 CurrentLevel->SecretMap = UsedSecretExit;
             }
 
@@ -304,8 +310,8 @@ NamedScript Type_OPEN void MapInit()
     if (CurrentLevel->UACBase)
         DefaultOutpost = CurrentLevel;
 
-    // Extra WADs Loader
-    InitExtraWADs();
+    // Extra WAD(s) Loader
+    InitExtraWad();
 
     // [KS] These maps set themselves up, so nothing more to do.
     if (CurrentLevel->UACBase || CurrentLevel->UACArena)
@@ -765,7 +771,7 @@ NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNu
     Delay(15);
 
     // These WADs are already set up
-    if (ExtraWADsActive)
+    if (ExtraWadActive)
         return;
 
     if (FindLevelInfo(Name) != NULL)
@@ -889,9 +895,9 @@ NumberedScript(MAP_EXIT_SCRIPTNUM) MapSpecial void MapExit(bool Secret, bool Tel
 
     UsedSecretExit = Secret;
     PreviousLevel = CurrentLevel;
-    PreviousLevelNum = CurrentLevel->LevelNum;
+    PreviousLevelNum[CurrentWAD] = CurrentLevel->LevelNum;
     if (!CurrentLevel->SecretMap)
-        PreviousPrimaryLevelNum = CurrentLevel->LevelNum;
+        PreviousPrimaryLevelNum[CurrentWAD] = CurrentLevel->LevelNum;
 
     // Exits
     if (CurrentLevel->UACArena)
@@ -1161,9 +1167,6 @@ void MapEventReward()
 
 NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
 {
-    if (DebugLog)
-        Log("\CdDEBUG: \ChDeciding event for \Cd%S", TargetLevel->LumpName);
-
     str const EventNames[MAPEVENT_MAX] =
     {
         "None",
@@ -1238,6 +1241,9 @@ NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
     if (CurrentLevel->BadMap)
         return;
 
+    if (DebugLog)
+        Log("\CdDEBUG: \ChDeciding event for \Cd%S", TargetLevel->LumpName);
+
     // [KS] Super-special events for super-special levels (and by "special" I of course mean retarded)
     // [KS] PS: I hate you already.
     if (!StrICmp(TargetLevel->LumpName, "MAP30"))
@@ -1246,6 +1252,7 @@ NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
         // Blurb about a demon spitter and the game ending finale here.
         if (GetCVar("drpg_mapevent_sinstorm"))
             TargetLevel->Event = MAPEVENT_SPECIAL_SINSTORM;
+
         return;
     }
 
@@ -1257,6 +1264,11 @@ NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
             TargetLevel->Event = MAPEVENT_NONE;
             return;
         }
+
+        // No events on level 1
+        if (ExtraWadHasHub)
+            if (TargetLevel->LevelNum == 1)
+                DisableEvent = true;
 
         if (RandomFixed(0.0, 99.9) > GetCVarFixed("drpg_mapevent_chance") || DisableEvent)
         {
@@ -3329,8 +3341,30 @@ Start:
     goto Start;
 }
 
-// Extra WADs --------------------------------------------------
-NamedScript void InitExtraWADs()
+// Hub compatibility: A chosen WAD in the Hub will accumulate on its own slot and not the Hub's
+void SetCurrentWadWithString(str TargetWAD)
+{
+    if (!ExtraWadActive)
+        return;
+
+    for (int i = 0; i < MAX_WAD_LEVELS; i++)
+    {
+        LevelInfo *TempMap = klArrayUtils(2, i, 0);
+
+        if (TempMap->LumpName == TargetWAD)
+        {
+            CurrentWAD = i;
+
+            LogMessage(StrParam("Extra WAD(s)- CurrentWAD: %i", CurrentWAD), LOG_DEBUG);
+            break;
+        }
+        else if (TempMap->LumpName == "") // End of Extra WAD(s)
+            break;
+    }
+}
+
+// Extra WAD(s) --------------------------------------------------
+NamedScript void InitExtraWad()
 {
     str Lump;
     LevelInfo *TempMap;
@@ -3343,25 +3377,25 @@ NamedScript void InitExtraWADs()
         return;
 
     // Just in case..
-    if (ExtraWADsActive)
+    if (ExtraWadActive)
         return;
 
     LogMessage("\CdExtra WAD(s): Started Initialization", LOG_DEBUG);
 
     // Get first lump
-    Lump = (str)ScriptCall("DRPGZExtraWADs", "ExtraWADTools", 1, 0);
+    Lump = (str)ScriptCall("DRPGZExtraWad", "ExtraWadTools", 1, 0);
 
-    // No compatible Extra WADs detected
+    // No compatible Extra WAD(s) detected
     if (Lump == "-2")
     {
         LogMessage("\CdExtra WAD(s): None detected", LOG_DEBUG);
         return;
     }
 
-    // Add all compatible Extra WADs first lumps into the levels array
-    for (int i = 0; i < MAX_WAD_LEVELS; i++)
+    // Add all compatible Extra WAD(s) first lumps into the levels array
+    for (int i = 0; i < MAX_WADS; i++)
     {
-        Lump = (str)ScriptCall("DRPGZExtraWADs", "ExtraWADTools", 1, i);
+        Lump = (str)ScriptCall("DRPGZExtraWad", "ExtraWadTools", 1, i);
 
         // ACS relies on -1 and -2 to stop
         // -1 = WAD not detected
@@ -3371,12 +3405,25 @@ NamedScript void InitExtraWADs()
         else if (Lump == "-2")
             break;
 
-        // Keeps track of how many Extra WADs are loaded
-        KnownWADCount++;
+        // Hub detection
+        if (!ExtraWADHasHub && Contains(Lump, ":HUB"))
+        {
+            // Hub level stored alongside WAD 0 for quick selection
+            TempMap = klArrayUtils(1, 0, NULL);
+            TempMap->NiceName = "Level Hub";
+            // Snip ":HUB"
+            Lump = StrLeft(Lump, (StrLen(Lump)-4));
+            ExtraWADHasHub = true;
+        }
+        else
+        {
+            // Keeps track of how many Extra WAD(s) are loaded
+            KnownWadCount++;
+            TempMap = klArrayUtils(1, KnownWadCount, NULL);
+            TempMap->NiceName = "Unknown Area";
+        }
 
-        TempMap = klArrayUtils(1, KnownWADCount, NULL);
         TempMap->LumpName = Lump;
-        TempMap->NiceName = "Unknown Area";
         TempMap->LevelNum = 0;
         TempMap->SecretMap = 0;
         TempMap->UACBase = false;
@@ -3385,11 +3432,11 @@ NamedScript void InitExtraWADs()
         TempMap->Completed = false;
         TempMap->NeedsRealInfo = true;
 
-        LogMessage(StrParam("Extra WADs: Added Lump: %S", TempMap->LumpName), LOG_DEBUG);
+        LogMessage(StrParam("Extra WAD(s): Added Lump: %S", TempMap->LumpName), LOG_DEBUG);
     }
 
     // All done, clear array
-    ScriptCall("DRPGZExtraWADs", "ExtraWADTools", 2, NULL);
+    ScriptCall("DRPGZExtraWad", "ExtraWadTools", 2, NULL);
 
-    ExtraWADsActive = true;
+    ExtraWadActive = true;
 }

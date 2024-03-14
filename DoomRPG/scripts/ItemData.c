@@ -1095,8 +1095,9 @@ ItemInfoPtr OptionalArgs(1) GetRewardItem(int Difficulty, bool SkipShieldPart)
                 Index = Random(0, Cap - 1);
                 Reward = &ItemData[8][Index];
 
-                if (DebugLog)
-                    Log("\CdDEBUG: \C-Reward Item %S\C- (%S) picked - Rarity %d Item %d", Reward->Name, Reward->Actor, Difficulty, Index);
+                // Commented out for console spam
+                //if (DebugLog)
+                //    Log("\CdDEBUG: \C-Reward Item %S\C- (%S) picked - Rarity %d Item %d", Reward->Name, Reward->Actor, Difficulty, Index);
 
                 return Reward;
             }
@@ -1140,8 +1141,9 @@ ItemInfoPtr OptionalArgs(1) GetRewardItem(int Difficulty, bool SkipShieldPart)
             Index = Random(0, Cap - 1);
             Reward = &ItemData[6][Index];
 
-            if (DebugLog)
-                Log("\CdDEBUG: \C-Reward Item %S\C- (%S) picked - Rarity %d Item %d", Reward->Name, Reward->Actor, Difficulty, Index);
+            // Commented out for console spam
+            //if (DebugLog)
+            //    Log("\CdDEBUG: \C-Reward Item %S\C- (%S) picked - Rarity %d Item %d", Reward->Name, Reward->Actor, Difficulty, Index);
 
             return Reward;
         }
@@ -1157,8 +1159,9 @@ ItemInfoPtr OptionalArgs(1) GetRewardItem(int Difficulty, bool SkipShieldPart)
         Reward = RewardList[Difficulty][Index];
     }
 
-    if (DebugLog)
-        Log("\CdDEBUG: \C-Reward Item %S\C- (%S) picked - Rarity %d Item %d", Reward->Name, Reward->Actor, Difficulty, Index);
+    // Commented out for console spam
+    //if (DebugLog)
+    //    Log("\CdDEBUG: \C-Reward Item %S\C- (%S) picked - Rarity %d Item %d", Reward->Name, Reward->Actor, Difficulty, Index);
 
     return Reward;
 }

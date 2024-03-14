@@ -111,7 +111,8 @@ NamedScript void UpdateShopAutoList()
                 zsDynArrayUtils("Auto-Store", 1, (int)Item, PlayerNumber());
             }
 
-            LogMessage(StrParam("Completed Item #%i, %S", j, ItemData[i][j].Name), LOG_DEBUG);
+            // Commented out for console spam
+            //LogMessage(StrParam("Completed Item #%i, %S", j, ItemData[i][j].Name), LOG_DEBUG);
         }
     }
 

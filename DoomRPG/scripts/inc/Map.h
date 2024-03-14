@@ -10,15 +10,16 @@ extern LevelInfo *TransporterLevel;
 extern LevelInfo *DefaultOutpost;
 
 extern int CurrentWAD;
-extern int PreviousLevelNum;
-extern int PreviousPrimaryLevelNum;
+extern int PreviousLevelNum[MAX_WADS];
+extern int PreviousPrimaryLevelNum[MAX_WADS];
 
 extern bool UsedSecretExit;
 extern bool PreviousLevelSecret;
 extern bool WaitingForReplacements;
 
-extern bool ExtraWADsActive;
-extern int KnownWADCount;
+extern bool ExtraWadActive;
+extern bool ExtraWadHasHub;
+extern int KnownWadCount;
 
 extern int AllBonusMaps;
 extern int CurrentSkill;
@@ -118,7 +119,8 @@ void MapEventReward();
 OptionalArgs(1) LevelInfo *FindLevelInfo(str);
 OptionalArgs(1) int FindLevelInfoIndex(str);
 
-NamedScript void InitExtraWADs();
+NamedScript void InitExtraWad();
+void SetCurrentWadWithString(str);
 
 // Level array stuff
 LevelInfo *klArrayUtils(int, int, int);
