@@ -1,0 +1,4 @@
+// DoomRPG
+server bool		drpg_drla_demonic_boss_disable = false;
+server bool		drpg_drla_unique_boss_disable = false;
+user   bool		drpg_drla_hud_on = true;

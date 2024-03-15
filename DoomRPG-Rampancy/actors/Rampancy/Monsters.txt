@@ -1,0 +1,1394 @@
+// --------------------------------------------------
+// STANDARD ENEMIES
+//
+
+// --------------------------------------------------
+// Class: Former Human
+
+ACTOR Robot_SentryBotRPG : Robot_SentryBot Replaces Robot_SentryBot
+{
+    Tag "Sentry Bot"
+
+    DropItem "DRPGClipSpawner"
+
+	States
+	{
+	Spawn:
+		STRY A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		STRY A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Former Sergeant
+
+ACTOR Robot_DefenderBotRPG : Robot_DefenderBot Replaces Robot_DefenderBot
+{
+    Tag "Defender Bot"
+
+    DropItem "DRPGShotgun", 48
+    DropItem "DRPGShellSpawner", 208
+
+	States
+	{
+	Spawn:
+		DFNB A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		DFNB A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Former Commando
+
+ACTOR Robot_SecurityBotSmallRPG : Robot_SecurityBotSmall Replaces Robot_SecurityBotSmall
+{
+    Tag "Security Bot Small"
+
+    DropItem "DRPGChaingun", 48
+    DropItem "DRPGClipBoxSpawner", 208
+
+	States
+	{
+	Spawn:
+		SECB A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		SECB A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Imp
+
+ACTOR Robot_SoldierBotRPG : Robot_SoldierBot Replaces Robot_SoldierBot
+{
+    Tag "Soldier Bot"
+
+	States
+	{
+	Spawn:
+		SDBT A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		SDBT A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Demon
+
+ACTOR Robot_SpiderBotSmallRPG : Robot_SpiderBotSmall Replaces Robot_SpiderBotSmall
+{
+    Tag "Spider Bot Small"
+
+	States
+	{
+	Spawn:
+		SPD2 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		SPD2 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Spectre
+
+ACTOR Robot_StealthDroidRPG : Robot_StealthDroid Replaces Robot_StealthDroid
+{
+    Tag "Stealth Droid"
+
+	States
+	{
+	Spawn:
+		PROT A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		PROT A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Lost Soul
+
+ACTOR Robot_ScoutDroneRPG : Robot_ScoutDrone Replaces Robot_ScoutDrone
+{
+    Tag "Scout Drone"
+
+    States
+    {
+    Spawn:
+		// ----- Lost Souls that are not map-based should not have their kills and XP taken into account due to possible spawn spam (Pain Elementals for example). ----- //
+    	// Check if monster is map-based.
+    	SCDR A 0 NoDelay A_JumpIf(GetLevelSpawnTime() == 0, 4)
+    	// Not map-based.
+    	SCDR A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
+    	SCDR A 0 A_ChangeFlag("COUNTKILL", false)
+    	SCDR A 0 A_Jump(256, 2)
+    	// Map-based.
+    	SCDR A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA | MF_NODROPS)
+    	TNT1 A 0
+        Goto Super::Spawn
+    See:
+		// ----- Lost Souls that are not map-based should not have their kills and XP taken into account due to possible spawn spam (Pain Elementals for example). ----- //
+    	// Check if monster is map-based.
+    	SCDR A 0 A_JumpIf(GetLevelSpawnTime() == 0, 4)
+    	// Not map-based.
+    	SCDR A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
+    	SCDR A 0 A_ChangeFlag("COUNTKILL", false)
+    	SCDR A 0 A_Jump(256, 2)
+    	// Map-based.
+    	SCDR A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA | MF_NODROPS)
+    	TNT1 A 0
+        Goto Super::See
+    }
+}
+
+// --------------------------------------------------
+// Class: Cacodemon
+
+ACTOR Robot_AssaultDroneRPG : Robot_AssaultDrone Replaces Robot_AssaultDrone
+{
+    Tag "Assault Drone"
+
+	States
+	{
+	Spawn:
+		ASTD A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		ASTD A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Hell Knight
+
+ACTOR Robot_SecurityBotRPG : Robot_SecurityBot Replaces Robot_SecurityBot
+{
+    Tag "Security Bot"
+
+	States
+	{
+	Spawn:
+		SCBT A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		SCBT A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Baron Of Hell
+
+ACTOR Robot_DreadnoughtBotRPG : Robot_DreadnoughtBot Replaces Robot_DreadnoughtBot
+{
+    Tag "Dreadnought Bot"
+
+	States
+	{
+	Spawn:
+		DRDB A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		DRDB A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Arachnotron
+
+ACTOR Robot_SpiderBotRPG : Robot_SpiderBot Replaces Robot_SpiderBot
+{
+    Tag "Spider Bot"
+
+	States
+	{
+	Spawn:
+		SPDB A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		SPDB A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Pain Elemental
+
+ACTOR Robot_FabricationNodeRPG : Robot_FabricationNode Replaces Robot_FabricationNode
+{
+    Tag "Fabrication Node"
+
+	States
+	{
+	Spawn:
+		FABN A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		FABN A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Revenant
+
+ACTOR Robot_RollerDroidRPG : Robot_RollerDroid Replaces Robot_RollerDroid
+{
+    Tag "Roller Droid"
+
+	States
+	{
+	Spawn:
+		RLRD A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		RLRD A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Mancubus
+
+ACTOR Robot_MaintenanceBotRPG : Robot_MaintenanceBot Replaces Robot_MaintenanceBot
+{
+    Tag "Maintenance Bot"
+
+	States
+	{
+	Spawn:
+		MNTB A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		MNTB A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Archvile
+
+ACTOR Robot_RepairBotRPG : Robot_RepairBot Replaces Robot_RepairBot
+{
+    Tag "Repair Bot"
+
+	States
+	{
+	Spawn:
+		REPB A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		REPB A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Military Bot - Replaces Cyberdemon
+
+ACTOR Robot_MilitaryBotRPG : Robot_MilitaryBot Replaces Robot_MilitaryBot
+{
+    Tag "Military Bot"
+
+	States
+	{
+	Spawn:
+		MILB A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		MILB A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Military Bot Boss - Cyberdemon Variant
+ACTOR Robot_MilitaryBotBossRPG : Robot_MilitaryBotBoss Replaces Robot_MilitaryBotBoss
+{
+    Tag "Military Bot Type-2"
+
+	States
+	{
+	Spawn:
+		MIL3 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		MIL3 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Loader Bot - Replaces Spider Mastermind
+
+ACTOR Robot_LoaderBotRPG : Robot_LoaderBot Replaces Robot_LoaderBot
+{
+    Tag "Loader Bot Type-2"
+
+	States
+	{
+	Spawn:
+		LDRB A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		LDRB A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Loader Bot Boss - Spider Mastermind Variant
+
+ACTOR Robot_LoaderBotBossRPG : Robot_LoaderBotBoss Replaces Robot_LoaderBotBoss
+{
+    Tag "Loader Bot"
+
+	States
+	{
+	Spawn:
+		LOA3 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		LOA3 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Spider Tank - Boss enemy
+
+ACTOR Robot_SpiderTankRPG : Robot_SpiderTank Replaces Robot_SpiderTank
+{
+    Tag "Spider Tank"
+
+	States
+	{
+	Spawn:
+		HXTA A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		HXTA A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Death Walker - Boss enemy
+
+ACTOR Robot_DeathwalkerRPG : Robot_Deathwalker Replaces Robot_Deathwalker
+{
+    Tag "Deathwalker"
+
+	States
+	{
+	Spawn:
+		DTWA A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		DTWA A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Class: Siege Droid - Boss enemy
+
+ACTOR Robot_SiegedroidRPG : Robot_Siegedroid Replaces Robot_Siegedroid
+{
+    Tag "Siege Droid"
+
+	States
+	{
+	Spawn:
+		GNRA A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		GNRA A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// FINAL BOSSES ENEMIES
+//
+
+// The Boss Brain needs special handling for the exit script
+ACTOR Robot_BossBrainRPG : Robot_BossBrain Replaces DRPGBossBrain
+{
+    Tag "Boss Brain"
+
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOSTATS | MF_NOAURA | MF_NOPAYKILL | MF_NODROPS | MF_NOHEALTHBAR)
+        Goto Super::Spawn
+    Death:
+        TNT1 A 0 ACS_Execute(30000, 0)
+        Goto Super::Death
+    }
+}
+
+
+// --------------------------------------------------
+// EXTRA ENEMIES
+//
+
+// Class: Gun Turret
+ACTOR Robot_GunTurretRPG : Robot_GunTurret Replaces Robot_GunTurret
+{
+    Tag "Gun Turret"
+
+	States
+	{
+	Spawn:
+		GTR1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		GTR1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: Security Turret - Gun Turret Variant(?)
+ACTOR Robot_SecurityTurretRPG : Robot_SecurityTurret Replaces Robot_SecurityTurret
+{
+    Tag "Security Turret"
+
+	States
+	{
+	Spawn:
+		SSD3 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		SSD3 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: Marauder Drone
+ACTOR Robot_MarauderDroneRPG : Robot_MarauderDrone Replaces Robot_MarauderDrone
+{
+    Tag "Marauder Drone"
+
+	States
+	{
+	Spawn:
+		MCA1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		MCA1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: Heavy Security Bot
+ACTOR Robot_HeavySecBotRPG : Robot_HeavySecBot Replaces Robot_HeavySecBot
+{
+    Tag "Heavy Security Bot"
+
+	States
+	{
+	Spawn:
+		HSB1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		HSB1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: Heavy Security Bot - Variant
+ACTOR Robot_HeavySecBotMilitaryRPG : Robot_HeavySecBotMilitary Replaces Robot_HeavySecBotMilitary
+{
+    Tag "Heavy Security Bot Type-2"
+
+	States
+	{
+	Spawn:
+		HSB2 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		HSB2 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: Hunter Killer
+ACTOR Robot_HunterKillerRPG : Robot_HunterKiller Replaces Robot_HunterKiller
+{
+    Tag "Hunter-Killer"
+
+	States
+	{
+	Spawn:
+		HKDA A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		HKDA A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: Assassin Drone
+ACTOR Robot_AssassinDroneRPG : Robot_AssassinDrone Replaces Robot_AssassinDrone
+{
+    Tag "Assassin Drone"
+
+	States
+	{
+	Spawn:
+		MDRA A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		MDRA A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: HEAT Drone
+ACTOR Robot_HEATDroneRPG : Robot_HEATDrone Replaces Robot_HEATDrone
+{
+    Tag "HEAT Drone"
+
+	States
+	{
+	Spawn:
+		SDRA A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		SDRA A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: Heavy War Bot
+ACTOR Robot_HeavyWarBotRPG : Robot_HeavyWarBot Replaces Robot_HeavyWarBot
+{
+    Tag "Heavy War Bot"
+
+	States
+	{
+	Spawn:
+		FSBA A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		FSBA A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: AHRA
+ACTOR Robot_AHRARPG : Robot_AHRA Replaces Robot_AHRA
+{
+    Tag "AHRA"
+
+	States
+	{
+	Spawn:
+		HZMA A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		HZMA A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// --------------------------------------------------
+// Battleroid Variants
+//
+
+// Class: Battleroid
+ACTOR Robot_BattleroidRPG : Robot_Battleroid Replaces Robot_Battleroid
+{
+    Tag "Battleroid"
+
+	States
+	{
+	Spawn:
+		HGRA A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		HGRA A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: Battleroid Blue
+ACTOR Robot_BattleroidBlueRPG : Robot_BattleroidBlue Replaces Robot_BattleroidBlue
+{
+    Tag "Battleroid Type-2"
+
+	States
+	{
+	Spawn:
+		HGRC A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		HGRC A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: Battleroid Red
+ACTOR Robot_BattleroidRedRPG : Robot_BattleroidRed Replaces Robot_BattleroidRed
+{
+    Tag "Battleroid Type-3"
+
+	States
+	{
+	Spawn:
+		HGRE A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		HGRE A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: Battleroid Black
+ACTOR Robot_BattleroidBlackRPG : Robot_BattleroidBlack Replaces Robot_BattleroidBlack
+{
+    Tag "Battleroid Type-4"
+
+	States
+	{
+	Spawn:
+		HGRG A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		HGRG A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: Battleroid Brown
+ACTOR Robot_BattleroidBrownRPG : Robot_BattleroidBrown Replaces Robot_BattleroidBrown
+{
+    Tag "Battleroid Type-5"
+
+	States
+	{
+	Spawn:
+		HGRI A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		HGRI A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Class: Battleroid Silver
+ACTOR Robot_BattleroidSilverRPG : Robot_BattleroidSilver Replaces Robot_BattleroidSilver
+{
+    Tag "Battleroid Type-6"
+
+	States
+	{
+	Spawn:
+		HGRK A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		HGRK A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+
+// --------------------------------------------------
+// Enemy spawners - I'm pretty sure this is required, please replace if better solution is found.
+//
+
+ACTOR Robot_ZombiemanSpawner : Robot_VariantSpawner replaces Zombieman
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts on certain map numbers
+		// Battleroids spawn on military themed IWAD maps.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 19, "SpawnBattleroid") // E1M9
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 25, "SpawnBattleroid") // E2M5
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 37, "SpawnBattleroid") // E3M7
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 48, "SpawnBattleroid") // E4M8
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 110, "SpawnBattleroid") // MAP 10
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 112, "SpawnBattleroid") // MAP 12
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 119, "SpawnBattleroid") // MAP 19
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 120, "SpawnBattleroid") // MAP 20
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 215, "SpawnBattleroid") // PLUT 15
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 217, "SpawnBattleroid") // PLUT 17
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 226, "SpawnBattleroid") // PLUT 26
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 229, "SpawnBattleroid") // PLUT 29
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 305, "SpawnBattleroid") // TNT 05
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 306, "SpawnBattleroid") // TNT 06
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 307, "SpawnBattleroid") // TNT 07
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 309, "SpawnBattleroid") // TNT 09
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_CheckProximity("SpawnBattleroid", "Robot_BaronofHellSpawner", 512, 1, CPXF_ANCESTOR)
+		// Attempts to spread Battleroids like a plague
+		TNT1 A 0 A_CheckProximity("SpawnBattleroid", "Robot_Battleroid", 512, 1, CPXF_ANCESTOR)
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_SentryBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnBattleroid:
+		TNT1 A 5 A_SpawnItemEx("Robot_BattleroidBrown", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_ShotgunguySpawner : Robot_VariantSpawner replaces ShotgunGuy
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts on certain map numbers
+		// Battleroids spawn on military themed IWAD maps.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 19, "SpawnBattleroid") // E1M9
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 25, "SpawnBattleroid") // E2M5
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 37, "SpawnBattleroid") // E3M7
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 48, "SpawnBattleroid") // E4M8
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 110, "SpawnBattleroid") // MAP 10
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 112, "SpawnBattleroid") // MAP 12
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 119, "SpawnBattleroid") // MAP 19
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 120, "SpawnBattleroid") // MAP 20
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 215, "SpawnBattleroid") // PLUT 15
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 217, "SpawnBattleroid") // PLUT 17
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 226, "SpawnBattleroid") // PLUT 26
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 229, "SpawnBattleroid") // PLUT 29
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 305, "SpawnBattleroid") // TNT 05
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 306, "SpawnBattleroid") // TNT 06
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 307, "SpawnBattleroid") // TNT 07
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 309, "SpawnBattleroid") // TNT 09
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_CheckProximity("SpawnBattleroid", "Robot_BaronofHellSpawner", 512, 1, CPXF_ANCESTOR)
+		// Attempts to spread Battleroids like a plague
+		TNT1 A 0 A_CheckProximity("SpawnBattleroid", "Robot_Battleroid", 512, 1, CPXF_ANCESTOR)
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_DefenderBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnBattleroid:
+		TNT1 A 5 A_SpawnItemEx("Robot_BattleroidSilver", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_ChaingunguySpawner : Robot_VariantSpawner replaces ChaingunGuy
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_CheckProximity("SpawnMarauderDrone", "Robot_CyberdemonSpawner", 1024, 1, CPXF_ANCESTOR)
+		// Changes subtype if it starts on certain map numbers
+		// Battleroids spawn on military themed IWAD maps.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 19, "SpawnBattleroid") // E1M9
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 25, "SpawnBattleroid") // E2M5
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 37, "SpawnBattleroid") // E3M7
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 48, "SpawnBattleroid") // E4M8
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 110, "SpawnBattleroid") // MAP 10
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 112, "SpawnBattleroid") // MAP 12
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 119, "SpawnBattleroid") // MAP 19
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 120, "SpawnBattleroid") // MAP 20
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 215, "SpawnBattleroid") // PLUT 15
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 217, "SpawnBattleroid") // PLUT 17
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 226, "SpawnBattleroid") // PLUT 26
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 229, "SpawnBattleroid") // PLUT 29
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 305, "SpawnBattleroid") // TNT 05
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 306, "SpawnBattleroid") // TNT 06
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 307, "SpawnBattleroid") // TNT 07
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 309, "SpawnBattleroid") // TNT 09
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_CheckProximity("SpawnBattleroid", "Robot_BaronofHellSpawner", 512, 1, CPXF_ANCESTOR)
+		// Attempts to spread Battleroids like a plague
+		TNT1 A 0 A_CheckProximity("SpawnBattleroid", "Robot_Battleroid", 512, 1, CPXF_ANCESTOR)
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_SecurityBotSmall", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnBattleroid:
+		TNT1 A 5 A_SpawnItemEx("Robot_Battleroid", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnMarauderDrone:
+		TNT1 A 5 A_SpawnItemEx("Robot_MarauderDrone", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_ImpSpawner : Robot_VariantSpawner replaces DoomImp
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Check the light level of the area.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_GetLightLevel") <= 100, "SpawnAssassinDrone")
+		// Changes subtype if it starts on certain map numbers
+		// Battleroids spawn on military themed IWAD maps.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 19, "SpawnBattleroid") // E1M9
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 25, "SpawnBattleroid") // E2M5
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 37, "SpawnBattleroid") // E3M7
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 48, "SpawnBattleroid") // E4M8
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 110, "SpawnBattleroid") // MAP 10
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 112, "SpawnBattleroid") // MAP 12
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 119, "SpawnBattleroid") // MAP 19
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 120, "SpawnBattleroid") // MAP 20
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 215, "SpawnBattleroid") // PLUT 15
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 217, "SpawnBattleroid") // PLUT 17
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 226, "SpawnBattleroid") // PLUT 26
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 229, "SpawnBattleroid") // PLUT 29
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 305, "SpawnBattleroid") // TNT 05
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 306, "SpawnBattleroid") // TNT 06
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 307, "SpawnBattleroid") // TNT 07
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 309, "SpawnBattleroid") // TNT 09
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_CheckProximity("SpawnBattleroid", "Robot_BaronofHellSpawner", 512, 1, CPXF_ANCESTOR)
+		// Attempts to spread Battleroids like a plague
+		TNT1 A 0 A_CheckProximity("SpawnBattleroid", "Robot_Battleroid", 512, 1, CPXF_ANCESTOR)
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_SoldierBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnBattleroid:
+		TNT1 A 5 A_SpawnItemEx("Robot_BattleroidBlue", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnAssassinDrone:
+		TNT1 A 5 A_SpawnItemEx("Robot_AssassinDrone", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_DemonSpawner : Robot_VariantSpawner replaces Demon
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts on certain map numbers
+		// Battleroids spawn on military themed IWAD maps.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 19, "SpawnBattleroid") // E1M9
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 25, "SpawnBattleroid") // E2M5
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 37, "SpawnBattleroid") // E3M7
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 48, "SpawnBattleroid") // E4M8
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 110, "SpawnBattleroid") // MAP 10
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 112, "SpawnBattleroid") // MAP 12
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 119, "SpawnBattleroid") // MAP 19
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 120, "SpawnBattleroid") // MAP 20
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 215, "SpawnBattleroid") // PLUT 15
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 217, "SpawnBattleroid") // PLUT 17
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 226, "SpawnBattleroid") // PLUT 26
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 229, "SpawnBattleroid") // PLUT 29
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 305, "SpawnBattleroid") // TNT 05
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 306, "SpawnBattleroid") // TNT 06
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 307, "SpawnBattleroid") // TNT 07
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 309, "SpawnBattleroid") // TNT 09
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_CheckProximity("SpawnBattleroid", "Robot_BaronofHellSpawner", 512, 1, CPXF_ANCESTOR)
+		// Attempts to spread Battleroids like a plague
+		TNT1 A 0 A_CheckProximity("SpawnBattleroid", "Robot_Battleroid", 512, 1, CPXF_ANCESTOR)
+		// Check to see if its spawned in water.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_LiquidCheck") == 1, "SpawnStealthDroid") // Water texture
+		TNT1 A 0 A_JumpIf(waterlevel >= 1, "SpawnStealthDroid") // Deep water terrain
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_SpiderBotSmall", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnBattleroid:
+		// OH NO DOUBLE CHECK.
+		TNT1 A 0 A_JumpIf(waterlevel >= 2, "SpawnBattleroid2")
+		TNT1 A 5 A_SpawnItemEx("Robot_BattleroidRed", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnBattleroid2:
+		TNT1 A 5 A_SpawnItemEx("Robot_BattleroidSilver", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnStealthDroid:
+		TNT1 A 5 A_SpawnItemEx("Robot_StealthDroid", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_SpectreSpawner : Robot_VariantSpawner replaces Spectre
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts on certain map numbers
+		// Battleroids spawn on military themed IWAD maps.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 19, "SpawnBattleroid") // E1M9
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 25, "SpawnBattleroid") // E2M5
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 37, "SpawnBattleroid") // E3M7
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 48, "SpawnBattleroid") // E4M8
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 110, "SpawnBattleroid") // MAP 10
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 112, "SpawnBattleroid") // MAP 12
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 119, "SpawnBattleroid") // MAP 19
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 120, "SpawnBattleroid") // MAP 20
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 215, "SpawnBattleroid") // PLUT 15
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 217, "SpawnBattleroid") // PLUT 17
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 226, "SpawnBattleroid") // PLUT 26
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 229, "SpawnBattleroid") // PLUT 29
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 305, "SpawnBattleroid") // TNT 05
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 306, "SpawnBattleroid") // TNT 06
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 307, "SpawnBattleroid") // TNT 07
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 309, "SpawnBattleroid") // TNT 09
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_CheckProximity("SpawnBattleroid", "Robot_BaronofHellSpawner", 512, 1, CPXF_ANCESTOR)
+		// Attempts to spread Battleroids like a plague
+		TNT1 A 0 A_CheckProximity("SpawnBattleroid", "Robot_Battleroid", 512, 1, CPXF_ANCESTOR)
+		// Check the light level of the area.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_GetLightLevel") >= 160, "SpawnSpiderBot")
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_StealthDroid", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnBattleroid:
+		TNT1 A 5 A_SpawnItemEx("Robot_BattleroidBlack", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnSoldierBot:
+		TNT1 A 5 A_SpawnItemEx("Robot_SoldierBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnSpiderBot: // Additional check required
+		TNT1 A 0 A_JumpIf(CallACS("Robot_LiquidCheck") == 1, "SpawnSoldierBot") // Water texture
+		TNT1 A 0 A_JumpIf(waterlevel >= 1, "SpawnSoldierBot") // Deep water terrain
+		TNT1 A 5 A_SpawnItemEx("Robot_SpiderBotSmall", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_LostSoulSpawner : Robot_VariantSpawner replaces LostSoul
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts on certain map numbers
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 28, "SpawnSecurityTurret")
+		// Changes subtype if it starts under open sky
+		TNT1 A 0 A_JumpIf(CallACS("Robot_SkyCheck"), "SpawnMarauderDrone")
+		// Changes subtype if at least x of a robot is in the same level
+		TNT1 A 0 A_JumpIf(CallACS("Robot_BossBrainCheck") >= 1, "SpawnAssassinDrone")
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_CheckProximity("SpawnNormal", "Robot_PainElementalSpawner", 512, 1, CPXF_ANCESTOR)
+		TNT1 A 0 A_CheckProximity("SpawnMarauderDrone", "Robot_CyberdemonSpawner", 1024, 1, CPXF_ANCESTOR)
+		TNT1 A 0 A_CheckProximity("SpawnNormal", "Robot_VariantSpawner", 384, 1, CPXF_ANCESTOR)
+		// No conditions were valid, so spawn the sneaky little sniper bastard.
+		TNT1 A 0 A_Jump(256, "SpawnAssassinDrone")
+		Goto SpawnAssassinDrone
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_ScoutDrone", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnAssassinDrone:
+		TNT1 A 5 A_SpawnItemEx("Robot_AssassinDrone", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnMarauderDrone:
+		TNT1 A 5 A_SpawnItemEx("Robot_MarauderDrone", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnSecurityTurret:
+		TNT1 A 5 A_SpawnItemEx("Robot_SecurityTurret", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		TNT1 A 0 A_SpawnItemEx("BossTarget", 0,0,0,0,0,0,0, SXF_NOCHECKPOSITION, 0, 0)
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_CacodemonSpawner : Robot_VariantSpawner replaces Cacodemon
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts on certain map numbers
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 38, "SpawnE3M8")
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_CheckProximity("SpawnHunterKiller", "Robot_ArchvileSpawner", 1024, 1, CPXF_ANCESTOR)
+		TNT1 A 0 A_CheckProximity("SpawnHunterKiller", "Robot_CyberdemonSpawner", 1024, 1, CPXF_ANCESTOR)
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_AssaultDrone", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnHunterKiller:
+		TNT1 A 5 A_SpawnItemEx("Robot_HunterKiller", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnE3M8:
+		TNT1 A 5 A_SpawnItemEx("Robot_HEATDrone", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		TNT1 A 0 A_SpawnItemEx("BossTarget", 0,0,0,0,0,0,0, SXF_NOCHECKPOSITION, 0, 0)
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_HellKnightSpawner : Robot_VariantSpawner replaces HellKnight
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_CheckProximity("SpawnHeavySec", "Robot_SpiderMastermindSpawner", 1024, 1, CPXF_ANCESTOR)
+		TNT1 A 0 A_CheckProximity("SpawnHeavySecMilitary", "Robot_CyberdemonSpawner", 1024, 1, CPXF_ANCESTOR)
+		TNT1 A 0 A_CheckProximity("SpawnMilitary", "Robot_ArchvileSpawner", 1024, 1, CPXF_ANCESTOR)
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_SecurityBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnHeavySec:
+		TNT1 A 5 A_SpawnItemEx("Robot_HeavySecBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnHeavySecMilitary:
+		TNT1 A 5 A_SpawnItemEx("Robot_HeavySecBotMilitary", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnMilitary:
+		TNT1 A 5 A_SpawnItemEx("Robot_SecurityBotMilitary", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_BaronofHellSpawner : Robot_VariantSpawner replaces BaronofHell
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts on certain map numbers
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 18, "SpawnE1M8Boss")
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 38, "SpawnE3M8")
+		// Changes subtype if it starts under open sky
+		TNT1 A 0 A_JumpIf(CallACS("Robot_SkyCheck"), "SpawnHeavyWarBot")
+		// Changes subtype if there are a certain amount of specific robots
+		TNT1 A 0 A_CheckProximity("SpawnNormal", "Robot_CyberdemonSpawner", 768, 1, CPXF_ANCESTOR) // Do not spawn AHRA near bosses
+		TNT1 A 0 A_CheckProximity("SpawnNormal", "Robot_SpiderMastermindSpawner", 768, 1, CPXF_ANCESTOR)
+		TNT1 A 0 A_JumpIf(CallACS("Robot_AHRACheck") <= 0, "SpawnAHRA") // Limit number of AHRAs per level
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_DreadnoughtBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnE1M8Boss:
+		TNT1 A 5 A_SpawnItemEx("Robot_HeavyWarBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnHeavyWarBot:
+		TNT1 A 5 A_SpawnItemEx("Robot_HeavyWarBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnAHRA:
+		TNT1 A 5 A_SpawnItemEx("Robot_AHRA", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnE3M8:
+		TNT1 A 5 A_SpawnItemEx("Robot_HEATDrone", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		TNT1 A 0 A_SpawnItemEx("BossTarget", 0,0,0,0,0,0,0, SXF_NOCHECKPOSITION, 0, 0)
+		Goto BossWait
+		
+	BossDead:
+		TNT1 A 135
+		TNT1 A 1 A_BossDeath
+		Stop
+	}
+}
+
+ACTOR Robot_ArachnotronSpawner : Robot_VariantSpawner replaces Arachnotron
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts on certain map numbers
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumberGeneric") == 7, "SpawnSecurityTurret")
+		// Changes subtype if there are a certain amount of specific robots
+		// Spawn 1 Deathwalker per two bosses in the level
+		TNT1 A 0 A_JumpIf(CallACS("Robot_DeathwalkerCheck") <= (CallACS("Robot_BossSpawnerCheck")), "SpawnDeathwalker") // Limit number of Deathwalkers per level
+		// Check to see if its spawned in water.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_LiquidCheck") == 1, "SpawnMaintenanceBot") // Water texture
+		TNT1 A 0 A_JumpIf(waterlevel >= 1, "SpawnMaintenanceBot") // Deep water terrain
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_SpiderBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnSecurityTurret:
+		TNT1 A 5 A_SpawnItemEx("Robot_GunTurret", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnMaintenanceBot:
+		TNT1 A 5 A_SpawnItemEx("Robot_MaintenanceBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnDeathwalker:
+//		TNT1 A 0 A_Log ("Deathwalker spawned")
+		TNT1 A 5 A_SpawnItemEx("Robot_Deathwalker", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	}
+}
+
+ACTOR Robot_PainElementalSpawner : Robot_VariantSpawner replaces PainElemental
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_FabricationNode", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_RevenantSpawner : Robot_VariantSpawner replaces Revenant
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts on certain map numbers
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumberGeneric") == 30, "SpawnSecurityTurret")
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_CheckProximity("SpawnHEATDrone", "Robot_LostSoulSpawner", 256, 1, CPXF_ANCESTOR)
+		TNT1 A 0 A_CheckProximity("SpawnHEATDrone", "Robot_CacodemonSpawner", 512, 1, CPXF_ANCESTOR)
+		TNT1 A 0 A_CheckProximity("SpawnHEATDrone", "Robot_PainElementalSpawner", 512, 1, CPXF_ANCESTOR)
+		TNT1 A 0 A_CheckProximity("SpawnHeavySecBotMilitary", "Robot_MancubusSpawner", 512, 1, CPXF_ANCESTOR)
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_RollerDroid", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnHeavySecBotMilitary:
+		TNT1 A 5 A_SpawnItemEx("Robot_HeavySecBotMilitary", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnHEATDrone:
+		TNT1 A 5 A_SpawnItemEx("Robot_HEATDrone", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnSecurityTurret:
+		TNT1 A 5 A_SpawnItemEx("Robot_GunTurret", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_MancubusSpawner : Robot_VariantSpawner replaces Fatso
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumberGeneric") == 7, "SpawnNormal") // Force Security Bot spawns on MAP07
+		TNT1 A 0 A_CheckProximity("SpawnMaintenanceBot", "Robot_ArachnotronSpawner", 256, 1, CPXF_ANCESTOR)
+		TNT1 A 0 A_CheckProximity("SpawnMaintenanceBot", "Robot_HellKnightSpawner", 256, 1, CPXF_ANCESTOR)
+		TNT1 A 0 A_CheckProximity("SpawnMaintenanceBot", "Robot_SpiderMastermindSpawner", 1024, 1, CPXF_ANCESTOR)
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_ModuleBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnDreadnought:
+		TNT1 A 5 A_SpawnItemEx("Robot_DreadnoughtBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnMaintenanceBot:
+		TNT1 A 5 A_SpawnItemEx("Robot_MaintenanceBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	}
+}
+
+ACTOR Robot_ArchvileSpawner : Robot_VariantSpawner replaces Archvile
+{
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts on certain map numbers
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 211, "SpawnHeavySecBotMilitary") // Hunted
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 231, "SpawnRollerDroid") // Cyberden
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 306, "SpawnHeavySecBot") // Open Season
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_CheckProximity("SpawnNormal", "Robot_VariantSpawner", 512, 1, CPXF_ANCESTOR)
+		// This check is actually in reverse. This is so if the repair bot is all by itself, it'll turn into something else.
+		TNT1 A 0 A_Jump(256, "SpawnHeavySecBot")
+		Goto SpawnHeavySecBot
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_RepairBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnHeavySecBot:
+		TNT1 A 5 A_SpawnItemEx("Robot_HeavySecBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnHeavySecBotMilitary:
+		TNT1 A 5 A_SpawnItemEx("Robot_HeavySecBotMilitary", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	SpawnRollerDroid:
+		TNT1 A 5 A_SpawnItemEx("Robot_RollerDroid", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_CyberdemonSpawner : Robot_VariantSpawner replaces Cyberdemon
+{
+	+BOSS
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts on certain map numbers
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 28, "SpawnMilitaryBoss") // E2M8
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_JumpIf(CallACS("Robot_SpiderTankCheck") >= 3, 2) // Limit number of Spider Tanks per level
+		TNT1 A 0 A_CheckProximity("SpawnSpiderTank", "Robot_SpiderMastermindSpawner", 1024, 1, CPXF_ANCESTOR)
+		// Changes subtype if there are a certain amount of specific robots
+		TNT1 A 0 A_JumpIf(CallACS("Robot_BossSpawnerCheck") <= 2, 2) // Only spawn nastier bosses if there are many bosses
+		TNT1 A 0 A_JumpIf(CallACS("Robot_SiegeDroidCheck") <= 0, "SpawnSiegeDroid") // Limit number of Siege Droids per level
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_MilitaryBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnMilitaryBoss:
+		TNT1 A 5 A_SpawnItemEx("Robot_MilitaryBotBoss", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnSpiderTank:
+		TNT1 A 5 A_SpawnItemEx("Robot_SpiderTank", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnSiegeDroid:
+//		TNT1 A 0 A_Log ("Siege Droid spawned")
+		TNT1 A 5 A_SpawnItemEx("Robot_SiegeDroid", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+		
+	BossDead:
+		TNT1 A 250
+		TNT1 A 1 A_BossDeath
+		Goto KillSpawner
+	}
+}
+
+ACTOR Robot_SpiderMastermindSpawner : Robot_VariantSpawner replaces SpiderMastermind
+{
+	+BOSS
+	States
+	{
+	// Here we'll first check for conditions, such as nearby spawners or map numbers.
+	Spawn:
+		TNT1 A 0
+		// A menu option to disable the new spawning features entirely for whatever reason.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_OriginalCast"), "SpawnNormal")
+		// Changes subtype if it starts on certain map numbers
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 38, "SpawnLoaderBoss") // E3M8
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 48, "SpawnSpiderTank") // E4M8
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 128, "SpawnSpiderTank") // MAP 28
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 215, "SpawnSiegeDroid") // PLUT 15
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MapNumber") == 320, "SpawnSiegeDroid") // TNT 20
+		// Changes subtype if it starts near certain other robots
+		TNT1 A 0 A_JumpIf(CallACS("Robot_SpiderTankCheck") >= 3, 2) // Limit number of Spider Tanks per level
+		TNT1 A 0 A_CheckProximity("SpawnSpiderTank", "Robot_CyberdemonSpawner", 1024, 1, CPXF_ANCESTOR)
+		// No conditions were valid, so just spawn the normal robot type.
+		TNT1 A 0 A_Jump(256, "SpawnNormal")
+		Goto SpawnNormal
+		
+	SpawnNormal:
+		TNT1 A 5 A_SpawnItemEx("Robot_LoaderBot", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnLoaderBoss:
+		TNT1 A 5 A_SpawnItemEx("Robot_LoaderBotBoss", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnSpiderTank:
+		TNT1 A 5 A_SpawnItemEx("Robot_SpiderTank", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+	SpawnSiegeDroid:
+		TNT1 A 5 A_SpawnItemEx("Robot_SiegeDroid", 0,0,0,0,0,0,0, SpawnFlags, 0, tid)
+		Goto BossWait
+		
+	BossDead:
+		TNT1 A 250
+		TNT1 A 1 A_BossDeath
+		Goto KillSpawner
+	}
+}
+

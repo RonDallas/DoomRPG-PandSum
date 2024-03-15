@@ -12,6 +12,8 @@ ACTOR CommonFatsoRPG : CommonFatso Replaces CommonFatso
 {
 	Tag "Mancubus"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -27,6 +29,8 @@ ACTOR CommonFatsoRPG : CommonFatso Replaces CommonFatso
 ACTOR GreenFatsoRPG : GreenFatso Replaces GreenFatso
 {
 	Tag "Uncommon Mancubus"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -44,6 +48,8 @@ ACTOR CyanFatso2RPG : CyanFatso2 Replaces CyanFatso2
 {
 	Tag "Icy Mancubus"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -59,6 +65,8 @@ ACTOR CyanFatso2RPG : CyanFatso2 Replaces CyanFatso2
 ACTOR BlueFatsoRPG : BlueFatso Replaces BlueFatso
 {
 	Tag "Rare Mancubus"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -76,6 +84,8 @@ ACTOR PurpleFatsoRPG : PurpleFatso Replaces PurpleFatso
 {
 	Tag "Epic Mancubus"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -92,6 +102,8 @@ ACTOR GrayFatso2RPG : GrayFatso2 Replaces GrayFatso2
 {
 	Tag "Ancient Mancubus"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -103,10 +115,30 @@ ACTOR GrayFatso2RPG : GrayFatso2 Replaces GrayFatso2
 	}
 }
 
+// Brown Mancubus
+ACTOR BrownFatso2RPG : BrownFatso2 Replaces BrownFatso2
+{
+	Tag "Monstrous Mancubus"
+
+    DropItem "DRPGEmpty"
+
+	States
+	{
+	Spawn:
+		FFAT A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		FFAT A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
 // Fireblu Mancubus
 ACTOR FireBluFatso2RPG : FireBluFatso2 Replaces FireBluFatso2
 {
 	Tag "Enchanted Beast"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -124,6 +156,8 @@ ACTOR AbyssFatso2RPG : AbyssFatso2 Replaces AbyssFatso2
 {
 	Tag "Abyssal Mancubus"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -139,6 +173,8 @@ ACTOR AbyssFatso2RPG : AbyssFatso2 Replaces AbyssFatso2
 ACTOR YellowFatsoRPG : YellowFatso Replaces YellowFatso
 {
 	Tag "Legendary Mancubus"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -156,6 +192,8 @@ ACTOR RedFatsoRPG : RedFatso Replaces RedFatso
 {
 	Tag "Horned Beast"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -171,6 +209,8 @@ ACTOR RedFatsoRPG : RedFatso Replaces RedFatso
 ACTOR BlackFatso2RPG : BlackFatso2 Replaces BlackFatso2
 {
 	Tag "Dark Beast"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -188,6 +228,8 @@ ACTOR BlackFatsoEXRPG : BlackFatsoEX Replaces BlackFatsoEX
 {
 	Tag "Dank Beast"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -203,6 +245,8 @@ ACTOR BlackFatsoEXRPG : BlackFatsoEX Replaces BlackFatsoEX
 ACTOR WhiteFatso2RPG : WhiteFatso2 Replaces WhiteFatso2
 {
 	Tag "Angry Mama"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{

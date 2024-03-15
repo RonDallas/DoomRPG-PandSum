@@ -1,8 +1,283 @@
 // Outpost Decorations
 // --------------------------------------------------
 
+actor DRPGLootDropper : RandomSpawner 11190 //Loot Spawner on Missions BBQ
+{
+    DropItem "DRPGLootMedicalSupplies"                255 10
+    DropItem "DRPGLootChemicals"                    255 10
+    DropItem "DRPGLootHazardousMaterials"                 255 10
+    DropItem "DRPGLootAnomalousMaterials"               255 5
+    DropItem "DRPGLootBriefcase"                255 5
+    DropItem "DRPGLootComputerData"                  255 10
+    DropItem "DRPGLootGunParts"                255 1
+    DropItem "DRPGLootAmmoCasings"                   255 1
+    DropItem "DRPGLootFuelCapsule"               255 1
+    DropItem "DRPGLootScrapMetals"                255 1
+    DropItem "DRPGLootScrapElectronics"                  255 1
+    DropItem "DRPGLootExperimentalParts"                  255 1
+    DropItem "DRPGLootDemonArtifact"                  255 5
+}
+
+ACTOR SerpentDecorationDRPG 11196
+{
+    Health 999
+    Speed 20
+    Radius 70
+    Height 30
+    Scale 4
+    RenderStyle "Shaded"
+    StencilColor "#CD5C5C"
+    -SHOOTABLE
+    +NOBLOOD
+    +CANTLEAVEFLOORPIC
+    +NONSHOOTABLE
+    +STAYMORPHED
+    +DONTBLAST
+    +NOTELEOTHER
+    States
+    {
+    Spawn:
+        SSDV JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ 0 A_Wander
+        TNT1 A random(5, 120)
+        Goto Hump
+    Hump:
+        TNT1 A 0 A_SpawnItem("SerpentDecVisualVersion")
+        TNT1 A 45
+        Goto Spawn
+    Death:
+        Goto Hump
+    }
+}
+
+Actor SerpentDecVisualVersion
+{
+    Radius 0
+    Height 0
+    Scale 3
+    RenderStyle "Shaded"
+    StencilColor "#CD5C5C"
+    +NoInteraction
+    +DontThrust
+    States
+    {
+    Spawn:
+        SSPT H 3
+        SSPT EFGEF 3
+        SSPT GEF 3
+        SSPT GEFGE 3 ThrustThingZ(0, 20, 1, 0)
+        SSPT F 3
+        Stop
+    }
+}
+
+Actor DRPGSolarSFX 11197
+{
+ +NoGravity
+ +NoBlockmap
+ +NoInteraction
+ -Solid
+ Speed 5
+ Radius 10
+ Height 10
+ States
+ {
+  Spawn:
+   ABSM ABCDE 4 Bright
+   Loop
+ }
+}
+
+
+
+//---Praticle Effects (pad praticle code based on Tormentor667 Stronghold_Pad praticles )
+Actor DRPGBaseLineMed //Medic
+{
+ +Missile
+ +NoGravity
+ +NoBlockmap
+ +NoInteraction
+ -Solid
+ Radius 0
+ Height 0
+ RenderStyle Add
+ Alpha 0.01
+ Scale 0.20
+ States
+ {
+  Spawn:
+   HEAS AAAAA 1 Bright A_FadeIn(0.2)
+   HEAS AAAAAAAAAAAAAAAA 1 Bright A_FadeOut(0.06)
+   Stop
+ }
+}
+
+actor MedPraticle 11191
+{
+//$Category Outpost_SFX
+	+NoBlockMap +NoGravity +NoSector +NoInteraction +NoClip -Solid +CLIENTSIDEONLY
+        states
+        {
+        Spawn:
+           Active:
+        	TNT1 A 0
+        	TNT1 A 0 A_JumpIf(Args[1], "Circle")
+        	TNT1 A 1 A_SpawnItemEx ("DRPGBaseLineMed", random(-Args[0], Args[0]), random(-Args[0], Args[0]), random(0,2*Args[1]), 0, 0, random(1,3), 0, 129, Args[2]) 
+        	Loop
+           Circle:
+        	TNT1 A 0
+        	TNT1 A 1 A_SpawnItemEx ("DRPGBaseLineMed", random(-Args[0], Args[0]), 0, random(0,2*Args[1]), 0, 0, random(1,3), Random(0, 360), 129, Args[2]) 
+        	Loop
+           Inactive:
+		TNT1 A 1
+		Loop
+        }     
+        
+}
+
+actor MedPraticleRed : MedPraticle 11192
+{
+//$Category Outpost_SFX
+	translation "80:111=176:191"
+}
+
+//----------------------------------------------
+Actor DRPGBaseLineArmor //Armor
+{
+ +Missile
+ +NoGravity
+ +NoBlockmap
+ +NoInteraction
+ -Solid
+ Radius 0
+ Height 0
+ RenderStyle Add
+ Alpha 0.04
+ Scale 0.20
+ States
+ {
+  Spawn:
+   HEAR AAAAA 1 Bright A_FadeIn(0.2)
+   HEAR AAAAAAAAAAAAAAAA 1 Bright A_FadeOut(0.06)
+   Stop
+ }
+}
+
+actor ArmorPraticle 11193
+{
+//$Category Outpost_SFX
+	+NoBlockMap +NoGravity +NoSector +NoInteraction +NoClip -Solid +CLIENTSIDEONLY
+        states
+        {
+        Spawn:
+           Active:
+        	TNT1 A 0
+        	TNT1 A 0 A_JumpIf(Args[1], "Circle")
+        	TNT1 A 1 A_SpawnItemEx ("DRPGBaseLineArmor", random(-Args[0], Args[0]), random(-Args[0], Args[0]), random(0,2*Args[1]), 0, 0, random(1,3), 0, 129, Args[2]) 
+        	Loop
+           Circle:
+        	TNT1 A 0
+        	TNT1 A 1 A_SpawnItemEx ("DRPGBaseLineArmor", random(-Args[0], Args[0]), 0, random(0,2*Args[1]), 0, 0, random(1,3), Random(0, 360), 129, Args[2]) 
+        	Loop
+           Inactive:
+		TNT1 A 1
+		Loop
+        }     
+        
+}
+
+
+Actor DRPGBaseLineAUG //AUG battery
+{
+ +Missile
+ +NoGravity
+ +NoBlockmap
+ +NoInteraction
+ -Solid
+ Radius 0
+ Height 0
+ RenderStyle Add
+ Alpha 0.04
+ Scale 0.20
+ States
+ {
+  Spawn:
+   HEAB AAAAA 1 Bright A_FadeIn(0.2)
+   HEAB AAAAAAAAAAAAAAAA 1 Bright A_FadeOut(0.06)
+   Stop
+ }
+}
+
+actor AUGPraticle 11194
+{
+//$Category Outpost_SFX
+	+NoBlockMap +NoGravity +NoSector +NoInteraction +NoClip -Solid +CLIENTSIDEONLY
+        states
+        {
+        Spawn:
+           Active:
+        	TNT1 A 0
+        	TNT1 A 0 A_JumpIf(Args[1], "Circle")
+        	TNT1 A 1 A_SpawnItemEx ("DRPGBaseLineAUG", random(-Args[0], Args[0]), random(-Args[0], Args[0]), random(0,2*Args[1]), 0, 0, random(1,3), 0, 129, Args[2]) 
+        	Loop
+           Circle:
+        	TNT1 A 0
+        	TNT1 A 1 A_SpawnItemEx ("DRPGBaseLineAUG", random(-Args[0], Args[0]), 0, random(0,2*Args[1]), 0, 0, random(1,3), Random(0, 360), 129, Args[2]) 
+        	Loop
+           Inactive:
+		TNT1 A 1
+		Loop
+        }     
+        
+}
+
+Actor DRPGBaseLineEP //EP
+{
+ +Missile
+ +NoGravity
+ +NoBlockmap
+ +NoInteraction
+ -Solid
+ Radius 0
+ Height 0
+ RenderStyle Add
+ Alpha 0.01
+ Scale 0.20
+ States
+ {
+  Spawn:
+   HEAM AAAAA 1 Bright A_FadeIn(0.2)
+   HEAM AAAAAAAAAAAAAAAA 1 Bright A_FadeOut(0.06)
+   Stop
+ }
+}
+
+actor EPPraticle 11195
+{
+//$Category Outpost_SFX
+	+NoBlockMap +NoGravity +NoSector +NoInteraction +NoClip -Solid +CLIENTSIDEONLY
+        states
+        {
+        Spawn:
+           Active:
+        	TNT1 A 0
+        	TNT1 A 0 A_JumpIf(Args[1], "Circle")
+        	TNT1 A 1 A_SpawnItemEx ("DRPGBaseLineEP", random(-Args[0], Args[0]), random(-Args[0], Args[0]), random(0,2*Args[1]), 0, 0, random(1,3), 0, 129, Args[2]) 
+        	Loop
+           Circle:
+        	TNT1 A 0
+        	TNT1 A 1 A_SpawnItemEx ("DRPGBaseLineEP", random(-Args[0], Args[0]), 0, random(0,2*Args[1]), 0, 0, random(1,3), Random(0, 360), 129, Args[2]) 
+        	Loop
+           Inactive:
+		TNT1 A 1
+		Loop
+        }     
+        
+}
+
+/*
+//--------------------------------------------------------
 // Signs
-actor OutpostSignMissionBBS 11018
+actor OutpostSignMissionBBS //11018
 {
     +SpawnCeiling
     +NoGravity
@@ -16,7 +291,7 @@ Spawn:
     }
 }
 
-actor OutpostSignShop 11019
+actor OutpostSignShop //11019
 {
     +SpawnCeiling
     +NoGravity
@@ -32,7 +307,7 @@ Spawn:
     }
 }
 
-actor OutpostSignTransporter 11017
+actor OutpostSignTransporter //11017
 {
     +SpawnCeiling
     +NoGravity
@@ -48,7 +323,7 @@ Spawn:
     }
 }
 
-actor OutpostSignSkillComputer 11020
+actor OutpostSignSkillComputer //11020
 {
     +SpawnCeiling
     +NoGravity
@@ -62,7 +337,7 @@ Spawn:
     }
 }
 
-actor OutpostSignRechargePads 11021
+actor OutpostSignRechargePads //11021
 {
     +SpawnCeiling
     +NoGravity
@@ -76,7 +351,7 @@ Spawn:
     }
 }
 
-actor OutpostSignEastArea 11022
+actor OutpostSignEastArea //11022
 {
     +SpawnCeiling
     +NoGravity
@@ -90,7 +365,7 @@ Spawn:
     }
 }
 
-actor OutpostSignItemRoulette 11023
+actor OutpostSignItemRoulette //11023
 {
     +SpawnCeiling
     +NoGravity
@@ -104,7 +379,7 @@ Spawn:
     }
 }
 
-actor OutpostSignArena 11024
+actor OutpostSignArena //11024
 {
     +SpawnCeiling
     +NoGravity
@@ -118,7 +393,7 @@ Spawn:
     }
 }
 
-actor OutpostSignArenaFar 11025
+actor OutpostSignArenaFar //11025
 {
     +SpawnCeiling
     +NoGravity
@@ -132,7 +407,7 @@ Spawn:
     }
 }
 
-actor OutpostSignArenaWS 11026
+actor OutpostSignArenaWS //11026
 {
     Scale 0.5
 
@@ -148,7 +423,7 @@ Spawn:
     }
 }
 
-actor OutpostSignArenaStart 11027
+actor OutpostSignArenaStart //11027
 {
     +SpawnCeiling
     +NoGravity
@@ -162,7 +437,7 @@ Spawn:
     }
 }
 
-actor OutpostSignArenaReady 11028
+actor OutpostSignArenaReady //11028
 {
     Scale 0.5
 
@@ -178,7 +453,7 @@ Spawn:
     }
 }
 
-actor OutpostSignShootingRange 11029
+actor OutpostSignShootingRange //11029
 {
     Scale 0.5
 
@@ -193,6 +468,55 @@ Spawn:
         Stop
     }
 }
+
+actor OutpostSignSale //11030
+{
+    Scale 0.5
+
+    +SpawnCeiling
+    +NoGravity
+    +WALLSPRITE
+
+    States
+    {
+Spawn:
+        OMRK N -1 Light("OUTPOSTSIGN")
+        Stop
+    }
+}
+
+actor OutpostSignSurgeonCapsule //11031
+{
+    Scale 0.5
+
+    +SpawnCeiling
+    +NoGravity
+    +WALLSPRITE
+
+    States
+    {
+Spawn:
+        OMRK O -1 Light("OUTPOSTSIGN")
+        Stop
+    }
+}
+
+actor OutpostSignDisassemblingDevice //11032
+{
+    Scale 0.5
+
+    +SpawnCeiling
+    +NoGravity
+    +WALLSPRITE
+
+    States
+    {
+Spawn:
+        OMRK P -1 Light("OUTPOSTSIGN")
+        Stop
+    }
+}
+*/
 
 // Stuff
 actor OutpostAdminLamp 12100
@@ -621,6 +945,17 @@ OutpostMarker 12010
     {
 Spawn:
         OMRK K -1
+        Stop
+    }
+}
+
+Actor OutpostMarker_Sale :
+OutpostMarker 12011
+{
+    States
+    {
+Spawn:
+        OMRK N -1
         Stop
     }
 }

@@ -1,3 +1,7 @@
+// --------------------------------------------------
+// GENERAL
+//
+
 addkeysection "Doom RPG" DoomRPGKeySection
 
 // Menu
@@ -73,3 +77,43 @@ alias drpg_useskill_8 "pukename UseSkill 8"
 // Reactivate Disabled Augs
 addmenukey "Reactivate disabled augs" drpg_augs_reactivate
 alias drpg_augs_reactivate "pukename ReactivateDisabledAugs"
+
+// --------------------------------------------------
+// GAMEPAD CONTROL HELPER (GCH) SECTION
+//
+
+// Add section
+addkeysection "Gamepad Control Helper" Gamepad_Control_Helper_Options
+
+// Open Gamepad Control Helper (GCH)
+addmenukey "Open Gamepad Control Helper" Gamepad_Control_Helper_Open
+alias Gamepad_Control_Helper_Open "openmenu Gamepad_Control_Helper"
+
+// Toggle Freelook
+addmenukey "Toggle Freelook" freelook_on_gch
+alias freelook_on_gch "test $freelook centerview; rc_enabled false; netevent AimAssistUpdateCVARs; rebind freelook_off_gch"
+alias freelook_off_gch "test $freelook centerview; rc_enabled true; netevent AimAssistUpdateCVARs; rebind freelook_on_gch"
+
+// Toggle Map
+addmenukey "Toggle Map" toggle_map_gch
+alias toggle_map_gch "togglemap; am_followplayer true"
+
+// Open DoomRL Arsenal PDA/LegenDoom Weapon Menu (GCH)
+addmenukey "Open/Close DoomRLA PDA/LegenDoom Weapon Menu" drla_pda_open_gch
+
+// DoomRPG Commands in GCH
+alias drpg_quickheal_gch "closemenu; drpg_quickheal"
+alias drpg_focusmode_gch "closemenu; drpg_focusmode"
+alias drpg_shield_gch "closemenu; drpg_shield"
+alias drpg_usestim_gch "closemenu; drpg_usestim"
+alias drpg_throwawaystim_gch "closemenu; drpg_throwawaystim"
+
+// DoomRPG Quick Use Skill
+alias drpg_recall_gch "closemenu; give DRPG_use_gch_token; pukename Recall"
+alias drpg_transport_gch "closemenu; pukename Transport"
+
+// Music Box Commands
+alias nextsong_gch "closemenu; nextsong"
+alias origsong_gch "closemenu; origsong"
+alias autonexton_gch "closemenu; autonexton"
+alias autonextoff_gch "closemenu; autonextoff"

@@ -1,10 +1,11 @@
-actor DRPGStimSmall : Inventory 20100
+
+actor DRPGStimSmall : Inventory
 {
     Scale 0.25
     
     Inventory.DefMaxAmount
     Inventory.InterHubAmount 1000
-    Inventory.PickupMessage "Got a Small Stim!"
+    Inventory.PickupMessage "You picked up a small stim."
     Inventory.PickupSound "items/stim"
     Inventory.UseSound "items/stim"
     
@@ -17,38 +18,38 @@ actor DRPGStimSmall : Inventory 20100
     }
 }
 
-actor DRPGStimMedium : DRPGStimSmall 20101
+actor DRPGStimMedium : DRPGStimSmall
 {
     Scale 0.325
 
-    Inventory.PickupMessage "Got a Medium Stim!"
+    Inventory.PickupMessage "You picked up a medium stim."
 }
 
-actor DRPGStimLarge : DRPGStimSmall 20102
+actor DRPGStimLarge : DRPGStimSmall
 {
     Scale 0.4
     
-    Inventory.PickupMessage "Got a Large Stim!"
+    Inventory.PickupMessage "You picked up a large stim."
 }
 
-actor DRPGStimXL : DRPGStimSmall 20103
+actor DRPGStimXL : DRPGStimSmall
 {
     Scale 0.5
     
-    Inventory.PickupMessage "Got an Extra-Large Stim!"
+    Inventory.PickupMessage "You picked up an extra large stim."
 }
 
-actor DRPGStimDetox : CustomInventory 20104
+actor DRPGStimDetox : CustomInventory
 {
     Scale 0.5
     
-    Tag "Detox Hypospray - Removes all Toxicity, Status Effects and Energy Burnout"
+    Tag "Detox hypospray (removes all toxicity, status effects, and energy burnout)"
     
     +INVBAR
-    
+
     Inventory.DefMaxAmount
     Inventory.InterHubAmount 1000
-    Inventory.PickupMessage "Got a \cdDetox\c- Hypospray!"
+    Inventory.PickupMessage "You picked up a detox hypospray."
     Inventory.PickupSound "items/stim"
     Inventory.UseSound "items/stim"
     Inventory.Icon "STIMC"
@@ -58,6 +59,9 @@ actor DRPGStimDetox : CustomInventory 20104
     Spawn:
         TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
         STIM C -1 Bright
+        Stop
+    Pickup:
+        TNT1 A 0 ACS_NamedExecuteWithResult("CheckCapacity")
         Stop
     Use:
         TNT1 A 0 ACS_NamedExecuteAlways("TossStim", 0)
@@ -164,11 +168,11 @@ actor DRPGStimXLTossed : DRPGStimXL
 }
 
 // Vials
-actor DRPGVialStrength : CustomInventory 20110
+actor DRPGVialStrength : CustomInventory
 {
     Scale 0.5
     
-    Inventory.PickupMessage "Got a \cgStrength\c- Vial."
+    Inventory.PickupMessage "You picked up a \cgstrength\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -183,11 +187,11 @@ actor DRPGVialStrength : CustomInventory 20110
     }
 }
 
-actor DRPGVialDefense : CustomInventory 20111
+actor DRPGVialDefense : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \cdDefense\c- Vial."
+    Inventory.PickupMessage "You picked up a \cddefense\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -202,11 +206,11 @@ actor DRPGVialDefense : CustomInventory 20111
     }
 }
 
-actor DRPGVialVitality : CustomInventory 20112
+actor DRPGVialVitality : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \caVitality\c- Vial."
+    Inventory.PickupMessage "You picked up a \cavitality\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -221,11 +225,11 @@ actor DRPGVialVitality : CustomInventory 20112
     }
 }
 
-actor DRPGVialEnergy : CustomInventory 20113
+actor DRPGVialEnergy : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got an \cnEnergy\c- Vial."
+    Inventory.PickupMessage "You picked up an \cnenergy\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -240,11 +244,11 @@ actor DRPGVialEnergy : CustomInventory 20113
     }
 }
 
-actor DRPGVialRegeneration : CustomInventory 20114
+actor DRPGVialRegeneration : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \ctRegeneration\c- Vial."
+    Inventory.PickupMessage "You picked up a \ctregeneration\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -259,11 +263,11 @@ actor DRPGVialRegeneration : CustomInventory 20114
     }
 }
 
-actor DRPGVialAgility : CustomInventory 20115
+actor DRPGVialAgility : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got an \ciAgility\c- Vial."
+    Inventory.PickupMessage "You picked up an \ciagility\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -278,11 +282,11 @@ actor DRPGVialAgility : CustomInventory 20115
     }
 }
 
-actor DRPGVialCapacity : CustomInventory 20116
+actor DRPGVialCapacity : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \chCapacity\c- Vial."
+    Inventory.PickupMessage "You picked up a \chcapacity\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -297,11 +301,11 @@ actor DRPGVialCapacity : CustomInventory 20116
     }
 }
 
-actor DRPGVialLuck : CustomInventory 20117
+actor DRPGVialLuck : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \cfLuck\c- Vial."
+    Inventory.PickupMessage "You picked up a \cfluck\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -316,11 +320,11 @@ actor DRPGVialLuck : CustomInventory 20117
     }
 }
 
-actor DRPGVialPurifier : CustomInventory 20118
+actor DRPGVialPurifier : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \ccPurifier\c- Vial."
+    Inventory.PickupMessage "You picked up a \ccpurifier\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -335,11 +339,11 @@ actor DRPGVialPurifier : CustomInventory 20118
     }
 }
 
-actor DRPGVialPotency : CustomInventory 20119
+actor DRPGVialPotency : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \cjPotency\c- Vial."
+    Inventory.PickupMessage "You picked up a \cjpotency\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -354,11 +358,11 @@ actor DRPGVialPotency : CustomInventory 20119
     }
 }
 
-actor DRPGVialIndestructible : CustomInventory 20120
+actor DRPGVialIndestructible : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got an \cqIndestructible\c- Vial."
+    Inventory.PickupMessage "You picked up an \cqindestructibility\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -373,11 +377,11 @@ actor DRPGVialIndestructible : CustomInventory 20120
     }
 }
 
-actor DRPGVialShadow : CustomInventory 20121
+actor DRPGVialShadow : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \crShadow\c- Vial."
+    Inventory.PickupMessage "You picked up a \crshadow\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -392,11 +396,11 @@ actor DRPGVialShadow : CustomInventory 20121
     }
 }
 
-actor DRPGVialInfinity : CustomInventory 20122
+actor DRPGVialInfinity : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got an \ckInfinity\c- Vial."
+    Inventory.PickupMessage "You picked up an \ckinfinity\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -411,11 +415,11 @@ actor DRPGVialInfinity : CustomInventory 20122
     }
 }
 
-actor DRPGVialChrono : CustomInventory 20123
+actor DRPGVialChrono : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \cdChrono\c- Vial."
+    Inventory.PickupMessage "You picked up a \cdchrono\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -430,11 +434,11 @@ actor DRPGVialChrono : CustomInventory 20123
     }
 }
 
-actor DRPGVialAdrenaline : CustomInventory 20124
+actor DRPGVialAdrenaline : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got an \ctAdrenaline\c- Vial."
+    Inventory.PickupMessage "You picked up an \ctadrenaline\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -449,11 +453,11 @@ actor DRPGVialAdrenaline : CustomInventory 20124
     }
 }
 
-actor DRPGVialGravity : CustomInventory 20125
+actor DRPGVialGravity : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \ciGravity\c- Vial."
+    Inventory.PickupMessage "You picked up a \cigravity\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -468,11 +472,11 @@ actor DRPGVialGravity : CustomInventory 20125
     }
 }
 
-actor DRPGVialVampire : CustomInventory 20126
+actor DRPGVialVampire : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \caVampire\c- Vial."
+    Inventory.PickupMessage "You picked up a \cavampire\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -487,11 +491,11 @@ actor DRPGVialVampire : CustomInventory 20126
     }
 }
 
-actor DRPGVialRage : CustomInventory 20127
+actor DRPGVialRage : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \cmRage\c- Vial."
+    Inventory.PickupMessage "You picked up a \cmrage\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -506,11 +510,11 @@ actor DRPGVialRage : CustomInventory 20127
     }
 }
 
-actor DRPGVialMagnetic : CustomInventory 20128
+actor DRPGVialMagnetic : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a \ccMagnetic\c- Vial."
+    Inventory.PickupMessage "You picked up a \ccmagnetic\c- vial."
     Inventory.PickupSound "items/vial"
     
     States
@@ -526,11 +530,11 @@ actor DRPGVialMagnetic : CustomInventory 20128
 }
 
 // Stim Packages
-actor DRPGStimPackageStat : CustomInventory 20130
+actor DRPGStimPackageStat : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a Stat Stim Package."
+    Inventory.PickupMessage "You picked up a stat stim package."
     Inventory.PickupSound "items/vial"
     
     States
@@ -554,11 +558,11 @@ actor DRPGStimPackageStat : CustomInventory 20130
     }
 }
 
-actor DRPGStimPackagePowerup : CustomInventory 20131
+actor DRPGStimPackagePowerup : CustomInventory
 {
     Scale 0.5
 
-    Inventory.PickupMessage "Got a Powerup Stim Package."
+    Inventory.PickupMessage "You picked up a power up stim package."
     Inventory.PickupSound "items/vial"
     
     States

@@ -1,0 +1,5 @@
+// Doom RLA Monsters Options
+server    int     DRLA_weapondroptype = 0;
+
+// Load Character
+user    bool    drpg_char_load_rl_dangerlevel = true;

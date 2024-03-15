@@ -4,9 +4,9 @@
 General
 ===
 - Re-check all default settings, see how they feel, etc
-- Powerup icon animations on the HUD that use ANIMDEFS are no longer working for some reason
-- Add combo stuff to rank payout level section
-- Clean up the crate hacking interface a bit (use IDs, prevent overlaps, etc)
+- Powerup icon animations on the HUD that use ANIMDEFS are no longer working for some reason//[alien] is this considered done
+- Add combo stuff to rank payout level section//[alien] is this considered done
+- Clean up the crate hacking interface a bit (use IDs, prevent overlaps, etc)//[alien] is this considered done
 - Rework the way auras drop items; in particular, use the Inventory Transfer flag to make enemies drop backpacks
 - Add more CVARs to customize the loot generator (how it calculates max items in particular, player level, player luck, map number, combinations, etc)
 - Add a ticker/notice display for different events (shop special item changes, rolling events, reinforcement spawns, etc)
@@ -19,13 +19,13 @@ DRLA
 - Double-check that all DRLA assembly tokens are actually saved with the charsave system
 - Investigate the Death's Gazes artifact stunning power pissing off marines and other Outpost appliances when it's already got a check not to
 - Add immunity to megabosses from the Death's Gaze death stunlock
-- Add a DRLA only corrupted player event, fuck you die
+- Add a DRLA only corrupted player event, fuck you die // [alien] is this the thing where you steall from the base
 - Add Utility skills similar to DRLA's skulls
   - Ditto for recall phase device (mark/recall system)
 
 Events
 ===
-- Sinstorm's demon spawn cubes spawn monsters inside of walls and each other, which frankly looks silly as hell
+- Sinstorm's demon spawn cubes spawn monsters inside of walls and each other, which frankly looks silly as hell// [alien] spawning inside of each other is a default since monsters only telefrag on map 30
 - Event object spawning (Power column, Radiation Neutralizer) needs to be randomized so that it doesn't consistently spawn in awkward places
 
 Brightmaps
@@ -54,28 +54,38 @@ Bugs
 
 New Augmentation System
 ===
-- Remove shield accessories, they will simply become a 4th part to shield building
-- Completely rewrite the Augmentation system to support categories, multiple enabled effects, and easier to handle/read battery usage
-- Remove the current HUD widget and move its info up into the Credits/Module/Medkit widget, since they will play a much more active part in-game, the battery should be visible at all times with effects active
-- Revamp and recategorize all the accessory effects into their own categories (Yholl offered to do this)
-- Make the effects more generic and not just tailored to shields (Yholl offered to do this)
 - Upgrading effects will have different benefits depending on the effect type
   - Static effects offer a few levels and change fairly drastically between upgrades
   - Scaled effects have a max level of 100 and scale their bonus slowly
   - Optimized effects have 10? levels which decrease the battery usage, but don't modify the effect at all
 - Slot upgrades can only be used on a single category, which will increase the maximum effects you can have active in the specified category by 1
-- The initial unlock of an augmentation will require a normal canister, further upgrades to it will require an upgrade canister
 - Some effects will only discharge battery when used or triggered, while others discharge passively while active
 
 New Shield System
 ===
-To be rewritten into a more randomized parts system which is easier to handle and maintain, details later
+To be rewritten into a more randomized parts system which is easier to handle and maintain, details later//[alien] is this considered done
 
 Sprinting/Dodging System
 ===
-- This can utilize DRLA's existing stamina system, don't really see any point in having such a system in vanilla where the enemies are much less varied and agile
+- This can utilize DRLA's existing stamina system, don't really see any point in having such a system in vanilla where the enemies are much less varied and agile// [alien] the stamina bar does not display properly which is problematic for using berserk
 
 Rewrites/Reorganization
 ===
 - GUI System, Finish the GUI library and move all menu and related things to using it
-- Arena System to support separate arena maps and their own self-contained scripting
+- Arena System to support separate arena maps and their own self-contained scripting// [alien] is this considered done
+
+Lexicon and Compendium
+===
+- integrate all meaningful dehacked enemies into doomrpg's stat system
+  - going down is missing its dehacked stuff
+  - further refinement of sunder hive mother and other elements
+- add missing maps to:
+  - back to saturn x ep1
+  - sunder
+  - the original 1994 maps that where turned up from the 1994 tu
+- better support for non lexicon, compendium, or wadsmosh wads
+- wads that need support even if the above can not be found
+  - doom 404
+  - back to saturn x ep2
+  - tnt: revolution
+  - plutonia  2

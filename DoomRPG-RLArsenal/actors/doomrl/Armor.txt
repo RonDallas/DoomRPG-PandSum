@@ -10,7 +10,7 @@ actor RLFrontlineEngineerSentryMarineRPG : RLFrontlineEngineerSentryMarine repla
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS | MF_NOSTATS)
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
         Goto Super::Spawn
     }
 }
@@ -21,7 +21,7 @@ actor RLFrontlineEngineerSentryScoutRPG : RLFrontlineEngineerSentryScout replace
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS | MF_NOSTATS)
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
         Goto Super::Spawn
     }
 }
@@ -32,7 +32,7 @@ actor RLFrontlineEngineerSentryRenegadeRPG : RLFrontlineEngineerSentryRenegade r
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS | MF_NOSTATS)
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
         Goto Super::Spawn
     }
 }
@@ -43,7 +43,18 @@ actor RLFrontlineEngineerSentryTechnicianRPG : RLFrontlineEngineerSentryTechnici
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS | MF_NOSTATS)
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
+        Goto Super::Spawn
+    }
+}
+
+actor RLFrontlineEngineerSentryDemolitionistRPG : RLFrontlineEngineerSentryDemolitionist replaces RLFrontlineEngineerSentryDemolitionist
+{
+    Tag "Frontline Engineer Sentry"
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
         Goto Super::Spawn
     }
 }
@@ -54,7 +65,7 @@ actor RLTacticalAssemblerRestorerRPG : RLTacticalAssemblerRestorer replaces RLTa
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS | MF_NOSTATS)
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
         Goto Super::Spawn
     }
 }
@@ -65,7 +76,7 @@ actor RLTacticalAssemblerRestorer2RPG : RLTacticalAssemblerRestorer2 replaces RL
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS | MF_NOSTATS)
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
         Goto Super::Spawn
     }
 }
@@ -76,7 +87,7 @@ actor RLTacticalAssemblerRestorerTechnicianRPG : RLTacticalAssemblerRestorerTech
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS | MF_NOSTATS)
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
         Goto Super::Spawn
     }
 }
@@ -87,7 +98,31 @@ actor RLTacticalAssemblerRestorer2TechnicianRPG : RLTacticalAssemblerRestorer2Te
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS | MF_NOSTATS)
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
         Goto Super::Spawn
     }
+}
+
+actor RLArmorBonusPickupRPG : RLArmorBonusPickup replaces RLArmorBonusPickup
+{
+	Inventory.PickupMessage "You picked up an armor shard."
+
+	States
+	{
+	100ArmorRepair:
+		TNT1 A 0 A_JumpIfInventory("BasicArmor",100,"NotPickup")
+		TNT1 A 0 A_GiveInventory("RLArmorBonus100RPG",1)
+		TNT1 A 0 A_JumpIfInventory("BasicArmor",100,2)
+		TNT1 A 0 A_Print("Your armor looks better.", 5)
+		Stop
+		TNT1 A 0 A_Print("Your armor looks good as new!", 5)
+		Stop
+	}
+}
+
+actor RLArmorBonusPickupRPG2 : RLArmorBonusPickupRPG replaces DRPGArmorBonus {}
+
+actor RLArmorBonus100RPG : RLArmorBonus100 replaces RLArmorBonus100
+{
+  Armor.SaveAmount 15
 }

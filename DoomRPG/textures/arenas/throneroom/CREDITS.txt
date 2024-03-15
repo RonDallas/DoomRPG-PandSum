@@ -1,0 +1,86 @@
+Most of these can be found on https://www.realm667.com
+(under Texture Stock) and most remaining are from WADs
+that came from the /idgames/ archives.
+
+~Armaetus
+
+Texture sources used by these texture sets & WADs:
+
+Doom
+Doom 2
+Evilution
+Plutonia
+Plutonia 2
+Memento Mori 2
+GOTHICTX.WAD
+Dr. Doctor's Textures
+Sunder
+Doom Potpourri
+NB_RECOL.WAD
+NB5TEXD2.WAD
+Eternal Doom
+Beta Labs
+MORTRES.WAD
+Cage's Textures, Vol. 1 & 2
+Dusk's Texture Pack
+Doom Alpha Textures
+Gray Textures
+Psy's Textures
+5 Rooms of Doom
+Sunlust
+3 Heures D'Agonie
+3 Heures D'agonie II
+Combat Shock
+Zoon Tex
+Doom 64
+Quake
+New Gothic Movement
+Slaughterfest 3
+Scythe 2
+Aqua Textures
+Back to Saturn X
+Daiyu_Sewerage_185.wad
+bm2surv.wad
+Valiant
+Epic 2
+Whitemare
+Flats 2 Textures / Textures 2 Flats
+Unholy Realms
+Flashback to Hell
+Community Chest 4
+Deus Vult II
+jimmytex.wad
+DOOM (2016)
+Echelon
+Japanese Community Project
+Useful Doom Edits
+Ancient Aliens
+2002: A Doom Odyssey: 10 Year Edition
+StalungCraeft - https://www.doomworld.com/forum/topic/102599-stalungcraeft-texture-pack/
+Rav's Crazy Resources - https://forum.zdoom.org/viewtopic.php?f=37&t=47247
+Jimmytex
+Mayhem 1500
+Textures.com
+
+Doomworld user: antares031
+Doomworld user: bzzrak
+Doomworld user: Sgt Ender
+Doomworld user: Ed
+Doomworld user: FuzzballFox
+Doomworld user: Remmirath
+
+Obsidian contributor: MsrSgtShooterPerson
+Obsidian contributor: Craneo
+Obsidian contributor: Simon-v
+
+ZDoom forum user: OSJ Clatchford
+
+Textures-Paintings
+Francisco De Goya (Saturn Devouring His Son, Witches Sabbath, The Great He-Goat, 1798, 1819-1822)
+Hieronymus Bosch (Garden of the Earthly Delights, 1490-1510)
+Viktor Vasnetsov (Four Horsemen of the Apocalypse, 1887)
+Ambras Castle (Portrait of Vlad III,  c. 1560)
+Hans Memling ("Hell", c1485)
+Titian (The Flaying of Marsyas, c1570-75)
+Caravaggio (Medusa, 1596-98)
+Peter Paul Rubens (Death of Achilles, 1630-1632)

@@ -130,11 +130,13 @@ str const SkillLevelsDF[MAX_SKILLLEVELS_DF] =
 // Skill Level DRLA Names
 str const SkillLevelsDRLA[MAX_SKILLLEVELS_DRLA] =
 {
-    "\CdEasy",
-    "\CjModerate", // Normal
+    "\CdVery Easy",
+    "\CqEasy",
+    "\CjModerate",
+    "\CiStandard",
     "\CyAdaptive",
-    "\CgNightmare",
-    "\CaHell",
+    "\CaNightmare",
+    "\CnTechnophobia",
     "\CmArmageddon"
 };
 
@@ -188,9 +190,38 @@ NamedScript DECORATE int GetAmmoMax(int Type)
 NamedScript DECORATE void SoulEffect(int Type)
 {
     Player.Aura.Type[Type].Active = true;
-    Player.Aura.Type[Type].Level = Skills[2][Type].MaxLevel;
-    Player.Aura.Time += 30 * 35;
+
+    if (Player.SoulsCount < 5)
+        Player.Aura.Time += 35 * 30;
+    else if (Player.SoulsCount < 10)
+        Player.Aura.Time += 35 * 24;
+    else if (Player.SoulsCount < 30)
+        Player.Aura.Time += 35 * 18;
+    else if (Player.SoulsCount < 40)
+        Player.Aura.Time += 35 * 12;
+    else
+        Player.Aura.Time += 35 * 6;
+
+    // Aura Timer Cap
+    if (Player.Aura.Time > 35 * 60 * GetCVar("drpg_skill_auratimercap"))
+        Player.Aura.Time = 35 * 60 * GetCVar("drpg_skill_auratimercap");
+
     Player.SoulActive[Type] = true;
+}
+
+NamedScript DECORATE void SoulCalculate()
+{
+    Player.SoulWhiteCount = CheckInventory("DRPGSoulWhiteToken");
+    Player.SoulRedCount = CheckInventory("DRPGSoulRedToken") + Player.SoulWhiteCount;
+    Player.SoulGreenCount = CheckInventory("DRPGSoulGreenToken") + Player.SoulWhiteCount;
+    Player.SoulPinkCount = CheckInventory("DRPGSoulPinkToken") + Player.SoulWhiteCount;
+    Player.SoulBlueCount = CheckInventory("DRPGSoulBlueToken") + Player.SoulWhiteCount;
+    Player.SoulPurpleCount = CheckInventory("DRPGSoulPurpleToken") + Player.SoulWhiteCount;
+    Player.SoulOrangeCount = CheckInventory("DRPGSoulOrangeToken") + Player.SoulWhiteCount;
+    Player.SoulDarkBlueCount = CheckInventory("DRPGSoulDarkBlueToken") + Player.SoulWhiteCount;
+    Player.SoulYellowCount = CheckInventory("DRPGSoulYellowToken") + Player.SoulWhiteCount;
+
+    Player.SoulsCount = (Player.SoulRedCount + Player.SoulGreenCount + Player.SoulPinkCount + Player.SoulBlueCount + Player.SoulPurpleCount + Player.SoulOrangeCount + Player.SoulDarkBlueCount + Player.SoulYellowCount);
 }
 
 // Used by DECORATE and the Immunity Crystals plus Anti-Demon Field
@@ -233,10 +264,15 @@ NamedScript DECORATE int CheckAugBatteryMax()
 // Get the max inventory size
 NamedScript DECORATE int CheckInventoryMax()
 {
-    int MaxItems = Player.CapacityTotal * 2;
+    int MaxItems;
 
-    if (MaxItems > 200)
-        MaxItems = 200;
+    if (GetCVar("drpg_levelup_natural"))
+        MaxItems = 5 + Player.CapacityTotal / 8;
+    else
+        MaxItems = 4 + Player.CapacityTotal / 5;
+
+    if (MaxItems > 25)
+        MaxItems = 25;
 
     return MaxItems;
 }
@@ -246,11 +282,13 @@ NamedScript DECORATE int CheckCapacity()
 {
     int Items = 0;
     int MaxItems = CheckInventoryMax();
+    bool IsTechnician = (PlayerClass(PlayerNumber()) == 2);
 
     // Add Capacity XP for total carried items
     if (GetCVar("drpg_levelup_natural") && Timer() % 7 == 0)
     {
-        fixed Scale = GetCVarFixed("drpg_capacity_scalexp");
+        fixed Scale = GetCVarFixed("drpg_capacity_scalexp") / GetCVar("drpg_ws_use_wads");
+        if (Scale < 0.20) Scale = 0.20;
         if (GetCVar("drpg_allow_spec"))
         {
             if (GetActivatorCVar("drpg_character_spec") == 7)
@@ -260,12 +298,18 @@ NamedScript DECORATE int CheckCapacity()
         if (CompatMode == COMPAT_DRLA)
         {
             // Calculate capacity usage per category in DRLA, excluding weapons and modpacks
-            int DRLAItems = CheckInventory("RLArmorInInventory") + CheckInventory("RLSkullLimit") + CheckInventory("RLPhaseDeviceLimit");
-            int DRLAMaxItems = DRLA_ARMOR_MAX + DRLA_SKULL_MAX + DRLA_DEVICE_MAX;
-            Player.CapacityXP += (int)((DRLAItems + Player.InvItems) * Scale / (DRLAMaxItems + MaxItems) * 20);
+            int AddCapacityXP;
+            int DRLAItems = CheckInventory("RLArmorInInventory") + CheckInventory("RLSkullLimit") + CheckInventory("RLPhaseDeviceLimit") + (IsTechnician ? CheckInventory("RLScavengerModLimit") : CheckInventory("RLModLimit"));
+            int DRLAMaxItems = DRLA_ARMOR_MAX + DRLA_SKULL_MAX + DRLA_DEVICE_MAX + DRLA_MODPACKS_MAX;
+            AddCapacityXP = (RoundInt)((DRLAItems + Player.InvItems) * Scale / (DRLAMaxItems + MaxItems) * 5.0);
+
+            if (AddCapacityXP > 0)
+                Player.CapacityXP += AddCapacityXP;
+            else if (DRLAItems + Player.InvItems >= 3 && (Timer() % 35) == 0)
+                Player.CapacityXP += (DRLAItems + Player.InvItems) / 3;
         }
         else
-            Player.CapacityXP += (int)(Player.InvItems * Scale / MaxItems * 20);
+            Player.CapacityXP += (RoundInt)(Player.InvItems * Scale / MaxItems * 5.0);
     }
 
     // Don't do checks if you have the system disabled
@@ -304,6 +348,18 @@ NamedScript DECORATE int CheckCapacity()
         "DRPGBerserk",
         "DRPGWings",
 
+        // Immunity Crystals
+        "DRPGImmunityCrystalMelee",
+        "DRPGImmunityCrystalBullet",
+        "DRPGImmunityCrystalFire",
+        "DRPGImmunityCrystalPlasma",
+        "DRPGImmunityCrystalLightning",
+        "DRPGImmunityCrystalToxic",
+        "DRPGImmunityCrystalRadiation",
+
+        // Thermonuclear Bomb
+        "DRPGThermonuclearBombPickup",
+
         // Stims
         "DRPGStimDetox",
 
@@ -318,6 +374,41 @@ NamedScript DECORATE int CheckCapacity()
         if (CheckInventory(ItemList[i]) > 0)
             Items += CheckInventory(ItemList[i]);
 
+    if (CompatMode == COMPAT_LEGENDOOM)
+    {
+        str const ItemListLD[] =
+        {
+            // Normal Armor
+            "LDGreenArmorPickupRPG",
+            "LDBlueArmorPickupRPG",
+            "LDYellowArmorPickupRPG",
+            "LDRedArmorPickupRPG",
+            "LDWhiteArmorPickupRPG",
+
+            // Reinforced Armor
+            "LDReinforcedGreenArmorPickupRPG",
+            "LDReinforcedBlueArmorPickupRPG",
+            "LDReinforcedYellowArmorPickupRPG",
+            "LDReinforcedRedArmorPickupRPG",
+            "LDReinforcedWhiteArmorPickupRPG",
+
+            // Powerups
+            "LDInvulnerabilityChargeRPG",
+            "LDInvisibilityChargeRPG",
+            "LDRadsuitPickupRPG",
+            "LDInfraredPickupRPG",
+            "LDBerserkPickupRPG",
+            "LDAllMapPickupRPG",
+
+            // End of List
+            NULL
+        };
+
+        for (int i = 0; ItemListLD[i] != NULL; i++)
+            if (CheckInventory(ItemListLD[i]) > 0)
+                Items += CheckInventory(ItemListLD[i]);
+    };
+
     if (CompatMode == COMPAT_DRLA)
     {
         str const ItemListRL[] =
@@ -328,6 +419,12 @@ NamedScript DECORATE int CheckCapacity()
             "InvisibilityCharge2",
             "Infrared2",
             "Berserk2",
+            "RLAllmap2",
+            "RLTrackingMap2",
+
+            // Craft Parts
+            "DRPGCraftPartsExotic",
+            "DRPGCraftPartsUnique",
 
             // End of List
             NULL
@@ -336,6 +433,48 @@ NamedScript DECORATE int CheckCapacity()
         for (int i = 0; ItemListRL[i] != NULL; i++)
             if (CheckInventory(ItemListRL[i]) > 0)
                 Items += CheckInventory(ItemListRL[i]);
+    };
+
+    if (CompatModeEx == COMPAT_DRLAX)
+    {
+        str const ItemListRLAX[] =
+        {
+            // DoomRLAX - Items
+            "DRLAX_FamiliarBall",
+            "DRLAX_RadarDevice",
+            "DRLAX_SoulTrap",
+            "DRLAX_SmokeBomb",
+            "DRLAX_NanoTape",
+            "DRLAX_SawArm",
+            "DRLAX_CursedDagger",
+            "DRLAX_DevilMark",
+
+            // DoomRLAX - Weapon Kits
+            "DRLAX_BarrelCombinerKit",
+            "DRLAX_ParticleColliderKit",
+            "DRLAX_MagneticCoilKit",
+            "DRLAX_QuantumEngineKit",
+
+            // DoomRLAX - Legendary Idol
+            "DRLAX_LegendaryIdol",
+
+            // DoomRLAX - Trapped Soul Spheres
+            "DRLAX_TrappedInvulnerabilitySphere",
+            "DRLAX_TrappedInvisibilitySphere",
+            "DRLAX_TrappedSoulSphere",
+            "DRLAX_TrappedSoulSphere3",
+            "DRLAX_TrappedSoulSphere4",
+            "DRLAX_TrappedMegaSphere",
+            "DRLAX_TrappedAGHSphere",
+            "DRLAX_TrappedFirebluSphere",
+
+            // End of List
+            NULL
+        };
+
+        for (int i = 0; ItemListRLAX[i] != NULL; i++)
+            if (CheckInventory(ItemListRLAX[i]) > 0)
+                Items += CheckInventory(ItemListRLAX[i]);
     };
 
     Player.InvItems = Items;
@@ -610,6 +749,160 @@ int DropMonsterItem(int Killer, int TID, str Item, int Chance, fixed XAdd, fixed
     return ItemTID;
 }
 
+// Find out if the monster sees its target
+bool MonsterSeeTarget(int MonsterTID)
+{
+    SetActivatorToTarget(MonsterTID);
+
+    if (!CheckSight(MonsterTID, 0, CSF_NOBLOCKALL))
+    {
+        SetActivator(MonsterTID);
+        return false;
+    }
+
+    SetActivator(MonsterTID);
+    return true;
+}
+
+// Get the distance to the monster's target
+fixed MonsterDistanceTarget(int MonsterTID)
+{
+    SetActivatorToTarget(MonsterTID);
+    int MonsterDistanceTarget = Distance(MonsterTID, 0);
+    SetActivator(MonsterTID);
+    return MonsterDistanceTarget;
+}
+
+// Use for while if you want to make a delay when the monster sees the players
+bool ActorSeePlayers(int MonsterTID, int Dist)
+{
+    if (InSingleplayer)
+    {
+        if (Dist > 0)
+        {
+            if (!CheckSight(MonsterTID, Players(0).TID, CSF_NOBLOCKALL) || Distance(MonsterTID, Players(0).TID) > Dist)
+                return false;
+        }
+        else
+        {
+            if (!CheckSight(MonsterTID, Players(0).TID, CSF_NOBLOCKALL))
+                return false;
+        }
+    }
+    else
+    {
+        for (int i = 0; i < MAX_PLAYERS; i++)
+        {
+            if (!PlayerInGame(i)) continue;
+
+            if (Dist > 0)
+            {
+                if (!CheckSight(MonsterTID, Players(i).TID, CSF_NOBLOCKALL) || Distance(MonsterTID, Players(i).TID) > Dist)
+                    return false;
+            }
+            else
+            {
+                if (!CheckSight(MonsterTID, Players(i).TID, CSF_NOBLOCKALL))
+                    return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+// Use for while if you want to make a delay when the monster doesn't see the players
+bool ActorNotSeePlayers(int MonsterTID, int Dist, bool ThroughWall)
+{
+    if (InSingleplayer)
+    {
+        if (ThroughWall)
+        {
+            if (CheckSight(MonsterTID, Players(0).TID, CSF_NOBLOCKALL) || Distance(MonsterTID, Players(0).TID) <= Dist)
+                return false;
+
+            if (!Players(0).Summons == 0)
+            {
+                for (int j = 0; j < Players(0).Summons; j++)
+                {
+                    if (CheckSight(MonsterTID, Players(0).SummonTID[j], CSF_NOBLOCKALL) || Distance(MonsterTID, Players(0).SummonTID[j]) <= Dist)
+                        return false;
+                }
+            }
+        }
+        else
+        {
+            if (CheckSight(MonsterTID, Players(0).TID, CSF_NOBLOCKALL) && Distance(MonsterTID, Players(0).TID) <= Dist)
+                return false;
+
+            if (!Players(0).Summons == 0)
+            {
+                for (int j = 0; j < Players(0).Summons; j++)
+                {
+                    if (CheckSight(MonsterTID, Players(0).SummonTID[j], CSF_NOBLOCKALL) && Distance(MonsterTID, Players(0).SummonTID[j]) <= Dist)
+                        return false;
+                }
+            }
+        }
+    }
+    else
+    {
+        if (ThroughWall)
+        {
+            for (int i = 0; i < MAX_PLAYERS; i++)
+            {
+                if (!PlayerInGame(i)) continue;
+
+                if (CheckSight(MonsterTID, Players(i).TID, CSF_NOBLOCKALL) || Distance(MonsterTID, Players(i).TID) <= Dist)
+                    return false;
+
+                if (!Players(i).Summons == 0)
+                {
+                    for (int j = 0; j < Players(i).Summons; j++)
+                    {
+                        if (CheckSight(MonsterTID, Players(i).SummonTID[j], CSF_NOBLOCKALL) || Distance(MonsterTID, Players(i).SummonTID[j]) <= Dist)
+                            return false;
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < MAX_PLAYERS; i++)
+            {
+                if (!PlayerInGame(i)) continue;
+
+                if (CheckSight(MonsterTID, Players(i).TID, CSF_NOBLOCKALL) && Distance(MonsterTID, Players(i).TID) <= Dist)
+                    return false;
+
+                if (!Players(i).Summons == 0)
+                {
+                    for (int j = 0; j < Players(i).Summons; j++)
+                    {
+                        if (CheckSight(MonsterTID, Players(i).SummonTID[j], CSF_NOBLOCKALL) && Distance(MonsterTID, Players(i).SummonTID[j]) <= Dist)
+                            return false;
+                    }
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+// Corpses Cleanup
+NamedScript DECORATE void CorpsesCleanup()
+{
+    if (Random(1, 2) <= GetCVar("drpg_corpses_cleanup"))
+    {
+        Delay(35 * (GetCVar("drpg_corpses_cleanup_timer")));
+
+        while (ActorSeePlayers(0, 2048)) Delay(35 * 10);
+
+        Thing_Remove(0);
+    }
+}
+
 // --------------------------------------------------
 // Players
 //
@@ -617,7 +910,19 @@ int DropMonsterItem(int Killer, int TID, str Item, int Chance, fixed XAdd, fixed
 // Used by the RegenSphere to temporarily increase regen rates
 NamedScript DECORATE void RegenBoost()
 {
-    Player.RegenBoostTimer += (35 * 5) + ((Player.RegenerationTotal / 13.33) * 35);
+    int AddBoostTimer;
+
+    if (GetCVar("drpg_levelup_natural"))
+        AddBoostTimer = (int)(40 + Player.RegenerationTotal);
+    else
+        AddBoostTimer = (int)(40 + Player.RegenerationTotal * 2);
+
+    if (AddBoostTimer > 180) AddBoostTimer = 180;
+
+    Player.RegenBoostTimer += AddBoostTimer * 35;
+
+    if (Player.RegenBoostTimer > 35 * 60 * GetCVar("drpg_skill_auratimercap"))
+        Player.RegenBoostTimer = 35 * 60 * GetCVar("drpg_skill_auratimercap");
 }
 
 // Set Skill Level during the game
@@ -630,7 +935,7 @@ NamedScript KeyBind void SetSkill(int NewSkill)
         return;
     }
 
-    FadeRange(255, 255, 255, 0.5, 255, 255, 255, 0.0, 0.5);
+    FadeRangeFlash(255, 255, 255, 0.5, 255, 255, 255, 0.0, 0.5);
     ChangeSkill(NewSkill);
     CurrentSkill = NewSkill;
     ActivatorSound("misc/skillchange", 127);
@@ -652,6 +957,13 @@ NamedScript KeyBind void SetSkill(int NewSkill)
 // Respec - Respecialize your Player
 NamedScript KeyBind void Respec(bool DoStats, bool DoSkills)
 {
+    if (Player.Level * 750 > CheckInventory("DRPGCredits"))
+    {
+        PrintError(StrParam("Not enough credits\n\nCost respec for %d lvl: %d C",Player.Level, (Player.Level * 750)));
+        ActivatorSound("menu/error", 127);
+        return;
+    }
+
     int Modules;
     int OldCredits;
 
@@ -659,14 +971,17 @@ NamedScript KeyBind void Respec(bool DoStats, bool DoSkills)
     if (DoStats)
     {
         // Add stats into a pool of tokens to give back to the player
-        Modules += (int)((fixed)Player.Strength * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
-        Modules += (int)((fixed)Player.Defense * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
-        Modules += (int)(((fixed)Player.Vitality - 10) * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
-        Modules += (int)(((fixed)Player.Energy - 10) * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
-        Modules += (int)((fixed)Player.Regeneration * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
-        Modules += (int)((fixed)Player.Agility * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
-        Modules += (int)(((fixed)Player.Capacity - 10) * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
-        Modules += (int)((fixed)Player.Luck * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
+        for (int i = 0; i <= Player.Strength; i++) Modules += (int)(i * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
+        for (int i = 0; i <= Player.Defense; i++) Modules += (int)(i * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
+        for (int i = 0; i <= Player.Vitality; i++) Modules += (int)(i * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
+        for (int i = 0; i <= Player.Energy; i++) Modules += (int)(i * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
+        for (int i = 0; i <= Player.Regeneration; i++) Modules += (int)(i * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
+        for (int i = 0; i <= Player.Agility; i++) Modules += (int)(i * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
+        for (int i = 0; i <= Player.Capacity; i++) Modules += (int)(i * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
+        for (int i = 0; i <= Player.Luck; i++) Modules += (int)(i * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor"));
+
+        // Compensation for standard Stats (Vitality, Energy and Capacity)
+        for (int i = 0; i <= 10; i++) Modules -= (int)(i * (fixed)MODULE_STAT_MULT * GetCVarFixed("drpg_module_statfactor") * 3);
 
         // Reset Stats
         Player.Strength = 0;
@@ -724,12 +1039,12 @@ NamedScript KeyBind void Respec(bool DoStats, bool DoSkills)
     // Give Respecced Modules
     GiveInventory("DRPGModule", Modules);
 
-    // Take 1/2 Credits
+    // Take Credits
     GiveInventory("DRPGCredits", OldCredits);
-    TakeInventory("DRPGCredits", CheckInventory("DRPGCredits") / 2);
+    TakeInventory("DRPGCredits", Player.Level * 750);
 
     // FX
-    FadeRange(255, 255, 255, 0.75, 0, 0, 0, 0.0, 2.5);
+    FadeRangeFlash(255, 255, 255, 0.75, 0, 0, 0, 0.0, 2.5);
     SetFont("BIGFONT");
     HudMessage("Respec Complete");
     EndHudMessage(HUDMSG_FADEOUT, 0, "White", 0.5, 0.5, 2.5, 2.5);
@@ -891,6 +1206,7 @@ int AveragePlayerLuck()
 {
     int NumPlayers;
     int TotalLuck;
+    int AverageLuck;
 
     for (int i = 0; i < MAX_PLAYERS; i++)
     {
@@ -901,7 +1217,28 @@ int AveragePlayerLuck()
         NumPlayers++;
     }
 
-    return TotalLuck / NumPlayers;
+    if (GetCVar("drpg_levelup_natural"))
+        TotalLuck /= 2;
+
+    AverageLuck = TotalLuck / NumPlayers;
+
+    if (AverageLuck > 100)
+        AverageLuck = 100;
+
+    return AverageLuck;
+}
+
+bool NomadInGame()
+{
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (!PlayerInGame(i)) continue;
+
+        if (PlayerClass(i) == 7)
+            return true;
+    }
+
+    return false;
 }
 
 bool HaveStatusEffect()
@@ -1006,6 +1343,46 @@ bool IsTimeFrozen()
             return true;
 
     return false;
+}
+
+// Calculate current map level modifier
+NamedScript DECORATE fixed MapLevelMod()
+{
+    fixed LevelNum = CurrentLevel->LevelNum;
+    fixed LevelMax = GetCVar("drpg_ws_use_wads") * 32.0;
+    fixed MapLevelMod = LevelNum / (LevelMax / (2.0 - (LevelNum / LevelMax)));
+
+    if (MapLevelMod > 0.5)
+        MapLevelMod = LevelNum / LevelMax + (0.3 - (0.3 * LevelNum / LevelMax));
+
+    if (CurrentLevel->UACBase)
+        MapLevelMod = AveragePlayerLevel() / 100.0;
+
+    if (MapLevelMod > 1.0 || LevelNum / LevelMax > 1.0)
+        MapLevelMod = 1.0;
+
+    return MapLevelMod;
+}
+
+// Calculate natural stat leveling modifier
+fixed StatsNatMod()
+{
+    int NumPlayers;
+    int PlayerLevel;
+    int StatsNat;
+    fixed Modifier;
+
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        // Skip player if they're not ingame
+        if (!PlayerInGame(i)) continue;
+
+        StatsNat = Players(i).StrengthNat + Players(i).DefenseNat + Players(i).VitalityNat + Players(i).EnergyNat + Players(i).RegenerationNat + Players(i).AgilityNat + Players(i).CapacityNat + Players(i).LuckNat;
+        Modifier += (fixed)StatsNat / 800.0 > 1.0 ? 1.0 : (fixed)StatsNat / 800.0;
+        NumPlayers++;
+    }
+
+    return (1.0 + (Modifier / (fixed)NumPlayers));
 }
 
 // --------------------------------------------------
@@ -1200,6 +1577,18 @@ NamedScript DECORATE bool ShieldHealthMax()
     return (Player.ActualHealth >= Player.HealthMax);
 }
 
+// Returns the current charge of player's Shield
+NamedScript Console int GetPlayerShieldCharge(int i)
+{
+    return Players(i).Shield.Charge;
+}
+
+// Returns the capacity of player's current Shield
+NamedScript Console int GetPlayerShieldCapacity(int i)
+{
+    return Players(i).Shield.Capacity;
+}
+
 // --------------------------------------------------
 // EP
 //
@@ -1222,7 +1611,7 @@ NamedScript DECORATE void AddEP(int Amount, bool NoFlash)
         FlashDuration = 3.0;
 
     if (!NoFlash)
-        FadeRange(0, 255, 255, FlashStrength, 0, 255, 255, 0, FlashDuration);
+        FadeRangeFlash(0, 255, 255, FlashStrength, 0, 255, 255, 0, FlashDuration);
 
     Player.EP += Amount;
 }
@@ -1385,7 +1774,7 @@ NamedScript DECORATE void GetAuraTokens()
         SetInventory("DRPGDarkBlueAuraToken", 1);
     if (Aura->Type[AURA_YELLOW].Active)
         SetInventory("DRPGYellowAuraToken", 1);
-    if (MonsterHasShadowAura(Stats))
+    if (Stats->HasShadowAura)
         SetInventory("DRPGShadowAuraToken", 1);
 }
 
@@ -1455,7 +1844,11 @@ void SpawnAuras(int TID, bool ForceFancy)
                     if (!Simple)
                         SpawnForced(AuraActors[i], X, Y, Z + Height / 2.0, AuraTID, Angle);
                     else
+                    {
+                        if (GetCVar("drpg_players_aura_icons_disable"))
+                            return;
                         SpawnForced(StrParam("%SIndicator", AuraActors[i]), X, Y, Z + Height + 8.0, 0, Angle);
+                    }
                 }
             }
         }
@@ -1472,7 +1865,7 @@ void SpawnAuras(int TID, bool ForceFancy)
             return;
 
         // LOS Checks
-        if (GameType() == GAME_SINGLE_PLAYER)
+        if (InSingleplayer)
         {
             if (CheckSight(Players(0).TID, TID, CSF_NOBLOCKALL))
                 SpawnOK = true;
@@ -1672,6 +2065,16 @@ str PlayerName(int n)
     return EndStrParam();
 }
 
+// [YuNoGuy123]: For flashing screen effects, we use this to check if we should actually flash or not. Is this okay to do? I'm unsure...
+NamedScript void FadeRangeFlash(int red1, int green1, int blue1, fixed amount1, int red2, int green2, int blue2, fixed amount2, fixed seconds)
+{
+    if (!GetCVar("drpg_screen_flash_disable"))
+    {
+        FadeRange(red1, green1, blue1, amount1, red2, green2, blue2, amount2, seconds);
+    }
+
+}
+
 NamedScript void PrintTextWiggle(char *Text, int ID, int Color, int X, int Y, fixed HoldTime, fixed Speed, fixed Spacing, fixed Radius)
 {
     int Time = (int)(HoldTime * 35.0);
@@ -1730,28 +2133,28 @@ NamedScript void DrawStatUp(int Stat)
     switch (Stat)
     {
     case STAT_STRENGTH:
-        FadeRange(255, 0, 0, 0.25, 255, 0, 0, 0.0, 0.5);
+        FadeRangeFlash(255, 0, 0, 0.25, 255, 0, 0, 0.0, 0.5);
         break;
     case STAT_DEFENSE:
-        FadeRange(0, 255, 0, 0.25, 0, 255, 0, 0.0, 0.5);
+        FadeRangeFlash(0, 255, 0, 0.25, 0, 255, 0, 0.0, 0.5);
         break;
     case STAT_VITALITY:
-        FadeRange(255, 0, 255, 0.25, 255, 0, 255, 0.0, 0.5);
+        FadeRangeFlash(255, 0, 255, 0.25, 255, 0, 255, 0.0, 0.5);
         break;
     case STAT_ENERGY:
-        FadeRange(0, 255, 255, 0.25, 0, 255, 255, 0.0, 0.5);
+        FadeRangeFlash(0, 255, 255, 0.25, 0, 255, 255, 0.0, 0.5);
         break;
     case STAT_REGENERATION:
-        FadeRange(128, 0, 128, 0.25, 128, 0, 128, 0.0, 0.5);
+        FadeRangeFlash(128, 0, 128, 0.25, 128, 0, 128, 0.0, 0.5);
         break;
     case STAT_AGILITY:
-        FadeRange(255, 128, 0, 0.25, 255, 128, 0, 0.0, 0.5);
+        FadeRangeFlash(255, 128, 0, 0.25, 255, 128, 0, 0.0, 0.5);
         break;
     case STAT_CAPACITY:
-        FadeRange(0, 0, 255, 0.25, 0, 0, 255, 0.0, 0.5);
+        FadeRangeFlash(0, 0, 255, 0.25, 0, 0, 255, 0.0, 0.5);
         break;
     case STAT_LUCK:
-        FadeRange(255, 255, 0, 0.25, 255, 255, 0, 0.0, 0.5);
+        FadeRangeFlash(255, 255, 0, 0.25, 255, 255, 0, 0.0, 0.5);
         break;
     }
 
@@ -1831,7 +2234,10 @@ void DrawBattery()
     SetHudSize(Width, Height, false);
     PrintSpriteFade("AUGBATT", BATTERY_ID, X + 0.4, Y + 0.4, HoldTime, FadeTime);
     SetFont("BIGFONT");
-    HudMessage("%d%%", (int)Player.Augs.Battery);
+    if (Player.Augs.Battery < 0)
+        HudMessage("%d%%", 0);
+    else
+        HudMessage("%d%%", (int)Player.Augs.Battery);
     EndHudMessage(HUDMSG_FADEOUT, BATTERY_ID + 1, "Yellow", X + 24.0, Y - 10.0, HoldTime, FadeTime);
 }
 
@@ -2017,7 +2423,7 @@ void DrawMissionInfo(MissionInfo *Mission, fixed X, fixed Y, bool Active)
 
 OptionalArgs(1) void DrawBar(str Fill, int X, int Y, int Amount, bool Pulse)
 {
-    if (GetActivatorCVar("drpg_toaster"))
+    if (GetCVar("drpg_toaster"))
         Pulse = false;
 
     for (int i = 0; i < Amount; i++)
@@ -2061,6 +2467,11 @@ void DrawBorder(str Prefix, int StartID, int BorderSize, int X, int Y, int Width
 // --------------------------------------------------
 // Compatibility/Extensions
 //
+
+NamedScript DECORATE bool DRPGCheck()
+{
+    return true;
+}
 
 void RemoveDRLAItem(int Category, int Index)
 {
@@ -2133,6 +2544,7 @@ void RemoveDRLAArmorToken(str ArmorType)
 
 void CheckDRLASetWeapons()
 {
+    bool hasNuclearWeapon = false;
     str const NuclearWeapons[15] =
     {
         // Nuclear Plasma Pistol
@@ -2167,21 +2579,424 @@ void CheckDRLASetWeapons()
         "RLNuclearOnslaught"
     };
 
-    // Weapon portion of Nuclear Set Bonus Checking
-    for (int i = 0; i < 15; i++)
-        if (!CheckInventory(NuclearWeapons[i]))
+    if (CheckInventory("RLNuclearWeaponSetBonusWeapon"))
+    {
+        // Weapon portion of Nuclear Set Bonus Checking
+        for (int i = 0; i < 15; i++)
+            if (CheckInventory(NuclearWeapons[i]))
+            {
+                hasNuclearWeapon = true;
+                break;
+            }
+        if (!hasNuclearWeapon)
         {
             TakeInventory("RLNuclearWeaponSetBonusWeapon", 1);
             TakeInventory("RLNuclearWeaponSetBonusActive", 1);
-            break;
         }
+    }
 
     // Tristar blaster Set Bonus Checking
-    if (!CheckInventory("RLTristarBlaster") || !CheckInventory("RLHighPowerTristarBlaster") || !CheckInventory("RLNanomanufactureAmmoTristarBlaster"))
+    if (!CheckInventory("RLTristarBlaster") && !CheckInventory("RLHighPowerTristarBlaster") && !CheckInventory("RLNanomanufactureAmmoTristarBlaster"))
     {
         TakeInventory("RLCerberusSetBonusTristarBlaster", 1);
         TakeInventory("RLCerberusSetBonusActive", 1);
     }
+}
+
+void NomadModPacksSave()
+{
+    int Number;
+    int Category;
+    ItemInfoPtr ItemPtr;
+
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (!PlayerInGame(i)) continue;
+
+        if (PlayerClass(i) != 7) continue;
+
+        for (int j = 0; j < ItemMax[Category]; j++)
+            if (CheckActorInventory(Players(i).TID, ItemData[Category][j].Actor))
+            {
+                ItemPtr = &ItemData[Category][j];
+
+                if ((ItemPtr->CompatMods & RL_MOD_LIMIT) && CheckActorInventory(Players(i).TID, StrParam("%SModLimit", ItemPtr->Actor)))
+                {
+                    Players(i).NomadBasicItems[Number] = ItemPtr->Actor;
+                    Players(i).NomadModPacks[Number] = StrParam("%SModLimit", ItemPtr->Actor);
+                    Players(i).NomadAmountModPacks[Number] = CheckActorInventory(Players(i).TID, StrParam("%SModLimit", ItemPtr->Actor));
+                    Number++;
+                }
+                if ((ItemPtr->CompatMods & RL_POWER_MOD) && CheckActorInventory(Players(i).TID, StrParam("%SPowerMod", ItemPtr->Actor)))
+                {
+                    Players(i).NomadBasicItems[Number] = ItemPtr->Actor;
+                    Players(i).NomadModPacks[Number] = StrParam("%SPowerMod", ItemPtr->Actor);
+                    Players(i).NomadAmountModPacks[Number] = CheckActorInventory(Players(i).TID, StrParam("%SPowerMod", ItemPtr->Actor));
+                    Number++;
+                }
+                if ((ItemPtr->CompatMods & RL_BULK_MOD) && CheckActorInventory(Players(i).TID, StrParam("%SBulkMod", ItemPtr->Actor)))
+                {
+                    Players(i).NomadBasicItems[Number] = ItemPtr->Actor;
+                    Players(i).NomadModPacks[Number] = StrParam("%SBulkMod", ItemPtr->Actor);
+                    Players(i).NomadAmountModPacks[Number] = CheckActorInventory(Players(i).TID, StrParam("%SBulkMod", ItemPtr->Actor));
+                    Number++;
+                }
+                if ((ItemPtr->CompatMods & RL_AGILITY_MOD) && CheckActorInventory(Players(i).TID, StrParam("%SAgilityMod", ItemPtr->Actor)))
+                {
+                    Players(i).NomadBasicItems[Number] = ItemPtr->Actor;
+                    Players(i).NomadModPacks[Number] = StrParam("%SAgilityMod", ItemPtr->Actor);
+                    Players(i).NomadAmountModPacks[Number] = CheckActorInventory(Players(i).TID, StrParam("%SAgilityMod", ItemPtr->Actor));
+                    Number++;
+                }
+                if ((ItemPtr->CompatMods & RL_TECH_MOD) && CheckActorInventory(Players(i).TID, StrParam("%STechnicalMod", ItemPtr->Actor)))
+                {
+                    Players(i).NomadBasicItems[Number] = ItemPtr->Actor;
+                    Players(i).NomadModPacks[Number] = StrParam("%STechnicalMod", ItemPtr->Actor);
+                    Players(i).NomadAmountModPacks[Number] = CheckActorInventory(Players(i).TID, StrParam("%STechnicalMod", ItemPtr->Actor));
+                    Number++;
+                }
+                if ((ItemPtr->CompatMods & RL_SNIPER_MOD) && CheckActorInventory(Players(i).TID, StrParam("%SSniperMod", ItemPtr->Actor)))
+                {
+                    Players(i).NomadBasicItems[Number] = ItemPtr->Actor;
+                    Players(i).NomadModPacks[Number] = StrParam("%SSniperMod", ItemPtr->Actor);
+                    Players(i).NomadAmountModPacks[Number] = CheckActorInventory(Players(i).TID, StrParam("%SSniperMod", ItemPtr->Actor));
+                    Number++;
+                }
+                if ((ItemPtr->CompatMods & RL_FIREST_MOD) && CheckActorInventory(Players(i).TID, StrParam("%SFirestormMod", ItemPtr->Actor)))
+                {
+                    Players(i).NomadBasicItems[Number] = ItemPtr->Actor;
+                    Players(i).NomadModPacks[Number] = StrParam("%SFirestormMod", ItemPtr->Actor);
+                    Players(i).NomadAmountModPacks[Number] = CheckActorInventory(Players(i).TID, StrParam("%SFirestormMod", ItemPtr->Actor));
+                    Number++;
+                }
+                if ((ItemPtr->CompatMods & RL_NANO_MOD) && CheckActorInventory(Players(i).TID, StrParam("%SNanoMod", ItemPtr->Actor)))
+                {
+                    Players(i).NomadBasicItems[Number] = ItemPtr->Actor;
+                    Players(i).NomadModPacks[Number] = StrParam("%SNanoMod", ItemPtr->Actor);
+                    Players(i).NomadAmountModPacks[Number] = CheckActorInventory(Players(i).TID, StrParam("%SNanoMod", ItemPtr->Actor));
+                    Number++;
+                }
+                if ((ItemPtr->CompatMods & RL_DEMON_MOD) && CheckActorInventory(Players(i).TID, StrParam("%SDemonArtifacts", ItemPtr->Actor)))
+                {
+                    Players(i).NomadBasicItems[Number] = ItemPtr->Actor;
+                    Players(i).NomadModPacks[Number] = StrParam("%SDemonArtifacts", ItemPtr->Actor);
+                    Players(i).NomadAmountModPacks[Number] = CheckActorInventory(Players(i).TID, StrParam("%SDemonArtifacts", ItemPtr->Actor));
+                    Number++;
+                }
+            }
+
+        Players(i).NomadModPacksSave = true;
+    }
+}
+
+void NomadModPacksLoad()
+{
+    int Category;
+
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (!PlayerInGame(i)) continue;
+
+        if (PlayerClass(i) != 7) continue;
+
+        if (Players(i).NomadModPacksSave == false) continue;
+
+        for (int j = 0; j < ItemMax[Category]; j++)
+            if (CheckActorInventory(Players(i).TID, ItemData[Category][j].Actor))
+            {
+                for (int k = 0; k < 30; k++)
+                {
+                    if (ItemData[Category][j].Actor == Players(i).NomadBasicItems[k])
+                        SetActorInventory(Players(i).TID, Players(i).NomadModPacks[k], Players(i).NomadAmountModPacks[k]);
+                }
+            }
+
+        // Clear Data
+        for (int n = 0; n < 30; n++)
+        {
+            Players(i).NomadBasicItems[n] = 0;
+            Players(i).NomadModPacks[n] = 0;
+            Players(i).NomadAmountModPacks[n] = 0;
+        }
+
+        Players(i).NomadModPacksSave = false;
+    }
+}
+
+void NanomaniacTransport()
+{
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (!PlayerInGame(i)) continue;
+        if (PlayerClass(i) != 8) continue;
+
+        SetActorInventory(Players(i).TID, "RLNanoManiacTransportToken", 1);
+    }
+}
+
+NamedScript DECORATE void PhaseSistersDataSave()
+{
+    // Save data for Portia
+    if (CheckInventory("RLPhaseSistersSwapToken") == 1)
+    {
+        // Save Health/EP for Portia
+        Player.Portia.ActualHealth = Player.ActualHealth;
+        Player.Portia.EP = Player.EP;
+
+        // Save Armor for Portia
+        Player.Portia.ArmorName = GetArmorInfoString(ARMORINFO_CLASSNAME);
+        Player.Portia.ArmorDurability = CheckInventory("BasicArmor");
+        Player.Portia.ArmorDurabilityMax = GetArmorInfo(ARMORINFO_SAVEAMOUNT);
+
+        // Save Aura for Portia
+        for (int i = 0; i < AURA_MAX; i++)
+        {
+            Player.Portia.Aura.Type[i].Active = Player.Aura.Type[i].Active;
+            Player.Portia.Aura.Type[i].Level = Player.Aura.Type[i].Level;
+        }
+        Player.Portia.Aura.Time = Player.Aura.Time;
+        Player.Portia.SkillCostMult = Player.SkillCostMult;
+
+        // Save Energy Shield for Portia
+        // Current Parts
+        Player.Portia.Shield.Body = Player.Shield.Body;
+        Player.Portia.Shield.Battery = Player.Shield.Battery;
+        Player.Portia.Shield.Capacitor = Player.Shield.Capacitor;
+        Player.Portia.Shield.Accessory = Player.Shield.Accessory;
+
+        // Flags
+        Player.Portia.Shield.Active = Player.Shield.Active;
+        Player.Portia.Shield.Full = Player.Shield.Full;
+
+        // Stats
+        Player.Portia.Shield.Charge = Player.Shield.Charge;
+        Player.Portia.Shield.Capacity = Player.Shield.Capacity;
+        Player.Portia.Shield.Interval = Player.Shield.Interval;
+        Player.Portia.Shield.ChargeRate = Player.Shield.ChargeRate;
+        Player.Portia.Shield.DelayRate = Player.Shield.DelayRate;
+        Player.Portia.Shield.Timer = Player.Shield.Timer;
+
+        // Accessories
+        Player.Portia.Shield.AccessoryBattery = Player.Shield.AccessoryBattery;
+        Player.Portia.Shield.AccessoryTimer = Player.Shield.AccessoryTimer;
+
+        // Accessories Position
+        Player.Portia.Shield.AccessoryPosition.X = Player.Shield.AccessoryPosition.X;
+        Player.Portia.Shield.AccessoryPosition.Y = Player.Shield.AccessoryPosition.Y;
+        Player.Portia.Shield.AccessoryPosition.Z = Player.Shield.AccessoryPosition.Z;
+        Player.Portia.Shield.AccessoryPosition.Angle = Player.Shield.AccessoryPosition.Angle;
+        Player.Portia.Shield.AccessoryPosition.Pitch = Player.Shield.AccessoryPosition.Pitch;
+
+        // Deactivate Shield
+        if (Player.Terri.Shield.Active == false)
+            DeactivateShield();
+    }
+
+    // Save data for Terri
+    if (CheckInventory("RLPhaseSistersSwapToken") == 0)
+    {
+        // Save Health/EP for Terri
+        Player.Terri.ActualHealth = Player.ActualHealth;
+        Player.Terri.EP = Player.EP;
+
+        // Save Armor for Terri
+        Player.Terri.ArmorName = GetArmorInfoString(ARMORINFO_CLASSNAME);
+        Player.Terri.ArmorDurability = CheckInventory("BasicArmor");
+        Player.Terri.ArmorDurabilityMax = GetArmorInfo(ARMORINFO_SAVEAMOUNT);
+
+        // Save Aura for Terri
+        for (int i = 0; i < AURA_MAX; i++)
+        {
+            Player.Terri.Aura.Type[i].Active = Player.Aura.Type[i].Active;
+            Player.Terri.Aura.Type[i].Level = Player.Aura.Type[i].Level;
+        }
+        Player.Terri.Aura.Time = Player.Aura.Time;
+        Player.Terri.SkillCostMult = Player.SkillCostMult;
+
+        // Save Energy Shield for Terri
+        // Current Parts
+        Player.Terri.Shield.Body = Player.Shield.Body;
+        Player.Terri.Shield.Battery = Player.Shield.Battery;
+        Player.Terri.Shield.Capacitor = Player.Shield.Capacitor;
+        Player.Terri.Shield.Accessory = Player.Shield.Accessory;
+
+        // Flags
+        Player.Terri.Shield.Active = Player.Shield.Active;
+        Player.Terri.Shield.Full = Player.Shield.Full;
+
+        // Stats
+        Player.Terri.Shield.Charge = Player.Shield.Charge;
+        Player.Terri.Shield.Capacity = Player.Shield.Capacity;
+        Player.Terri.Shield.Interval = Player.Shield.Interval;
+        Player.Terri.Shield.ChargeRate = Player.Shield.ChargeRate;
+        Player.Terri.Shield.DelayRate = Player.Shield.DelayRate;
+        Player.Terri.Shield.Timer = Player.Shield.Timer;
+
+        // Accessories
+        Player.Terri.Shield.AccessoryBattery = Player.Shield.AccessoryBattery;
+        Player.Terri.Shield.AccessoryTimer = Player.Shield.AccessoryTimer;
+
+        // Accessories Position
+        Player.Terri.Shield.AccessoryPosition.X = Player.Shield.AccessoryPosition.X;
+        Player.Terri.Shield.AccessoryPosition.Y = Player.Shield.AccessoryPosition.Y;
+        Player.Terri.Shield.AccessoryPosition.Z = Player.Shield.AccessoryPosition.Z;
+        Player.Terri.Shield.AccessoryPosition.Angle = Player.Shield.AccessoryPosition.Angle;
+        Player.Terri.Shield.AccessoryPosition.Pitch = Player.Shield.AccessoryPosition.Pitch;
+
+        // Deactivate Shield
+        if (Player.Portia.Shield.Active == false)
+            DeactivateShield();
+    }
+}
+
+NamedScript DECORATE void PhaseSistersDataLoad()
+{
+    // Load data for Portia
+    if (CheckInventory("RLPhaseSistersSwapToken") == 1)
+    {
+        // Load Health/EP for Portia
+        Player.ActualHealth = Player.Portia.ActualHealth;
+        Player.PrevHealth = Player.Portia.ActualHealth;
+        SetActorProperty(0, APROP_Health, Player.Portia.ActualHealth);
+        Player.EP = Player.Portia.EP;
+
+        // Load Armor for Portia
+        if (Player.Portia.ArmorDurability > 0)
+        {
+            TakeInventory("BasicArmor", 99999);
+            GiveInventory(Player.Portia.ArmorName, 1);
+            SetInventory("BasicArmor", Player.Portia.ArmorDurability);
+        }
+
+        // Load Aura for Portia
+        for (int i = 0; i < AURA_MAX; i++)
+        {
+            Player.Aura.Type[i].Active = Player.Portia.Aura.Type[i].Active;
+            Player.Aura.Type[i].Level = Player.Portia.Aura.Type[i].Level;
+        }
+        Player.Aura.Time = Player.Portia.Aura.Time;
+        Player.SkillCostMult = Player.Portia.SkillCostMult;
+
+        // Load Energy Shield for Portia
+        // Current Parts
+        Player.Shield.Body = Player.Portia.Shield.Body;
+        Player.Shield.Battery = Player.Portia.Shield.Battery;
+        Player.Shield.Capacitor = Player.Portia.Shield.Capacitor;
+        Player.Shield.Accessory = Player.Portia.Shield.Accessory;
+
+        // Flags
+        Player.Shield.Active = Player.Portia.Shield.Active;
+        Player.Shield.Full = Player.Portia.Shield.Full;
+
+        // Stats
+        Player.Shield.Charge = Player.Portia.Shield.Charge;
+        Player.Shield.Capacity = Player.Portia.Shield.Capacity;
+        Player.Shield.Interval = Player.Portia.Shield.Interval;
+        Player.Shield.ChargeRate = Player.Portia.Shield.ChargeRate;
+        Player.Shield.DelayRate = Player.Portia.Shield.DelayRate;
+        Player.Shield.Timer = Player.Portia.Shield.Timer;
+
+        // Accessories
+        Player.Shield.AccessoryBattery = Player.Portia.Shield.AccessoryBattery;
+        Player.Shield.AccessoryTimer = Player.Portia.Shield.AccessoryTimer;
+
+        // Accessories Position
+        Player.Shield.AccessoryPosition.X = Player.Portia.Shield.AccessoryPosition.X;
+        Player.Shield.AccessoryPosition.Y = Player.Portia.Shield.AccessoryPosition.Y;
+        Player.Shield.AccessoryPosition.Z = Player.Portia.Shield.AccessoryPosition.Z;
+        Player.Shield.AccessoryPosition.Angle = Player.Portia.Shield.AccessoryPosition.Angle;
+        Player.Shield.AccessoryPosition.Pitch = Player.Portia.Shield.AccessoryPosition.Pitch;
+
+        // Activate Shield
+        if (Player.Portia.Shield.Active)
+        {
+            ActivateShield();
+
+            // [YuNoGuy123]: Quick fix to prevent a bug where shields wouldn't work after switching sisters
+            Delay(1);
+            if (!CheckInventory("DRPGZShieldDamageHandler"))
+            {
+                SetInventory("DRPGZShieldDamageHandler", 1);
+            }
+        }
+    }
+
+    // Load data for Terri
+    if (CheckInventory("RLPhaseSistersSwapToken") == 0)
+    {
+        // Load Health/EP for Terri
+        Player.ActualHealth = Player.Terri.ActualHealth;
+        Player.PrevHealth = Player.Terri.ActualHealth;
+        SetActorProperty(0, APROP_Health, Player.Terri.ActualHealth);
+        Player.EP = Player.Terri.EP;
+
+        // Load Armor for Terri
+        if (Player.Terri.ArmorDurability > 0)
+        {
+            TakeInventory("BasicArmor", 99999);
+            GiveInventory(Player.Terri.ArmorName, 1);
+            SetInventory("BasicArmor", Player.Terri.ArmorDurability);
+        }
+
+        // Load Aura for Terri
+        for (int i = 0; i < AURA_MAX; i++)
+        {
+            Player.Aura.Type[i].Active = Player.Terri.Aura.Type[i].Active;
+            Player.Aura.Type[i].Level = Player.Terri.Aura.Type[i].Level;
+        }
+        Player.Aura.Time = Player.Terri.Aura.Time;
+        Player.SkillCostMult = Player.Terri.SkillCostMult;
+
+        // Load Energy Shield for Terri
+        // Current Parts
+        Player.Shield.Body = Player.Terri.Shield.Body;
+        Player.Shield.Battery = Player.Terri.Shield.Battery;
+        Player.Shield.Capacitor = Player.Terri.Shield.Capacitor;
+        Player.Shield.Accessory = Player.Terri.Shield.Accessory;
+
+        // Flags
+        Player.Shield.Active = Player.Terri.Shield.Active;
+        Player.Shield.Full = Player.Terri.Shield.Full;
+
+        // Stats
+        Player.Shield.Charge = Player.Terri.Shield.Charge;
+        Player.Shield.Capacity = Player.Terri.Shield.Capacity;
+        Player.Shield.Interval = Player.Terri.Shield.Interval;
+        Player.Shield.ChargeRate = Player.Terri.Shield.ChargeRate;
+        Player.Shield.DelayRate = Player.Terri.Shield.DelayRate;
+        Player.Shield.Timer = Player.Terri.Shield.Timer;
+
+        // Accessories
+        Player.Shield.AccessoryBattery = Player.Terri.Shield.AccessoryBattery;
+        Player.Shield.AccessoryTimer = Player.Terri.Shield.AccessoryTimer;
+
+        // Accessories Position
+        Player.Shield.AccessoryPosition.X = Player.Terri.Shield.AccessoryPosition.X;
+        Player.Shield.AccessoryPosition.Y = Player.Terri.Shield.AccessoryPosition.Y;
+        Player.Shield.AccessoryPosition.Z = Player.Terri.Shield.AccessoryPosition.Z;
+        Player.Shield.AccessoryPosition.Angle = Player.Terri.Shield.AccessoryPosition.Angle;
+        Player.Shield.AccessoryPosition.Pitch = Player.Terri.Shield.AccessoryPosition.Pitch;
+
+        // Activate Shield
+        if (Player.Terri.Shield.Active)
+        {
+            ActivateShield();
+
+            // [YuNoGuy123]: Quick fix to prevent a bug where shields wouldn't work after switching sisters
+            Delay(1);
+            if (!CheckInventory("DRPGZShieldDamageHandler"))
+            {
+                SetInventory("DRPGZShieldDamageHandler", 1);
+            }
+        }
+    }
+}
+
+NamedScript DECORATE void SetPlayerActualHealth(int ActualHealth)
+{
+    Player.ActualHealth = ActualHealth;
+    Player.PrevHealth = Player.ActualHealth;
+    SetActorProperty(0, APROP_Health, Player.ActualHealth);
 }
 
 // --------------------------------------------------
@@ -2204,6 +3019,13 @@ int Pow(int x, int n)
     return y;
 }
 
+fixed PowFixed(fixed x, int n)
+{
+    fixed y = 1.0;
+    while (n-- > 0) y *= x;
+    return y;
+}
+
 // Return the absolute value of a negative integer
 int Abs(int x)
 {
@@ -2217,6 +3039,12 @@ int Abs(int x)
 int RoundInt(fixed x)
 {
     return (int)(x + 0.5);
+}
+
+// Rounds a long fixed to the nearest long integer
+long int RoundLongInt(long fixed x)
+{
+    return (long int)(x + 0.5l);
 }
 
 // Return the absolute value of a fixed-point value
@@ -2418,8 +3246,8 @@ NamedScript Console void Cheat(int StatBoost)
     }
 
     // Max Level/Rank
-    Player.XP = XPTable[MAX_LEVEL - 1];
-    Player.Rank = RankTable[MAX_RANK - 1];
+    Player.Level = MAX_LEVEL;
+    Player.RankLevel = MAX_RANK;
 
     // Stats
     Player.Strength = StatBoost;
@@ -2585,6 +3413,7 @@ NamedScript Console void GiveAugs(int Canisters, int Upgrades, int Slots)
     {
         AugInfoPtr AugPtr = &AugData[i];
         Player.Augs.Level[i] = AugPtr->MaxLevel;
+        Player.Augs.CurrentLevel[i] = Player.Augs.Level[i];
     }
 }
 
@@ -2699,7 +3528,7 @@ void CreateTranslations()
 
 bool CheckInput(int Key, int State, bool ModInput, int PlayerNumber)
 {
-    if (InMultiplayer)
+    if (InMultiplayer || GetUserCVar(PlayerNumber, "drpg_deltatouch"))
         return CheckInputACS(Key, State, ModInput, PlayerNumber);
     else
     {
@@ -2710,6 +3539,8 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNumber)
 
         return CheckInputZS(Key, i);
     }
+
+    static int CheckInputRepeatTimer; // Delete in the future
 }
 
 // Singleplayer Input is managed by ZScript and updated via this function
@@ -2843,6 +3674,15 @@ bool CheckInputACS(int Key, int State, bool ModInput, int PlayerNumber)
     int InputOld;
     int Buttons;
     int OldButtons;
+    static bool CheckInputRepeat;
+    static int CheckInputRepeatTimer;
+    double AxisY;
+    double AxisX;
+    // These two are meant to mimic OldButtons
+    static double OldAxisY;
+    static double OldAxisX;
+    bool UseAxis = false;
+    bool UseDeltaTouch = GetUserCVar(PlayerNumber, "drpg_deltatouch");
 
     if (!ModInput)
     {
@@ -2858,23 +3698,68 @@ bool CheckInputACS(int Key, int State, bool ModInput, int PlayerNumber)
     Buttons = GetPlayerInput(PlayerNumber, Input);
     OldButtons = GetPlayerInput(PlayerNumber, InputOld);
 
+    // Proper navigation support for joystick, binding movement keys no longer necessary
+    if (UseDeltaTouch && Key & BT_FORWARD || UseDeltaTouch && Key & BT_BACK || UseDeltaTouch && Key & BT_MOVELEFT || UseDeltaTouch && Key & BT_MOVERIGHT)
+    {
+        AxisY = GetPlayerInput(PlayerNumber, INPUT_FORWARDMOVE);
+        AxisX = GetPlayerInput(PlayerNumber, INPUT_SIDEMOVE);
+
+        // Simplify
+        if (AxisY > 1.0) AxisY = 1.0;
+        if (AxisY < -1.0) AxisY = -1.0;
+        if (AxisX > 1.0) AxisX = 1.0;
+        if (AxisX < -1.0) AxisX = -1.0;
+
+        // Decide if the axises are old and moldy
+        if (AxisY < OldAxisY || AxisY > OldAxisY)
+            OldAxisY = 0;
+        if (AxisX > OldAxisX || AxisX < OldAxisX)
+            OldAxisX = 0;
+
+        if (OldAxisY == 0 && OldAxisX == 0)
+        {
+            if (Key & BT_FORWARD && AxisY == 1.0)
+                UseAxis = true;
+            else if (Key & BT_BACK && AxisY == -1.0)
+                UseAxis = true;
+            else if (Key & BT_MOVELEFT && AxisX == -1.0)
+                UseAxis = true;
+            else if (Key & BT_MOVERIGHT && AxisX == 1.0)
+                UseAxis = true;
+        }
+    }
+
     switch (State)
     {
     case KEY_PRESSED:
     {
-        if (Buttons & Key && !(OldButtons & Key))
+        if (UseAxis)
+        {
+            OldAxisY = AxisY;
+            OldAxisX = AxisX;
+            return true;
+        }
+        else if (Buttons & Key && !(OldButtons & Key))
             return true;
     }
     break;
     case KEY_ONLYPRESSED:
     {
-        if (Buttons & Key && !(OldButtons & Key))
+        if (UseAxis)
+        {
+            OldAxisY = AxisY;
+            OldAxisX = AxisX;
+            return true;
+        }
+        else if (Buttons & Key && !(OldButtons & Key))
             return true;
     }
     break;
     case KEY_HELD:
     {
-        if (Buttons & Key)
+        if (UseAxis)
+            return true;
+        else if (Buttons & Key)
             return true;
     }
     break;
@@ -2886,7 +3771,7 @@ bool CheckInputACS(int Key, int State, bool ModInput, int PlayerNumber)
     break;
     case KEY_ANYIDLE:
     {
-        if (Buttons & Key && !(OldButtons & Key))
+        if (!UseAxis && Buttons & Key && !(OldButtons & Key))
             return true;
     }
     break;
@@ -2899,7 +3784,26 @@ bool CheckInputACS(int Key, int State, bool ModInput, int PlayerNumber)
     // Originally not compatible with multiplayer, so it is now KEY_PRESSED
     case KEY_REPEAT:
     {
-        if (Buttons & Key && !(OldButtons & Key))
+        if (UseAxis)
+        {
+            int CurrentTime = Timer();
+            if (CurrentTime + 5 + 1 < CheckInputRepeatTimer) CheckInputRepeat = false;
+            if (!CheckInputRepeat)
+            {
+                CheckInputRepeatTimer = CurrentTime;
+                CheckInputRepeatTimer += 5;
+                CheckInputRepeat = true;
+                return true;
+            }
+            else
+            {
+                if (CurrentTime >= CheckInputRepeatTimer)
+                    CheckInputRepeat = false;
+                else
+                    return false;
+            }
+        }
+        else if (Buttons & Key && !(OldButtons & Key))
             return true;
     }
     break;
@@ -3155,12 +4059,37 @@ NamedScript void Silly()
     SetMusic("Credits2");
 }
 
+/*
 NamedScript Console void Test()
 {
-    int *TID = (int *)Player.DropTID.Data;
-    for (int i = 0; i < Player.DropTID.Position; i++)
+    // For test the drop system
+    if (DebugLog)
     {
-        Log("%d: ID:%d, %S", i, TID[i], GetActorClass(TID[i]));
+        Log("------------------------------------");
+        Log("Weapons spawned:");
+        for (int i = 0; i < ItemMax[0]; i++)
+            if (ItemData[0][i].Spawned > 0)
+                Log("Item #%d. %S - %d spawned", i, ItemData[0][i].Name, ItemData[0][i].Spawned);
+
+        Log("------------------------------------");
+        Log("Armors spawned:");
+        for (int j = 0; j < ItemMax[3]; j++)
+            if (ItemData[3][j].Spawned > 0)
+                Log("Item #%d. %S - %d spawned", j, ItemData[3][j].Name, ItemData[3][j].Spawned);
+
+        Log("------------------------------------");
+        Log("Boots spawned:");
+        for (int k = 0; k < ItemMax[9]; k++)
+            if (ItemData[9][k].Spawned > 0)
+                Log("Item #%d. %S - %d spawned", k, ItemData[9][k].Name, ItemData[9][k].Spawned);
+
+        Log("------------------------------------");
+        Log("Shield parts spawned:");
+        for (int h = 0; h < ItemMax[5]; h++)
+            if (ItemData[5][h].Spawned > 0)
+                Log("Item #%d. %S - %d spawned", h, ItemData[5][h].Name, ItemData[5][h].Spawned);
+
+        Log("------------------------------------");
     }
-    return;
 }
+*/

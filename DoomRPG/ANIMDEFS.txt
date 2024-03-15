@@ -9,6 +9,16 @@ warp texture FFLDA0
 // Doomsday
 texture FIRESK00
     range FIRESK99 tics 2
+	
+//---------------------------------------------------
+// Outpost 2 textures
+
+texture 64MONI1 range 64MONI4 tics 4
+texture	OPANA1 range OPANA4	tics 6
+texture OPANAA1 range OPANAA4 tics 6
+texture CGCANI00 range CGCANI07 tics 4
+texture ECOMP1 range ECOMP4 tics 5
+texture TSORT1 range TSORT9 tics 4
 
 // --------------------------------------------------
 // MENU
@@ -238,12 +248,18 @@ texture P5UPA0
     pic P5UPD0 tics 4
     
 // Blanks
+texture L1UPA0
+    pic L1UPA0 tics 4
+    pic L1UPB0 tics 4
+    pic L1UPC0 tics 4
+    pic L1UPD0 tics 4
+
 texture P1UBA0
     pic P1UBA0 tics 4
     pic P1UBB0 tics 4
     pic P1UBC0 tics 4
     pic P1UBD0 tics 4
-    
+
 texture P3UBA0
     pic P3UBA0 tics 4
     pic P3UBB0 tics 4
@@ -358,6 +374,15 @@ texture CRG1
 texture PVIS
 	pic PVIS tics 6
 	pic PVISB tics 6
+
+// Automap Inventory Icon
+texture PMAP
+	pic PMAP tics 6
+	pic PMAPB tics 6
+	pic PMAPC tics 6
+	pic PMAPD tics 6
+	pic PMAPC tics 6
+	pic PMAPB tics 6
 
 // Regeneration Sphere
 texture REGN

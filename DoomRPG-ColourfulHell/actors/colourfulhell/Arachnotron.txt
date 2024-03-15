@@ -12,6 +12,8 @@ ACTOR CommonSP1RPG : CommonSP1 Replaces CommonSP1
 {
 	Tag "Arachnotron"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -27,6 +29,26 @@ ACTOR CommonSP1RPG : CommonSP1 Replaces CommonSP1
 ACTOR GreenSP1RPG : GreenSP1 Replaces GreenSP1
 {
 	Tag "Uncommon Arachnotron"
+
+    DropItem "DRPGEmpty"
+
+	States
+	{
+	Spawn:
+		BSPI A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		BSPI A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Brown Arachnotron
+ACTOR BrownSP2RPG : BrownSP2 Replaces BrownSP2
+{
+	Tag "Monstrous Arachnotron"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -44,6 +66,8 @@ ACTOR CyanSP2RPG : CyanSP2 Replaces CyanSP2
 {
 	Tag "Icy Brainchotron"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -59,6 +83,8 @@ ACTOR CyanSP2RPG : CyanSP2 Replaces CyanSP2
 ACTOR BlueSP1RPG : BlueSP1 Replaces BlueSP1
 {
 	Tag "Rare Arachnotron"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -76,6 +102,8 @@ ACTOR PurpleSP1RPG : PurpleSP1 Replaces PurpleSP1
 {
 	Tag "Epic Arachnotron"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -91,6 +119,8 @@ ACTOR PurpleSP1RPG : PurpleSP1 Replaces PurpleSP1
 ACTOR GraySP2RPG : GraySP2 Replaces GraySP2
 {
 	Tag "Ancient Arachnotron"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -108,6 +138,8 @@ ACTOR AbyssSP2RPG : AbyssSP2 Replaces AbyssSP2
 {
 	Tag "Abyssal Dweller"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -123,6 +155,8 @@ ACTOR AbyssSP2RPG : AbyssSP2 Replaces AbyssSP2
 ACTOR YellowSP1RPG : YellowSP1 Replaces YellowSP1
 {
 	Tag "Brainchotron"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -140,6 +174,8 @@ ACTOR FireBluSP2RPG : FireBluSP2 Replaces FireBluSP2
 {
 	Tag "Enchanted Brainchotron"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -155,6 +191,8 @@ ACTOR FireBluSP2RPG : FireBluSP2 Replaces FireBluSP2
 ACTOR RedSP1RPG : RedSP1 Replaces RedSP1
 {
 	Tag "Raging Arachnotron"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -172,6 +210,8 @@ ACTOR BlackSP2RPG : BlackSP2 Replaces BlackSP2
 {
 	Tag "Explosive Arachnotron"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -188,6 +228,8 @@ ACTOR WhiteSP11RPG : WhiteSP11 Replaces WhiteSP11
 {
 	Tag "Ungoliant"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -202,6 +244,8 @@ ACTOR WhiteSP11RPG : WhiteSP11 Replaces WhiteSP11
 ACTOR WhiteSP3RPG : WhiteSP3 Replaces WhiteSP3
 {
 	Tag "Ungoliant Progeny"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -218,6 +262,8 @@ ACTOR WhiteSP2RPG : WhiteSP2 Replaces WhiteSP2
 {
 	Tag "Ungoliant Progeny"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -232,6 +278,8 @@ ACTOR WhiteSP2RPG : WhiteSP2 Replaces WhiteSP2
 ACTOR MiniSP1RPG : MiniSP1 Replaces MiniSP1
 {
 	Tag "Spiderling"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{

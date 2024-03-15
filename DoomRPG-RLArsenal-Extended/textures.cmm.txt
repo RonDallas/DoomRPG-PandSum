@@ -1,0 +1,14 @@
+graphic SOLSOUL3,  32, 32
+{
+	xscale 1.5
+	yscale 1.5
+	Offset -10, -12
+	Patch SOUGA0, 0, 0
+}
+graphic SOLSOUL4,  32, 32
+{
+	xscale 1.5
+	yscale 1.5
+	Offset -10, -12
+	Patch SOURA0, 0, 0
+}

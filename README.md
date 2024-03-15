@@ -1,50 +1,65 @@
-## Fork Overview
+## Fork overview
 
-The main goal of this fork is bugfixing/stability & performance improvements; however, some usability/gameplay tweaks have been made.
-I recommend reading CHANGELOG.txt and the commits for all the changes.
+DoomRPG and DoomRLA contain a lot of content which can be enough for the passage of several WADs in a row. However, the original versions of these modifications give players most of the content in a short period of time, which is why the player does not have time to feel the depth of the possibilities of DoomRPG and DoomRLA.
 
-## Installing
+This fork intends to solve this problem. Now the content is served to the player as you progress through the levels (maps), increase the level of the character and the level of luck (a little hint: I recommend paying special attention to this parameter).
 
-Compatible source ports:
-- GZDoom v3.7.0 or higher
-- LZDoom v3.83a or higher
-- Delta Touch v3.1 or higher
+In addition, some of the content (RPG's Skills, Stims, AUG, Auras, etc.) are now the things that need to be applied to survive.
 
-### Launcher:
-https://github.com/Forevener/DRPGSEL/releases
+Among other things, the Adaptive difficulty mode (DoomRLA's stuff) was revised. Changed the intensity of the appearance of more difficulty monsters on the levels. In addition, you will be able to adjust it. Just go to DoomRPG Options -> Misc and see for yourself.
 
-It can download the mod and launch it.
+Enjoy! 
 
-### Manually:
-https://github.com/Sumwunn/DoomRPG 
+## Installing (build)
 
-Click the green "Code" button, then "Download ZIP." Extract, and then read the wiki for help.
+Below is the download link:
+1. [DoomRPG SE Rebalance Last Build (for GZDoom 4.10.0)](https://drive.google.com/drive/folders/1lbhGQVh_MXSTBQ-iCmuOIHOE31HREPUE?usp=sharing)
 
-https://github.com/Sumwunn/DoomRPG/wiki
+Installation Instructions:
+
+1. The archive has a folder DoomRPG SE Rebalance. Unzip this folder to any location on the drive;
+2. Put your doom2.wad in "..\DoomRPG SE Rebalance\DoomRPG-wads". doom2.wad is the main file of the original game. Can buy it in [Steam](https://store.steampowered.com/app/2300/DOOM_II/) market;
+3. The archive has a folder Extras, it has screenshots of DoomRPG Launcher with the order of launching modifications (DoomRLA, Lexicon, etc.). Make sure your Load Order in the "Mods" tab of the Launcher matches the screenshots;
+4. Run the DoomRPG.exe and click "Launch Doom RPG" to start playing.
+
+## Manual Installing
+
+- [GZDoom v4.10.0](https://github.com/coelckers/gzdoom/releases/download/g4.10.0/gzdoom-4-10-0-Windows-64bit.zip) is required to play this mod.
+- LZDoom v3.83a or higher.
+- Delta Touch (Android) v4.6 or higher (includes the above versions or higher).
+
+To run the mod I recommend using [Doom RPG SE Launcher 1.3.1](https://github.com/Forevener/DRPGSEL/releases/tag/1.3.1).
+
+After installation be sure to DoomRPG settings reset (Options -> DoomRPG Otions -> Reset to defaults).
+
+Use the following load order:
+
+1. [WadSmoosh](https://forum.zdoom.org/viewtopic.php?f=19&t=52757) and/or [The Sentinel's Lexicon - PvE mapset Compilaition](https://github.com/WNC12k/DoomRPG-Lexicon/releases) or another mapset;
+2. [DoomRL Arsenal 1.1.5](https://forum.zdoom.org/viewtopic.php?f=43&t=37044) or [LegenDoom v2.8.3](https://forum.zdoom.org/viewtopic.php?t=51035);
+3. [DoomRL Monsters Beta 7.3](https://forum.zdoom.org/viewtopic.php?f=43&t=37044) or [Colourful Hell v0.99b](https://forum.zdoom.org/viewtopic.php?t=47980) or [Rampancy v2.0](https://forum.zdoom.org/viewtopic.php?f=43&t=67193) or [Dehacked Attack v4.0](https://forum.zdoom.org/viewtopic.php?f=43&t=72362) or [Pandemonia Monsters v2.2](https://forum.zdoom.org/viewtopic.php?t=60984);
+4. [DoomRL Arsenal Extended 1.1c](https://forum.zdoom.org/viewtopic.php?f=43&t=70549);
+5. [Corruption Cards 5.1c](https://forum.zdoom.org/viewtopic.php?t=67939);
+6. DoomRPG;
+7. DoomRPG compatibility patches (as per modifications).
 
 ## Compatible mods
 
-#### Only the mods below are compatible. Anything else is unsupported and may lead to instability.
-
-- DoomRL Arsenal - [1.1.5] [MP-B7.3]
-- LegenDoom v2.7
-- Colourful Hell v0.97ccc
+- [DoomRL Arsenal - v1.1.5](https://forum.zdoom.org/viewtopic.php?f=43&t=37044);
+- [DoomRL Monsters Beta 7.3](https://forum.zdoom.org/viewtopic.php?f=43&t=37044);
+- [DoomRL Arsenal Extended - v1.1c](https://forum.zdoom.org/viewtopic.php?f=43&t=70549);
+- [Corruption Cards 5.1c](https://forum.zdoom.org/viewtopic.php?t=67939);
+- [Rampancy v2.0](https://forum.zdoom.org/viewtopic.php?f=43&t=67193);
+- [LegenDoom v2.8.3](https://forum.zdoom.org/viewtopic.php?t=51035);
+- [Colourful Hell v0.99b](https://forum.zdoom.org/viewtopic.php?t=47980);
+- [Dehacked Attack v4.0](https://forum.zdoom.org/viewtopic.php?f=43&t=72362);
+- [Pandemonia Monsters v2.2](https://forum.zdoom.org/viewtopic.php?t=60984);
 - Custom version of Jimmy's Jukebox Instant Randomizer has been included which allows DRPG's map events and Outpost music to play.
 
-#### Compatible Combos:
-- DoomRL Arsenal + DoomRL Monsters
+## Donate
 
-- DoomRL Arsenal + Colourful Hell
+If you want to help this project:
 
-- LegenDoom + DoomRL Monsters
-
-- LegenDoom + Colourful Hell
-
-Due to how DRPG is programmed, unlisted combos are unsupported and could lead to unstable behaviour.
-
-## Notes
-
-- I, Sumwunn, am personally not comfortable with making gameplay related changes (balance and stuff), so 90% of the time you will just see bugfixes from me.
-- Refer to Links.txt for all required tools for compiling.
-- I'm just a fan of DoomRPG and want to keep it functioning. I'm not experienced, and very much learning as I go, so feel free to offer any comments. I'm also looking at the TODO list and seeing which I can accomplish. Starting with the small tasks of course!
-- Probably forgot something.
+- BTC: bc1qenxqtz0rn2tpeczg9dtqy0j7vlaew2a3cg392v
+- ETH: 0x3aBee6C1dAD4C2f9c419c88bcab0F63B8dD802BE
+- LTC: ltc1q0gj547xe9ltpd5dfxvdw8gvha85n2sqmrv07h8
+- DOGE: DJQMZyphTkUhtyJ4DDHjskaphCfDZusu5b

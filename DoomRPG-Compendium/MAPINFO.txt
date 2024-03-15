@@ -1,0 +1,11237 @@
+clearepisodes
+
+episode OUTPOST
+	{
+    name = "UAC Outpost"
+    key = "U"
+    optional
+	}
+
+// Hub Map
+
+map HUBMAP "Welcome!"
+	{
+	music = "HUBMAP1"
+	sky1 = "MARVSKY"
+	sky2 = "TOHSKY"
+	}
+
+map STOCKUP "Stock Up"
+	{
+	music = "D_STALKS"
+	sky1 = "BIOSKY1"
+	next = "OUTPOST"
+	}
+	
+map TEST "Testing Map"
+	{
+	music = "TESTMUS"
+	sky1 = "TOHSKY"
+	}
+
+// Memento Mori
+
+map MM101 "The Teleporter"
+	{
+	next = "MM102"
+	music = "MUS_M101"
+	sky1 = "MM1SKY1"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	par = 120
+	}
+
+map MM102 "The Bridge"
+	{
+	next = "MM103"
+	music = "MUS_M102"
+	sky1 = "MM1SKY1"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	par = 300
+	}
+
+map MM103 "Interlock"
+	{
+	next = "MM104"
+	music = "MUS_M103"
+	sky1 = "MM1SKY1"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM104 "The Stand"
+	{
+	next = "MM105"
+	music = "MUS_M104"
+	sky1 = "MM1SKY1"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM105 "Hell's Kitchen"
+	{
+	next = "MM106"
+	music = "MUS_M105"
+	sky1 = "MM1SKY1"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM106 "The Powerstation"
+	{
+	next = "MM107"
+	music = "MUS_M106"
+	sky1 = "MM1SKY1"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM107 "Not That Simple"
+	{
+	next = "MM108"
+	music = "MUS_M107"
+	sky1 = "MM1SKY1"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map MM108 "And The Dead Shall Rise"
+	{
+	next = "MM109"
+	music = "MUS_M108"
+	sky1 = "MM1SKY1"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM109 "High-Tech Grave"
+	{
+	next = "MM110"
+	music = "MUS_M109"
+	sky1 = "MM1SKY1"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+	
+map MM110 "The Mansion"
+	{
+	next = "MM111"
+	music = "MUS_M110"
+	sky1 = "MM1SKY1"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM111 "Halls of Insanity"
+	{
+	next = "MM112"
+	music = "MUS_M111"
+	sky1 = "MM1SKY1"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM112 "Kinetics"
+	{
+	next = "MM113"
+	music = "MUS_M112"
+	sky1 = "MM1SKY2"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM113 "The Inmost Dens II"
+	{
+	next = "MM114"
+	music = "MUS_M113"
+	sky1 = "MM1SKY2"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM114 "Aquaduct"
+	{
+	next = "MM115"
+	music = "MUS_M114"
+	sky1 = "MM1SKY2"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+	
+map MM115 "Karmacoma"
+	{
+	next = "MM116"
+	secretnext = "MM131"
+	music = "MUS_M115"
+	sky1 = "MM1SKY2"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+	
+map MM116 "Stoned"
+	{
+	next = "MM117"
+	music = "MUS_M116"
+	sky1 = "MM1SKY2"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM117 "House of Thorn"
+	{
+	next = "MM118"
+	music = "MUS_M117"
+	sky1 = "MM1SKY2"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+	
+map MM118 "A Dead Man's Town"
+	{
+	next = "MM119"
+	music = "MUS_M118"
+	sky1 = "MM1SKY2"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM119 "Maltraiter"
+	{
+	next = "MM120"
+	music = "MUS_M119"
+	sky1 = "MM1SKY2"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+	
+map MM120 "Mountain Depot"
+	{
+	next = "MM121"
+	music = "MUS_M120"
+	sky1 = "MM1SKY2"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM121 "Twilight Lab"
+	{
+	next = "MM122"
+	music = "MUS_M121"
+	sky1 = "MM1SKY3"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM122 "The Escape"
+	{
+	next = "MM123"
+	music = "MUS_M122"
+	sky1 = "MM1SKY3"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+	
+map MM123 "Showdown"
+	{
+	next = "MM124"
+	music = "MUS_M123"
+	sky1 = "MM1SKY3"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM124 "Diehard"
+	{
+	next = "MM125"
+	music = "MUS_M124"
+	sky1 = "MM1SKY3"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM125 "Cesspool"
+	{
+	next = "MM126"
+	music = "MUS_M125"
+	sky1 = "MM1SKY3"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+	
+map MM126 "Between Scattered Corpses"
+	{
+	next = "MM127"
+	music = "MUS_M126"
+	sky1 = "MM1SKY3"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM127 "Fort Hades"
+	{
+	next = "MM128"
+	music = "MUS_M127"
+	sky1 = "MM1SKY3"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM128 "City Of The Unavenged"
+	{
+	next = "MM129"
+	music = "MUS_M128"
+	sky1 = "MM1SKY3"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM129 "Island Of Death"
+	{
+	next = "MM130"
+	music = "MUS_M129"
+	sky1 = "MM1SKY3"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	compat_shorttex = 1
+	}
+	
+map MM130 "Viper"
+	{
+	next = "OUTPOST"
+	music = "MUS_M130"
+	sky1 = "MM1SKY3"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+map MM131 "Technology Base"
+	{
+	next = "MM116"
+	secretnext = "MM132"
+	music = "MUS_M131"
+	sky1 = "MM1SKY3"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+	
+map MM132 "The Hidden Slime Factory"
+	{
+	next = "MM116"
+	music = "MUS_M132"
+	sky1 = "MM1SKY3"
+	enterpic = "MM1INT"
+	exitpic = "MM1INT"
+	intermusic = "MUS_M1IN"
+	}
+
+// Memento Mori II
+
+map MM201 "Outpost"
+	{
+	next = "MM202"
+	music = "MUS_M201"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM202 "The Feeding Pit"
+	{
+	next = "MM203"
+	music = "MUS_M202"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM203 "... And Hell Beneath"
+	{
+	next = "MM204"
+	music = "MUS_M203"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM204 "Ratamahatta"
+	{
+	next = "MM205"
+	music = "MUS_M204"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	compat_shorttex = 1
+	}
+
+map MM205 "Rites of Passage"
+	{
+	next = "MM206"
+	music = "MUS_M205"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM206 "Trapped"
+	{
+	next = "MM207"
+	music = "MUS_M206"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM207 "Frustration"
+	{
+	next = "MM208"
+	music = "MUS_M207"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map MM208 "Stigmata"
+	{
+	next = "MM209"
+	music = "MUS_M208"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM209 "Sabbath Sewer"
+	{
+	next = "MM210"
+	music = "MUS_M209"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+	
+map MM210 "Clear for Death"
+	{
+	next = "MM211"
+	music = "MUS_M210"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM211 "Sewer Shutdown"
+	{
+	next = "MM212"
+	music = "MUS_M211"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM212 "The Waterway"
+	{
+	next = "MM213"
+	music = "MUS_M212"
+	sky1 = "MM2SKY2"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM213 "Devil's Paradise"
+	{
+	next = "MM214"
+	music = "MUS_M213"
+	sky1 = "MM2SKY2"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM214 "A Question of Time"
+	{
+	next = "MM215"
+	music = "MUS_M214"
+	sky1 = "MM2SKY2"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+	
+map MM215 "The Devil's Coterie"
+	{
+	next = "MM216"
+	secretnext = "MM231"
+	music = "MUS_M215"
+	sky1 = "MM2SKY2"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+	
+map MM216 "The Nephilim"
+	{
+	next = "MM217"
+	music = "MUS_M216"
+	sky1 = "MM2SKY2"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM217 "No One"
+	{
+	next = "MM218"
+	music = "MUS_M217"
+	sky1 = "MM2SKY2"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+	
+map MM218 "Regulate"
+	{
+	next = "MM219"
+	music = "MUS_M218"
+	sky1 = "MM2SKY2"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM219 "The Shaft"
+	{
+	next = "MM220"
+	music = "MUS_M219"
+	sky1 = "MM2SKY2"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+	
+map MM220 "The Experiment"
+	{
+	next = "MM221"
+	music = "MUS_M220"
+	sky1 = "MM2SKY2"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM221 "Sanctuary"
+	{
+	next = "MM222"
+	music = "MUS_M221"
+	sky1 = "MM2SKY3"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM222 "R.R.F. Refinary"
+	{
+	next = "MM223"
+	music = "MUS_M222"
+	sky1 = "MM2SKY3"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+	
+map MM223 "No Way Out"
+	{
+	next = "MM224"
+	music = "MUS_M223"
+	sky1 = "MM2SKY3"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM224 "Io Lab"
+	{
+	next = "MM225"
+	music = "MUS_M224"
+	sky1 = "MM2SKY3"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM225 "Forgotten Town"
+	{
+	next = "MM226"
+	music = "MUS_M225"
+	sky1 = "MM2SKY3"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	compat_shorttex = 1
+	}
+	
+map MM226 "Base Exposure"
+	{
+	next = "MM227"
+	music = "MUS_M226"
+	sky1 = "MM2SKY3"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM227 "The Silos"
+	{
+	next = "MM228"
+	music = "MUS_M227"
+	sky1 = "MM2SKY3"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM228 "Corporate Hell"
+	{
+	next = "MM229"
+	music = "MUS_M228"
+	sky1 = "MM2SKY3"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM229 "Kings of Metal"
+	{
+	next = "MM230"
+	music = "MUS_M229"
+	sky1 = "MM2SKY3"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+	
+map MM230 "It"
+	{
+	next = "OUTPOST"
+	music = "MUS_M230"
+	sky1 = "MM2SKY3"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MM231 "DejaVu"
+	{
+	next = "MM216"
+	secretnext = "MM232"
+	music = "MUS_M231"
+	sky1 = "MM2SKY3"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+	
+map MM232 "Dances with Demons"
+	{
+	next = "MMS01"
+	music = "MUS_M232"
+	sky1 = "MM2SKY3"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MMS01 "Secret Operation 1"
+	{
+	next = "MMS02"
+	music = "MUS_M201"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+map MMS02 "Secret Operation 2"
+	{
+	next = "MM216"
+	music = "MUS_M202"
+	sky1 = "MM2SKY1"
+	enterpic = "MM2INT"
+	exitpic = "MM2INT"
+	intermusic = "MUS_M2IN"
+	}
+
+// REQUIEM
+
+map REQ01 "The Gateway"
+	{
+	next = "REQ02"
+	music = "MUS_RQ01"
+	sky1 = "REQSKY1"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ02 "Sacrificium"
+	{
+	next = "REQ03"
+	music = "MUS_RQ02"
+	sky1 = "REQSKY1"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ03 "Poison Processing"
+	{
+	next = "REQ04"
+	music = "MUS_RQ03"
+	sky1 = "REQSKY1"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ04 "Fireworks"
+	{
+	next = "REQ05"
+	music = "MUS_RQ04"
+	sky1 = "REQSKY1"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ05 "The Canyon"
+	{
+	next = "REQ06"
+	music = "MUS_RQ05"
+	sky1 = "REQSKY1"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ06 "nataS ot etubirT"
+	{
+	next = "REQ07"
+	music = "MUS_RQ06"
+	sky1 = "REQSKY1"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ07 "Hell's Gift"
+	{
+	next = "REQ08"
+	music = "MUS_RQ07"
+	sky1 = "REQSKY1"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map REQ08 "The Reactor"
+	{
+	next = "REQ09"
+	music = "MUS_RQ08"
+	sky1 = "REQSKY1"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ09 "Deep Down Below"
+	{
+	next = "REQ10"
+	music = "MUS_RQ09"
+	sky1 = "REQSKY1"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+	
+map REQ10 "The Black Gate"
+	{
+	next = "REQ11"
+	music = "MUS_RQ10"
+	sky1 = "REQSKY1"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ11 "Rats in the Walls"
+	{
+	next = "REQ12"
+	music = "MUS_RQ11"
+	sky1 = "REQSKY1"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ12 "Militant Reprisal"
+	{
+	next = "REQ13"
+	music = "MUS_RQ12"
+	sky1 = "REQSKY2"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ13 "Town of the Dead"
+	{
+	next = "REQ14"
+	music = "MUS_RQ13"
+	sky1 = "REQSKY2"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ14 "The portal"
+	{
+	next = "REQ15"
+	music = "MUS_RQ14"
+	sky1 = "REQSKY2"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+	
+map REQ15 "Last Resort"
+	{
+	next = "REQ16"
+	secretnext = "REQ31"
+	music = "MUS_RQ15"
+	sky1 = "REQSKY2"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+	
+map REQ16 "Escape From Chaos"
+	{
+	next = "REQ17"
+	music = "MUS_RQ16"
+	sky1 = "REQSKY2"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ17 "Dens of Iniquity"
+	{
+	next = "REQ18"
+	music = "MUS_RQ17"
+	sky1 = "REQSKY2"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+	
+map REQ18 "Base of Thorn"
+	{
+	next = "REQ19"
+	music = "MUS_RQ18"
+	sky1 = "REQSKY2"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ19 "Skinny Puppy"
+	{
+	next = "REQ20"
+	music = "MUS_RQ19"
+	sky1 = "REQSKY2"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+	
+map REQ20 "The Forsaken Hall"
+	{
+	next = "REQ21"
+	music = "MUS_RQ20"
+	sky1 = "REQSKY2"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ21 "Den of the Skull"
+	{
+	next = "REQ22"
+	music = "MUS_RQ21"
+	sky1 = "REQSKY3"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ22 "Arachnophobia"
+	{
+	next = "REQ23"
+	music = "MUS_RQ22"
+	sky1 = "REQSKY3"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+	
+map REQ23 "Hatred"
+	{
+	next = "REQ24"
+	music = "MUS_RQ23"
+	sky1 = "REQSKY3"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ24 "Procrustes Chambers"
+	{
+	next = "REQ25"
+	music = "MUS_RQ24"
+	sky1 = "REQSKY3"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ25 "Chaos Zone"
+	{
+	next = "REQ26"
+	music = "MUS_RQ25"
+	sky1 = "REQSKY3"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+	
+map REQ26 "Excoriation"
+	{
+	next = "REQ27"
+	music = "MUS_RQ26"
+	sky1 = "REQSKY3"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ27 "Cursed Kingdom"
+	{
+	next = "REQ28"
+	music = "MUS_RQ27"
+	sky1 = "REQSKY3"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ28 "Fetals' Remains"
+	{
+	next = "REQ29"
+	music = "MUS_RQ28"
+	sky1 = "REQSKY3"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ29 "Downer"
+	{
+	next = "REQ30"
+	music = "MUS_RQ29"
+	sky1 = "REQSKY3"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ30 "Nevermore"
+	{
+	next = "OUTPOST"
+	music = "MUS_RQ30"
+	sky1 = "REQSKY3"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ31 "Doorway to Quake"
+	{
+	next = "REQ16"
+	secretnext = "REQ32"
+	music = "MUS_RQ31"
+	sky1 = "REQSKY3"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+map REQ32 "Bitter Herb"
+	{
+	next = "REQ16"
+	music = "MUS_RQ32"
+	sky1 = "REQSKY3"
+	enterpic = "REQINT"
+	exitpic = "REQINT"
+	intermusic = "MUS_RQIN"
+	}
+
+// INSERTION
+
+map INS01 "Sabbatical"
+	{
+	next = "INS02"
+	music = "MUS_IN01"
+	sky1 = "INSSKY1"
+	enterpic = "INSINT"
+	exitpic = "INSINT"
+	intermusic = "MUS_ININ"
+	}
+
+map INS02 "Abandoned Station"
+	{
+	next = "INS03"
+	music = "MUS_IN02"
+	sky1 = "INSSKY1"
+	enterpic = "INSINT"
+	exitpic = "INSINT"
+	intermusic = "MUS_ININ"
+	}
+
+map INS03 "Cakewalk"
+	{
+	next = "INS04"
+	music = "MUS_IN03"
+	sky1 = "INSSKY1"
+	enterpic = "INSINT"
+	exitpic = "INSINT"
+	intermusic = "MUS_ININ"
+	}
+
+map INS04 "Inner Sanctum"
+	{
+	next = "INS05"
+	music = "MUS_IN04"
+	sky1 = "INSSKY1"
+	enterpic = "INSINT"
+	exitpic = "INSINT"
+	intermusic = "MUS_ININ"
+	}
+
+map INS05 "Barracks of Hell"
+	{
+	next = "INS06"
+	music = "MUS_IN05"
+	sky1 = "INSSKY1"
+	enterpic = "INSINT"
+	exitpic = "INSINT"
+	intermusic = "MUS_ININ"
+	}
+
+map INS06 "The Enemy Within"
+	{
+	next = "INS07"
+	music = "MUS_IN06"
+	sky1 = "INSSKY1"
+	enterpic = "INSINT"
+	exitpic = "INSINT"
+	intermusic = "MUS_ININ"
+	}
+
+map INS07 "Military Inferno"
+	{
+	next = "INS08"
+	music = "MUS_IN07"
+	sky1 = "INSSKY1"
+	enterpic = "INSINT"
+	exitpic = "INSINT"
+	intermusic = "MUS_ININ"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map INS08 "Toxic Waste Site"
+	{
+	next = "INS09"
+	music = "MUS_IN08"
+	sky1 = "INSSKY1"
+	enterpic = "INSINT"
+	exitpic = "INSINT"
+	intermusic = "MUS_ININ"
+	}
+
+map INS09 "Running Scared"
+	{
+	next = "INS10"
+	music = "MUS_IN09"
+	sky1 = "INSSKY1"
+	enterpic = "INSINT"
+	exitpic = "INSINT"
+	intermusic = "MUS_ININ"
+	}
+	
+map INS10 "Hanford Disaster"
+	{
+	next = "INS11"
+	music = "MUS_IN10"
+	sky1 = "INSSKY1"
+	enterpic = "INSINT"
+	exitpic = "INSINT"
+	intermusic = "MUS_ININ"
+	}
+
+map INS11 "Focal Point"
+	{
+	next = "OUTPOST"
+	music = "MUS_IN11"
+	sky1 = "INSSKY1"
+	enterpic = "INSINT"
+	exitpic = "INSINT"
+	intermusic = "MUS_ININ"
+	}
+	
+// OBITUARY
+
+map OBT01 "Entrance"
+	{
+	next = "OBT02"
+	music = "D_RUNNIN"
+	sky1 = "SKY1"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map OBT02 "The Cataract"
+	{
+	next = "OBT03"
+	music = "D_STALKS"
+	sky1 = "SKY1"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map OBT03 "Chambers of Confusion"
+	{
+	next = "OBT04"
+	music = "D_COUNTD"
+	sky1 = "SKY1"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map OBT04 "The Church"
+	{
+	next = "OBT05"
+	music = "D_BETWEE"
+	sky1 = "SKY1"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map OBT05 "The Hidden Below"
+	{
+	next = "OBT06"
+	music = "D_DOOM"
+	sky1 = "SKY1"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map OBT06 "Reactor"
+	{
+	next = "OBT07"
+	music = "D_THE_DA"
+	sky1 = "SKY1"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map OBT07 "Slaughter Until Death"
+	{
+	next = "OBT08"
+	music = "D_SHAWN"
+	sky1 = "SKY1"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map OBT08 "Observation Station"
+	{
+	next = "OBT09"
+	music = "D_DDTBLU"
+	sky1 = "SKY1"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map OBT09 "Nuclear Research Base"
+	{
+	next = "OBT10"
+	music = "D_IN_CIT"
+	sky1 = "SKY1"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map OBT10 "The Stand"
+	{
+	next = "OBT11"
+	music = "D_DEAD"
+	sky1 = "SKY1"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map OBT11 "Incubator of Chaos"
+	{
+	next = "OBT12"
+	music = "D_STLKS2"
+	sky1 = "SKY1"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map OBT12 "Biochemical Factory"
+	{
+	next = "OBT13"
+	music = "D_THEDA2"
+	sky1 = "SKY2"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map OBT13 "Pandemonium II"
+	{
+	next = "OBT14"
+	music = "D_DOOM2"
+	sky1 = "SKY2"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map OBT14 "Halls of the Requiem"
+	{
+	next = "OBT15"
+	music = "D_DDTBL2"
+	sky1 = "SKY2"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map OBT15 "Castle of Damnation"
+	{
+	next = "OBT16"
+	secretnext = "OBT31"
+	music = "D_RUNNI2"
+	sky1 = "SKY2"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map OBT16 "Conclusion"
+	{
+	next = "OUTPOST"
+	music = "D_DEAD2"
+	sky1 = "SKY2"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map OBT31 "Divine Inferno"
+	{
+	next = "OBT16"
+	music = "D_EVIL"
+	sky1 = "SKY3"
+	enterpic = "OBTINT"
+	exitpic = "OBTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// STRAIN
+
+map STR01 "Barracks"
+	{
+	next = "STR02"
+	music = "MUS_ST01"
+	sky1 = "STRSKY1"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR02 "Outskirts"
+	{
+	next = "STR03"
+	music = "MUS_ST02"
+	sky1 = "STRSKY1"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	compat_shorttex = 1
+	}
+
+map STR03 "Downtown"
+	{
+	next = "STR04"
+	music = "MUS_ST03"
+	sky1 = "STRSKY1"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR04 "Industrial Zone"
+	{
+	next = "STR05"
+	music = "MUS_ST04"
+	sky1 = "STRSKY1"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR05 "Depot"
+	{
+	next = "STR06"
+	music = "MUS_ST05"
+	sky1 = "STRSKY1"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR06 "Launch Control"
+	{
+	next = "STR07"
+	music = "MUS_ST06"
+	sky1 = "STRSKY1"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR07 "En Route"
+	{
+	next = "STR08"
+	music = "MUS_ST07"
+	sky1 = "STRSKY1"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map STR08 "Hangar"
+	{
+	next = "STR09"
+	music = "MUS_ST08"
+	sky1 = "STRSKY1"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR09 "Cargo Bay"
+	{
+	next = "STR10"
+	music = "MUS_ST09"
+	sky1 = "STRSKY1"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+	
+map STR10 "Entryway"
+	{
+	next = "STR11"
+	music = "MUS_ST10"
+	sky1 = "STRSKY1"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR11 "Command Control"
+	{
+	next = "STR12"
+	music = "MUS_ST11"
+	sky1 = "STRSKY1"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR12 "Power Station"
+	{
+	next = "STR13"
+	music = "MUS_ST12"
+	sky1 = "STRSKY2"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR13 "Ruins"
+	{
+	next = "STR14"
+	music = "MUS_ST13"
+	sky1 = "STRSKY2"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR14 "Engineering"
+	{
+	next = "STR15"
+	music = "MUS_ST14"
+	sky1 = "STRSKY2"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+	
+map STR15 "Subsidiary Power"
+	{
+	next = "STR16"
+	secretnext = "STR31"
+	music = "MUS_ST15"
+	sky1 = "STRSKY2"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+	
+map STR16 "Living Quarters"
+	{
+	next = "STR17"
+	music = "MUS_ST16"
+	sky1 = "STRSKY2"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR17 "Promenade"
+	{
+	next = "STR18"
+	music = "MUS_ST17"
+	sky1 = "STRSKY2"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+	
+map STR18 "Relay Station"
+	{
+	next = "STR19"
+	music = "MUS_ST18"
+	sky1 = "STRSKY2"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR19 "Waste Processing"
+	{
+	next = "STR20"
+	music = "MUS_ST19"
+	sky1 = "STRSKY2"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+	
+map STR20 "Reactor"
+	{
+	next = "STR21"
+	music = "MUS_ST20"
+	sky1 = "STRSKY2"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR21 "Maintenance"
+	{
+	next = "STR22"
+	music = "MUS_ST21"
+	sky1 = "STRSKY3"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR22 "Specimen Storage"
+	{
+	next = "STR23"
+	music = "MUS_ST22"
+	sky1 = "STRSKY3"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+	
+map STR23 "Dispensary Alpha"
+	{
+	next = "STR24"
+	music = "MUS_ST23"
+	sky1 = "STRSKY3"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR24 "Sub-Laboratory"
+	{
+	next = "STR25"
+	music = "MUS_ST24"
+	sky1 = "STRSKY3"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR25 "Main Laboratory"
+	{
+	next = "STR26"
+	music = "MUS_ST25"
+	sky1 = "STRSKY3"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+	
+map STR26 "Main Laboratory II"
+	{
+	next = "STR27"
+	music = "MUS_ST26"
+	sky1 = "STRSKY3"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR27 "Dispensary Beta"
+	{
+	next = "STR28"
+	music = "MUS_ST27"
+	sky1 = "STRSKY3"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR28 "Unknown"
+	{
+	next = "STR29"
+	music = "MUS_ST28"
+	sky1 = "STRSKY3"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR29 "Self-Destruct"
+	{
+	next = "STR30"
+	music = "MUS_ST29"
+	sky1 = "STRSKY3"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+	
+map STR30 "Boss"
+	{
+	next = "OUTPOST"
+	music = "MUS_ST30"
+	sky1 = "STRSKY3"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+map STR31 "Secret"
+	{
+	next = "STR16"
+	secretnext = "STR32"
+	music = "MUS_ST31"
+	sky1 = "STRSKY3"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	compat_shorttex = 1
+	}
+	
+map STR32 "Super Secret"
+	{
+	next = "STR16"
+	music = "MUS_ST32"
+	sky1 = "STRSKY3"
+	enterpic = "STRNINT"
+	exitpic = "STRNINT"
+	intermusic = "MUS_STIN"
+	}
+
+// BIOWAR
+
+map BIO01 "The End"
+	{
+	next = "BIO02"
+	music = "MUS_BW01"
+	sky1 = "BIOSKY1"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+
+map BIO02 "Terror Core"
+	{
+	next = "BIO03"
+	music = "MUS_BW02"
+	sky1 = "BIOSKY1"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+
+map BIO03 "Onslaught"
+	{
+	next = "BIO04"
+	music = "MUS_BW03"
+	sky1 = "BIOSKY1"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+
+map BIO04 "The Arrival"
+	{
+	next = "BIO05"
+	music = "MUS_BW04"
+	sky1 = "BIOSKY1"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+
+map BIO05 "Skybase"
+	{
+	next = "BIO06"
+	music = "MUS_BW05"
+	sky1 = "BIOSKY1"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+
+map BIO06 "Last Call"
+	{
+	next = "BIO07"
+	music = "MUS_BW06"
+	sky1 = "BIOSKY1"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+
+map BIO07 "Apparatus"
+	{
+	next = "BIO08"
+	music = "MUS_BW07"
+	sky1 = "BIOSKY1"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map BIO08 "Biolabs"
+	{
+	next = "BIO09"
+	music = "MUS_BW08"
+	sky1 = "BIOSKY1"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+
+map BIO09 "Security"
+	{
+	next = "BIO10"
+	music = "MUS_BW09"
+	sky1 = "BIOSKY1"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+	
+map BIO10 "Dark Woods"
+	{
+	next = "BIO11"
+	music = "MUS_BW10"
+	sky1 = "BIOSKY1"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+
+map BIO11 "Frozen Terror"
+	{
+	next = "BIO12"
+	music = "MUS_BW11"
+	sky1 = "BIOSKY1"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+
+map BIO12 "Military Center"
+	{
+	next = "BIO13"
+	music = "MUS_BW12"
+	sky1 = "BIOSKY2"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+
+map BIO13 "UAC Prison"
+	{
+	next = "BIO14"
+	music = "MUS_BW13"
+	sky1 = "BIOSKY2"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+
+map BIO14 "Absolution"
+	{
+	next = "BIO15"
+	music = "MUS_BW14"
+	sky1 = "BIOSKY2"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+	
+map BIO15 "Heat"
+	{
+	next = "BIO16"
+	secretnext = "BIO31"
+	music = "MUS_BW15"
+	sky1 = "BIOSKY2"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+	
+map BIO16 "The Killing Fields"
+	{
+	next = "BIO17"
+	music = "MUS_BW16"
+	sky1 = "BIOSKY2"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+	
+map BIO17 "Sacrilege"
+	{
+	next = "BIO18"
+	music = "MUS_BW17"
+	sky1 = "BIOSKY2"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+	
+map BIO18 "Die Heuschrecke"
+	{
+	next = "OUTPOST"
+	music = "MUS_BW18"
+	sky1 = "BIOSKY2"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+	
+map BIO31 "Juggelo Funhouse"
+	{
+	next = "BIO16"
+	music = "MUS_BW31"
+	sky1 = "BIOSKY3"
+	enterpic = "BIOWINT"
+	exitpic = "BIOWINT"
+	intermusic = "MUS_BWIN"
+	}
+
+// THE DARKENING
+
+map DRK01 "Scary"
+	{
+	next = "DRK02"
+	music = "MUS_DR01"
+	sky1 = "DRKSKY1"
+	enterpic = "DRK1INT"
+	exitpic = "DRK1INT"
+	intermusic = "MUS_DRIN"
+	}
+
+map DRK02 "Bloody Hell"
+	{
+	next = "DRK03"
+	music = "MUS_DR02"
+	sky1 = "DRKSKY1"
+	enterpic = "DRK1INT"
+	exitpic = "DRK1INT"
+	intermusic = "MUS_DRIN"
+	}
+
+map DRK03 "Entropia"
+	{
+	next = "DRK04"
+	music = "MUS_DR03"
+	sky1 = "DRKSKY1"
+	enterpic = "DRK1INT"
+	exitpic = "DRK1INT"
+	intermusic = "MUS_DRIN"
+	}
+
+map DRK04 "Relentless"
+	{
+	next = "DRK05"
+	music = "MUS_DR04"
+	sky1 = "DRKSKY1"
+	enterpic = "DRK1INT"
+	exitpic = "DRK1INT"
+	intermusic = "MUS_DRIN"
+	}
+
+map DRK05 "Hand of Doom"
+	{
+	next = "DRK06"
+	music = "MUS_DR05"
+	sky1 = "DRKSKY1"
+	enterpic = "DRK1INT"
+	exitpic = "DRK1INT"
+	intermusic = "MUS_DRIN"
+	}
+
+map DRK06 "The Mines of Death"
+	{
+	next = "DRK07"
+	music = "MUS_DR06"
+	sky1 = "DRKSKY1"
+	enterpic = "DRK1INT"
+	exitpic = "DRK1INT"
+	intermusic = "MUS_DRIN"
+	}
+
+map DRK07 "Dead Simple II"
+	{
+	next = "DRK08"
+	music = "MUS_DR07"
+	sky1 = "DRKSKY1"
+	enterpic = "DRK1INT"
+	exitpic = "DRK1INT"
+	intermusic = "MUS_DRIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map DRK08 "Discordia"
+	{
+	next = "DRK09"
+	music = "MUS_DR08"
+	sky1 = "DRKSKY1"
+	enterpic = "DRK1INT"
+	exitpic = "DRK1INT"
+	intermusic = "MUS_DRIN"
+	}
+
+map DRK09 "Military Complex"
+	{
+	next = "DRK10"
+	music = "MUS_DR09"
+	sky1 = "DRKSKY1"
+	enterpic = "DRK1INT"
+	exitpic = "DRK1INT"
+	intermusic = "MUS_DRIN"
+	}
+	
+map DRK10 "Under Earth"
+	{
+	next = "DRK11"
+	music = "MUS_DR10"
+	sky1 = "DRKSKY1"
+	enterpic = "DRK1INT"
+	exitpic = "DRK1INT"
+	intermusic = "MUS_DRIN"
+	}
+
+map DRK11 "Stone Tyrant"
+	{
+	next = "OUTPOST"
+	music = "MUS_DR11"
+	sky1 = "DRKSKY1"
+	enterpic = "DRK1INT"
+	exitpic = "DRK1INT"
+	intermusic = "MUS_DRIN"
+	}
+
+// THE TROOPER'S PLAYGROUND
+
+map TTP01 "Welcome"
+	{
+	next = "TTP02"
+	music = "D_RUNNIN"
+	sky1 = "TTPSKY1"
+	enterpic = "TTPINT"
+	exitpic = "TTPINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map TTP02 "Intrusion"
+	{
+	next = "TTP03"
+	music = "D_STALKS"
+	sky1 = "TTPSKY1"
+	enterpic = "TTPINT"
+	exitpic = "TTPINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map TTP03 "Simply Dead..."
+	{
+	next = "TTP04"
+	music = "D_COUNTD"
+	sky1 = "TTPSKY1"
+	enterpic = "TTPINT"
+	exitpic = "TTPINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map TTP04 "Going Down"
+	{
+	next = "TTP05"
+	music = "D_BETWEE"
+	sky1 = "TTPSKY1"
+	enterpic = "TTPINT"
+	exitpic = "TTPINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map TTP05 "Underground Temple"
+	{
+	next = "TTP06"
+	music = "D_DOOM"
+	sky1 = "TTPSKY1"
+	enterpic = "TTPINT"
+	exitpic = "TTPINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map TTP06 "Deep Down Below"
+	{
+	next = "TTP07"
+	music = "D_THE_DA"
+	sky1 = "TTPSKY1"
+	enterpic = "TTPINT"
+	exitpic = "TTPINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map TTP07 "Three 'O Matic"
+	{
+	next = "TTP08"
+	music = "D_IN_CIT"
+	sky1 = "TTPSKY1"
+	enterpic = "TTPINT"
+	exitpic = "TTPINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map TTP08 "Star Control"
+	{
+	next = "TTP09"
+	music = "D_DDTBLU"
+	sky1 = "TTPSKY1"
+	enterpic = "TTPINT"
+	exitpic = "TTPINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map TTP09 "Deliverence?"
+	{
+	next = "OUTPOST"
+	music = "D_SHAWN"
+	sky1 = "TTPSKY1"
+	enterpic = "TTPINT"
+	exitpic = "TTPINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// PERDITION'S GATE
+
+map PGR01 "Main Gate"
+	{
+	next = "PGR02"
+	music = "MUS_PG01"
+	sky1 = "PGRSKY1"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR02 "Interlock"
+	{
+	next = "PGR03"
+	music = "MUS_PG02"
+	sky1 = "PGRSKY1"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR03 "Recreation Yard"
+	{
+	next = "PGR04"
+	music = "MUS_PG03"
+	sky1 = "PGRSKY1"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR04 "Storage Area"
+	{
+	next = "PGR05"
+	music = "MUS_PG04"
+	sky1 = "PGRSKY1"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR05 "Sub-Basement Entry"
+	{
+	next = "PGR06"
+	music = "MUS_PG05"
+	sky1 = "PGRSKY1"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR06 "Waste Areas"
+	{
+	next = "PGR07"
+	music = "MUS_PG06"
+	sky1 = "PGRSKY1"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR07 "Flow Control Facility"
+	{
+	next = "PGR08"
+	music = "MUS_PG07"
+	sky1 = "PGRSKY1"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map PGR08 "Drainage Tunnels"
+	{
+	next = "PGR09"
+	music = "MUS_PG08"
+	sky1 = "PGRSKY1"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR09 "Hangar"
+	{
+	next = "PGR10"
+	music = "MUS_PG09"
+	sky1 = "PGRSKY1"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+	
+map PGR10 "High Security Area"
+	{
+	next = "PGR11"
+	music = "MUS_PG10"
+	sky1 = "PGRSKY1"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR11 "Secret Teleporter Lab"
+	{
+	next = "PGR12"
+	music = "MUS_PG11"
+	sky1 = "PGRSKY1"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR12 "Entryway to the Worlds of the Ancients"
+	{
+	next = "PGR13"
+	music = "MUS_PG12"
+	sky1 = "PGRSKY2"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR13 "Distant Worlds"
+	{
+	next = "PGR14"
+	music = "MUS_PG13"
+	sky1 = "PGRSKY2"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR14 "Transfer Locking Area"
+	{
+	next = "PGR15"
+	music = "MUS_PG14"
+	sky1 = "PGRSKY2"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+	
+map PGR15 "Teleporter Central"
+	{
+	next = "PGR16"
+	secretnext = "PGR31"
+	music = "MUS_PG15"
+	sky1 = "PGRSKY2"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+	
+map PGR16 "The Alien Shrine"
+	{
+	next = "PGR17"
+	music = "MUS_PG16"
+	sky1 = "PGRSKY2"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR17 "Interdimensional Control"
+	{
+	next = "PGR18"
+	music = "MUS_PG17"
+	sky1 = "PGRSKY2"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+	
+map PGR18 "The Throne of the Vile"
+	{
+	next = "PGR19"
+	music = "MUS_PG18"
+	sky1 = "PGRSKY2"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR19 "Closer to Hell"
+	{
+	next = "PGR20"
+	music = "MUS_PG19"
+	sky1 = "PGRSKY2"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+	
+map PGR20 "The Last Stand"
+	{
+	next = "PGR21"
+	music = "MUS_PG20"
+	sky1 = "PGRSKY2"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR21 "Hell's Gate"
+	{
+	next = "PGR22"
+	music = "MUS_PG21"
+	sky1 = "PGRSKY3"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR22 "The Deepest Reaches"
+	{
+	next = "PGR23"
+	music = "MUS_PG22"
+	sky1 = "PGRSKY3"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+	
+map PGR23 "Hell's Gymnasium"
+	{
+	next = "PGR24"
+	music = "MUS_PG23"
+	sky1 = "PGRSKY3"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR24 "The BloodStone Gardens of Hell"
+	{
+	next = "PGR25"
+	music = "MUS_PG24"
+	sky1 = "PGRSKY3"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR25 "Hell's Park"
+	{
+	next = "PGR26"
+	music = "MUS_PG25"
+	sky1 = "PGRSKY3"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+	
+map PGR26 "The Blood Tunnels"
+	{
+	next = "PGR27"
+	music = "MUS_PG26"
+	sky1 = "PGRSKY3"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR27 "Hell's Masterpiece"
+	{
+	next = "PGR28"
+	music = "MUS_PG27"
+	sky1 = "PGRSKY3"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR28 "High-Tech Hades"
+	{
+	next = "PGR29"
+	music = "MUS_PG28"
+	sky1 = "PGRSKY3"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+	
+
+map PGR29 "The Bomb Facility"
+	{
+	next = "PGR30"
+	music = "MUS_PG29"
+	sky1 = "PGRSKY3"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+	
+map PGR30 "The Escape"
+	{
+	next = "OUTPOST"
+	music = "MUS_PG30"
+	sky1 = "PGRSKY3"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+map PGR31 "The Planet of Living Rock"
+	{
+	next = "PGR16"
+	secretnext = "PGR32"
+	music = "MUS_PG31"
+	sky1 = "PGRSKY3"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+	
+map PGR32 "The Sea of Radioactive Waste"
+	{
+	next = "PGR16"
+	music = "MUS_PG32"
+	sky1 = "PGRSKY3"
+	enterpic = "PGINT"
+	exitpic = "PGINT"
+	intermusic = "MUS_PGIN"
+	}
+
+// POST
+
+map PST01 "OOOPS"
+	{
+	next = "PST02"
+	music = "D_RUNNIN"
+	sky1 = "PSTSKY1"
+	enterpic = "POSTINT"
+	exitpic = "POSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map PST02 "Hit"
+	{
+	next = "PST03"
+	music = "D_STALKS"
+	sky1 = "PSTSKY1"
+	enterpic = "POSTINT"
+	exitpic = "POSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map PST03 "I Go Humble"
+	{
+	next = "PST04"
+	music = "D_COUNTD"
+	sky1 = "PSTSKY1"
+	enterpic = "POSTINT"
+	exitpic = "POSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map PST04 "Play Dead"
+	{
+	next = "PST05"
+	music = "D_BETWEE"
+	sky1 = "PSTSKY1"
+	enterpic = "POSTINT"
+	exitpic = "POSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map PST05 "Traitor"
+	{
+	next = "PST06"
+	music = "D_DOOM"
+	sky1 = "PSTSKY1"
+	enterpic = "POSTINT"
+	exitpic = "POSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map PST06 "Planet"
+	{
+	next = "PST07"
+	music = "D_THE_DA"
+	sky1 = "PSTSKY1"
+	enterpic = "POSTINT"
+	exitpic = "POSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map PST07 "Car Parts"
+	{
+	next = "PST08"
+	music = "D_SHAWN"
+	sky1 = "PSTSKY1"
+	enterpic = "POSTINT"
+	exitpic = "POSTINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+
+map PST08 "Bottles"
+	{
+	next = "PST09"
+	music = "D_DDTBLU"
+	sky1 = "PSTSKY1"
+	enterpic = "POSTINT"
+	exitpic = "POSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map PST09 "Cutlery"
+	{
+	next = "PST10"
+	music = "D_IN_CIT"
+	sky1 = "PSTSKY1"
+	enterpic = "POSTINT"
+	exitpic = "POSTINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map PST10 "Shoot Him"
+	{
+	next = "PST11"
+	music = "D_DEAD"
+	sky1 = "PSTSKY1"
+	enterpic = "POSTINT"
+	exitpic = "POSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map PST11 "Delicious Demon"
+	{
+	next = "OUTPOST"
+	music = "MUS_POST"
+	sky1 = "PSTSKY1"
+	enterpic = "POSTINT"
+	exitpic = "POSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// REVOLUTION!
+
+map TVR01 "Carnivorous Cargo"
+	{
+	next = "TVR02"
+	music = "MUS_TV01"
+	sky1 = "TVRSKY1"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR02 "Depression"
+	{
+	next = "TVR03"
+	music = "MUS_TV02"
+	sky1 = "TVRSKY1"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR03 "Infestation"
+	{
+	next = "TVR04"
+	music = "MUS_TV03"
+	sky1 = "TVRSKY1"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR04 "Phobopolis"
+	{
+	next = "TVR05"
+	music = "MUS_TV04"
+	sky1 = "TVRSKY1"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR05 "R 'N' R"
+	{
+	next = "TVR06"
+	music = "MUS_TV05"
+	sky1 = "TVRSKY1"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR06 "Wasted!"
+	{
+	next = "TVR07"
+	music = "MUS_TV06"
+	sky1 = "TVRSKY1"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR07 "The Valley of Death"
+	{
+	next = "TVR08"
+	music = "MUS_TV07"
+	sky1 = "TVRSKY1"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map TVR08 "Rockit"
+	{
+	next = "TVR09"
+	music = "MUS_TV08"
+	sky1 = "TVRSKY1"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR09 "Wrath of Man"
+	{
+	next = "TVR10"
+	music = "MUS_TV09"
+	sky1 = "TVRSKY1"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+	
+map TVR10 "Lab of the Lost"
+	{
+	next = "TVR11"
+	music = "MUS_TV10"
+	sky1 = "TVRSKY1"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR11 "The Transporter"
+	{
+	next = "TVR12"
+	music = "MUS_TV11"
+	sky1 = "TVRSKY1"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR12 "Utopia"
+	{
+	next = "TVR13"
+	music = "MUS_TV12"
+	sky1 = "TVRSKY2"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR13 "Amok"
+	{
+	next = "TVR14"
+	music = "MUS_TV13"
+	sky1 = "TVRSKY2"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR14 "Dead End"
+	{
+	next = "TVR15"
+	music = "MUS_TV14"
+	sky1 = "TVRSKY2"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+	
+map TVR15 "Battleground"
+	{
+	next = "TVR16"
+	secretnext = "TVR31"
+	music = "MUS_TV15"
+	sky1 = "TVRSKY2"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+	
+map TVR16 "Utopia Factory"
+	{
+	next = "TVR17"
+	music = "MUS_TV16"
+	sky1 = "TVRSKY2"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR17 "The Miners"
+	{
+	next = "TVR18"
+	music = "MUS_TV17"
+	sky1 = "TVRSKY2"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+	
+map TVR18 "XS"
+	{
+	next = "TVR19"
+	music = "MUS_TV18"
+	sky1 = "TVRSKY2"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR19 "Xenocracy"
+	{
+	next = "TVR20"
+	music = "MUS_TV19"
+	sky1 = "TVRSKY2"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+	
+map TVR20 "X Mark the Spot"
+	{
+	next = "TVR21"
+	music = "MUS_TV20"
+	sky1 = "TVRSKY2"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR21 "Hausterium"
+	{
+	next = "TVR22"
+	music = "MUS_TV21"
+	sky1 = "TVRSKY3"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR22 "Beyond the Oracle"
+	{
+	next = "TVR23"
+	music = "MUS_TV22"
+	sky1 = "TVRSKY3"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+	
+map TVR23 "Pyramid of Pain"
+	{
+	next = "TVR24"
+	music = "MUS_TV23"
+	sky1 = "TVRSKY3"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR24 "The Sect"
+	{
+	next = "TVR25"
+	music = "MUS_TV24"
+	sky1 = "TVRSKY3"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR25 "The Prefect"
+	{
+	next = "TVR26"
+	music = "MUS_TV25"
+	sky1 = "TVRSKY3"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+	
+map TVR26 "Phragmobasidium"
+	{
+	next = "TVR27"
+	music = "MUS_TV26"
+	sky1 = "TVRSKY3"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR27 "Necrosis"
+	{
+	next = "TVR28"
+	music = "MUS_TV27"
+	sky1 = "TVRSKY3"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR28 "Exodus"
+	{
+	next = "TVR29"
+	music = "MUS_TV28"
+	sky1 = "TVRSKY3"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR29 "Hall of Maim"
+	{
+	next = "TVR30"
+	music = "MUS_TV29"
+	sky1 = "TVRSKY3"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+	
+map TVR30 "The Forgotten God"
+	{
+	next = "OUTPOST"
+	music = "MUS_TV30"
+	sky1 = "TVRSKY3"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR31 "Raw"
+	{
+	next = "TVR16"
+	secretnext = "TVR32"
+	music = "MUS_TV31"
+	sky1 = "TVRSKY3"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+	
+map TVR32 "'Zombie Or Not To Be'"
+	{
+	next = "TVR33"
+	music = "MUS_TV32"
+	sky1 = "TVRSKY3"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+map TVR33 "Revoltlover"
+	{
+	next = "TVR16"
+	music = "MUS_TV33"
+	sky1 = "TVRSKY1"
+	enterpic = "TVRINT"
+	exitpic = "TVRINT"
+	intermusic = "MUS_TVIN"
+	}
+
+// SCIENTIST 2
+
+map SCI01 "The Scientist"
+	{
+	next = "SCI02"
+	music = "MUS_S201"
+	sky1 = "SCISKY1"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI02 "Kapital"
+	{
+	next = "SCI03"
+	music = "MUS_S202"
+	sky1 = "SCISKY1"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI03 "Prosperity"
+	{
+	next = "SCI04"
+	music = "MUS_S203"
+	sky1 = "SCISKY1"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI04 "Refinery"
+	{
+	next = "SCI05"
+	music = "MUS_S204"
+	sky1 = "SCISKY1"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI05 "Reservoir"
+	{
+	next = "SCI06"
+	music = "MUS_S205"
+	sky1 = "SCISKY1"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI06 "Construction Yard"
+	{
+	next = "SCI07"
+	music = "MUS_S206"
+	sky1 = "SCISKY1"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI07 "Siberia"
+	{
+	next = "SCI08"
+	music = "MUS_S207"
+	sky1 = "SCISKY1"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map SCI08 "Frostbite"
+	{
+	next = "SCI09"
+	music = "MUS_S208"
+	sky1 = "SCISKY1"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI09 "Bio Lab"
+	{
+	next = "SCI10"
+	music = "MUS_S209"
+	sky1 = "SCISKY1"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+	
+map SCI10 "Dark and Cold"
+	{
+	next = "SCI11"
+	music = "MUS_S210"
+	sky1 = "SCISKY1"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI11 "Pure as Snow"
+	{
+	next = "SCI12"
+	music = "MUS_S211"
+	sky1 = "SCISKY1"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI12 "Crown of Thorns"
+	{
+	next = "SCI13"
+	music = "MUS_S212"
+	sky1 = "SCISKY2"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI13 "Cursed Ground"
+	{
+	next = "SCI14"
+	music = "MUS_S213"
+	sky1 = "SCISKY2"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI14 "Dogma"
+	{
+	next = "SCI15"
+	music = "MUS_S214"
+	sky1 = "SCISKY2"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+	
+map SCI15 "Son of Man"
+	{
+	next = "SCI16"
+	music = "MUS_S215"
+	sky1 = "SCISKY2"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+	
+map SCI16 "Zarathustra"
+	{
+	next = "SCI17"
+	music = "MUS_S216"
+	sky1 = "SCISKY2"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI17 "Second Horseman"
+	{
+	next = "SCI18"
+	music = "MUS_S217"
+	sky1 = "SCISKY2"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+	
+map SCI18 "Zilzal"
+	{
+	next = "SCI19"
+	music = "MUS_S218"
+	sky1 = "SCISKY2"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+map SCI19 "Crown of Creation"
+	{
+	next = "SCI20"
+	music = "MUS_S219"
+	sky1 = "SCISKY2"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+	
+map SCI20 "Mount of Congregation"
+	{
+	next = "OUTPOST"
+	music = "MUS_S220"
+	sky1 = "SCISKY2"
+	enterpic = "SCI2INT"
+	exitpic = "SCI2INT"
+	intermusic = "MUS_S2IN"
+	}
+
+// ICARUS ALIEN VANGUARD
+
+map ICA01 "Shuttlecraft"
+	{
+	next = "ICA02"
+	music = "MUS_IC01"
+	sky1 = "ICASKY1"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA02 "Shuttle Bay"
+	{
+	next = "ICA03"
+	music = "MUS_IC02"
+	sky1 = "ICASKY1"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA03 "Quarry"
+	{
+	next = "ICA04"
+	music = "MUS_IC03"
+	sky1 = "ICASKY1"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA04 "Engineering"
+	{
+	next = "ICA05"
+	music = "MUS_IC04"
+	sky1 = "ICASKY1"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA05 "Flipside"
+	{
+	next = "ICA06"
+	music = "MUS_IC05"
+	sky1 = "ICASKY1"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA06 "P.E.T. Rescue"
+	{
+	next = "ICA07"
+	music = "MUS_IC06"
+	sky1 = "ICASKY1"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA07 "Sickbay"
+	{
+	next = "ICA08"
+	music = "MUS_IC07"
+	sky1 = "ICASKY1"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map ICA08 "Donnybrook"
+	{
+	next = "ICA09"
+	music = "MUS_IC08"
+	sky1 = "ICASKY1"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA09 "The Moat"
+	{
+	next = "ICA10"
+	music = "MUS_IC09"
+	sky1 = "ICASKY1"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+	
+map ICA10 "Bridge"
+	{
+	next = "ICA11"
+	music = "MUS_IC10"
+	sky1 = "ICASKY1"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA11 "Feeding Frenzy"
+	{
+	next = "ICA12"
+	music = "MUS_IC11"
+	sky1 = "ICASKY1"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA12 "Hydroponics"
+	{
+	next = "ICA13"
+	music = "MUS_IC12"
+	sky1 = "ICASKY2"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA13 "Asylum"
+	{
+	next = "ICA14"
+	music = "MUS_IC13"
+	sky1 = "ICASKY2"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA14 "Fortress of Evil"
+	{
+	next = "ICA15"
+	music = "MUS_IC14"
+	sky1 = "ICASKY2"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+	
+map ICA15 "Waste Disposal"
+	{
+	next = "ICA16"
+	secretnext = "ICA31"
+	music = "MUS_IC15"
+	sky1 = "ICASKY2"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+	
+map ICA16 "Bootcamp"
+	{
+	next = "ICA17"
+	music = "MUS_IC16"
+	sky1 = "ICASKY2"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA17 "Bloodbath"
+	{
+	next = "ICA18"
+	music = "MUS_IC17"
+	sky1 = "ICASKY2"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+	
+map ICA18 "Cargo Bay"
+	{
+	next = "ICA19"
+	music = "MUS_IC18"
+	sky1 = "ICASKY2"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA19 "Blessed are the Quick"
+	{
+	next = "ICA20"
+	music = "MUS_IC19"
+	sky1 = "ICASKY2"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+	
+map ICA20 "WarTemple"
+	{
+	next = "ICA21"
+	music = "MUS_IC20"
+	sky1 = "ICASKY2"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA21 "Engine Core"
+	{
+	next = "ICA22"
+	music = "MUS_IC21"
+	sky1 = "ICASKY3"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA22 "Nightfall"
+	{
+	next = "ICA23"
+	music = "MUS_IC22"
+	sky1 = "ICASKY3"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+	
+map ICA23 "Painful Discharge"
+	{
+	next = "ICA24"
+	music = "MUS_IC23"
+	sky1 = "ICASKY3"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA24 "The Haunting"
+	{
+	next = "ICA25"
+	music = "MUS_IC24"
+	sky1 = "ICASKY3"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA25 "Another Fine Mess"
+	{
+	next = "ICA26"
+	music = "MUS_IC25"
+	sky1 = "ICASKY3"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+	
+map ICA26 "Weapons Bay"
+	{
+	next = "ICA27"
+	music = "MUS_IC26"
+	sky1 = "ICASKY3"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA27 "Starhenge"
+	{
+	next = "ICA28"
+	music = "MUS_IC27"
+	sky1 = "ICASKY3"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA28 "Excavations"
+	{
+	next = "ICA29"
+	music = "MUS_IC28"
+	sky1 = "ICASKY3"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA29 "Brutality"
+	{
+	next = "ICA30"
+	music = "MUS_IC29"
+	sky1 = "ICASKY3"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+	
+map ICA30 "Nucleus"
+	{
+	next = "OUTPOST"
+	music = "MUS_IC30"
+	sky1 = "ICASKY3"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+map ICA31 "Great Balls of Fire"
+	{
+	next = "ICA16"
+	secretnext = "ICA32"
+	music = "MUS_IC31"
+	sky1 = "ICASKY3"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+	
+map ICA32 "Prestidigitation"
+	{
+	next = "ICA16"
+	music = "MUS_IC32"
+	sky1 = "ICASKY3"
+	enterpic = "ICARINT"
+	exitpic = "ICARINT"
+	intermusic = "MUS_ICIN"
+	}
+
+// HELL TO PAY
+
+map HTP01 "The Holding Cells"
+	{
+	next = "HTP02"
+	music = "MUS_HP01"
+	sky1 = "HTPSKY1"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP02 "The Slave Quarters"
+	{
+	next = "HTP03"
+	music = "MUS_HP02"
+	sky1 = "HTPSKY1"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP03 "The Mines"
+	{
+	next = "HTP04"
+	music = "MUS_HP03"
+	sky1 = "HTPSKY1"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP04 "Nukage Processing"
+	{
+	next = "HTP05"
+	music = "MUS_HP04"
+	sky1 = "HTPSKY1"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP05 "Trustee Country"
+	{
+	next = "HTP06"
+	music = "MUS_HP05"
+	sky1 = "HTPSKY1"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP06 "Command and Control"
+	{
+	next = "HTP07"
+	music = "MUS_HP06"
+	sky1 = "HTPSKY1"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP07 "The Industrial Park"
+	{
+	next = "HTP08"
+	music = "MUS_HP07"
+	sky1 = "HTPSKY1"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map HTP08 "The Warehouse"
+	{
+	next = "HTP09"
+	music = "MUS_HP08"
+	sky1 = "HTPSKY1"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP09 "The Military Complex"
+	{
+	next = "HTP10"
+	music = "MUS_HP09"
+	sky1 = "HTPSKY1"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+	
+map HTP10 "The Liquid Metal Labs"
+	{
+	next = "HTP11"
+	music = "MUS_HP10"
+	sky1 = "HTPSKY1"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP11 "The Space Port"
+	{
+	next = "HTP12"
+	music = "MUS_HP11"
+	sky1 = "HTPSKY1"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP12 "The Cargo Hold"
+	{
+	next = "HTP13"
+	music = "MUS_HP12"
+	sky1 = "HTPSKY2"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP13 "The Engine Room"
+	{
+	next = "HTP14"
+	music = "MUS_HP13"
+	sky1 = "HTPSKY2"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP14 "The Habitat Deck"
+	{
+	next = "HTP15"
+	music = "MUS_HP14"
+	sky1 = "HTPSKY2"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+	
+map HTP15 "Captain Bellows"
+	{
+	next = "HTP16"
+	secretnext = "HTP31"
+	music = "MUS_HP15"
+	sky1 = "HTPSKY2"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+	
+map HTP16 "Io Base"
+	{
+	next = "HTP17"
+	music = "MUS_HP16"
+	sky1 = "HTPSKY2"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP17 "Hot as Hell"
+	{
+	next = "HTP18"
+	music = "MUS_HP17"
+	sky1 = "HTPSKY2"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+	
+map HTP18 "Big Crane"
+	{
+	next = "HTP19"
+	music = "MUS_HP18"
+	sky1 = "HTPSKY2"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP19 "Demon Chow"
+	{
+	next = "HTP20"
+	music = "MUS_HP19"
+	sky1 = "HTPSKY2"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+	
+map HTP20 "Master Computer"
+	{
+	next = "HTP21"
+	music = "MUS_HP20"
+	sky1 = "HTPSKY2"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP21 "Planet Hell"
+	{
+	next = "HTP22"
+	music = "MUS_HP21"
+	sky1 = "HTPSKY3"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP22 "Vile Temple"
+	{
+	next = "HTP23"
+	music = "MUS_HP22"
+	sky1 = "HTPSKY3"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP23 "Hell's Cavern"
+	{
+	next = "HTP24"
+	music = "MUS_HP23"
+	sky1 = "HTPSKY3"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP24 "Hell's Park"
+	{
+	next = "HTP25"
+	music = "MUS_HP24"
+	sky1 = "HTPSKY3"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP25 "Hell's Gauntlet"
+	{
+	next = "HTP26"
+	music = "MUS_HP25"
+	sky1 = "HTPSKY3"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP26 "Circle of Hell"
+	{
+	next = "HTP27"
+	music = "MUS_HP26"
+	sky1 = "HTPSKY3"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP27 "Hell Squared"
+	{
+	next = "HTP28"
+	music = "MUS_HP27"
+	sky1 = "HTPSKY3"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP28 "Neophyte Reception"
+	{
+	next = "HTP29"
+	music = "MUS_HP28"
+	sky1 = "HTPSKY3"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP29 "Initiation"
+	{
+	next = "HTP30"
+	music = "MUS_HP29"
+	sky1 = "HTPSKY3"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP30 "Sky High"
+	{
+	next = "OUTPOST"
+	music = "MUS_HP30"
+	sky1 = "HTPSKY3"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP31 "Secret Facility"
+	{
+	next = "HTP16"
+	secretnext = "HTP32"
+	music = "MUS_HP31"
+	sky1 = "HTPSKY3"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+map HTP32 "Self-Destruct"
+	{
+	next = "HTP16"
+	music = "MUS_HP32"
+	sky1 = "HTPSKY3"
+	enterpic = "HTPINT"
+	exitpic = "HTPINT"
+	intermusic = "MUS_HPIN"
+	}
+
+// THE ABYSS
+
+map ABY01 "Pink Horde"
+	{
+	next = "ABY02"
+	music = "MUS_AB01"
+	sky1 = "ABYSKY1"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY02 "The Catacombs"
+	{
+	next = "ABY03"
+	music = "MUS_AB02"
+	sky1 = "ABYSKY1"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY03 "Avernus"
+	{
+	next = "ABY04"
+	music = "MUS_AB03"
+	sky1 = "ABYSKY1"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY04 "The Nunnery"
+	{
+	next = "ABY05"
+	music = "MUS_AB04"
+	sky1 = "ABYSKY1"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY05 "Imp Madness"
+	{
+	next = "ABY06"
+	music = "MUS_AB05"
+	sky1 = "ABYSKY1"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY06 "Not Level"
+	{
+	next = "ABY07"
+	music = "D_THE_DA"
+	sky1 = "ABYSKY1"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY07 "The Cube"
+	{
+	next = "ABY08"
+	music = "MUS_AB07"
+	sky1 = "ABYSKY1"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map ABY08 "The Theatre"
+	{
+	next = "ABY09"
+	music = "D_DDTBLU"
+	sky1 = "ABYSKY1"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY09 "Bloodstream"
+	{
+	next = "ABY10"
+	music = "D_IN_CIT"
+	sky1 = "ABYSKY1"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map ABY10 "Hangar"
+	{
+	next = "ABY11"
+	music = "MUS_AB10"
+	sky1 = "ABYSKY1"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY11 "Stone Henge"
+	{
+	next = "ABY12"
+	music = "D_STLKS2"
+	sky1 = "ABYSKY1"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY12 "The Square"
+	{
+	next = "ABY13"
+	music = "D_THEDA2"
+	sky1 = "ABYSKY2"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY13 "The Library"
+	{
+	next = "ABY14"
+	music = "D_DOOM2"
+	sky1 = "ABYSKY2"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY14 "Arabesque"
+	{
+	next = "ABY15"
+	music = "D_DDTBL2"
+	sky1 = "ABYSKY2"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map ABY15 "Satan's Cross"
+	{
+	next = "ABY16"
+	secretnext = "ABY31"
+	music = "MUS_AB15"
+	sky1 = "ABYSKY2"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map ABY16 "The Grand Tower"
+	{
+	next = "ABY17"
+	music = "D_DEAD2"
+	sky1 = "ABYSKY2"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY17 "Light and Darkness"
+	{
+	next = "ABY18"
+	music = "D_STLKS3"
+	sky1 = "ABYSKY2"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map ABY18 "Short 'n Sweet"
+	{
+	next = "ABY19"
+	music = "D_ROMERO"
+	sky1 = "ABYSKY2"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY19 "The Pits of Doom"
+	{
+	next = "ABY20"
+	music = "D_SHAWN2"
+	sky1 = "ABYSKY2"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map ABY20 "The Cray"
+	{
+	next = "ABY21"
+	music = "D_MESSAG"
+	sky1 = "ABYSKY2"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY21 "Heretic Factor"
+	{
+	next = "ABY22"
+	music = "MUS_AB21"
+	sky1 = "ABYSKY3"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY22 "Basilica"
+	{
+	next = "OUTPOST"
+	music = "MUS_AB22"
+	sky1 = "ABYSKY3"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ABY31 "The Temple"
+	{
+	next = "ABY16"
+	secretnext = "ABY32"
+	music = "MUS_AB31"
+	sky1 = "ABYSKY3"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map ABY32 "Spider Bowl"
+	{
+	next = "ABY16"
+	music = "MUS_AB32"
+	sky1 = "ABYSKY3"
+	enterpic = "ABYSINT"
+	exitpic = "ABYSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// THE TALOSIAN INCIDENT
+
+map TAL01 "The Transport"
+	{
+	next = "TAL02"
+	music = "MUS_TI01"
+	sky1 = "TALSKY2"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL02 "Desolation"
+	{
+	next = "TAL03"
+	music = "MUS_TI02"
+	sky1 = "TALSKY2"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL03 "The Cliff Top Fort"
+	{
+	next = "TAL04"
+	music = "MUS_TI03"
+	sky1 = "TALSKY2"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL04 "The Chapel"
+	{
+	next = "TAL05"
+	music = "MUS_TI04"
+	sky1 = "TALSKY2"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL05 "The Fort - I"
+	{
+	next = "TAL06"
+	music = "MUS_TI05"
+	sky1 = "TALSKY2"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL06 "The Fort - II"
+	{
+	next = "TAL07"
+	music = "MUS_TI06"
+	sky1 = "TALSKY2"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL07 "The Church"
+	{
+	next = "TAL08"
+	music = "MUS_TI07"
+	sky1 = "TALSKY2"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	map07special
+	compat_shorttex = 1
+	}
+
+map TAL08 "Focus"
+	{
+	next = "TAL09"
+	music = "MUS_TI08"
+	sky1 = "TALSKY2"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL09 "The Palace"
+	{
+	next = "TAL10"
+	music = "MUS_TI09"
+	sky1 = "TALSKY2"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL10 "Hardware"
+	{
+	next = "TAL11"
+	music = "MUS_TI10"
+	sky1 = "TALSKY2"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL11 "Software"
+	{
+	next = "TAL12"
+	music = "MUS_TI11"
+	sky1 = "TALSKY2"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL12 "Vulcan"
+	{
+	next = "TAL13"
+	music = "MUS_TI12"
+	sky1 = "TALSKY3"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL13 "Get the hell out"
+	{
+	next = "TAL14"
+	music = "MUS_TI13"
+	sky1 = "TALSKY3"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL14 "Beneath"
+	{
+	next = "TAL15"
+	music = "MUS_TI14"
+	sky1 = "TALSKY3"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL15 "Solvent"
+	{
+	next = "TAL16"
+	secretnext = "TAL31"
+	music = "MUS_TI15"
+	sky1 = "TALSKY3"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL16 "The Canyons"
+	{
+	next = "TAL17"
+	music = "MUS_TI16"
+	sky1 = "TALSKY3"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL17 "The Great Outdoors"
+	{
+	next = "TAL18"
+	music = "MUS_TI17"
+	sky1 = "TALSKY3"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL18 "Hi Honey, I'm Home"
+	{
+	next = "OUTPOST"
+	music = "MUS_TI18"
+	sky1 = "TALSKY3"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL31 "Inferno Revisited"
+	{
+	next = "TAL16"
+	secretnext = "TAL32"
+	music = "MUS_TI31"
+	sky1 = "TALSKY4"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+map TAL32 "Portals"
+	{
+	next = "TAL16"
+	music = "MUS_TI32"
+	sky1 = "TALSKY4"
+	enterpic = "TALOINT"
+	exitpic = "TALOINT"
+	intermusic = "MUS_TIIN"
+	}
+
+// ALL HELL IS BREAKING LOOSE!
+
+map ALH01 "Home Sick"
+	{
+	next = "ALH02"
+	music = "MUS_ALH1"
+	sky1 = "ALHSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_ALHI"
+	}
+
+map ALH02 "Shaft"
+	{
+	next = "ALH03"
+	music = "MUS_ALH2"
+	sky1 = "ALHSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_ALHI"
+	}
+
+map ALH03 "Bridge to Damnation"
+	{
+	next = "ALH04"
+	music = "MUS_ALH3"
+	sky1 = "ALHSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_ALHI"
+	}
+
+map ALH04 "Cave of Death"
+	{
+	next = "ALH05"
+	music = "MUS_ALH4"
+	sky1 = "ALHSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_ALHI"
+	}
+
+map ALH05 "Fiendish City"
+	{
+	next = "OUTPOST"
+	music = "MUS_ALH5"
+	sky1 = "ALHSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_ALHI"
+	}
+
+// ENIGMA
+
+map ENI01 "Mt Doom"
+	{
+	next = "ENI02"
+	music = "D_RUNNIN"
+	sky1 = "ENISKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENI02 "Rings"
+	{
+	next = "ENI03"
+	music = "D_STALKS"
+	sky1 = "ENISKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENI03 "Twisted"
+	{
+	next = "ENI04"
+	music = "D_COUNTD"
+	sky1 = "ENISKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENI04 "Gulch"
+	{
+	next = "ENI05"
+	music = "D_BETWEE"
+	sky1 = "ENISKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENI05 "The Wheel"
+	{
+	next = "ENI06"
+	music = "D_DOOM"
+	sky1 = "ENISKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENI06 "Triplet"
+	{
+	next = "ENI07"
+	music = "D_THE_DA"
+	sky1 = "ENISKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENI07 "Wack"
+	{
+	next = "ENI08"
+	music = "D_SHAWN"
+	sky1 = "ENISKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map ENI08 "The Tower"
+	{
+	next = "ENI09"
+	music = "D_DDTBLU"
+	sky1 = "ENISKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENI09 "The Citadel"
+	{
+	next = "OUTPOST"
+	music = "D_IN_CIT"
+	sky1 = "ENISKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+// REALM OF CHAOS
+
+map RLM01 "Dropoff"
+	{
+	next = "RLM02"
+	music = "D_RUNNIN"
+	sky1 = "RLMSKY1"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM02 "Outpost 27"
+	{
+	next = "RLM03"
+	music = "D_STALKS"
+	sky1 = "RLMSKY1"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM03 "Mars Base Alpha"
+	{
+	next = "RLM04"
+	music = "D_COUNTD"
+	sky1 = "RLMSKY1"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM04 "Sewers"
+	{
+	next = "RLM05"
+	music = "D_BETWEE"
+	sky1 = "RLMSKY1"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM05 "Mission Control"
+	{
+	next = "RLM06"
+	music = "D_DOOM"
+	sky1 = "RLMSKY1"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM06 "Splatterhouse"
+	{
+	next = "RLM07"
+	music = "D_THE_DA"
+	sky1 = "RLMSKY1"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM07 "Deathstay"
+	{
+	next = "RLM08"
+	music = "D_SHAWN"
+	sky1 = "RLMSKY1"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map RLM08 "Research Lab"
+	{
+	next = "RLM09"
+	music = "D_DDTBLU"
+	sky1 = "RLMSKY1"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM09 "Machine Gun Etiquette"
+	{
+	next = "RLM10"
+	music = "D_IN_CIT"
+	sky1 = "RLMSKY1"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map RLM10 "Hollow Oblivion"
+	{
+	next = "RLM11"
+	music = "D_DEAD"
+	sky1 = "RLMSKY1"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM11 "Mars Starport"
+	{
+	next = "RLM12"
+	music = "D_STLKS2"
+	sky1 = "RLMSKY1"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM12 "Home Sweet Home"
+	{
+	next = "RLM13"
+	music = "D_THEDA2"
+	sky1 = "RLMSKY2"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM13 "Bloodlands"
+	{
+	next = "RLM14"
+	music = "D_DOOM2"
+	sky1 = "RLMSKY2"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM14 "Die Hard"
+	{
+	next = "RLM15"
+	music = "D_DDTBL2"
+	sky1 = "RLMSKY2"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map RLM15 "Infestation"
+	{
+	next = "RLM16"
+	secretnext = "RLM31"
+	music = "D_RUNNI2"
+	sky1 = "RLMSKY2"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map RLM16 "The Wolf's Hour"
+	{
+	next = "RLM17"
+	music = "D_DEAD2"
+	sky1 = "RLMSKY2"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM17 "No Escape"
+	{
+	next = "RLM18"
+	music = "D_STLKS3"
+	sky1 = "RLMSKY2"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map RLM18 "Dead Radio"
+	{
+	next = "RLM19"
+	music = "D_ROMERO"
+	sky1 = "RLMSKY2"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM19 "Port Fury"
+	{
+	next = "RLM20"
+	music = "D_SHAWN2"
+	sky1 = "RLMSKY2"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map RLM20 "Teleporter Central"
+	{
+	next = "RLM21"
+	music = "D_MESSAG"
+	sky1 = "RLMSKY2"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM21 "Prison"
+	{
+	next = "RLM22"
+	music = "D_COUNT2"
+	sky1 = "RLMSKY3"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM22 "Nova Akropola"
+	{
+	next = "RLM23"
+	music = "D_DDTBL3"
+	sky1 = "RLMSKY3"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM23 "Ancalagon"
+	{
+	next = "RLM24"
+	music = "D_AMPIE"
+	sky1 = "RLMSKY3"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM24 "Burnt Guts"
+	{
+	next = "RLM25"
+	music = "D_THEDA3"
+	sky1 = "RLMSKY3"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM25 "Castle of the Hellknights"
+	{
+	next = "RLM26"
+	music = "D_ADRIAN"
+	sky1 = "RLMSKY3"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM26 "Above and Below"
+	{
+	next = "RLM27"
+	music = "D_MESSG2"
+	sky1 = "RLMSKY3"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM27 "Venom"
+	{
+	next = "RLM28"
+	music = "D_ROMER2"
+	sky1 = "RLMSKY3"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM28 "Fortress of Death"
+	{
+	next = "RLM29"
+	music = "D_TENSE"
+	sky1 = "RLMSKY3"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM29 "The Fountain"
+	{
+	next = "RLM30"
+	music = "D_SHAWN3"
+	sky1 = "RLMSKY3"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM30 "Apocalypse"
+	{
+	next = "OUTPOST"
+	music = "D_OPENIN"
+	sky1 = "RLMSKY3"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM31 "The Mansion"
+	{
+	next = "RLM16"
+	secretnext = "RLM32"
+	music = "D_EVIL"
+	sky1 = "RLMSKY3"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RLM32 "Nowhere to Hide"
+	{
+	next = "RLM16"
+	music = "D_ULTIMA"
+	sky1 = "RLMSKY3"
+	enterpic = "RLMCINT"
+	exitpic = "RLMCINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// DYSTOPIA 3
+
+map DYS01 "Map01"
+	{
+	next = "DYS02"
+	music = "MUS_DYS1"
+	sky1 = "DYSTSKY"
+	enterpic = "DYSTINT"
+	exitpic = "DYSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map DYS02 "Map02"
+	{
+	next = "DYS03"
+	music = "MUS_DYS2"
+	sky1 = "DYSTSKY"
+	enterpic = "DYSTINT"
+	exitpic = "DYSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map DYS03 "Map03"
+	{
+	next = "DYS04"
+	music = "D_COUNTD"
+	sky1 = "DYSTSKY"
+	enterpic = "DYSTINT"
+	exitpic = "DYSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map DYS04 "Map04"
+	{
+	next = "DYS05"
+	music = "MUS_DYS3"
+	sky1 = "DYSTSKY"
+	enterpic = "DYSTINT"
+	exitpic = "DYSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map DYS05 "Map05"
+	{
+	next = "DYS06"
+	music = "MUS_DYS4"
+	sky1 = "DYSTSKY"
+	enterpic = "DYSTINT"
+	exitpic = "DYSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map DYS06 "Map06"
+	{
+	next = "DYS07"
+	music = "D_THE_DA"
+	sky1 = "DYSTSKY"
+	enterpic = "DYSTINT"
+	exitpic = "DYSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map DYS07 "Map07"
+	{
+	next = "DYS08"
+	music = "D_SHAWN"
+	sky1 = "DYSTSKY"
+	enterpic = "DYSTINT"
+	exitpic = "DYSTINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+
+map DYS08 "Map08"
+	{
+	next = "DYS09"
+	music = "D_DDTBLU"
+	sky1 = "DYSTSKY"
+	enterpic = "DYSTINT"
+	exitpic = "DYSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map DYS09 "Map09"
+	{
+	next = "DYS10"
+	music = "D_IN_CIT"
+	sky1 = "DYSTSKY"
+	enterpic = "DYSTINT"
+	exitpic = "DYSTINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map DYS10 "Map10"
+	{
+	next = "DYS11"
+	music = "MUS_DYS5"
+	sky1 = "DYSTSKY"
+	enterpic = "DYSTINT"
+	exitpic = "DYSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map DYS11 "Map11"
+	{
+	next = "DYSXTRA"
+	music = "D_STLKS2"
+	sky1 = "DYSTSKY"
+	enterpic = "DYSTINT"
+	exitpic = "DYSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map DYSXTRA "Add-on Level"
+	{
+	next = "OUTPOST"
+	music = "MUS_DYS1"
+	sky1 = "DYSTSKY"
+	enterpic = "DYSTINT"
+	exitpic = "DYSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// ETERNAL DOOM
+
+map ETE01 "Genesis"
+	{
+	next = "ETE02"
+	music = "MUS_ED01"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE02 "Tower of Hell"
+	{
+	next = "ETE03"
+	music = "MUS_ED02"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE03 "Inter-Base"
+	{
+	next = "ETE04"
+	music = "MUS_ED03"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	//compat_stairs = 1
+	}
+
+map ETE04 "Nucleus"
+	{
+	next = "ETE05"
+	music = "MUS_ED04"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE05 "Time Gate"
+	{
+	next = "ETE06"
+	music = "MUS_ED05"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE06 "Pathos"
+	{
+	next = "ETE07"
+	music = "MUS_ED06"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE07 "The Abbey"
+	{
+	next = "ETE08"
+	music = "MUS_ED07"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map ETE08 "Woodhead"
+	{
+	next = "ETE09"
+	music = "MUS_ED08"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE09 "Forlorn Fortress"
+	{
+	next = "ETE10"
+	music = "MUS_ED09"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+	
+map ETE10 "Crimson Tide"
+	{
+	next = "ETE11"
+	music = "MUS_ED10"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE11 "Dawn of the Dead"
+	{
+	next = "ETE12"
+	music = "MUS_ED11"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE12 "Darkdome"
+	{
+	next = "ETE13"
+	music = "MUS_ED12"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE13 "Drop 'Em!"
+	{
+	next = "ETE14"
+	music = "MUS_ED13"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE14 "Pistol Only"
+	{
+	next = "ETE15"
+	music = "MUS_ED14"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+	
+map ETE15 "Celebration of Evil"
+	{
+	next = "ETE16"
+	secretnext = "ETE31"
+	music = "MUS_ED15"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+	
+map ETE16 "Guardstation"
+	{
+	next = "ETE17"
+	music = "MUS_ED16"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE17 "The Crypt"
+	{
+	next = "ETE18"
+	music = "MUS_ED17"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+	
+map ETE18 "Stands"
+	{
+	next = "ETE19"
+	music = "MUS_ED18"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE19 "Warheros"
+	{
+	next = "ETE20"
+	music = "MUS_ED19"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+	
+map ETE20 "Silures"
+	{
+	next = "ETE21"
+	music = "MUS_ED20"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE21 "Fire and Stone"
+	{
+	next = "ETE22"
+	music = "MUS_ED21"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE22 "The Seeker"
+	{
+	next = "ETE23"
+	music = "MUS_ED22"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+	
+map ETE23 "Time Gate II"
+	{
+	next = "ETE24"
+	music = "MUS_ED23"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE24 "Rainbow Bridge"
+	{
+	next = "ETE25"
+	music = "MUS_ED24"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE25 "Beginner's End"
+	{
+	next = "ETE26"
+	music = "MUS_ED25"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	compat_stairs = 1
+	compat_maskedmidtex = 1
+	}
+	
+map ETE26 "No Parking"
+	{
+	next = "ETE27"
+	music = "MUS_ED26"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE27 "Paldorian"
+	{
+	next = "ETE28"
+	music = "MUS_ED27"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE28 "Timeslip"
+	{
+	next = "ETE29"
+	music = "MUS_ED28"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	compat_trace = 1
+	compat_useblocking = 1
+	}
+
+map ETE29 "Dominion"
+	{
+	next = "ETE30"
+	music = "MUS_ED29"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+	
+map ETE30 "Excalibur"
+	{
+	next = "ETE33"
+	music = "MUS_ED30"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE31 "Monster Mansion"
+	{
+	next = "ETE16"
+	secretnext = "ETE32"
+	music = "MUS_ED31"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+	
+map ETE32 "Halls of Disarray"
+	{
+	next = "ETE16"
+	music = "MUS_ED32"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE33 "CyberSweeper"
+	{
+	next = "ETE34"
+	music = "MUS_ED33"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+map ETE34 "Credits"
+	{
+	next = "OUTPOST"
+	music = "MUS_ED34"
+	sky1 = "ETERNSKY"
+	enterpic = "ETERNINT"
+	exitpic = "ETERNINT"
+	intermusic = "MUS_EDIN"
+	}
+
+// REBIRTH
+
+map REB01 "Operator"
+	{
+	next = "REB02"
+	music = "MUS_RB01"
+	sky1 = "REBSKY1"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB02 "Outer Base"
+	{
+	next = "REB03"
+	music = "MUS_RB02"
+	sky1 = "REBSKY1"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB03 "Paranoya"
+	{
+	next = "REB04"
+	music = "MUS_RB03"
+	sky1 = "REBSKY1"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB04 "Sewage"
+	{
+	next = "REB05"
+	music = "MUS_RB04"
+	sky1 = "REBSKY1"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB05 "The Complex"
+	{
+	next = "REB06"
+	music = "MUS_RB05"
+	sky1 = "REBSKY1"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB06 "Colossus"
+	{
+	next = "REB07"
+	music = "MUS_RB06"
+	sky1 = "REBSKY1"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB07 "Cremation"
+	{
+	next = "REB08"
+	music = "MUS_RB07"
+	sky1 = "REBSKY1"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map REB08 "Pump Station"
+	{
+	next = "REB09"
+	music = "MUS_RB08"
+	sky1 = "REBSKY1"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB09 "The Depot"
+	{
+	next = "REB10"
+	music = "MUS_RB09"
+	sky1 = "REBSKY1"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+	
+map REB10 "The Machine"
+	{
+	next = "REB11"
+	music = "MUS_RB10"
+	sky1 = "REBSKY1"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB11 "Teleporter Center"
+	{
+	next = "REB12"
+	music = "MUS_RB11"
+	sky1 = "REBSKY1"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB12 "Home!?"
+	{
+	next = "REB13"
+	music = "MUS_RB12"
+	sky1 = "REBSKY2"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB13 "Condemned Streets"
+	{
+	next = "REB14"
+	music = "MUS_RB13"
+	sky1 = "REBSKY2"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB14 "The Undertown"
+	{
+	next = "REB15"
+	music = "MUS_RB14"
+	sky1 = "REBSKY2"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+	
+map REB15 "Ugly Halls"
+	{
+	next = "REB16"
+	secretnext = "REB31"
+	music = "MUS_RB15"
+	sky1 = "REBSKY2"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+	
+map REB16 "The Musty Ones"
+	{
+	next = "REB17"
+	music = "MUS_RB16"
+	sky1 = "REBSKY2"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB17 "Xenophob"
+	{
+	next = "REB18"
+	music = "MUS_RB17"
+	sky1 = "REBSKY2"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+	
+map REB18 "Death Pit"
+	{
+	next = "REB19"
+	music = "MUS_RB18"
+	sky1 = "REBSKY2"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB19 "House of Pain"
+	{
+	next = "REB20"
+	music = "MUS_RB19"
+	sky1 = "REBSKY2"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+	
+map REB20 "The Gateway"
+	{
+	next = "REB21"
+	music = "MUS_RB20"
+	sky1 = "REBSKY2"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB21 "River of Flames"
+	{
+	next = "REB22"
+	music = "MUS_RB21"
+	sky1 = "REBSKY3"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB22 "Withered Fields"
+	{
+	next = "REB23"
+	music = "MUS_RB22"
+	sky1 = "REBSKY3"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB23 "Dark Arena"
+	{
+	next = "REB24"
+	music = "MUS_RB23"
+	sky1 = "REBSKY3"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB24 "Hall of Despair"
+	{
+	next = "REB25"
+	music = "MUS_RB24"
+	sky1 = "REBSKY3"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB25 "The Tower"
+	{
+	next = "REB26"
+	music = "MUS_RB25"
+	sky1 = "REBSKY3"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB26 "Burning Canals"
+	{
+	next = "REB27"
+	music = "MUS_RB26"
+	sky1 = "REBSKY3"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB27 "Wired Hive"
+	{
+	next = "REB28"
+	music = "MUS_RB27"
+	sky1 = "REBSKY3"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB28 "Netherworld"
+	{
+	next = "REB29"
+	music = "MUS_RB28"
+	sky1 = "REBSKY3"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB29 "The Abyss"
+	{
+	next = "REB30"
+	music = "MUS_RB29"
+	sky1 = "REBSKY3"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB30 "Hells Innards"
+	{
+	next = "OUTPOST"
+	music = "MUS_RB30"
+	sky1 = "REBSKY3"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB31 "Snowed-in Mansion"
+	{
+	next = "REB16"
+	secretnext = "REB32"
+	music = "MUS_RB31"
+	sky1 = "REBSKY4"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+map REB32 "Zoo"
+	{
+	next = "REB16"
+	music = "MUS_RB32"
+	sky1 = "REBSKY3"
+	enterpic = "RBRINT"
+	exitpic = "RBRINT"
+	intermusic = "MUS_RBIN"
+	}
+
+// SCYTHE
+
+map SCY01 "Get Going"
+	{
+	next = "SCY02"
+	music = "MUS_SY01"
+	sky1 = "SCYSKY1"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY02 "Punchline"
+	{
+	next = "SCY03"
+	music = "MUS_SY02"
+	sky1 = "SCYSKY1"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY03 "Up and Around"
+	{
+	next = "SCY04"
+	music = "MUS_SY03"
+	sky1 = "SCYSKY1"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY04 "Lost Warehouse"
+	{
+	next = "SCY05"
+	music = "MUS_SY04"
+	sky1 = "SCYSKY1"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY05 "Slimy Tunnels"
+	{
+	next = "SCY06"
+	music = "MUS_SY05"
+	sky1 = "SCYSKY1"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY06 "Pressure Point"
+	{
+	next = "SCY07"
+	music = "MUS_SY06"
+	sky1 = "SCYSKY1"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY07 "Deadly"
+	{
+	next = "SCY08"
+	music = "MUS_SY07"
+	sky1 = "SCYSKY1"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map SCY08 "Garden Base"
+	{
+	next = "SCY09"
+	music = "MUS_SY08"
+	sky1 = "SCYSKY1"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY09 "Computer Storage"
+	{
+	next = "SCY10"
+	music = "MUS_SY09"
+	sky1 = "SCYSKY1"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+	
+map SCY10 "The Lords"
+	{
+	next = "SCY11"
+	music = "MUS_SY10"
+	sky1 = "SCYSKY1"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY11 "Sneak Peak"
+	{
+	next = "SCY12"
+	music = "MUS_SY11"
+	sky1 = "SCYSKY2"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY12 "Walk in the Park"
+	{
+	next = "SCY13"
+	music = "MUS_SY12"
+	sky1 = "SCYSKY2"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY13 "Subverted Base"
+	{
+	next = "SCY14"
+	music = "MUS_SY13"
+	sky1 = "SCYSKY2"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY14 "Power Outage"
+	{
+	next = "SCY15"
+	music = "MUS_SY14"
+	sky1 = "SCYSKY2"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+	
+map SCY15 "Blood Bath"
+	{
+	next = "SCY16"
+	secretnext = "SCY31"
+	music = "MUS_SY15"
+	sky1 = "SCYSKY2"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+	
+map SCY16 "Burial Grounds"
+	{
+	next = "SCY17"
+	music = "MUS_SY16"
+	sky1 = "SCYSKY2"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY17 "Book Lords"
+	{
+	next = "SCY18"
+	music = "MUS_SY17"
+	sky1 = "SCYSKY2"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+	
+map SCY18 "M/S Futura"
+	{
+	next = "SCY19"
+	music = "MUS_SY18"
+	sky1 = "SCYSKY2"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY19 "3000 AD"
+	{
+	next = "SCY20"
+	music = "MUS_SY19"
+	sky1 = "SCYSKY2"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+	
+map SCY20 "The Starport"
+	{
+	next = "SCY21"
+	music = "MUS_SY20"
+	sky1 = "SCYSKY2"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY21 "Solitude"
+	{
+	next = "SCY22"
+	music = "MUS_SY21"
+	sky1 = "SCYSKY3"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY22 "Despair"
+	{
+	next = "SCY23"
+	music = "MUS_SY22"
+	sky1 = "SCYSKY3"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+	
+map SCY23 "Anger"
+	{
+	next = "SCY24"
+	music = "MUS_SY23"
+	sky1 = "SCYSKY3"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY24 "Hatred"
+	{
+	next = "SCY25"
+	music = "MUS_SY24"
+	sky1 = "SCYSKY3"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY25 "Envy"
+	{
+	next = "SCY26"
+	music = "MUS_SY25"
+	sky1 = "SCYSKY3"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+	
+map SCY26 "Fear"
+	{
+	next = "SCY27"
+	music = "MUS_SY26"
+	sky1 = "SCYSKY3"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY27 "Terror"
+	{
+	next = "SCY28"
+	music = "MUS_SY27"
+	sky1 = "SCYSKY3"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY28 "Run From It"
+	{
+	next = "SCY29"
+	music = "MUS_SY28"
+	sky1 = "SCYSKY3"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY29 "Hell on Earth"
+	{
+	next = "SCY30"
+	music = "MUS_SY29"
+	sky1 = "SCYSKY3"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+	
+map SCY30 "Fire and Ice"
+	{
+	next = "OUTPOST"
+	music = "MUS_SY30"
+	sky1 = "SCYSKY3"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY31 "I Dunno Torn"
+	{
+	next = "SCY16"
+	secretnext = "SCY32"
+	music = "MUS_SY31"
+	sky1 = "SCYSKY3"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+map SCY32 "Enoz Soahc"
+	{
+	next = "SCY16"
+	music = "MUS_SY32"
+	sky1 = "SCYSKY3"
+	enterpic = "SCYINT"
+	exitpic = "SCYINT"
+	intermusic = "MUS_SYIN"
+	}
+
+// CAVERNS OF DARKNESS
+
+map COD01 "Surface"
+	{
+	next = "COD02"
+	music = "MUS_CD01"
+	sky1 = "CODSKY2X"
+	enterpic = "CODINT"
+	exitpic = "CODINT"
+	intermusic = "MUS_CDIN"
+	Translator = "codxlat.txt"
+	additive_scrollers
+	evenlighting
+	}
+
+map COD02 "Six Feet Under"
+	{
+	next = "COD03"
+	secretnext = "COD11"
+	music = "MUS_CD02"
+	sky1 = "CODSKY2X"
+	enterpic = "CODINT"
+	exitpic = "CODINT"
+	intermusic = "MUS_CDIN"
+	Translator = "codxlat.txt"
+	additive_scrollers
+	evenlighting
+	}
+
+map COD03 "Hell & High Water"
+	{
+	next = "COD04"
+	music = "MUS_CD03"
+	sky1 = "CODSKY2X"
+	enterpic = "CODINT"
+	exitpic = "CODINT"
+	intermusic = "MUS_CDIN"
+	Translator = "codxlat.txt"
+	additive_scrollers
+	evenlighting
+	}
+
+map COD04 "Hydrosfear"
+	{
+	next = "COD05"
+	music = "MUS_CD04"
+	sky1 = "CODSKY2X"
+	enterpic = "CODINT"
+	exitpic = "CODINT"
+	intermusic = "MUS_CDIN"
+	Translator = "codxlat.txt"
+	additive_scrollers
+	evenlighting
+	}
+
+map COD05 "Command Control"
+	{
+	next = "COD06"
+	secretnext = "COD12"
+	music = "MUS_CD05"
+	sky1 = "CODSKY2X"
+	enterpic = "CODINT"
+	exitpic = "CODINT"
+	intermusic = "MUS_CDIN"
+	Translator = "codxlat.txt"
+	additive_scrollers
+	evenlighting
+	}
+
+map COD06 "Perditions Abyss"
+	{
+	next = "COD07"
+	music = "MUS_CD06"
+	sky1 = "CODSKY2X"
+	enterpic = "CODINT"
+	exitpic = "CODINT"
+	intermusic = "MUS_CDIN"
+	Translator = "codxlat.txt"
+	additive_scrollers
+	evenlighting
+	}
+
+map COD07 "Lava Processing"
+	{
+	next = "COD08"
+	music = "MUS_CD07"
+	sky1 = "CODSKY2X"
+	enterpic = "CODINT"
+	exitpic = "CODINT"
+	intermusic = "MUS_CDIN"
+	map07special
+	Translator = "codxlat.txt"
+	additive_scrollers
+	evenlighting
+	}
+	
+map COD08 "The Pit"
+	{
+	next = "COD09"
+	music = "MUS_CD08"
+	sky1 = "CODSKY2X"
+	enterpic = "CODINT"
+	exitpic = "CODINT"
+	intermusic = "MUS_CDIN"
+	Translator = "codxlat.txt"
+	additive_scrollers
+	evenlighting
+	}
+
+map COD09 "Hellmine"
+	{
+	next = "COD10"
+	music = "MUS_CD09"
+	sky1 = "CODSKY2X"
+	enterpic = "CODINT"
+	exitpic = "CODINT"
+	intermusic = "MUS_CDIN"
+	Translator = "codxlat.txt"
+	additive_scrollers
+	evenlighting
+	}
+	
+map COD10 "Caverns of Darkness"
+	{
+	next = "OUTPOST"
+	music = "MUS_CD10"
+	sky1 = "CODSKY2X"
+	enterpic = "CODINT"
+	exitpic = "CODINT"
+	intermusic = "MUS_CDIN"
+	Translator = "codxlat.txt"
+	additive_scrollers
+	evenlighting
+	}
+
+map COD11 "Symbol of Grace"
+	{
+	next = "COD03"
+	secretnext = "COD03"
+	music = "MUS_CD11"
+	sky1 = "CODSKY2X"
+	enterpic = "CODINT"
+	exitpic = "CODINT"
+	intermusic = "MUS_CDIN"
+	Translator = "codxlat.txt"
+	additive_scrollers
+	evenlighting
+	}
+
+map COD12 "The Stand"
+	{
+	next = "COD06"
+	secretnext = "COD06"
+	music = "MUS_CD12"
+	sky1 = "CODSKY2X"
+	enterpic = "CODINT"
+	exitpic = "CODINT"
+	intermusic = "MUS_CDIN"
+	Translator = "codxlat.txt"
+	additive_scrollers
+	evenlighting
+	}
+
+// THE DARKENING 2
+
+map DK201 "Outpost Mortem"
+	{
+	next = "DK202"
+	music = "MUS_DK01"
+	sky1 = "DRK2SKY1"
+	enterpic = "DRK2INT"
+	exitpic = "DRK2INT"
+	intermusic = "MUS_DKIN"
+	}
+
+map DK202 "Biotech Terror"
+	{
+	next = "DK203"
+	music = "MUS_DK02"
+	sky1 = "DRK2SKY1"
+	enterpic = "DRK2INT"
+	exitpic = "DRK2INT"
+	intermusic = "MUS_DKIN"
+	}
+
+map DK203 "Binary Compound"
+	{
+	next = "DK204"
+	music = "MUS_DK03"
+	sky1 = "DRK2SKY1"
+	enterpic = "DRK2INT"
+	exitpic = "DRK2INT"
+	intermusic = "MUS_DKIN"
+	}
+
+map DK204 "Vindication"
+	{
+	next = "DK205"
+	music = "MUS_DK04"
+	sky1 = "DRK2SKY1"
+	enterpic = "DRK2INT"
+	exitpic = "DRK2INT"
+	intermusic = "MUS_DKIN"
+	}
+
+map DK205 "Melt-Down"
+	{
+	next = "DK206"
+	music = "MUS_DK05"
+	sky1 = "DRK2SKY1"
+	enterpic = "DRK2INT"
+	exitpic = "DRK2INT"
+	intermusic = "MUS_DKIN"
+	}
+
+map DK206 "At the Heart of Decay"
+	{
+	next = "DK207"
+	music = "MUS_DK06"
+	sky1 = "DRK2SKY1"
+	enterpic = "DRK2INT"
+	exitpic = "DRK2INT"
+	intermusic = "MUS_DKIN"
+	}
+
+map DK207 "Waste Processing"
+	{
+	next = "DK208"
+	music = "MUS_DK07"
+	sky1 = "DRK2SKY1"
+	enterpic = "DRK2INT"
+	exitpic = "DRK2INT"
+	intermusic = "MUS_DKIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map DK208 "Lucifer's Laboratory"
+	{
+	next = "DK209"
+	music = "MUS_DK08"
+	sky1 = "DRK2SKY1"
+	enterpic = "DRK2INT"
+	exitpic = "DRK2INT"
+	intermusic = "MUS_DKIN"
+	}
+
+map DK209 "Hard Core"
+	{
+	next = "DK210"
+	music = "MUS_DK09"
+	sky1 = "DRK2SKY1"
+	enterpic = "DRK2INT"
+	exitpic = "DRK2INT"
+	intermusic = "MUS_DKIN"
+	}
+	
+map DK210 "Plasmorgasm"
+	{
+	next = "DK211"
+	music = "MUS_DK10"
+	sky1 = "DRK2SKY1"
+	enterpic = "DRK2INT"
+	exitpic = "DRK2INT"
+	intermusic = "MUS_DKIN"
+	}
+
+map DK211 "Powerplant"
+	{
+	next = "DK212"
+	music = "MUS_DK11"
+	sky1 = "DRK2SKY1"
+	enterpic = "DRK2INT"
+	exitpic = "DRK2INT"
+	intermusic = "MUS_DKIN"
+	}
+
+map DK212 "Toxicity"
+	{
+	next = "OUTPOST"
+	music = "MUS_DK12"
+	sky1 = "DRK2SKY1"
+	enterpic = "DRK2INT"
+	exitpic = "DRK2INT"
+	intermusic = "MUS_DKIN"
+	}
+
+// EQUINOX
+
+map EQU01 "Map01"
+	{
+	next = "EQU02"
+	music = "MUS_EQ01"
+	sky1 = "EQUSKY1"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	}
+
+map EQU02 "Map02"
+	{
+	next = "EQU03"
+	music = "MUS_EQ02"
+	sky1 = "EQUSKY1"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	}
+
+map EQU03 "Map03"
+	{
+	next = "EQU04"
+	music = "MUS_EQ03"
+	sky1 = "EQUSKY1"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	}
+
+map EQU04 "Map04"
+	{
+	next = "EQU05"
+	music = "MUS_EQ04"
+	sky1 = "EQUSKY1"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	}
+
+map EQU05 "Map05"
+	{
+	next = "EQU06"
+	music = "MUS_EQ05"
+	sky1 = "EQUSKY1"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	}
+
+map EQU06 "Map06"
+	{
+	next = "EQU07"
+	music = "MUS_EQ06"
+	sky1 = "EQUSKY1"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	}
+
+map EQU07 "Map07"
+	{
+	next = "EQU08"
+	music = "MUS_EQ07"
+	sky1 = "EQUSKY1"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map EQU08 "Map08"
+	{
+	next = "EQU09"
+	music = "MUS_EQ08"
+	sky1 = "EQUSKY1"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	}
+
+map EQU09 "Map09"
+	{
+	next = "EQU10"
+	music = "MUS_EQ09"
+	sky1 = "EQUSKY1"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	}
+	
+map EQU10 "Map10"
+	{
+	next = "EQU11"
+	music = "MUS_EQ10"
+	sky1 = "EQUSKY1"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	}
+
+map EQU11 "Map11"
+	{
+	next = "EQU12"
+	music = "MUS_EQ11"
+	sky1 = "EQUSKY1"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	}
+
+map EQU12 "Map12"
+	{
+	next = "EQU13"
+	music = "MUS_EQ12"
+	sky1 = "EQUSKY2"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	}
+
+map EQU13 "Map13"
+	{
+	next = "OUTPOST"
+	music = "MUS_EQ13"
+	sky1 = "EQUSKY2"
+	enterpic = "EQNXINT"
+	exitpic = "EQNXINT"
+	intermusic = "MUS_EQIN"
+	}
+
+// MARSDOOM
+
+map MRS01 "The Starport"
+	{
+	next = "MRS02"
+	music = "MUS_MRS1"
+	sky1 = "MARSSKY2"
+	enterpic = "MARSINT"
+	exitpic = "MARSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map MRS02 "The Sewers"
+	{
+	next = "MRS03"
+	music = "MUS_MRS2"
+	sky1 = "MARSSKY2"
+	enterpic = "MARSINT"
+	exitpic = "MARSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map MRS03 "The Container Base"
+	{
+	next = "MRS04"
+	music = "MUS_MRS3"
+	sky1 = "MARSSKY2"
+	enterpic = "MARSINT"
+	exitpic = "MARSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map MRS04 "The Arena"
+	{
+	next = "MRS05"
+	music = "MUS_MRS4"
+	sky1 = "MARSSKY2"
+	enterpic = "MARSINT"
+	exitpic = "MARSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map MRS05 "The Missile Base"
+	{
+	next = "MRS06"
+	music = "MUS_MRS5"
+	sky1 = "MARSSKY2"
+	enterpic = "MARSINT"
+	exitpic = "MARSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map MRS06 "Help Me!"
+	{
+	next = "MRS07"
+	music = "MUS_MRS6"
+	sky1 = "MARSSKY2"
+	enterpic = "MARSINT"
+	exitpic = "MARSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map MRS07 "The Shooting Range"
+	{
+	next = "MRS08"
+	music = "MUS_MRS7"
+	sky1 = "MARSSKY2"
+	enterpic = "MARSINT"
+	exitpic = "MARSINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+
+map MRS08 "Space Marines!"
+	{
+	next = "MRS09"
+	music = "MUS_MRS8"
+	sky1 = "MARSSKY2"
+	sky2 = "SCYSKY2"
+	enterpic = "MARSINT"
+	exitpic = "MARSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map MRS09 "Wrong Game?!"
+	{
+	next = "OUTPOST"
+	music = "MUS_MRS9"
+	sky1 = "SCYSKY2"
+	enterpic = "MARSINT"
+	exitpic = "MARSINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// BLOODRUST
+
+map BLR01 "Map01"
+	{
+	next = "BLR02"
+	music = "MUS_BR01"
+	sky1 = "BRUSTSKY"
+	enterpic = "BRUSTINT"
+	exitpic = "BRUSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BLR02 "Map02"
+	{
+	next = "BLR03"
+	music = "MUS_BR02"
+	sky1 = "BRUSTSKY"
+	enterpic = "BRUSTINT"
+	exitpic = "BRUSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BLR03 "Map03"
+	{
+	next = "BLR04"
+	music = "MUS_BR03"
+	sky1 = "BRUSTSKY"
+	enterpic = "BRUSTINT"
+	exitpic = "BRUSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BLR04 "Map04"
+	{
+	next = "BLR05"
+	music = "MUS_BR04"
+	sky1 = "BRUSTSKY"
+	enterpic = "BRUSTINT"
+	exitpic = "BRUSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BLR05 "Map05"
+	{
+	next = "BLR06"
+	music = "MUS_BR05"
+	sky1 = "BRUSTSKY"
+	enterpic = "BRUSTINT"
+	exitpic = "BRUSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BLR06 "Map06"
+	{
+	next = "BLR07"
+	music = "MUS_BR06"
+	sky1 = "BRUSTSKY"
+	enterpic = "BRUSTINT"
+	exitpic = "BRUSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BLR07 "Map07"
+	{
+	next = "BLR08"
+	music = "MUS_BR07"
+	sky1 = "BRUSTSKY"
+	enterpic = "BRUSTINT"
+	exitpic = "BRUSTINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map BLR08 "Map08"
+	{
+	next = "BLR09"
+	music = "MUS_BR08"
+	sky1 = "BRUSTSKY"
+	enterpic = "BRUSTINT"
+	exitpic = "BRUSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BLR09 "Map09"
+	{
+	next = "BLR10"
+	music = "MUS_BR09"
+	sky1 = "BRUSTSKY"
+	enterpic = "BRUSTINT"
+	exitpic = "BRUSTINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map BLR10 "Map10"
+	{
+	next = "BLR11"
+	music = "MUS_BR10"
+	sky1 = "BRUSTSKY"
+	enterpic = "BRUSTINT"
+	exitpic = "BRUSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BLR11 "Map11"
+	{
+	next = "OUTPOST"
+	music = "MUS_BR11"
+	sky1 = "BRUSTSKY"
+	enterpic = "BRUSTINT"
+	exitpic = "BRUSTINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// OSIRIS
+
+map OSI01 "Stargate Systems"
+	{
+	next = "OSI02"
+	music = "MUS_OSI1"
+	sky1 = "OSIRSKY"
+	enterpic = "OSIRINT"
+	exitpic = "OSIRINT"
+	intermusic = "MUS_OSII"
+	}
+
+map OSI02 "The Crypts Defiled"
+	{
+	next = "OSI03"
+	music = "MUS_OSI2"
+	sky1 = "OSIRSKY"
+	enterpic = "OSIRINT"
+	exitpic = "OSIRINT"
+	intermusic = "MUS_OSII"
+	}
+
+map OSI03 "Cloud of Flame"
+	{
+	next = "OSI04"
+	music = "MUS_OSI3"
+	sky1 = "OSIRSKY"
+	enterpic = "OSIRINT"
+	exitpic = "OSIRINT"
+	intermusic = "MUS_OSII"
+	}
+
+map OSI04 "R U Experienced?"
+	{
+	next = "OSI05"
+	music = "MUS_OSI4"
+	sky1 = "OSIRSKY"
+	enterpic = "OSIRINT"
+	exitpic = "OSIRINT"
+	intermusic = "MUS_OSII"
+	}
+
+map OSI05 "Osiris Outpost"
+	{
+	next = "OSI06"
+	music = "MUS_OSI5"
+	sky1 = "OSIRSKY"
+	enterpic = "OSIRINT"
+	exitpic = "OSIRINT"
+	intermusic = "MUS_OSII"
+	}
+
+map OSI06 "Prince of the Dead"
+	{
+	next = "OSI07"
+	music = "MUS_OSI6"
+	sky1 = "OSIRSKY"
+	enterpic = "OSIRINT"
+	exitpic = "OSIRINT"
+	intermusic = "MUS_OSII"
+	}
+
+map OSI07 "Temple of Amon-Ra"
+	{
+	next = "OSI08"
+	music = "MUS_OSI7"
+	sky1 = "OSIRSKY"
+	enterpic = "OSIRINT"
+	exitpic = "OSIRINT"
+	intermusic = "MUS_OSII"
+	map07special
+	compat_shorttex = 1
+	}
+
+map OSI08 "The Last Pharaoh"
+	{
+	next = "OUTPOST"
+	music = "MUS_OSI8"
+	sky1 = "OSIRSKY"
+	enterpic = "OSIRINT"
+	exitpic = "OSIRINT"
+	intermusic = "MUS_OSII"
+	}
+
+// BROTHERHOOD OF RUIN
+
+map RUI01 "Map01"
+	{
+	next = "RUI02"
+	music = "MUS_RUI1"
+	sky1 = "RUINSKY1"
+	enterpic = "RUININT"
+	exitpic = "RUININT"
+	intermusic = "MUS_RUII"
+	}
+
+map RUI02 "Map02"
+	{
+	next = "RUI03"
+	music = "MUS_RUI2"
+	sky1 = "RUINSKY1"
+	enterpic = "RUININT"
+	exitpic = "RUININT"
+	intermusic = "MUS_RUII"
+	}
+
+map RUI03 "Map03"
+	{
+	next = "RUI04"
+	music = "MUS_RUI3"
+	sky1 = "RUINSKY1"
+	enterpic = "RUININT"
+	exitpic = "RUININT"
+	intermusic = "MUS_RUII"
+	}
+
+map RUI04 "Map04"
+	{
+	next = "RUI05"
+	music = "MUS_RUI4"
+	sky1 = "RUINSKY1"
+	enterpic = "RUININT"
+	exitpic = "RUININT"
+	intermusic = "MUS_RUII"
+	}
+
+map RUI05 "Map05"
+	{
+	next = "RUI06"
+	music = "MUS_RUI5"
+	sky1 = "RUINSKY1"
+	enterpic = "RUININT"
+	exitpic = "RUININT"
+	intermusic = "MUS_RUII"
+	}
+
+map RUI06 "Map06"
+	{
+	next = "RUI07"
+	music = "MUS_RUI6"
+	sky1 = "RUINSKY1"
+	enterpic = "RUININT"
+	exitpic = "RUININT"
+	intermusic = "MUS_RUII"
+	}
+
+map RUI07 "Map07"
+	{
+	next = "OUTPOST"
+	music = "MUS_RUI7"
+	sky1 = "RUINSKY1"
+	enterpic = "RUININT"
+	exitpic = "RUININT"
+	intermusic = "MUS_RUII"
+	map07special
+	compat_shorttex = 1
+	}
+
+// ENJAY ZDOOM
+
+map NJZ01 "Slipgate Complex"
+	{
+	next = "NJZ02"
+	music = "D_RUNNIN"
+	sky1 = "NJZSKY9", 0.2
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ02 "Platform 1"
+	{
+	next = "NJZ03"
+	music = "D_STALKS"
+	sky1 = "NJZSKY1", 0.1
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ03 "The Lake"
+	{
+	next = "NJZ04"
+	music = "D_COUNTD"
+	sky1 = "NJZSKY1", 0.2
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ04 "Power Room"
+	{
+	next = "NJZ05"
+	music = "D_BETWEE"
+	sky1 = "NJZSKY1", 0.1
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ05 "Pyramids of Power"
+	{
+	next = "NJZ06"
+	music = "D_DOOM"
+	sky1 = "NJZSKY1", 0.1
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ06 "Docking Point"
+	{
+	next = "NJZ07"
+	music = "D_THE_DA"
+	sky1 = "NJZSKY1", 0.2
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ07 "AIEEEEE!"
+	{
+	next = "NJZ08"
+	music = "D_SHAWN"
+	sky1 = "NJZSKY8", 0.2
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	}
+
+map NJZ08 "Container Depot"
+	{
+	next = "NJZ09"
+	music = "D_DDTBLU"
+	sky1 = "NJZSKY1", 0.1
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ09 "Teleport Lab"
+	{
+	next = "NJZ10"
+	music = "D_IN_CIT"
+	sky1 = "NJZSKY8", 0.1
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ10 "Rad Pits"
+	{
+	next = "NJZ11"
+	music = "D_DEAD"
+	sky1 = "NJZSKY8", 0.1
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ11 "The Switch"
+	{
+	next = "NJZ12"
+	music = "D_STLKS2"
+	sky1 = "NJZSKY9", 0.1
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	baronspecial
+	specialaction_lowerfloor
+	}
+
+map NJZ12 "City Terminal"
+	{
+	next = "NJZ13"
+	music = "D_THEDA2"
+	sky1 = "NJZSKY2", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ13 "The Long Run"
+	{
+	next = "NJZ14"
+	music = "D_DOOM2"
+	sky1 = "NJZSKY2", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ14 "Psychic Research"
+	{
+	next = "NJZ15"
+	music = "D_DDTBL2"
+	sky1 = "NJZSKY2", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ15 "A Crushing Time"
+	{
+	next = "NJZ16"
+	secretnext = "NJZ31"
+	music = "D_RUNNI2"
+	sky1 = "NJZSKY2", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ16 "The Old Town"
+	{
+	next = "NJZ17"
+	music = "D_DEAD2"
+	sky1 = "NJZSKY4", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ17 "Research Dept."
+	{
+	next = "NJZ18"
+	music = "D_STLKS3"
+	sky1 = "NJZSKY2", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ18 "Old Sewage Works"
+	{
+	next = "NJZ19"
+	music = "D_ROMERO"
+	sky1 = "NJZSKY1", 0.2
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ19 "Under the City"
+	{
+	next = "NJZ20"
+	music = "D_SHAWN2"
+	sky1 = "NJZSKY2", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ20 "City Control"
+	{
+	next = "NJZ21"
+	music = "D_MESSAG"
+	sky1 = "NJZSKY2", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ21 "Bridge to Despair"
+	{
+	next = "NJZ22"
+	music = "D_COUNT2"
+	sky1 = "NJZSKY3", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ22 "Hell's Onion"
+	{
+	next = "NJZ23"
+	music = "D_AMPIE"
+	sky1 = "NJZSKY5", 0.2
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ23 "Ring of Pain"
+	{
+	next = "NJZ24"
+	music = "D_DDTBL3"
+	sky1 = "NJZSKY5", 0.1
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ24 "Death Fortress"
+	{
+	next = "NJZ25"
+	music = "D_THEDA3"
+	sky1 = "NJZSKY6", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ25 "Blood Island"
+	{
+	next = "NJZ26"
+	music = "D_ADRIAN"
+	sky1 = "NJZSKY3", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ26 "Exercise Yard"
+	{
+	next = "NJZ27"
+	music = "D_MESSG2"
+	sky1 = "NJZSKY3", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ27 "Get Down"
+	{
+	next = "NJZ28"
+	music = "D_ROMER2"
+	sky1 = "NJZSKY5", 0.2
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	cyberdemonspecial
+	specialaction_lowerfloor
+	}
+
+map NJZ28 "Detention Complex"
+	{
+	next = "NJZ29"
+	music = "D_TENSE"
+	sky1 = "NJZSKY3", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ29 "Spinal Trap"
+	{
+	next = "NJZ30"
+	music = "D_SHAWN3"
+	sky1 = "NJZSKY5", 0.3
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map NJZ30 "The Icon's Brother"
+	{
+	next = "OUTPOST"
+	music = "D_OPENIN"
+	sky1 = "NJZSKY5", 0.3
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	spidermastermindspecial
+	cyberdemonspecial
+	specialaction_lowerfloor
+	}
+
+map NJZ31 "The Secret Base"
+	{
+	next = "NJZ16"
+	secretnext = "NJZ32"
+	music = "D_EVIL"
+	sky1 = "NJZSKY10", 0.1
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	forcenoskystretch
+	}
+
+map NJZ32 "Deja Vu"
+	{
+	next = "NJZ16"
+	music = "D_ULTIMA"
+	sky1 = "NJZSKY1", 0.0
+	enterpic = "NJAYINT"
+	exitpic = "NJAYINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// DAEDALUS
+
+//--------------- HUB ONE ---------------
+
+// Gary Gosson D2KGG01
+map dae01 "Trash Bay"
+{
+next = "dae02"
+music = "MM_02"
+//sky1 = 0XSKY103 0.0 20jul2002 gg
+sky1 = "0XSKY103", 0.01
+forcenoskystretch
+cluster = 161
+levelnum = 1
+nointermission
+}
+
+// Jeromy Visser D2KJV02
+map dae02 "Engineering"
+{
+next = "dae03"
+music = "MM_03"
+sky1 = "0XSKY103", 0.01
+cluster = 161
+levelnum = 2
+forcenoskystretch
+nointermission
+}
+
+// Jani Saksa D2KJS03
+map dae03 "Kitchen"
+{
+next = "dae04"
+music = "MM_04"
+sky1 = "0XSKY103", 0.01
+cluster = 161
+levelnum = 3
+forcenoskystretch
+nointermission
+}
+
+// Don Howard D2KGH04
+map dae04 "Sleeping Quarters"
+{
+next = "dae05"
+music = "MM_05"
+sky1 = "0XSKY103", 0.01
+cluster = 161
+levelnum = 4
+forcenoskystretch
+nointermission
+}
+
+// Paul Schmitz D2KPS05
+map dae05 "Engine Room"
+{
+next = "dae06"
+music = "MM_06"
+sky1 = "0XSKY103", 0.01
+cluster = 161
+levelnum = 5
+forcenoskystretch
+nointermission
+}
+
+// Rick Clark D2KRC06
+map dae06 "Environmental Control"
+{
+next = "dae07"
+music = "MM_07"
+sky1 = "0XSKY103", 0.01
+cluster = 161
+levelnum = 6
+forcenoskystretch
+nointermission
+}
+
+// Ty Halderman D2KTY07
+map dae07 "The Bridge"
+{
+next = "dae08"
+music = "MM_02"
+sky1 = "0XSKY101", 0.01
+forcenoskystretch
+cluster = 161
+levelnum = 7
+enterpic = "DAEDINT"
+exitpic = "DAEDINT"
+intermusic = "MM_01"
+// do not use nointermission here--end of hub
+}
+
+// Paul Schmitz D2KTTUBE - hub one
+map dae14 "Travel Tube"
+{
+// next map not specified--direct warp to next map used
+sky1 = "sky1", 0.0
+cluster = 161
+levelnum = 14
+forcenoskystretch
+nointermission
+}
+
+//--------------- HUB TWO ---------------
+
+// Ty Halderman/Gary Gosson D2KGT08 (also used as "Encounter")
+map dae08 "Secondary Bridge"
+{
+next = "dae09"
+music = "MM_03"
+sky1 = "0XSKY103", 0
+cluster = 162
+levelnum = 8
+forcenoskystretch
+nointermission
+}
+
+// Ty Halderman D2KTY09
+map dae09 "Cryonics"
+{
+next = "dae10"
+music = "MM_04"
+sky1 = "0XSKY103", 0.01
+cluster = 162
+levelnum = 9
+forcenoskystretch
+nointermission
+}
+
+// Don Howard D2KGH10
+map dae10 "Armory"
+{
+next = "dae11"
+music = "MM_05"
+sky1 = "0XSKY103", 0.01
+cluster = 162
+levelnum = 10
+forcenoskystretch
+nointermission
+}
+
+// Dale Harris D2KDH11
+map dae11 "Brig"
+{
+next = "dae12"
+music = "MM_06"
+sky1 = "0XSKY103", 0.01
+cluster = 162
+levelnum = 11
+forcenoskystretch
+nointermission
+}
+
+// Rick Clark D2KRC12
+map dae12 "Storage"
+{
+next = "dae16"
+music = "MM_07"
+sky1 = "0XSKY103", 0.01
+cluster = 162
+levelnum = 12
+forcenoskystretch
+nointermission
+}
+
+// Andrew Griffiths - dae16 (LEVELS\D2KAG16)
+map dae16 "Scout Bay"
+{
+//next = dae18 20jul2002 gg
+next = "dae21"
+music = "MM_02"
+sky1 = "0XSKY103", 0.01
+cluster = 162
+levelnum = 16
+forcenoskystretch
+enterpic = "DAEDINT"
+exitpic = "DAEDINT"
+intermusic = "MM_01"
+}
+//nointermission 20jul2002 gg
+// do not use nointermission here--end of hub
+
+// Andrew Griffiths - dae18 (LEVELS\D2KAG18) - Secret Level
+map dae18 "Officers' Quarters"
+{
+//next = dae21 20jul2002 gg
+next = "dae18"
+music = "MM_03"
+sky1 = "0XSKY301", 0.01
+cluster = 162
+levelnum = 18
+forcenoskystretch
+nointermission
+}
+// do not use nointermission here--end of hub 20jul2002 gg
+
+// Andrew Griffiths - dae19 (LEVELS\D2KAG19) - Disco area
+map dae19 "Disco"
+{
+next = "dae18"    // back to 18
+music = "MM_04"
+sky1 = "0XSKY103", 0.01
+cluster = 162
+levelnum = 19
+forcenoskystretch
+nointermission
+}
+
+// Paul Schmitz D2KTTUBE - hub two
+map dae15 "Travel Tube"
+{
+// next = map not specified--direct warp to next = map used
+sky1 = "0XSKY103", 0.01
+cluster = 162
+levelnum = 15
+forcenoskystretch
+nointermission
+}
+
+//--------------- HUB THREE ---------------
+// Paul Schmitz D2KTTUBE - hub three
+map dae13 "Travel Tube"
+{
+// next = map not specified--direct warp to next = map used
+sky1 = "0XSKY103", 0.01
+cluster = 163
+levelnum = 13
+forcenoskystretch
+nointermission
+}
+
+// Jani Saksa - dae21 (LEVELS\D2KJS21)
+map dae21 "Landing Site"
+{
+next = "dae22"
+music = "MM_05"
+sky1 = "0XSKY103", 0.01
+cluster = 163
+levelnum = 21
+forcenoskystretch
+nointermission 
+}
+
+// Gary Gosson - dae22 (LEVELS\D2KGG22)
+map dae22 "Tunnels"
+{
+next = "dae23"
+music = "MM_06"
+sky1 = "0XSKY302", 0.01
+cluster = 163
+levelnum = 22
+forcenoskystretch
+nointermission 
+}
+
+// Rick Clark - dae23 (LEVELS\D2KRC23)
+map dae23 "Warehouse"
+{
+next = "dae24"
+music = "MM_07"
+sky1 = "0XSKY302", 0.01
+cluster = 163
+levelnum = 23
+forcenoskystretch
+nointermission 
+}
+
+//  Don Howard - dae24 (LEVELS\D2KGH24)
+map dae24 "Control Center"
+{
+next = "dae25"
+music = "MM_02"
+sky1 = "0XSKY103", 0.01
+cluster = 163
+levelnum = 24
+forcenoskystretch
+nointermission 
+}
+
+// David Nordlund - dae25 (LEVELS\D2KDN25) 
+map dae25 "Laboratory"
+{
+next = "dae26"
+music = "MM_03"
+sky1 = "0XSKY302", 0.01
+cluster = 163
+levelnum = 25
+forcenoskystretch
+nointermission 
+}
+
+// Mattias Johannson - dae26 (LEVELS\D2KMJ26) 
+map dae26 "Teleport Control"
+{
+next = "dae28"
+music = "MM_04"
+sky1 = "0XSKY103", 0.01
+cluster = 163
+levelnum = 26
+forcenoskystretch
+enterpic = "DAEDINT"
+exitpic = "DAEDINT"
+intermusic = "MM_01"
+}
+// do not use nointermission here--end of hub
+
+//--------------- HUB FOUR ---------------
+
+// Paul Schmitz D2KTTUBE - hub four
+map dae20 "Travel Tube"
+{
+// next = map not specified--direct warp to next = map used
+sky1 = "0XSKY103", 0.01
+cluster = 164
+levelnum = 20
+forcenoskystretch
+nointermission
+}
+
+// Ty Halderman - dae27 (LEVELS\D2KUBAHN) - hub Four transition
+map dae27 "Underground Train"
+{
+// next = map not specified--direct warp to next = map used
+sky1 = "0XSKY303", 0.01
+cluster = 164
+levelnum = 27
+forcenoskystretch
+nointermission
+}
+
+// Ty Halderman - dae28 (LEVELS\D2KTY28)
+map dae28 "Federation Systems Control"
+{
+next = "dae29"
+music = "MM_05"
+sky1 = "0XSKY303", 0.01
+cluster = 164
+levelnum = 28
+forcenoskystretch
+nointermission 
+}
+
+// Ty Halderman - dae29 (LEVELS\D2KTY29)
+map dae29 "Language Labs and Classrooms"
+{
+next = "dae30"
+music = "MM_06"
+sky1 = "0XSKY303", 0.01
+cluster = 164
+levelnum = 29
+forcenoskystretch
+nointermission 
+}
+
+// Mattias Johansson - dae30 (LEVELS\D2KMJ30)
+map dae30 "Dimensional Shift"
+{
+next = "dae31"
+music = "MM_07"
+sky1 = "0XSKY302", 0.0
+cluster = 164
+levelnum = 30
+forcenoskystretch
+nointermission 
+}
+
+// Gary Gosson - dae31 (LEVELS\D2KGG31)
+map dae31 "Launch Site"
+{
+next = "dae32"
+music = "MM_02"
+sky1 = "0XSKY303", 0.01
+forcenoskystretch
+cluster = 164
+levelnum = 31
+enterpic = "DAEDINT"
+exitpic = "DAEDINT"
+intermusic = "MM_01"
+}
+
+// Ty Halderman - dae32 (LEVELS\D2KTY32)
+map dae32 "Finale"
+{
+music = "MM_03"
+next = "OUTPOST" // actually end the game here
+sky1 = "0XSKY102", 0.01
+sky2 = "0XSKY102", 0.01
+lightning
+forcenoskystretch
+cluster = 165
+levelnum = 32
+enterpic = "DAEDINT"
+exitpic = "DAEDINT"
+intermusic = "MM_01"
+}
+
+// ------------ cluster = Definitions -----------
+// Hub 1 "Out of the trashcan and into the fire"
+// MAPS 01-02-03-04-05-06-07 +14
+clusterdef 161
+{
+hub
+}
+
+// Hub 2 "Gentlebeings, start your engines"
+// MAPS 08-09-10-11-12-16-18 +15
+clusterdef 162
+{
+hub
+}
+
+// Hub 3 "Driving Miss Deadly"
+// MAPS 21-22-23-24-25-26
+Clusterdef 163
+{
+hub
+}
+
+// Hub 4 "Wo ist der ubahn, bitte?"
+// MAPS 28-29-30-31-32 +27
+Clusterdef 164
+{
+hub
+}
+
+// 42 characters for text
+// 123456789012345678901234567890123456789012
+
+// Hub 5 - "Finale"
+Clusterdef 165
+{
+// don't use HUB keyword so start over with pistol
+// nope, that doesn't work right.  Never mind.
+}
+
+// Skies (for reference)
+// 0XSKY101 Hub 1 - stars with blue and planet, etc. - 991010
+// 0XSKY102 Hub 1 - stars with major blue stripe and asteroids
+// 0XSKY103 Hub 1 - stars only - all black
+// 0XSKY301 Hub 3 - green clouds
+// 0XSKY302 Hub 3 - brown clouds
+// 0XSKY303 Hub 3 - gray clouds
+// 0XSKY400 Hub 4 - plain black sky for new planet (dae32)
+// 0XSKY4B1 Hub 4 - Stars
+// 0XSKY4B2 Hub 4 - Reversed stars - use with 0XSKY4B1 parallax
+
+// === End of DAEDALUS MAPINFO ===
+
+// CLEIMOS
+
+map CLE01 "Advent"
+	{
+	next = "CLE02"
+	music = "D_RUNNIN"
+	sky1 = "CLSKY1"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE02 "Holding Pens"
+	{
+	next = "CLE03"
+	music = "D_STALKS"
+	sky1 = "CLSKY1"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE03 "No Quarter"
+	{
+	next = "CLE04"
+	music = "D_COUNTD"
+	sky1 = "CLSKY1"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE04 "Torment"
+	{
+	next = "CLE05"
+	music = "D_BETWEE"
+	sky1 = "CLSKY1"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE05 "The Cleansing"
+	{
+	next = "CLE06"
+	music = "D_DOOM"
+	sky1 = "CLSKY1"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE06 "Enclave"
+	{
+	next = "CLE07"
+	music = "D_THE_DA"
+	sky1 = "CLSKY1"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE07 "Bastion"
+	{
+	next = "CLE08"
+	music = "D_SHAWN"
+	sky1 = "CLSKY1"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map CLE08 "Hazard Base"
+	{
+	next = "CLE09"
+	music = "D_DDTBLU"
+	sky1 = "CLSKY1"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE09 "Cauldron"
+	{
+	next = "CLE10"
+	music = "D_IN_CIT"
+	sky1 = "CLSKY1"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map CLE10 "Veil of Blood"
+	{
+	next = "CLE11"
+	music = "D_DEAD"
+	sky1 = "CLSKY1"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE11 "Annihilation"
+	{
+	next = "CLE12"
+	music = "D_STLKS2"
+	sky1 = "CLSKY1"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE12 "Trapped"
+	{
+	next = "CLE13"
+	music = "D_THEDA2"
+	sky1 = "CLSKY2"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE13 "Ground-Zero"
+	{
+	next = "CLE14"
+	music = "D_DOOM2"
+	sky1 = "CLSKY2"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE14 "The Five"
+	{
+	next = "CLE15"
+	music = "D_DDTBL2"
+	sky1 = "CLSKY2"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map CLE15 "Stairway to Hell"
+	{
+	next = "CLE16"
+	secretnext = "CLE31"
+	music = "D_RUNNI2"
+	sky1 = "CLSKY2"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map CLE16 "Bulletproof"
+	{
+	next = "CLE17"
+	music = "D_DEAD2"
+	sky1 = "CLSKY2"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE17 "Sole Survivor"
+	{
+	next = "CLE18"
+	music = "D_STLKS3"
+	sky1 = "CLSKY2"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map CLE18 "Scent of Death"
+	{
+	next = "CLE19"
+	music = "D_ROMERO"
+	sky1 = "CLSKY2"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE19 "Rise & Fall"
+	{
+	next = "CLE20"
+	music = "D_SHAWN2"
+	sky1 = "CLSKY2"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map CLE20 "Hip Deep"
+	{
+	next = "CLE21"
+	music = "D_MESSAG"
+	sky1 = "CLSKY2"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE21 "Full Metal Island"
+	{
+	next = "CLE22"
+	music = "D_COUNT2"
+	sky1 = "CLSKY3"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE22 "Rosewood"
+	{
+	next = "CLE23"
+	music = "D_DDTBL3"
+	sky1 = "CLSKY3"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE23 "Castle of the Ancients"
+	{
+	next = "CLE24"
+	music = "D_AMPIE"
+	sky1 = "CLSKY3"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE24 "The Ungathered"
+	{
+	next = "CLE25"
+	music = "D_THEDA3"
+	sky1 = "CLSKY3"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE25 "Well of Fire"
+	{
+	next = "CLE26"
+	music = "D_ADRIAN"
+	sky1 = "CLSKY3"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE26 "Release Me"
+	{
+	next = "CLE27"
+	music = "D_MESSG2"
+	sky1 = "CLSKY3"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE27 "Entr'Acte"
+	{
+	next = "CLE28"
+	music = "D_ROMER2"
+	sky1 = "CLSKY3"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE28 "Axis"
+	{
+	next = "CLE29"
+	music = "D_TENSE"
+	sky1 = "CLSKY3"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE29 "The Hive"
+	{
+	next = "CLE30"
+	music = "D_SHAWN3"
+	sky1 = "CLSKY3"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE30 "Temple of Lost Souls"
+	{
+	next = "OUTPOST"
+	music = "D_OPENIN"
+	sky1 = "CLSKY3"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE31 "Command + Control"
+	{
+	next = "CLE16"
+	secretnext = "CLE32"
+	music = "D_EVIL"
+	sky1 = "CLSKY3"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CLE32 "Tomb of the Forsaken"
+	{
+	next = "CLE16"
+	music = "D_ULTIMA"
+	sky1 = "CLSKY3"
+	enterpic = "CLEIMINT"
+	exitpic = "CLEIMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// ASDOOM 2
+
+map ASD01 "A Walk in the Park"
+	{
+	next = "ASD02"
+	music = "D_RUNNIN"
+	sky1 = "ASD2SKY"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ASD02 "The Hall of the Mountain Kings"
+	{
+	next = "ASD03"
+	music = "D_STALKS"
+	sky1 = "ASD2SKY"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ASD03 "Moody"
+	{
+	next = "ASD04"
+	music = "D_COUNTD"
+	sky1 = "ASD2SKY"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ASD04 "Going Down?"
+	{
+	next = "ASD05"
+	music = "D_BETWEE"
+	sky1 = "ASD2SKY"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ASD05 "Hell of a Knight"
+	{
+	next = "ASD06"
+	music = "D_DOOM"
+	sky1 = "ASD2SKY"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ASD06 "The Heat is On"
+	{
+	next = "ASD07"
+	music = "D_THE_DA"
+	sky1 = "ASD2SKY"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ASD07 "A False Sense of Security"
+	{
+	next = "ASD08"
+	music = "D_SHAWN"
+	sky1 = "ASD2SKY"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+
+map ASD08 "Finale"
+	{
+	next = "OUTPOST"
+	music = "D_DDTBLU"
+	sky1 = "ASD2SKY"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+// PLEIADES
+
+map PLE01 "Solitude"
+	{
+	next = "PLE02"
+	music = "MUS_PLE1"
+	sky1 = "PLESKY8"
+	enterpic = "PLEIINT"
+	exitpic = "PLEIINT"
+	intermusic = "MUS_PLEI"
+	}
+
+map PLE02 "Pleiades"
+	{
+	next = "PLE03"
+	music = "MUS_PLE2"
+	sky1 = "PLESKY1"
+	enterpic = "PLEIINT"
+	exitpic = "PLEIINT"
+	intermusic = "MUS_PLEI"
+	}
+
+map PLE03 "MIR"
+	{
+	next = "PLE04"
+	music = "MUS_PLE3"
+	sky1 = "PLESKY2"
+	enterpic = "PLEIINT"
+	exitpic = "PLEIINT"
+	intermusic = "MUS_PLEI"
+	}
+
+map PLE04 "Star City"
+	{
+	next = "PLE06"
+	music = "MUS_PLE4"
+	sky1 = "PLESKY3"
+	enterpic = "PLEIINT"
+	exitpic = "PLEIINT"
+	intermusic = "MUS_PLEI"
+	}
+
+map PLE06 "Hiatus"
+	{
+	next = "PLE07"
+	music = "MUS_PLE6"
+	sky1 = "PLESKY5"
+	enterpic = "PLEIINT"
+	exitpic = "PLEIINT"
+	intermusic = "MUS_PLEI"
+	}
+
+map PLE07 "Phobos Spaceport"
+	{
+	next = "PLE08"
+	music = "MUS_PLE7"
+	sky1 = "PLESKY6"
+	enterpic = "PLEIINT"
+	exitpic = "PLEIINT"
+	intermusic = "MUS_PLEI"
+	}
+
+map PLE08 "Nuclear Plant"
+	{
+	next = "PLE09"
+	music = "MUS_PLE8"
+	sky1 = "PLESKY6"
+	enterpic = "PLEIINT"
+	exitpic = "PLEIINT"
+	intermusic = "MUS_PLEI"
+	}
+
+map PLE09 "Refinery"
+	{
+	next = "PLE10"
+	music = "MUS_PLE9"
+	sky1 = "PLESKY6"
+	enterpic = "PLEIINT"
+	exitpic = "PLEIINT"
+	intermusic = "MUS_PLEI"
+	}
+
+map PLE10 "Command and Control"
+	{
+	next = "PLE11"
+	music = "MUS_PLEA"
+	sky1 = "PLESKY6"
+	enterpic = "PLEIINT"
+	exitpic = "PLEIINT"
+	intermusic = "MUS_PLEI"
+	}
+
+map PLE11 "Iapetus"
+	{
+	next = "PLE05"
+	music = "MUS_PLEB"
+	sky1 = "PLESKY7"
+	enterpic = "PLEIINT"
+	exitpic = "PLEIINT"
+	intermusic = "MUS_PLEI"
+	}
+
+map PLE05 "Galaxia"
+	{
+	next = "OUTPOST"
+	music = "MUS_PLE5"
+	sky1 = "PLESKY4"
+	enterpic = "PLEIINT"
+	exitpic = "PLEIINT"
+	intermusic = "MUS_PLEI"
+	}
+
+// DARK COVENANT
+
+map DCV01 "Suburb"
+	{
+	next = "DCV02"
+	music = "MUS_DC01"
+	sky1 = "DCVSKY1"
+	enterpic = "DCVNTINT"
+	exitpic = "DCVNTINT"
+	intermusic = "MUS_DCIN"
+	}
+
+map DCV02 "Green Water"
+	{
+	next = "DCV03"
+	music = "MUS_DC02"
+	sky1 = "DCVSKY1"
+	enterpic = "DCVNTINT"
+	exitpic = "DCVNTINT"
+	intermusic = "MUS_DCIN"
+	}
+
+map DCV03 "Necropolis"
+	{
+	next = "DCV04"
+	music = "MUS_DC03"
+	sky1 = "DCVSKY1"
+	enterpic = "DCVNTINT"
+	exitpic = "DCVNTINT"
+	intermusic = "MUS_DCIN"
+	}
+
+map DCV04 "Forgotten Outpost"
+	{
+	next = "DCV05"
+	music = "MUS_DC04"
+	sky1 = "DCVSKY1"
+	enterpic = "DCVNTINT"
+	exitpic = "DCVNTINT"
+	intermusic = "MUS_DCIN"
+	}
+
+map DCV05 "Earth Core"
+	{
+	next = "DCV06"
+	music = "MUS_DC05"
+	sky1 = "DCVSKY1"
+	enterpic = "DCVNTINT"
+	exitpic = "DCVNTINT"
+	intermusic = "MUS_DCIN"
+	}
+
+map DCV06 "Cavern of Doom"
+	{
+	next = "DCV07"
+	music = "MUS_DC06"
+	sky1 = "DCVSKY1"
+	enterpic = "DCVNTINT"
+	exitpic = "DCVNTINT"
+	intermusic = "MUS_DCIN"
+	}
+
+map DCV07 "The Flooded Base"
+	{
+	next = "DCV08"
+	music = "MUS_DC07"
+	sky1 = "DCVSKY1"
+	enterpic = "DCVNTINT"
+	exitpic = "DCVNTINT"
+	intermusic = "MUS_DCIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map DCV08 "Gateway"
+	{
+	next = "DCV09"
+	music = "MUS_DC08"
+	sky1 = "DCVSKY1"
+	enterpic = "DCVNTINT"
+	exitpic = "DCVNTINT"
+	intermusic = "MUS_DCIN"
+	}
+
+map DCV09 "The Evil Eye"
+	{
+	next = "DCV10"
+	music = "MUS_DC09"
+	sky1 = "DCVSKY1"
+	enterpic = "DCVNTINT"
+	exitpic = "DCVNTINT"
+	intermusic = "MUS_DCIN"
+	}
+	
+map DCV10 "Research Facility"
+	{
+	next = "DCV11"
+	music = "MUS_DC10"
+	sky1 = "DCVSKY1"
+	enterpic = "DCVNTINT"
+	exitpic = "DCVNTINT"
+	intermusic = "MUS_DCIN"
+	}
+
+map DCV11 "Launch Control"
+	{
+	next = "DCV12"
+	music = "MUS_DC11"
+	sky1 = "DCVSKY1"
+	enterpic = "DCVNTINT"
+	exitpic = "DCVNTINT"
+	intermusic = "MUS_DCIN"
+	}
+
+map DCV12 "Last Ship Out"
+	{
+	next = "OUTPOST"
+	music = "MUS_DC12"
+	sky1 = "DCVSKY2"
+	enterpic = "DCVNTINT"
+	exitpic = "DCVNTINT"
+	intermusic = "MUS_DCIN"
+	}
+
+// SLAYER
+
+map SLA01 "Human Processing"
+	{
+	next = "SLA02"
+	music = "MUS_SL01"
+	sky1 = "TNTSKY3"
+	enterpic = "SLAYINT"
+	exitpic = "SLAYINT"
+	intermusic = "MUS_SLIN"
+	}
+
+map SLA02 "Get the Gun!!!"
+	{
+	next = "SLA03"
+	music = "MUS_SL02"
+	sky1 = "TNTSKY3"
+	enterpic = "SLAYINT"
+	exitpic = "SLAYINT"
+	intermusic = "MUS_SLIN"
+	}
+
+map SLA03 "Gethsemane"
+	{
+	next = "SLA04"
+	music = "MUS_SL03"
+	sky1 = "TNTSKY3"
+	enterpic = "SLAYINT"
+	exitpic = "SLAYINT"
+	intermusic = "MUS_SLIN"
+	}
+
+map SLA04 "Old Town"
+	{
+	next = "SLA05"
+	music = "MUS_SL04"
+	sky1 = "TNTSKY3"
+	enterpic = "SLAYINT"
+	exitpic = "SLAYINT"
+	intermusic = "MUS_SLIN"
+	}
+
+map SLA05 "Arena"
+	{
+	next = "SLA06"
+	music = "MUS_SL05"
+	sky1 = "TNTSKY3"
+	enterpic = "SLAYINT"
+	exitpic = "SLAYINT"
+	intermusic = "MUS_SLIN"
+	}
+
+map SLA06 "Psycho-Mania"
+	{
+	next = "SLA07"
+	music = "MUS_SL06"
+	sky1 = "TNTSKY3"
+	enterpic = "SLAYINT"
+	exitpic = "SLAYINT"
+	intermusic = "MUS_SLIN"
+	}
+
+map SLA07 "Into the Light"
+	{
+	next = "SLA08"
+	music = "MUS_SL07"
+	sky1 = "TNTSKY3"
+	enterpic = "SLAYINT"
+	exitpic = "SLAYINT"
+	intermusic = "MUS_SLIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map SLA08 "10 Secrets"
+	{
+	next = "SLA09"
+	music = "MUS_SL08"
+	sky1 = "TNTSKY3"
+	enterpic = "SLAYINT"
+	exitpic = "SLAYINT"
+	intermusic = "MUS_SLIN"
+	}
+
+map SLA09 "Techbase Terror"
+	{
+	next = "SLA10"
+	music = "MUS_SL09"
+	sky1 = "TNTSKY3"
+	enterpic = "SLAYINT"
+	exitpic = "SLAYINT"
+	intermusic = "MUS_SLIN"
+	}
+	
+map SLA10 "Staircase to Heaven"
+	{
+	next = "SLA11"
+	music = "MUS_SL10"
+	sky1 = "TNTSKY3"
+	enterpic = "SLAYINT"
+	exitpic = "SLAYINT"
+	intermusic = "MUS_SLIN"
+	}
+
+map SLA11 "Bonus Map"
+	{
+	next = "OUTPOST"
+	music = "MUS_SL11"
+	sky1 = "TNTSKY3"
+	enterpic = "SLAYINT"
+	exitpic = "SLAYINT"
+	intermusic = "MUS_SLIN"
+	}
+
+// HELL FACTORY
+
+map HFA01 "Entering the Building"
+{
+music = "MUS_HFA1"
+sky1 = "HFACSKY1"
+cluster = 71
+levelnum = 71
+nointermission
+}
+
+map HFA02 "The Sewers"
+{
+music = "MUS_HFA2"
+sky1 = "HFACSKY1"
+cluster = 71
+levelnum = 72
+nointermission
+}
+
+map HFA03 "Destroyed Base"
+{
+music = "MUS_HFA3"
+sky1 = "HFACSKY2"
+cluster = 71
+levelnum = 73
+nointermission
+}
+
+map HFA04 "The Nukage Area"
+{
+music = "MUS_HFA4"
+sky1 = "HFACSKY2"
+cluster = 71
+levelnum = 74
+nointermission
+}
+
+Clusterdef 71
+{
+hub
+}
+
+// CYBERDREAMS
+
+map CDR01 "Warm Up: 1 on 1"
+	{
+	next = "CDR02"
+	music = "D_RUNNIN"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR02 "The S-2 Factor"
+	{
+	next = "CDR03"
+	music = "D_STALKS"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR03 "The Bridge Between"
+	{
+	next = "CDR04"
+	music = "D_COUNTD"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR04 "Come On In"
+	{
+	next = "CDR05"
+	music = "D_BETWEE"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR05 "Cybers and Holes"
+	{
+	next = "CDR06"
+	music = "D_DOOM"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR06 "John's Lament"
+	{
+	next = "CDR07"
+	music = "D_THE_DA"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR07 "Unusual Friendship"
+	{
+	next = "CDR08"
+	music = "D_SHAWN"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map CDR08 "Happy End?"
+	{
+	next = "CDR09"
+	music = "D_DDTBLU"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR09 "Double Duplex"
+	{
+	next = "CDR10"
+	music = "D_IN_CIT"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map CDR10 "Escape From the Hidden Trinity"
+	{
+	next = "CDR11"
+	music = "D_DEAD"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR11 "Sequential Movements"
+	{
+	next = "CDR12"
+	music = "D_STLKS2"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR12 "Lord of the Ring"
+	{
+	next = "CDR13"
+	music = "D_THEDA2"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR13 "After the Ring"
+	{
+	next = "CDR14"
+	music = "D_DOOM2"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR14 "Satyrs, Gargoyles, Lions and Suffering"
+	{
+	next = "CDR15"
+	music = "D_DDTBL2"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map CDR15 "Four Leaf Clover"
+	{
+	next = "CDR16"
+	secretnext = "CDR31"
+	music = "D_RUNNI2"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map CDR16 "Urbanity"
+	{
+	next = "CDR17"
+	music = "D_DEAD2"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR17 "Tic-tac-toe"
+	{
+	next = "CDR18"
+	music = "D_STLKS3"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map CDR18 "The Blocked Way to Arch-Itecture"
+	{
+	next = "CDR19"
+	music = "D_ROMERO"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR19 "Arch-Itecture"
+	{
+	next = "CDR20"
+	music = "D_SHAWN2"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map CDR20 "Anti-Clockwise"
+	{
+	next = "CDR21"
+	music = "D_MESSAG"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR21 "Bleeding Woods"
+	{
+	next = "CDR22"
+	music = "D_COUNT2"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR22 "Hot Dog"
+	{
+	next = "CDR23"
+	music = "D_DDTBL3"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR23 "Hard Descent, Harder Climbings"
+	{
+	next = "CDR24"
+	music = "D_AMPIE"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR24 "Sorry, 66% Maximum"
+	{
+	next = "CDR25"
+	music = "D_THEDA3"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR25 "Pure Blood"
+	{
+	next = "CDR26"
+	music = "D_ADRIAN"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR26 "The Tough Twins"
+	{
+	next = "CDR27"
+	music = "D_MESSG2"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR27 "You See Me, You Don't"
+	{
+	next = "CDR28"
+	music = "D_ROMER2"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR28 "The Floatin' Conspiracy"
+	{
+	next = "CDR29"
+	music = "D_TENSE"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR29 "The Way to God's Manna"
+	{
+	next = "CDR30"
+	music = "D_SHAWN3"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR30 "Resurrection"
+	{
+	next = "OUTPOST"
+	music = "D_OPENIN"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR31 "With a Little Help..."
+	{
+	next = "CDR16"
+	secretnext = "CDR32"
+	music = "D_EVIL"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map CDR32 "From My Friend."
+	{
+	next = "CDR16"
+	music = "D_ULTIMA"
+	sky1 = "CYBDRMSK"
+	enterpic = "CDRMINT"
+	exitpic = "CDRMINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// THE FINAL GATHERING
+
+map GAT01 "Water Treatment Plant"
+	{
+	next = "GAT02"
+	music = "MUS_GAT1"
+	sky1 = "ABYSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map GAT02 "Sewers"
+	{
+	next = "GAT03"
+	music = "MUS_GAT2"
+	sky1 = "ABYSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map GAT03 "Caverns"
+	{
+	next = "GAT04"
+	music = "MUS_GAT3"
+	sky1 = "ABYSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map GAT04 "Enemy Stronghold"
+	{
+	next = "GAT05"
+	music = "MUS_GAT4"
+	sky1 = "ABYSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map GAT05 "Dark Side of the Mind"
+	{
+	next = "GAT06"
+	music = "MUS_GAT5"
+	sky1 = "ABYSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map GAT06 "Shrine of the Warriors"
+	{
+	next = "OUTPOST"
+	music = "D_RUNNIN"
+	sky1 = "ABYSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+// EARTH
+
+map ERT01 "The Ruins"
+	{
+	next = "ERT02"
+	music = "MUS_ERT1"
+	sky1 = "EARTHSKY"
+	enterpic = "EARTHINT"
+	exitpic = "EARTHINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ERT02 "The Tomb"
+	{
+	next = "ERT03"
+	music = "MUS_ERT2"
+	sky1 = "EARTHSKY"
+	enterpic = "EARTHINT"
+	exitpic = "EARTHINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ERT03 "Mines of Moria"
+	{
+	next = "ERT04"
+	music = "MUS_ERT3"
+	sky1 = "EARTHSKY"
+	enterpic = "EARTHINT"
+	exitpic = "EARTHINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ERT04 "The Chasm"
+	{
+	next = "ERT05"
+	music = "MUS_ERT4"
+	sky1 = "EARTHSKY"
+	enterpic = "EARTHINT"
+	exitpic = "EARTHINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ERT05 "Strategic Defense Command"
+	{
+	next = "ERT06"
+	music = "MUS_ERT5"
+	sky1 = "EARTHSKY"
+	enterpic = "EARTHINT"
+	exitpic = "EARTHINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ERT06 "Observation Station"
+	{
+	next = "ERT07"
+	music = "MUS_ERT6"
+	sky1 = "EARTHSKY"
+	enterpic = "EARTHINT"
+	exitpic = "EARTHINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ERT07 "The Emerald Tower"
+	{
+	next = "ERT08"
+	music = "MUS_ERT7"
+	sky1 = "EARTHSKY"
+	enterpic = "EARTHINT"
+	exitpic = "EARTHINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	}
+	
+map ERT08 "The Ammo Pit"
+	{
+	next = "ERT09"
+	music = "MUS_ERT8"
+	sky1 = "EARTHSKY"
+	enterpic = "EARTHINT"
+	exitpic = "EARTHINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ERT09 "Islands"
+	{
+	next = "ERT10"
+	music = "MUS_ERT9"
+	sky1 = "EARTHSKY"
+	enterpic = "EARTHINT"
+	exitpic = "EARTHINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map ERT10 "The Hill"
+	{
+	next = "OUTPOST"
+	music = "MUS_ERT0"
+	sky1 = "EARTHSKY"
+	enterpic = "EARTHINT"
+	exitpic = "EARTHINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// EVILUTION (Private Version Only, sorry folks)
+
+map TNT01 "System Control"
+	{
+	next = "TNT02"
+	music = "MUS_TNT1"
+	sky1 = "TNTSKY1"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT02 "Human BBQ"
+	{
+	next = "TNT03"
+	music = "MUS_TNT2"
+	sky1 = "TNTSKY1"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT03 "Power Control"
+	{
+	next = "TNT04"
+	music = "MUS_TNT3"
+	sky1 = "TNTSKY1"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT04 "Wormhole"
+	{
+	next = "TNT05"
+	music = "MUS_TNT4"
+	sky1 = "TNTSKY1"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT05 "Hanger"
+	{
+	next = "TNT06"
+	music = "MUS_TNT5"
+	sky1 = "TNTSKY1"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT06 "Open Season"
+	{
+	next = "TNT07"
+	music = "MUS_TNT6"
+	sky1 = "TNTSKY1"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT07 "Prison"
+	{
+	next = "TNT08"
+	music = "MUS_TNT7"
+	sky1 = "TNTSKY1"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map TNT08 "Metal"
+	{
+	next = "TNT09"
+	music = "MUS_TNT8"
+	sky1 = "TNTSKY1"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT09 "Stronghold"
+	{
+	next = "TNT10"
+	music = "MUS_TNT9"
+	sky1 = "TNTSKY1"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+	
+map TNT10 "Redemption"
+	{
+	next = "TNT11"
+	music = "MUS_TNTA"
+	sky1 = "TNTSKY1"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT11 "Storage Facility"
+	{
+	next = "TNT12"
+	music = "MUS_TNTB"
+	sky1 = "TNTSKY1"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT12 "Crater"
+	{
+	next = "TNT13"
+	music = "MUS_TNTC"
+	sky1 = "TNTSKY2"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT13 "Nukage Processing"
+	{
+	next = "TNT14"
+	music = "MUS_TNTD"
+	sky1 = "TNTSKY2"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT14 "Steel Works"
+	{
+	next = "TNT15"
+	music = "MUS_TNTE"
+	sky1 = "TNTSKY2"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+	
+map TNT15 "Dead Zone"
+	{
+	next = "TNT16"
+	secretnext = "TNT31"
+	music = "MUS_TNTF"
+	sky1 = "TNTSKY2"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+	
+map TNT16 "Deepest Reaches"
+	{
+	next = "TNT17"
+	music = "MUS_TNTG"
+	sky1 = "TNTSKY2"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT17 "Processing Area"
+	{
+	next = "TNT18"
+	music = "MUS_TNTH"
+	sky1 = "TNTSKY2"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+	
+map TNT18 "Mill"
+	{
+	next = "TNT19"
+	music = "MUS_TNTI"
+	sky1 = "TNTSKY2"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT19 "Shipping/Respawning"
+	{
+	next = "TNT20"
+	music = "MUS_TNTJ"
+	sky1 = "TNTSKY2"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+	
+map TNT20 "Central Processing"
+	{
+	next = "TNT21"
+	music = "MUS_TNTK"
+	sky1 = "TNTSKY2"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT21 "Administration Center"
+	{
+	next = "TNT22"
+	music = "MUS_TNTL"
+	sky1 = "TNTSKY3"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT22 "Habitat"
+	{
+	next = "TNT23"
+	music = "MUS_TNTM"
+	sky1 = "TNTSKY3"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+	
+map TNT23 "Lunar Mining Project"
+	{
+	next = "TNT24"
+	music = "MUS_TNTN"
+	sky1 = "TNTSKY3"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT24 "Quarry"
+	{
+	next = "TNT25"
+	music = "MUS_TNTO"
+	sky1 = "TNTSKY3"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT25 "Baron's Den"
+	{
+	next = "TNT26"
+	music = "MUS_TNTP"
+	sky1 = "TNTSKY3"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+	
+map TNT26 "Ballistyx"
+	{
+	next = "TNT27"
+	music = "MUS_TNTQ"
+	sky1 = "TNTSKY3"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT27 "Mount Pain"
+	{
+	next = "TNT28"
+	music = "MUS_TNTR"
+	sky1 = "TNTSKY3"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT28 "Heck"
+	{
+	next = "TNT29"
+	music = "MUS_TNTS"
+	sky1 = "TNTSKY3"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT29 "River Styx"
+	{
+	next = "TNT30"
+	music = "MUS_TNTT"
+	sky1 = "TNTSKY3"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT30 "Last Call"
+	{
+	next = "OUTPOST"
+	music = "MUS_TNTU"
+	sky1 = "TNTSKY3"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	compat_stairs = 1
+	}
+
+map TNT31 "Pharaoh"
+	{
+	next = "TNT16"
+	secretnext = "TNT32"
+	music = "MUS_TNTV"
+	sky1 = "TNTSKY3"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+map TNT32 "Caribbean"
+	{
+	next = "TNT16"
+	music = "MUS_TNTW"
+	sky1 = "TNTSKY3"
+	enterpic = "TNTINT"
+	exitpic = "TNTINT"
+	intermusic = "MUS_TNTV"
+	}
+
+// ENDGAME
+
+map END01 "Arctic"
+	{
+	next = "END02"
+	music = "D_RUNNIN"
+	sky1 = "DUSTSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map END02 "Old School"
+	{
+	next = "END03"
+	music = "D_STALKS"
+	sky1 = "DUSTSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map END03 "Morsel"
+	{
+	next = "END04"
+	music = "D_COUNTD"
+	sky1 = "DUSTSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map END04 "Garrison"
+	{
+	next = "END05"
+	music = "D_BETWEE"
+	sky1 = "DUSTSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map END05 "Zylstra"
+	{
+	next = "END06"
+	music = "D_DOOM"
+	sky1 = "DUSTSKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map END06 "Chaostile"
+	{
+	next = "END07"
+	music = "D_THE_DA"
+	sky1 = "DUSTSKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map END07 "Water Treatment Facility"
+	{
+	next = "END08"
+	music = "D_SHAWN"
+	sky1 = "DUSTSKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+
+map END08 "The Beauty of Evil"
+	{
+	next = "OUTPOST"
+	music = "D_DDTBLU"
+	sky1 = "DUSTSKY2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+// DOOM RESURRECTION
+
+map RES01 "Ammunition Bunker"
+	{
+	next = "RES02"
+	sky1 = "DRESSKY"
+	enterpic = "DRESINT"
+	exitpic = "DRESINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RES02 "War Factory"
+	{
+	next = "RES03"
+	sky1 = "DRESSKY"
+	enterpic = "DRESINT"
+	exitpic = "DRESINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RES03 "Sewer Side"
+	{
+	next = "RES04"
+	sky1 = "DRESSKY"
+	enterpic = "DRESINT"
+	exitpic = "DRESINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RES04 "Core-Gen Labs"
+	{
+	next = "RES05"
+	sky1 = "DRESSKY"
+	enterpic = "DRESINT"
+	exitpic = "DRESINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map RES05 "Headquarters"
+	{
+	next = "OUTPOST"
+	sky1 = "DRESSKY"
+	enterpic = "DRESINT"
+	exitpic = "DRESINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// ENSLAVEMENT
+
+map ENS01 "Underground"
+	{
+	next = "ENS02"
+	music = "MUS_ENS1"
+	sky1 = "ENSLAVES"
+	enterpic = "ENSLINT"
+	exitpic = "ENSLINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENS02 "The Chase"
+	{
+	next = "ENS03"
+	music = "MUS_ENS2"
+	sky1 = "ENSLAVES"
+	enterpic = "ENSLINT"
+	exitpic = "ENSLINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENS03 "Kill the Innocent"
+	{
+	next = "ENS04"
+	music = "MUS_ENS3"
+	sky1 = "ENSLAVES"
+	enterpic = "ENSLINT"
+	exitpic = "ENSLINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENS04 "Web of Fire"
+	{
+	next = "ENS05"
+	music = "MUS_ENS4"
+	sky1 = "ENSLAVES"
+	enterpic = "ENSLINT"
+	exitpic = "ENSLINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENS05 "The Grand Palace"
+	{
+	next = "ENS06"
+	music = "MUS_ENS5"
+	sky1 = "ENSLAVES"
+	enterpic = "ENSLINT"
+	exitpic = "ENSLINT"
+	intermusic = "MUS_M1I2"
+	compat_shorttex = 1
+	}
+
+map ENS06 "The Dark Temple"
+	{
+	next = "ENS07"
+	music = "MUS_ENS6"
+	sky1 = "ENSLAVES"
+	enterpic = "ENSLINT"
+	exitpic = "ENSLINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENS07 "Chamber of Sacrifice"
+	{
+	next = "ENS08"
+	music = "MUS_ENS7"
+	sky1 = "ENSLAVES"
+	enterpic = "ENSLINT"
+	exitpic = "ENSLINT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map ENS08 "Black Dungeon"
+	{
+	next = "ENS09"
+	music = "MUS_ENS8"
+	sky1 = "ENSLAVES"
+	enterpic = "ENSLINT"
+	exitpic = "ENSLINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENS09 "Enslavement"
+	{
+	next = "ENS10"
+	music = "MUS_ENS9"
+	sky1 = "ENSLAVES"
+	enterpic = "ENSLINT"
+	exitpic = "ENSLINT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map ENS10 "Gateway of Death"
+	{
+	next = "ENS11"
+	music = "MUS_ENSA"
+	sky1 = "ENSLAVES"
+	enterpic = "ENSLINT"
+	exitpic = "ENSLINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ENS11 "Slave Palace"
+	{
+	next = "OUTPOST"
+	music = "MUS_ENSB"
+	sky1 = "ENSLAVES"
+	enterpic = "ENSLINT"
+	exitpic = "ENSLINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// BIOTECH
+
+map BTK01 "BioTech Entrance"
+	{
+	next = "BTK02"
+	music = "MUS_BTK1"
+	sky1 = "BTKSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTK02 "Switches and Bridges"
+	{
+	next = "BTK03"
+	music = "MUS_BTK2"
+	sky1 = "BTKSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTK03 "The Biolabs"
+	{
+	next = "BTK04"
+	music = "MUS_BTK3"
+	sky1 = "BTKSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTK04 "The Descent"
+	{
+	next = "BTK05"
+	music = "D_BETWEE"
+	sky1 = "BTKSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTK05 "The Pits"
+	{
+	next = "BTK06"
+	music = "D_DOOM"
+	sky1 = "BTKSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTK06 "The River of Mutagen"
+	{
+	next = "BTK07"
+	music = "D_THE_DA"
+	sky1 = "BTKSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTK07 "The Tunnels"
+	{
+	next = "BTK08"
+	music = "D_SHAWN"
+	sky1 = "BTKSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map BTK08 "The Unknown"
+	{
+	next = "OUTPOST"
+	music = "D_DDTBLU"
+	sky1 = "BTKSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+// CITY OF DOOM
+
+map CIT01 "The River Front"
+	{
+	next = "CIT02"
+	music = "MUS_CIT1"
+	sky1 = "CITYODSK"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_CITI"
+	}
+
+map CIT02 "The City Streets"
+	{
+	next = "CIT03"
+	music = "MUS_CIT2"
+	sky1 = "CITYODSK"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_CITI"
+	}
+
+map CIT03 "Down in the Sewers"
+	{
+	next = "CIT04"
+	music = "MUS_CIT3"
+	sky1 = "CITYODSK"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_CITI"
+	}
+
+map CIT04 "A Stroll in the Park"
+	{
+	next = "CIT05"
+	music = "MUS_CIT4"
+	sky1 = "CITYODSK"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_CITI"
+	}
+
+map CIT05 "The Subway"
+	{
+	next = "CIT06"
+	music = "MUS_CIT5"
+	sky1 = "CITYODSK"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_CITI"
+	}
+
+map CIT06 "Down on Main Street"
+	{
+	next = "CIT07"
+	music = "MUS_CIT6"
+	sky1 = "CITYODSK"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_CITI"
+	}
+
+map CIT07 "Passenger Street"
+	{
+	next = "CIT08"
+	music = "MUS_CIT7"
+	sky1 = "CITYODSK"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_CITI"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map CIT08 "The Shuttle Base"
+	{
+	next = "CIT09"
+	music = "MUS_CIT8"
+	sky1 = "CITYODSK"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_CITI"
+	}
+
+map CIT09 "The Freight Terminal"
+	{
+	next = "CIT10"
+	music = "MUS_CIT9"
+	sky1 = "CITYODSK"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_CITI"
+	}
+	
+map CIT10 "Command Center"
+	{
+	next = "CIT11"
+	music = "MUS_CITA"
+	sky1 = "CITYODSK"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_CITI"
+	}
+
+map CIT11 "Mission Control"
+	{
+	next = "OUTPOST"
+	music = "MUS_CITB"
+	sky1 = "CITYODSK"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_CITI"
+	}
+
+
+// PROJECT SLIPGATE
+
+map SLP01 "Strike Base"
+	{
+	next = "SLP02"
+	sky1 = "SLPORANG"
+	enterpic = "SLIPINT"
+	exitpic = "SLIPINT"
+	intermusic = "MUS_SLIP"
+	forcenoskystretch
+	evenlighting
+	}
+
+map SLP02 "Power Complex"
+	{
+	next = "SLP03"
+	sky1 = "SLPORANG"
+	enterpic = "SLIPINT"
+	exitpic = "SLIPINT"
+	intermusic = "MUS_SLIP"
+	forcenoskystretch
+	evenlighting
+	}
+
+map SLP03 "Logistics"
+	{
+	next = "SLP04"
+	sky1 = "SLPORANG"
+	enterpic = "SLIPINT"
+	exitpic = "SLIPINT"
+	intermusic = "MUS_SLIP"
+	forcenoskystretch
+	evenlighting
+	}
+
+map SLP04 "Facility 6B"
+	{
+	next = "SLP05"
+	sky1 = "SLPORANG"
+	enterpic = "SLIPINT"
+	exitpic = "SLIPINT"
+	intermusic = "MUS_SLIP"
+	forcenoskystretch
+	evenlighting
+	}
+
+map SLP05 "Slipgate"
+	{
+	next = "SLP06"
+	sky1 = "SLPORANG"
+	enterpic = "SLIPINT"
+	exitpic = "SLIPINT"
+	intermusic = "MUS_SLIP"
+	forcenoskystretch
+	evenlighting
+	}
+
+map SLP06 "A Dark Reality"
+	{
+	next = "SLP07"
+	sky1 = "SLPBLUE"
+	enterpic = "SLIPINT"
+	exitpic = "SLIPINT"
+	intermusic = "MUS_SLIP"
+	forcenoskystretch
+	evenlighting
+	}
+
+map SLP07 "Atermis"
+	{
+	next = "SLP08"
+	sky1 = "SLPBLUE"
+	enterpic = "SLIPINT"
+	exitpic = "SLIPINT"
+	intermusic = "MUS_SLIP"
+	forcenoskystretch
+	evenlighting
+	map07special
+	}
+	
+map SLP08 "Dark Cathedral"
+	{
+	next = "SLP09"
+	sky1 = "SLPBLUE"
+	enterpic = "SLIPINT"
+	exitpic = "SLIPINT"
+	intermusic = "MUS_SLIP"
+	forcenoskystretch
+	evenlighting
+	}
+
+map SLP09 "Stir of Echoes"
+	{
+	next = "SLP10"
+	sky1 = "SLPBLUE"
+	enterpic = "SLIPINT"
+	exitpic = "SLIPINT"
+	intermusic = "MUS_SLIP"
+	forcenoskystretch
+	evenlighting
+	}
+	
+map SLP10 "Blood Chalice"
+	{
+	next = "SLP11"
+	sky1 = "SLPBLUE"
+	enterpic = "SLIPINT"
+	exitpic = "SLIPINT"
+	intermusic = "MUS_SLIP"
+	forcenoskystretch
+	evenlighting
+	}
+
+map SLP11 "The Necro Elders"
+	{
+	next = "OUTPOST"
+	sky1 = "SLPBLUE"
+	enterpic = "SLIPINT"
+	exitpic = "SLIPINT"
+	intermusic = "MUS_SLIP"
+	forcenoskystretch
+	evenlighting
+	}
+
+// DISSOLUTION OF ETERNITY
+
+map DIS01 "Dark Azure"
+	{
+	next = "DIS02"
+	sky1 = "SKY1"
+	enterpic = "DISTINT"
+	exitpic = "DISTINT"
+	intermusic = "MUS_DIST"
+	evenlighting
+	}
+
+map DIS02 "Temple of Ages"
+	{
+	next = "DIS03"
+	sky1 = "SKY1"
+	enterpic = "DISTINT"
+	exitpic = "DISTINT"
+	intermusic = "MUS_DIST"
+	evenlighting
+	}
+
+map DIS03 "Dream Eden"
+	{
+	next = "DIS04"
+	sky1 = "SKY1"
+	enterpic = "DISTINT"
+	exitpic = "DISTINT"
+	intermusic = "MUS_DIST"
+	evenlighting
+	}
+
+map DIS04 "Fallen Hope"
+	{
+	next = "DIS05"
+	sky1 = "SKY1"
+	enterpic = "DISTINT"
+	exitpic = "DISTINT"
+	intermusic = "MUS_DIST"
+	evenlighting
+	}
+
+map DIS05 "Gloom Keep"
+	{
+	next = "DIS06"
+	sky1 = "SKY1"
+	enterpic = "DISTINT"
+	exitpic = "DISTINT"
+	intermusic = "MUS_DIST"
+	evenlighting
+	}
+
+map DIS06 "Castle Rapture"
+	{
+	next = "DIS07"
+	sky1 = "SKY1"
+	enterpic = "DISTINT"
+	exitpic = "DISTINT"
+	intermusic = "MUS_DIST"
+	evenlighting
+	}
+
+map DIS07 "And there was none"
+	{
+	next = "OUTPOST"
+	sky1 = "SKY1"
+	enterpic = "DISTINT"
+	exitpic = "DISTINT"
+	intermusic = "MUS_DIST"
+	evenlighting
+	map07special
+	}
+
+// SUSPENDED IN DUSK
+
+map SID01 "Map01"
+	{
+	next = "SID02"
+	music = "MUS_SID1"
+	sky1 = "SIDSKY1"
+	enterpic = "SIDINT"
+	exitpic = "SIDINT"
+	intermusic = "MUS_M1I2"
+	compat_sectorsounds = 1
+	}
+
+map SID02 "Map02"
+	{
+	next = "SID03"
+	music = "MUS_SID2"
+	sky1 = "SIDSKY1"
+	enterpic = "SIDINT"
+	exitpic = "SIDINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map SID03 "Map03"
+	{
+	next = "SID04"
+	music = "MUS_SID3"
+	sky1 = "SIDSKY1"
+	enterpic = "SIDINT"
+	exitpic = "SIDINT"
+	intermusic = "MUS_M1I2"
+	}
+
+map SID04 "Map04"
+	{
+	next = "OUTPOST"
+	music = "MUS_SID4"
+	sky1 = "SIDSKY1"
+	enterpic = "SIDINT"
+	exitpic = "SIDINT"
+	intermusic = "MUS_M1I2"
+	}
+
+// MANCUBUS
+
+map MAN01 "Map01"
+	{
+	next = "MAN02"
+	music = "MUS_MAN1"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map MAN02 "Map02"
+	{
+	next = "MAN03"
+	music = "MUS_MAN2"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map MAN03 "Map03"
+	{
+	next = "MAN04"
+	music = "MUS_MAN3"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map MAN04 "Map04"
+	{
+	next = "OUTPOST"
+	music = "MUS_MAN4"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+// LAST DAY ON EARTH
+
+map LEP01 "Underground Base"
+	{
+	next = "LEP02"
+	music = "MUS_LEP1"
+	sky1 = "FPORTX13"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_LEPI"
+	}
+
+map LEP02 "Experimental Lab"
+	{
+	next = "LEP03"
+	music = "MUS_LEP2"
+	sky1 = "FPORTX13"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_LEPI"
+	}
+
+map LEP03 "Water Plant"
+	{
+	next = "LEP04"
+	music = "MUS_LEP3"
+	sky1 = "FPORTX13"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_LEPI"
+	}
+
+map LEP04 "Shotgun Factory"
+	{
+	next = "LEP05"
+	music = "MUS_LEP4"
+	sky1 = "FPORTX13"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_LEPI"
+	}
+
+map LEP05 "The Jail"
+	{
+	next = "LEP06"
+	music = "MUS_LEP5"
+	sky1 = "FPORTX13"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_LEPI"
+	}
+
+map LEP06 "UAC Centre"
+	{
+	next = "LEP07"
+	music = "MUS_LEP6"
+	sky1 = "FPORTX13"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_LEPI"
+	}
+
+map LEP07 "Inmost Mines"
+	{
+	next = "LEP08"
+	music = "MUS_LEP7"
+	sky1 = "FPORTX13"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_LEPI"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map LEP08 "Military Station"
+	{
+	next = "LEP09"
+	music = "MUS_LEP8"
+	sky1 = "FPORTX13"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_LEPI"
+	}
+
+map LEP09 "Medical Facility"
+	{
+	next = "LEP10"
+	music = "MUS_LEP9"
+	sky1 = "FPORTX13"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_LEPI"
+	}
+	
+map LEP10 "UAC Tower"
+	{
+	next = "LEP11"
+	music = "MUS_LEPA"
+	sky1 = "FPORTX13"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_LEPI"
+	}
+
+map LEP11 "The Door"
+	{
+	next = "OUTPOST"
+	music = "MUS_LEPB"
+	sky1 = "FPORTX13"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_LEPI"
+	}
+
+// VILE FLESH
+
+map VFL01 "Administration"
+	{
+	next = "VFL02"
+	music = "MUS_VF01"
+	sky1 = "VILEFSK1"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL02 "Nuke Storage"
+	{
+	next = "VFL03"
+	music = "MUS_VF02"
+	sky1 = "VILEFSK1"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL03 "Processing"
+	{
+	next = "VFL04"
+	music = "MUS_VF03"
+	sky1 = "VILEFSK1"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL04 "Mainframe"
+	{
+	next = "VFL05"
+	music = "MUS_VF04"
+	sky1 = "VILEFSK1"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL05 "Outpost"
+	{
+	next = "VFL06"
+	music = "MUS_VF05"
+	sky1 = "VILEFSK1"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL06 "Secure Area"
+	{
+	next = "VFL07"
+	music = "MUS_VF06"
+	sky1 = "VILEFSK1"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL07 "Labs"
+	{
+	next = "VFL08"
+	music = "MUS_VF07"
+	sky1 = "VILEFSK1"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map VFL08 "Gateway"
+	{
+	next = "VFL09"
+	music = "MUS_VF08"
+	sky1 = "VILEFSK1"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL09 "Weapons Bay"
+	{
+	next = "VFL10"
+	music = "MUS_VF09"
+	sky1 = "VILEFSK1"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+	
+map VFL10 "Beacon"
+	{
+	next = "VFL11"
+	music = "MUS_VF10"
+	sky1 = "VILEFSK1"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL11 "War Rooms"
+	{
+	next = "VFL12"
+	music = "MUS_VF11"
+	sky1 = "VILEFSK1"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL12 "Cliff Face"
+	{
+	next = "VFL13"
+	music = "MUS_VF12"
+	sky1 = "VILEFSK2"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL13 "Subterrainia"
+	{
+	next = "VFL14"
+	music = "MUS_VF13"
+	sky1 = "VILEFSK2"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL14 "The Pits"
+	{
+	next = "VFL15"
+	music = "MUS_VF14"
+	sky1 = "VILEFSK2"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+	
+map VFL15 "Village"
+	{
+	next = "VFL16"
+	secretnext = "VFL31"
+	music = "MUS_VF15"
+	sky1 = "VILEFSK2"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+	
+map VFL16 "Cathedral"
+	{
+	next = "VFL17"
+	music = "MUS_VF16"
+	sky1 = "VILEFSK2"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL17 "Guard Towers"
+	{
+	next = "VFL18"
+	music = "MUS_VF17"
+	sky1 = "VILEFSK2"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+	
+map VFL18 "Boneyard"
+	{
+	next = "VFL19"
+	music = "MUS_VF18"
+	sky1 = "VILEFSK2"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL19 "The Pillars"
+	{
+	next = "VFL20"
+	music = "MUS_VF19"
+	sky1 = "VILEFSK2"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+	
+map VFL20 "Demon Seed"
+	{
+	next = "VFL21"
+	music = "MUS_VF20"
+	sky1 = "VILEFSK2"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL21 "Flesh Mill"
+	{
+	next = "VFL22"
+	music = "MUS_VF21"
+	sky1 = "VILEFSK3"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL22 "Ungod"
+	{
+	next = "VFL23"
+	music = "MUS_VF22"
+	sky1 = "VILEFSK3"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL23 "Return Ticket"
+	{
+	next = "VFL24"
+	music = "MUS_VF23"
+	sky1 = "VILEFSK3"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL24 "City Center"
+	{
+	next = "VFL25"
+	music = "MUS_VF24"
+	sky1 = "VILEFSK3"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL25 "UAC Headquarters"
+	{
+	next = "VFL26"
+	music = "MUS_VF25"
+	sky1 = "VILEFSK3"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL26 "Service Tunnels"
+	{
+	next = "VFL27"
+	music = "MUS_VF26"
+	sky1 = "VILEFSK3"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL27 "Dimension Shift"
+	{
+	next = "VFL28"
+	music = "MUS_VF27"
+	sky1 = "VILEFSK3"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL28 "Tower Block"
+	{
+	next = "VFL29"
+	music = "MUS_VF28"
+	sky1 = "VILEFSK3"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL29 "Earth Siege"
+	{
+	next = "VFL30"
+	music = "MUS_VF29"
+	sky1 = "VILEFSK3"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL30 "Hell Revealed"
+	{
+	next = "OUTPOST"
+	music = "MUS_VF30"
+	sky1 = "VILEFSK3"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL31 "Rough Draft"
+	{
+	next = "VFL16"
+	secretnext = "VFL32"
+	music = "MUS_VF31"
+	sky1 = "VILEFSK3"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+map VFL32 "Spider Web"
+	{
+	next = "VFL16"
+	music = "MUS_VF32"
+	sky1 = "VILEFSK3"
+	enterpic = "VILEFINT"
+	exitpic = "VILEFINT"
+	intermusic = "MUS_VFIN"
+	}
+
+// THE VILECORE
+
+map VCO01 "Evilzone"
+	{
+	next = "VCO02"
+	music = "D_RUNNIN"
+	sky1 = "VILECSK1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO02 "Halls of Doom"
+	{
+	next = "VCO03"
+	music = "D_STALKS"
+	sky1 = "VILECSK1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO03 "Revenant Court"
+	{
+	next = "VCO04"
+	music = "D_COUNTD"
+	sky1 = "VILECSK1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO04 "Barriers"
+	{
+	next = "VCO05"
+	music = "D_BETWEE"
+	sky1 = "VILECSK1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO05 "Hell Knight's Temple"
+	{
+	next = "VCO06"
+	music = "D_DOOM"
+	sky1 = "VILECSK1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO06 "Powersurger"
+	{
+	next = "VCO07"
+	music = "D_THE_DA"
+	sky1 = "VILECSK1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO07 "Demonic Outpost"
+	{
+	next = "VCO08"
+	music = "D_SHAWN"
+	sky1 = "VILECSK1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	map07special
+	compat_shorttex = 1
+	}
+	
+map VCO08 "Temple of Fiends"
+	{
+	next = "VCO09"
+	music = "D_DDTBLU"
+	sky1 = "VILECSK1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO09 "Vile Complex"
+	{
+	next = "VCO10"
+	music = "D_IN_CIT"
+	sky1 = "VILECSK1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map VCO10 "Nukage Plant"
+	{
+	next = "VCO11"
+	music = "D_DEAD"
+	sky1 = "VILECSK1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO11 "Doomcatraz!"
+	{
+	next = "VCO12"
+	music = "D_STLKS2"
+	sky1 = "VILECSK1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO12 "The Chaos Site"
+	{
+	next = "VCO13"
+	music = "D_THEDA2"
+	sky1 = "VILECSK2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO13 "The Morbid Area"
+	{
+	next = "VCO14"
+	music = "D_DOOM2"
+	sky1 = "VILECSK2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO14 "The Baron's Causeway"
+	{
+	next = "VCO15"
+	music = "D_DDTBL2"
+	sky1 = "VILECSK2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map VCO15 "Ashwall Plaza"
+	{
+	next = "VCO16"
+	secretnext = "VCO31"
+	music = "D_RUNNI2"
+	sky1 = "VILECSK2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map VCO16 "The Dreadhold"
+	{
+	next = "VCO17"
+	music = "D_DEAD2"
+	sky1 = "VILECSK2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO17 "Aztecore"
+	{
+	next = "VCO18"
+	music = "D_STLKS3"
+	sky1 = "VILECSK2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map VCO18 "Doomed Castle"
+	{
+	next = "VCO19"
+	music = "D_ROMERO"
+	sky1 = "VILECSK2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO19 "The Bridge at Kazadoom!"
+	{
+	next = "VCO20"
+	music = "D_SHAWN2"
+	sky1 = "VILECSK2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+	
+map VCO20 "Forsaken Mines"
+	{
+	next = "VCO21"
+	music = "D_MESSAG"
+	sky1 = "VILECSK2"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO21 "The Rife Hive"
+	{
+	next = "VCO22"
+	music = "D_COUNT2"
+	sky1 = "VILECSK3"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO22 "Doomhenge"
+	{
+	next = "VCO23"
+	music = "D_DDTBL3"
+	sky1 = "VILECSK3"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO23 "Hellish Junction"
+	{
+	next = "VCO24"
+	music = "D_AMPIE"
+	sky1 = "VILECSK3"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO24 "Chemical Facility"
+	{
+	next = "VCO25"
+	music = "D_THEDA3"
+	sky1 = "VILECSK3"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO25 "Blood Fountain"
+	{
+	next = "VCO26"
+	music = "D_ADRIAN"
+	sky1 = "VILECSK3"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO26 "Hellpitt Temple"
+	{
+	next = "VCO27"
+	music = "D_MESSG2"
+	sky1 = "VILECSK3"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO27 "Infested Tomb"
+	{
+	next = "VCO28"
+	music = "D_ROMER2"
+	sky1 = "VILECSK3"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO28 "Energy Well"
+	{
+	next = "VCO29"
+	music = "D_TENSE"
+	sky1 = "VILECSK3"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO29 "Paths of Chaos"
+	{
+	next = "VCO30"
+	music = "D_SHAWN3"
+	sky1 = "VILECSK3"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO30 "Battle Hex!"
+	{
+	next = "OUTPOST"
+	music = "D_OPENIN"
+	sky1 = "VILECSK3"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO31 "Bloodstone"
+	{
+	next = "VCO16"
+	secretnext = "VCO32"
+	music = "D_EVIL"
+	sky1 = "VILECSK3"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map VCO32 "The Vilecore!!"
+	{
+	next = "VCO16"
+	music = "D_ULTIMA"
+	sky1 = "VILECSK3"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+// TWILIGHT ZONE II
+
+map TW201 "Sputnik Port"
+	{
+	next = "TW202"
+	music = "MUS_TW01"
+	sky1 = "TW2SKY1"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW202 "Triton"
+	{
+	next = "TW203"
+	music = "MUS_TW02"
+	sky1 = "TW2SKY1"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW203 "Nemesis"
+	{
+	next = "TW204"
+	music = "MUS_TW03"
+	sky1 = "TW2SKY1"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW204 "Momento"
+	{
+	next = "TW205"
+	music = "MUS_TW04"
+	sky1 = "TW2SKY1"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW205 "TNT Barons"
+	{
+	next = "TW206"
+	music = "MUS_TW05"
+	sky1 = "TW2SKY1"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW206 "Burnett Mining Complex"
+	{
+	next = "TW207"
+	music = "MUS_TW06"
+	sky1 = "TW2SKY1"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW207 "Suffocate"
+	{
+	next = "TW208"
+	music = "MUS_TW07"
+	sky1 = "TW2SKY1"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	map07special
+	}
+	
+map TW208 "Porpoise"
+	{
+	next = "TW209"
+	music = "MUS_TW08"
+	sky1 = "TW2SKY1"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW209 "Gymea Mentos"
+	{
+	next = "TW210"
+	music = "MUS_TW09"
+	sky1 = "TW2SKY1"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+	
+map TW210 "Facility"
+	{
+	next = "TW211"
+	music = "MUS_TW10"
+	sky1 = "TW2SKY1"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW211 "Termite Mound"
+	{
+	next = "TW212"
+	music = "MUS_TW11"
+	sky1 = "TW2SKY1"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW212 "Death Ship"
+	{
+	next = "TW213"
+	music = "MUS_TW12"
+	sky1 = "TW2SKY2"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW213 "D'Sparil's Domain"
+	{
+	next = "TW214"
+	music = "MUS_TW13"
+	sky1 = "TW2SKY2"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW214 "Hazard Base"
+	{
+	next = "TW215"
+	music = "MUS_TW14"
+	sky1 = "TW2SKY2"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+	
+map TW215 "Stardate Institute"
+	{
+	next = "TW216"
+	secretnext = "TW231"
+	music = "MUS_TW15"
+	sky1 = "TW2SKY2"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+	
+map TW216 "SubSpace"
+	{
+	next = "TW217"
+	music = "MUS_TW16"
+	sky1 = "TW2SKY2"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW217 "Spacelab"
+	{
+	next = "TW218"
+	music = "MUS_TW17"
+	sky1 = "TW2SKY2"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+	
+map TW218 "The Gypsy"
+	{
+	next = "TW219"
+	music = "MUS_TW18"
+	sky1 = "TW2SKY2"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW219 "Disaster Area"
+	{
+	next = "TW220"
+	music = "MUS_TW19"
+	sky1 = "TW2SKY2"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+	
+map TW220 "Corcous"
+	{
+	next = "TW221"
+	music = "MUS_TW20"
+	sky1 = "TW2SKY2"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW221 "Processing Labs"
+	{
+	next = "TW222"
+	music = "MUS_TW21"
+	sky1 = "TW2SKY3"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW222 "Despair"
+	{
+	next = "TW223"
+	music = "MUS_TW22"
+	sky1 = "TW2SKY3"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW223 "Who Stole the Health?"
+	{
+	next = "TW224"
+	music = "MUS_TW23"
+	sky1 = "TW2SKY3"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW224 "The Abyss"
+	{
+	next = "TW225"
+	music = "MUS_TW24"
+	sky1 = "TW2SKY3"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW225 "Amy's Keep"
+	{
+	next = "TW226"
+	music = "MUS_TW25"
+	sky1 = "TW2SKY3"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW226 "Den of Insanity"
+	{
+	next = "TW227"
+	music = "MUS_TW26"
+	sky1 = "TW2SKY3"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW227 "Place of Reckoning"
+	{
+	next = "TW228"
+	music = "MUS_TW27"
+	sky1 = "TW2SKY3"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW228 "Unholy"
+	{
+	next = "TW229"
+	music = "MUS_TW28"
+	sky1 = "TW2SKY3"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW229 "Caverns of Darkness"
+	{
+	next = "TW230"
+	music = "MUS_TW29"
+	sky1 = "TW2SKY3"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW230 "Jon's Arena"
+	{
+	next = "OUTPOST"
+	music = "MUS_TW30"
+	sky1 = "TW2SKY3"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW231 "Morass"
+	{
+	next = "TW216"
+	secretnext = "TW232"
+	music = "MUS_TW31"
+	sky1 = "TW2SKY3"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+map TW232 "Meorhanal 4 Yul"
+	{
+	next = "TW216"
+	music = "MUS_TW32"
+	sky1 = "TW2SKY3"
+	enterpic = "TW2INT"
+	exitpic = "TW2INT"
+	intermusic = "MUS_TWIN"
+	}
+
+// NEODOOM (Vaccinated Edition)
+
+map NEO01 "Landing Base"
+	{
+	next = "NEO02"
+	music = "D_TECH01"
+	sky1 = "NEOSKY1"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO02 "Poison Refinery"
+	{
+	next = "NEO03"
+	music = "D_TECH02"
+	sky1 = "NEOSKY1"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO03 "Command Central"
+	{
+	next = "NEO04"
+	music = "D_TECH03"
+	sky1 = "NEOSKY1"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO04 "Creature Prison"
+	{
+	next = "NEO05"
+	music = "D_TECH04"
+	sky1 = "NEOSKY1"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO05 "Computer Station"
+	{
+	next = "NEO06"
+	music = "D_TECH05"
+	sky1 = "NEOSKY1"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO06 "Toxin Supplier"
+	{
+	next = "NEO07"
+	music = "D_TECH06"
+	sky1 = "NEOSKY1"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO07 "Slime Machine"
+	{
+	next = "NEO08"
+	music = "D_TECH07"
+	sky1 = "NEOSKY1"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	map07special
+	}
+	
+map NEO08 "Damaged Dam"
+	{
+	next = "NEO09"
+	music = "D_TECH02"
+	sky1 = "NEOSKY4"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO09 "Hidden Industry"
+	{
+	next = "NEO10"
+	music = "D_TECH03"
+	sky1 = "NEOSKY4"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+	
+map NEO10 "Sewerage"
+	{
+	next = "NEO11"
+	music = "D_TECH06"
+	sky1 = "NEOSKY4"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO11 "The Mansion"
+	{
+	next = "NEO12"
+	music = "D_ROCK01"
+	sky1 = "NEOSKY4"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO12 "South Zone"
+	{
+	next = "NEO13"
+	music = "D_ROCK02"
+	sky1 = "NEOSKY2"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO13 "Residential Ward"
+	{
+	next = "NEO14"
+	music = "D_ROCK03"
+	sky1 = "NEOSKY2"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO14 "Center District"
+	{
+	next = "NEO15"
+	music = "D_ROCK04"
+	sky1 = "NEOSKY2"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+	
+map NEO15 "Commercial Downtown"
+	{
+	next = "NEO16"
+	secretnext = "NEO31"
+	music = "D_ROCK05"
+	sky1 = "NEOSKY2"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+	
+map NEO16 "Doom Shopping"
+	{
+	next = "NEO17"
+	music = "D_ROCK06"
+	sky1 = "NEOSKY2"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO17 "Municipal Park"
+	{
+	next = "NEO18"
+	music = "D_ROCK07"
+	sky1 = "NEOSKY2"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+	
+map NEO18 "Forgotten Fortress"
+	{
+	next = "NEO19"
+	music = "D_ROCK08"
+	sky1 = "NEOSKY5"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO19 "Temple of the Waterfall"
+	{
+	next = "NEO20"
+	music = "D_READ"
+	sky1 = "NEOSKY5"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+	
+map NEO20 "Inner Temple"
+	{
+	next = "NEO21"
+	music = "D_EVIL01"
+	sky1 = "NEOSKY5"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO21 "Frozen Lands"
+	{
+	next = "NEO22"
+	music = "D_EVIL02"
+	sky1 = "NEOSKY6"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO22 "Demonic Island"
+	{
+	next = "NEO23"
+	music = "D_EVIL03"
+	sky1 = "NEOSKY3"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+	
+map NEO23 "Profane Cathedral"
+	{
+	next = "NEO24"
+	music = "D_EVIL04"
+	sky1 = "NEOSKY3"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+
+map NEO24 "Tower of Suffering"
+	{
+	next = "NEO25"
+	music = "D_EVIL05"
+	sky1 = "NEOSKY3"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO25 "Eternity Cemetery"
+	{
+	next = "NEO26"
+	music = "D_READ"
+	sky1 = "NEOSKY3"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+	
+map NEO26 "Underground Castle"
+	{
+	next = "NEO27"
+	music = "D_ROCK08"
+	sky1 = "NEOSKY3"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO27 "Demonic Throat Canyon"
+	{
+	next = "NEO28"
+	music = "D_EVIL01"
+	sky1 = "NEOSKY3"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO28 "Gateway to the Evil"
+	{
+	next = "NEO29"
+	music = "D_EVIL06"
+	sky1 = "NEOSKY3"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO29 "At the Heart of it all"
+	{
+	next = "NEO30"
+	music = "D_EVIL07"
+	sky1 = "NEOSKY3"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+	
+map NEO30 "The Return"
+	{
+	next = "OUTPOST"
+	music = "D_TECH07"
+	sky1 = "NEOSKY7"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+map NEO31 "Vacation House"
+	{
+	next = "NEO16"
+	secretnext = "NEO32"
+	music = "D_ROCK01"
+	sky1 = "NEOSKY1"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+	
+map NEO32 "A Brick on the Wall"
+	{
+	next = "NEO16"
+	music = "D_LAST"
+	sky1 = "NEOSKY4"
+	enterpic = "NEOINT"
+	exitpic = "NEOINT"
+	intermusic = "MUS_NDIN"
+	}
+
+// TITAN
+
+
+
+//////////////////////////////////////////////////
+///////////////// THE CEMETERY ///////////////////
+//////////////////////////////////////////////////
+
+// ANNIE
+
+map ANN01 "Presence of Death"
+	{
+	next = "ANN02"
+	music = "ANNIE01"
+	sky1 = "ANNIESKY"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ANN02 "Occupied Territory"
+	{
+	next = "ANN03"
+	music = "ANNIE02"
+	sky1 = "ANNIESKY"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map ANN03 "Close Encounters"
+	{
+	next = "OUTPOST"
+	music = "ANNIE03"
+	sky1 = "ANNIESKY"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+// 99 WAYS TO DIE
+
+map 99W01 "MAP01"
+	{
+	next = "99W02"
+	music = "D_RUNNIN"
+	sky1 = "SKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map 99W02 "MAP02"
+	{
+	next = "99W03"
+	music = "D_STALKS"
+	sky1 = "SKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map 99W03 "MAP03"
+	{
+	next = "OUTPOST"
+	music = "D_COUNTD"
+	sky1 = "SKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+// Back to Hell
+
+map BTH01 "Map01"
+	{
+	next = "BTH02"
+	music = "MUS_BTH1"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTH02 "Map02"
+	{
+	next = "BTH03"
+	music = "MUS_BTH2"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTH03 "Map03"
+	{
+	next = "BTH04"
+	music = "MUS_BTH3"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTH04 "Map04"
+	{
+	next = "BTH05"
+	music = "MUS_BTH4"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTH05 "Map05"
+	{
+	next = "BTH06"
+	music = "MUS_BTH5"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTH06 "Map06"
+	{
+	next = "BTH07"
+	music = "MUS_BTH6"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTH07 "Map07"
+	{
+	next = "BTH08"
+	music = "MUS_BTH7"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTH08 "Map08"
+	{
+	next = "BTH09"
+	music = "MUS_BTH8"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+map BTH09 "Map09"
+	{
+	next = "OUTPOST"
+	music = "MUS_BTH9"
+	sky1 = "MANCSKY1"
+	enterpic = "DOOM2INT"
+	exitpic = "DOOM2INT"
+	intermusic = "MUS_M1I2"
+	}
+
+

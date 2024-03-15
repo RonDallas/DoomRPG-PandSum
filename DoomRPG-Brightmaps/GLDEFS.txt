@@ -1,4 +1,6 @@
 // Health Items
+brightmap sprite STIMA0 { map "brightmaps/doomrpg/STIMA0.png" }
+brightmap sprite MEDIA0 { map "brightmaps/doomrpg/MEDIA0.png" }
 brightmap sprite MEDLA0 { map "brightmaps/doomrpg/MEDLA0.png" }
 brightmap sprite MEDXA0 { map "brightmaps/doomrpg/MEDXA0.png" }
 brightmap sprite MEDPA0 { map "brightmaps/doomrpg/MEDPA0.png" }
@@ -16,6 +18,15 @@ brightmap sprite EPUPF0 { map "brightmaps/doomrpg/EPUPA0.png" disablefullbright 
 brightmap sprite EPUPG0 { map "brightmaps/doomrpg/EPUPA0.png" disablefullbright }
 brightmap sprite EPUPH0 { map "brightmaps/doomrpg/EPUPA0.png" disablefullbright }
 brightmap sprite EPUPI0 { map "brightmaps/doomrpg/EPUPA0.png" disablefullbright }
+
+// Berserk
+brightmap sprite PSTRA0 { map "brightmaps/doomrpg/PSTRA0.png" disablefullbright }
+
+//Ammo
+brightmap sprite CELLA0 { map "brightmaps/doom/CELLA0.png" }
+brightmap sprite CELPA0 { map "brightmaps/doom/CELPA0.png" }
+brightmap sprite CEL2A0 { map "brightmaps/doomrpg/CEL2A0.png" }
+brightmap sprite CBP2A0 { map "brightmaps/doomrpg/CBP2A0.png" }
 
 // Detox Stim
 brightmap sprite STIMC0 { map "brightmaps/doomrpg/STIMC0.png" disablefullbright }

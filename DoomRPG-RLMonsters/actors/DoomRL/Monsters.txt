@@ -1424,6 +1424,19 @@ ACTOR RLNightmareArtifactGuardianRPG : RLNightmareArtifactGuardian Replaces RLNi
 	}
 }
 
+ACTOR RLAbominantArtifactGuardianRPG : RLAbominantArtifactGuardian Replaces RLAbominantArtifactGuardian
+{
+	States
+	{
+	Spawn:
+		ABOM A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS | MF_NODROPS | MF_NOWEAKEN)
+		Goto Super::Spawn
+	See:
+		ABOM A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS | MF_NODROPS | MF_NOWEAKEN)
+		Goto Super::See
+	}
+}
+
 // --------------------------------------------------------
 // Copies for the One-Monster map event
 
@@ -1436,8 +1449,9 @@ ACTOR RLEliteSergeantRPG : RLEliteSergeantDoubleShotgunRPG {}
 ACTOR RLEliteCommandoRPG : RLEliteCommandoMinigunRPG {}
 ACTOR RLEliteCaptainRPG : RLEliteCaptainTristarBlasterRPG {}
 
-// --------------------------------------------------------
-// Corpses
+// --------------------------------------------------
+// GIBS
+//
 
 ACTOR DRPGRLGibbedStuff
 {
@@ -1497,4 +1511,359 @@ ACTOR DRPGRLGibbedStuff
         ASOL O -1
         Stop
     }
+}
+
+ACTOR RLCrushedSmallRPG : RLCrushedSmall Replaces RLCrushedSmall
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 A_JumpIf(GetCVar("drpg_corpses_cleanup") == 0, 2)
+		TNT1 A 0 ACS_NamedExecuteAlways("CorpsesCleanup", 0)
+		TNT1 A 0
+		Goto Super::Spawn
+	}
+}
+
+ACTOR RLCrushedMediumRPG : RLCrushedMedium Replaces RLCrushedMedium
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 A_JumpIf(GetCVar("drpg_corpses_cleanup") == 0, 2)
+		TNT1 A 0 ACS_NamedExecuteAlways("CorpsesCleanup", 0)
+		TNT1 A 0
+		Goto Super::Spawn
+	}
+}
+
+ACTOR RLCrushedLargeRPG : RLCrushedLarge Replaces RLCrushedLarge
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 A_JumpIf(GetCVar("drpg_corpses_cleanup") == 0, 2)
+		TNT1 A 0 ACS_NamedExecuteAlways("CorpsesCleanup", 0)
+		TNT1 A 0
+		Goto Super::Spawn
+	}
+}
+
+// --------------------------------------------------
+// MONSTER'S ADAPTIVE AMMO AND WEAPONS DROP
+//
+
+ACTOR RLFormerHumanPistolDropRPG : RLFormerHumanPistolDrop replaces RLFormerHumanPistolDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 1)
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	}
+}
+
+ACTOR RLFormerHumanBattleRifleDropRPG : RLFormerHumanBattleRifleDrop replaces RLFormerHumanBattleRifleDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 6)
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	}
+}
+
+ACTOR RLFormerSergeantShotgunDropRPG : RLFormerSergeantShotgunDrop replaces RLFormerSergeantShotgunDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 2)
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGShellSpawner")
+		Stop
+	}
+}
+
+ACTOR RLFormerSergeantCombatShotgunDropRPG : RLFormerSergeantCombatShotgunDrop replaces RLFormerSergeantCombatShotgunDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 3)
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGShellSpawner")
+		Stop
+	}
+}
+
+ACTOR RLFormerCommandoBattleRifleDropRPG : RLFormerCommandoBattleRifleDrop replaces RLFormerCommandoBattleRifleDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 6)
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGClipBoxSpawner")
+		Stop
+	}
+}
+
+ACTOR RLFormerCommandoChaingunDropRPG : RLFormerCommandoChaingunDrop replaces RLFormerCommandoChaingunDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 5)
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGClipBoxSpawner")
+		Stop
+	}
+}
+
+ACTOR RLFormerCaptainPlasmaRifleDropRPG : RLFormerCaptainPlasmaRifleDrop replaces RLFormerCaptainPlasmaRifleDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 8)
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGCellSpawner")
+		Stop
+	}
+}
+
+ACTOR RLEliteHumanBattleRifleDropRPG : RLEliteHumanBattleRifleDrop replaces RLEliteHumanBattleRifleDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 6)
+		Stop
+	WeaponDrop: // Drops for DRLA Arsenal + Monsterpack
+		TNT1 A 0 A_DropItem("RLBattleRiflePickup")
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	}
+}
+
+ACTOR RLEliteSergeantDoubleShotgunDropRPG : RLEliteSergeantDoubleShotgunDrop replaces RLEliteSergeantDoubleShotgunDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 4)
+		Stop
+	WeaponDrop: // Drops for DRLA Arsenal + Monsterpack
+		TNT1 A 0 A_DropItem("RLDoubleShotgunPickup")
+		TNT1 A 0 A_Jump(127, "AmmoDrop")
+		TNT1 A 0 A_DropItem("DRPGShellBoxSpawner")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGShellSpawner")
+		Stop
+	}
+}
+
+ACTOR RLEliteHumanCombatPistolDropRPG : RLEliteHumanCombatPistolDrop replaces RLEliteHumanCombatPistolDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 1)
+		Stop
+	WeaponDrop: // Drops for DRLA Arsenal + Monsterpack
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") > 0, 2)
+		TNT1 A 0 A_JumpIf(CallACS("GetAveragePlayerLevel") < 5, 2)
+		TNT1 A 0 A_DropItem("RLCombatPistolPickup", 1, 30)
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	}
+}
+
+ACTOR RLEliteHumanHandcannonDropRPG : RLEliteHumanHandcannonDrop replaces RLEliteHumanHandcannonDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 1)
+		Stop
+	WeaponDrop: // Drops for DRLA Arsenal + Monsterpack
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") > 0, 2)
+		TNT1 A 0 A_JumpIf(CallACS("GetAveragePlayerLevel") < 10, 2)
+		TNT1 A 0 A_DropItem("RLHandcannonPickup", 1, 30)
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	}
+}
+
+ACTOR RLEliteHumanUziDropRPG : RLEliteHumanUziDrop replaces RLEliteHumanUziDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 6)
+		Stop
+	WeaponDrop: // Drops for DRLA Arsenal + Monsterpack
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") > 0, 2)
+		TNT1 A 0 A_JumpIf(CallACS("GetAveragePlayerLevel") < 15, 2)
+		TNT1 A 0 A_DropItem("RLUziPickup", 1, 30)
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	}
+}
+
+ACTOR RLEliteSergeantAssaultShotgunDropRPG : RLEliteSergeantAssaultShotgunDrop replaces RLEliteSergeantAssaultShotgunDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 3)
+		Stop
+	WeaponDrop: // Drops for DRLA Arsenal + Monsterpack
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") > 0, 2)
+		TNT1 A 0 A_JumpIf(CallACS("GetAveragePlayerLevel") < 25, 2)
+		TNT1 A 0 A_DropItem("RLAssaultShotgunPickup", 1, 30)
+		TNT1 A 0 A_Jump(127, "AmmoDrop")
+		TNT1 A 0 A_DropItem("DRPGShellBoxSpawner")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGShellSpawner")
+		Stop
+	}
+}
+
+ACTOR RLEliteSergeantPlasmaShotgunDropRPG : RLEliteSergeantPlasmaShotgunDrop replaces RLEliteSergeantPlasmaShotgunDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 8)
+		Stop
+	WeaponDrop: // Drops for DRLA Arsenal + Monsterpack
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") > 0, 2)
+		TNT1 A 0 A_JumpIf(CallACS("GetAveragePlayerLevel") < 30, 2)
+		TNT1 A 0 A_DropItem("RLPlasmaShotgunPickup", 1, 30)
+		TNT1 A 0 A_DropItem("DRPGCellSpawner")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGCellSpawner")
+		Stop
+	}
+}
+
+ACTOR RLFormerOverwatchDropRPG : RLFormerOverwatchDrop replaces RLFormerOverwatchDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 4)
+		Stop
+	WeaponDrop: // Drops for DRLA Arsenal + Monsterpack
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") > 0, 2)
+		TNT1 A 0 A_JumpIf(CallACS("GetAveragePlayerLevel") < 40, 2)
+		TNT1 A 0 A_DropItem("RLSuperShotgunPickup", 1, 20)
+		TNT1 A 0 A_DropItem("DRPGShellSpawner")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGShellSpawner")
+		Stop
+	}
+}
+
+ACTOR RLEliteCommandoMinigunDropRPG : RLEliteCommandoMinigunDrop replaces RLEliteCommandoMinigunDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 5)
+		Stop
+	WeaponDrop: // Drops for DRLA Arsenal + Monsterpack
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") > 0, 2)
+		TNT1 A 0 A_JumpIf(CallACS("GetAveragePlayerLevel") < 40, 2)
+		TNT1 A 0 A_DropItem("RLMinigunPickup", 1, 10)
+		TNT1 A 0 A_DropItem("DRPGClipBoxSpawner")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGClipBoxSpawner")
+		Stop
+	}
+}
+
+ACTOR RLEliteCaptainTristarBlasterDropRPG : RLEliteCaptainTristarBlasterDrop replaces RLEliteCaptainTristarBlasterDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 9)
+		Stop
+	WeaponDrop: // Drops for DRLA Arsenal + Monsterpack
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") > 0, 2)
+		TNT1 A 0 A_JumpIf(CallACS("GetAveragePlayerLevel") < 45, 2)
+		TNT1 A 0 A_DropItem("RLTristarBlasterPickup", 1, 10)
+		TNT1 A 0 A_DropItem("DRPGCellPackSpawner")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGCellPackSpawner")
+		Stop
+	}
+}
+
+ACTOR RLFormerShocktrooperDropRPG : RLFormerShocktrooperDrop replaces RLFormerShocktrooperDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 5)
+		Stop
+	WeaponDrop: // Drops for DRLA Arsenal + Monsterpack
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") > 0, 2)
+		TNT1 A 0 A_JumpIf(CallACS("GetAveragePlayerLevel") < 50, 2)
+		TNT1 A 0 A_DropItem("RLHighPowerMinigunPickup", 1, 4)
+		TNT1 A 0 A_DropItem("RLRandomPhaseDeviceSpawner", 1, 10)
+		TNT1 A 0 A_DropItem("DRPGClipBoxSpawner")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGClipBoxSpawner")
+		Stop
+	}
+}
+
+ACTOR RLUACDefenceDroneDropRPG : RLUACDefenceDroneDrop replaces RLUACDefenceDroneDrop
+{
+	States
+	{
+	WeaponSpawner:
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	WeaponDrop: // Drops for DRLA Arsenal + Monsterpack
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGClipSpawner")
+		Stop
+	}
 }

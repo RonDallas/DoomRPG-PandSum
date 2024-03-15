@@ -2,8 +2,83 @@
 actor RLChainsaw1 : RLChainsawPickup replaces DRPGChainsaw {}
 actor RLPistol1 : RLPistolPickup replaces DRPGPistol {}
 actor RLShotgun1 : RLShotgunPickup replaces DRPGShotgun {}
+actor RLCombatShotgun1 : RLCombatShotgunPickup replaces DRPGCombatShotgun {}
 actor RLDoubleShotgun1 : RLDoubleShotgunPickup replaces DRPGSuperShotgun {}
+actor RLBattleRifle1 : RLBattleRiflePickup replaces DRPGBattleRifle {}
 actor RLChaingun1 : RLChaingunPickup replaces DRPGChaingun {}
 actor RLRocketLauncher1 : RLRocketLauncherPickup replaces DRPGRocketLauncher {}
 actor RLPlasmaRifle1 : RLPlasmaRiflePickup replaces DRPGPlasmaRifle {}
 actor RLBFG9001 : RLBFG9000Pickup replaces DRPGBFG9000 {}
+
+// --------------------------------------------------
+// Widowmaker's Spiders
+
+// Widowmaker's Standart Spider
+Actor RLWidowmakerSpiderRPG : RLWidowmakerSpider Replaces RLWidowmakerSpider
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOSTATS | MF_NOPAYKILL | MF_NODROPS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOSTATS | MF_NOPAYKILL | MF_NODROPS)
+		Goto Super::See
+	}
+}
+
+// Widowmaker's Sniper Spider
+Actor RLWidowmakerSniperSpiderRPG : RLWidowmakerSniperSpider Replaces RLWidowmakerSniperSpider
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOSTATS | MF_NOPAYKILL | MF_NODROPS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOSTATS | MF_NOPAYKILL | MF_NODROPS)
+		Goto Super::See
+	}
+}
+
+// Widowmaker's Firestorm Spider
+Actor RLWidowmakerFirestormSpiderRPG : RLWidowmakerFirestormSpider Replaces RLWidowmakerFirestormSpider
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOSTATS | MF_NOPAYKILL | MF_NODROPS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOSTATS | MF_NOPAYKILL | MF_NODROPS)
+		Goto Super::See
+	}
+}
+
+// Widowmaker's Nano Spider
+Actor RLWidowmakerNanoSpiderRPG : RLWidowmakerNanoSpider Replaces RLWidowmakerNanoSpider
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOSTATS | MF_NOPAYKILL | MF_NODROPS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOSTATS | MF_NOPAYKILL | MF_NODROPS)
+		Goto Super::See
+	}
+}
+
+// AMV2k9 Spider
+Actor RLamv2k9SpiderRPG : RLamv2k9Spider Replaces RLamv2k9Spider
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOAURA | MF_NODROPS)
+		Goto Super::See
+	}
+}

@@ -1,0 +1,72 @@
+AddOptionMenu "DoomRPG"
+{
+    StaticText ""
+    SubMenu "Doom RLA Monsters Options",            "Doom RLA Monsters Options"
+}
+
+OptionMenu "Doom RLA Monsters Options"
+{
+    Title "Doom RLA Monsters Options"
+
+    StaticText ""
+    StaticText "Quality loot items, armor, weapons and spawn monsters depends on the number of WADs passed."
+    StaticText "Lower number of WADs that you plan to go through to increases the intensity."
+
+    StaticText ""
+    StaticText "Use the slider below to set up the number of WADs that you plan to go through."
+
+    StaticText ""
+    Slider "Estimated counts of WADs", "drpg_ws_use_wads", 1, 20, 1, 0
+
+    StaticText ""
+    Slider "Starting Map Level", "drpg_monster_mapweight", 1, 1000, 1, 0
+    Slider "Starting Danger Level", "DRLA_startdangerlevel", 1, 1000, 1, 0
+
+    StaticText ""
+    Option "Enemy Weapon Drop Type", "DRLA_weapondroptype", "WeaponDropTypes"
+
+    StaticText ""
+    Option "Weapon/Armor/Modpacks Loot Type", "drpg_loot_type", "LootTypes"
+
+    StaticText ""
+    Option "Disable Demonic Bosses", "drpg_drla_demonic_boss_disable", "OnOff"
+    Option "Disable Unique Bosses", "drpg_drla_unique_boss_disable", "OnOff"
+}
+
+OptionValue "WeaponDropTypes"
+{
+    0, "Adaptive"
+    1, "\ciDoomRL Arsenal"
+    2, "Ammo Only"
+    3, "Nope"
+}
+
+OptionValue "ExtraMapChallenges"
+{
+    0, "Never"
+    1, "Adaptive Skill and above"
+    2, "Always"
+}
+
+// Save/Load Character
+OptionMenu "DoomRPGCharacter"
+{
+    Title "Character"
+
+    StaticText "Respec", 1
+    SafeCommand "Respec Stats", "pukename Respec 1 0", "Are you sure?"
+    SafeCommand "Respec Skills", "pukename Respec 0 1", "Are you sure?"
+    SafeCommand "Respec All", "pukename Respec 1 1", "Are you sure?"
+    StaticText ""
+
+    StaticText "Save/Load", 1
+    SafeCommand "Save Character", "pukename SaveCharacter", "Are you sure? Put your armor, boots and shoulder weapon into your inventory before continuing!"
+    SafeCommand "Load Character", "pukename LoadCharacter", "Are you sure?"
+    SafeCommand "Clear Character", "pukename ClearCharacter", "Are you sure?"
+    StaticText ""
+
+    StaticText "Options", 1
+    Option "Load Map Level", "drpg_char_load_maplevel", "OnOff"
+    Option "Load Danger Level", "drpg_char_load_rl_dangerlevel", "OnOff"
+    StaticText ""
+}

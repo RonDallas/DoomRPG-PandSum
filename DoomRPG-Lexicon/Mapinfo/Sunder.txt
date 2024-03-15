@@ -1,0 +1,263 @@
+map SND01 "Python"
+	{
+	next = "SND02"
+	secretnext = "SND02"
+	sky1 = "SNDSKY1"
+	music = "D_SNDR01"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	intermusic = "D_SNDINT"
+	}
+
+map SND02 "The Burrow"
+	{
+	next = "SND03"
+	secretnext = "SND03"
+	sky1 = "SNDSKY1"
+	music = "D_SNDR02"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	}
+
+map SND03 "The Dreaming Garden"
+	{
+	next = "SND04"
+	secretnext = "SND04"
+	sky1 = "SNDSKY1"
+	music = "D_SNDR03"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	}
+
+map SND04 "Metal Descendants"
+	{
+	next = "SND05"
+	secretnext = "SND05"
+	sky1 = "SNDSKY1"
+	music = "D_SNDR04"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	}
+
+map SND05 "Precarious"
+	{
+	next = "SND06"
+	secretnext = "SND06"
+	sky1 = "SNDSKY1"
+	music = "D_SNDR05"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	}
+
+map SND06 "Grinder"
+	{
+	next = "SND07"
+	secretnext = "SND07"
+	sky1 = "SNDSKY1"
+	music = "D_SNDR06"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	}
+
+map SND07 "Hollow Icon"
+	{
+	next = "SND08"
+	secretnext = "SND08"
+	sky1 = "SNDSKY1"
+	map07special
+	music = "D_SNDR07"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	}
+
+map SND08 "Pale Monument"
+	{
+	next = "SND09"
+	secretnext = "SND09"
+	sky1 = "SNDSKY1"
+	music = "D_SNDR08"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	}
+
+map SND09 "The Cage"
+	{
+	next = "SND10"
+	secretnext = "SND10"
+	sky1 = "SNDSKY1"
+	music = "D_SNDR09"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	}
+
+map SND10 "The Hags Finger"
+	{
+	next = "SND11"
+	secretnext = "SND11"
+	sky1 = "SNDSKY1"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	music = "D_SNDR10"
+	intermusic = "D_SNDINT"
+	}
+
+map SND11 "The Furnace"
+	{
+	next = "SND12"
+	secretnext = "SND12"
+	sky1 = "SNDSKY2"
+	music = "D_SNDR11"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	}
+
+map SND12 "The Zealous Machine"
+	{
+	next = "SND13"
+	secretnext = "SND13"
+	sky1 = "SNDSKY2"
+	music = "D_SNDR12"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	}
+
+map SND13 "Obsidian Nightmare"
+	{
+	next = "SND14"
+	secretnext = "SND14"
+	sky1 = "SNDSKY2"
+	music = "D_SNDR13"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	}
+
+map SND14 "Hive Mother"
+	{
+	next = "SND15"
+	secretnext = "SND15"
+	sky1 = "SNDSKY2"
+	music = "D_SNDR14"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+    SuckTime = 1337
+	}
+	
+map SND15 "Babylon's Chimera"
+	{
+	next = "SND16"
+	secretnext = "SND31"
+	sky1 = "SNDSKY2"
+	music = "D_SNDR15"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+    SuckTime = 1337
+	}
+	
+map SND16 "Whispers of the Gnarled King"
+	{
+	next = "OUTPOST"
+	secretnext = "OUTPOST"
+	sky1 = "SNDSKY2"
+	music = "D_SNDR16"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+    SuckTime = 1337
+	}
+	
+map SND17 "Archives of the Technomancer"
+{
+	next = "SND18"
+	secretnext = "SND18"
+	sky1 = "SNDSKY2"
+	music = "D_SNDR17"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+    SuckTime = 1337
+}
+
+map SND18 "The Singing Void"
+{
+	next = "SND19"
+	secretnext = "SND19"
+	sky1 = "SPACESK2"
+	music = "D_SNDR18"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+    SuckTime = 1337
+}
+
+map SND19 "City at the Mouth of Ire"
+{
+	next = "SND19"
+	secretnext = "SND19"
+	sky1 = "SNDSKY2"
+	music = "D_SNDR19"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+    SuckTime = 1337
+}
+
+map SND20 "Beneath the Waves of Styx"
+{
+	next = "SND21"
+	secretnext = "SND21"
+	sky1 = "SNDSKY2"
+	music = "D_SNDR20"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+    SuckTime = 1337
+}
+// map is not finsed yet but is in sunder's code
+/*map SND21 "The Leviathan's Arteries"
+{
+	next = "OUTPOST"
+	secretnext = "OUTPOST"
+	sky1 = "SNDSKY2"
+	music = "D_SNDR21"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+	SuckTime = 1337
+}*/
+
+map SND31 "House of Corrosion"
+	{
+	next = "SND16"
+	secretnext = "SND32"
+	sky1 = "GSNDSKY1"
+	music = "D_SNDR31"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+    SuckTime = 1337
+	}
+	
+map SND32 "The Harlots Garden"
+	{
+	next = "SND16"
+	secretnext = "SND16"
+	sky1 = "SNDSKY3"
+	music = "D_SNDR32"
+	intermusic = "D_SNDINT"
+	exitpic = "SNDRINT"
+	enterpic = "SNDRINT"
+    SuckTime = 1337
+	}

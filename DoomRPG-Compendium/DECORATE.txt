@@ -1,0 +1,1552 @@
+actor DRPGCompendiumActive {}
+
+//--------------------------------------------------
+//All Hell is Breaking Lose
+
+//Demon on Fire
+ACTOR AllHellDemonRPG : AllHellDemon replaces AllHellDemon
+{
+    Tag "Demon on Fire"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Two-Headed Chaingunner
+ACTOR AllHellTwoFaceRPG : AllHellTwoFace replaces AllHellTwoFace
+{
+    Tag "Two-Headed Chaingunner"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Mounted Arachnotron
+ACTOR AllHellArachnotronRPG : AllHellArachnotron replaces AllHellArachnotron
+{
+    Tag "Mounted Arachnotron"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Flying Baron
+ACTOR AllHellFlyingBaronRPG : AllHellFlyingBaron replaces AllHellFlyingBaron
+{
+    Tag "Flying Baron"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Evil Marine
+ACTOR AllHellEvilMarineRPG : AllHellEvilMarine replaces AllHellEvilMarine
+{
+    Tag "Evil Marine"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Helicopter
+ACTOR AllHellHelicopterRPG : AllHellHelicopter replaces AllHellHelicopter
+{
+    Tag "Helicopter"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+//Evil Marine
+ACTOR AllHellEvilMarineHeliRPG : AllHellEvilMarineHeli replaces AllHellEvilMarineHeli
+{
+    Tag "Evil Marine"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Winged Demon
+ACTOR AllHellWingedDemon1RPG : AllHellWingedDemon1 replaces AllHellWingedDemon1
+{
+    Tag "Winged Demon"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Green Winged Demon
+ACTOR AllHellWingedDemon2RPG : AllHellWingedDemon2 replaces AllHellWingedDemon2
+{
+    Tag "Green Winged Demon"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+//Gray Winged Demon
+ACTOR AllHellWingedDemon3RPG : AllHellWingedDemon3 replaces AllHellWingedDemon3
+{
+    Tag "Gray Winged Demon"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+//Huge Cyberdemon
+ACTOR AllHellHugeCyberRPG : AllHellHugeCyber replaces AllHellHugeCyber
+{
+    Tag "Huge Cyberdemon"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//BioTech
+
+//Prisoner
+ACTOR BioTechEnemy1RPG : BioTechEnemy1 replaces BioTechEnemy1
+{
+    Tag "Prisoner"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//gangleader (just called Prisoner orignaly so i renamed them and a few other enemies to help tell them apart on wartrophies kill traker)
+ACTOR BioTechEnemy2RPG : BioTechEnemy2 replaces BioTechEnemy2
+{
+    Tag "Gangleader"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Bio-Imp
+ACTOR BioTechEnemy3RPG : BioTechEnemy3 replaces BioTechEnemy3
+{
+    Tag "Bio-Imp"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Bio-Demon
+ACTOR BioTechEnemy4RPG : BioTechEnemy4 replaces BioTechEnemy4
+{
+    Tag "Bio-Demon"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Bio-Arachnotron
+ACTOR BioTechEnemy5RPG : BioTechEnemy5 replaces BioTechEnemy5
+{
+    Tag "Bio-Arachnotron"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Sec-Droid
+ACTOR BioTechEnemy6RPG : BioTechEnemy6 replaces BioTechEnemy6
+{
+    Tag "Sec-Droid"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Stalker
+ACTOR BioTechEnemy7RPG : BioTechEnemy7 replaces BioTechEnemy7
+{
+    Tag "Stalker"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//Cleimos
+
+//Cleimos Robot
+ACTOR CleimosRobotRPG : CleimosRobot replaces CleimosRobot
+{
+    Tag "Cleimos Robot"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Boss Brain
+ACTOR CleimosBrainRPG : CleimosBrain replaces CleimosBrain
+{
+    Tag "Boss Brain"
+
+	States
+	{
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOSTATS | MF_NOAURA | MF_NOPAYKILL | MF_NODROPS | MF_NOHEALTHBAR)
+        Goto Super::Spawn
+	}
+}
+
+//--------------------------------------------------
+//City of Doom
+
+//Possessed
+ACTOR CoDPossessedRPG : CoDPossessed replaces CoDPossessed
+{
+    Tag "Possessed"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Possessed Sergeant
+ACTOR CoDSergeantRPG : CoDSergeant replaces CoDSergeant
+{
+    Tag "Possessed Sergeant"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Possessed Commando
+ACTOR CoDChaingunGuyRPG : CoDChaingunGuy replaces CoDChaingunGuy
+{
+    Tag "Possessed Commando"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Invisible Hell Knight
+ACTOR CoDKnightRPG : CoDKnight replaces CoDKnight
+{
+    Tag "Invisible Hell Knight"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//CoD Bruiser
+ACTOR CoDBruiserRPG : CoDBruiser replaces CoDBruiser
+{
+    Tag "CoD Bruiser"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//CoD Cyber
+ACTOR CoDCyberRPG : CoDCyber replaces CoDCyber
+{
+    Tag "CoD Cyber"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+//CoD Vile
+ACTOR CoDVileRPG : CoDVile replaces CoDVile
+{
+    Tag "CoD Vile"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Hardass Zombie
+ACTOR HardAssRPG : HardAss replaces HardAss
+{
+    Tag "Hardass Zombie"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//CoD SpiderMastermind
+ACTOR CoDSpiderRPG : CoDSpider replaces CoDSpider
+{
+    Tag "CoD SpiderMastermind"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//Ghost monsters
+
+ACTOR DoomImpGhostRPG : DoomImpGhost replaces DoomImpGhost
+{
+    Tag "Ghost Imp"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+ACTOR DemonGhostRPG : DemonGhost replaces DemonGhost
+{
+    Tag "Ghost Demon"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+ACTOR SpectreGhostRPG : SpectreGhost replaces SpectreGhost
+{
+    Tag "Ghost Spectre"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+ACTOR CacodemonGhostRPG : CacodemonGhost replaces CacodemonGhost
+{
+    Tag "Ghost Cacodemon"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+ACTOR HellKnightGhostRPG : HellKnightGhost replaces HellKnightGhost
+{
+    Tag "Ghost HellKnight"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+ACTOR BaronGhostRPG : BaronGhost replaces BaronGhost
+{
+    Tag "Ghost Baron"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+ACTOR RevenantGhostRPG : RevenantGhost replaces RevenantGhost
+{
+    Tag "Ghost Revenant"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+ACTOR ArachnotronGhostRPG : ArachnotronGhost replaces ArachnotronGhost
+{
+    Tag "Ghost Arachnotron"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+ACTOR PainElementalGhostRPG : PainElementalGhost replaces PainElementalGhost
+{
+    Tag "Ghost Pain Elemental"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+ACTOR ArchvileGhostRPG : ArchvileGhost replaces ArchvileGhost
+{
+    Tag "Ghost Archvile"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+ACTOR FatsoGhostRPG : FatsoGhost replaces FatsoGhost
+{
+    Tag "Ghost Mancubus"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//COMPENDIUM
+
+//Lieutenant
+ACTOR MachinegunGuyRPG : MachinegunGuy replaces MachinegunGuy
+{
+    Tag "Former Lieutenant"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Rappelling Zombie
+ACTOR RappellingZombie1RPG : RappellingZombie1 replaces RappellingZombie1
+{
+    Tag "Rappelling Zombie"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//Daedalus
+
+//Daedalus Alien 1
+ACTOR DaedalusAlien1RPG : DaedalusAlien1 replaces DaedalusAlien1
+{
+    Tag "Flying Alien"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Clink
+ACTOR DaedalusAlien2RPG : DaedalusAlien2 replaces DaedalusAlien2
+{
+    Tag "Clink"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Spider Alien
+ACTOR DaedalusAlien3RPG : DaedalusAlien3 replaces DaedalusAlien3
+{
+    Tag "Spider Alien"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//Enslave
+
+//Gargoyle(demon)
+ACTOR EnslaveEnemy1RPG : EnslaveEnemy1 replaces EnslaveEnemy1
+{
+    Tag "Gargoyle"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Robotic Skull
+ACTOR EnslaveEnemy2RPG : EnslaveEnemy2 replaces EnslaveEnemy2
+{
+    Tag "Robotic Skull"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Tripod
+ACTOR EnslaveEnemy3RPG : EnslaveEnemy3 replaces EnslaveEnemy3
+{
+    Tag "Tripod"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Boss Brain
+ACTOR EnslaveProp3RPG : EnslaveProp3 replaces EnslaveProp3
+{
+    Tag "Boss Brain"
+
+	States
+	{
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOSTATS | MF_NOAURA | MF_NOPAYKILL | MF_NODROPS | MF_NOHEALTHBAR)
+        Goto Super::Spawn
+	}
+}
+
+//--------------------------------------------------
+//Equinox
+
+//Boss Brain
+ACTOR EquinoxExplosionRPG : EquinoxExplosion replaces EquinoxExplosion
+{
+    Tag "Boss Brain"
+
+	States
+	{
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOSTATS | MF_NOAURA | MF_NOPAYKILL | MF_NODROPS | MF_NOHEALTHBAR)
+        Goto Super::Spawn
+	}
+}
+
+//--------------------------------------------------
+//Hell to Pay
+
+//Hell Guard
+ACTOR HTP_Enemy1RPG : HTP_Enemy1 replaces HTP_Enemy1
+{
+    Tag "Hell Guard"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Robot Slasher
+ACTOR HTP_Enemy2RPG : HTP_Enemy2 replaces HTP_Enemy2
+{
+    Tag "Robot Slasher"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Liquid Metal Orb
+ACTOR HTP_Enemy3RPG : HTP_Enemy3 replaces HTP_Enemy3
+{
+    Tag "Liquid Metal Orb"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Robot Gunship
+ACTOR HTP_Enemy4RPG : HTP_Enemy4 replaces HTP_Enemy4
+{
+    Tag "Robot Gunship"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Liquid Metal Converter
+ACTOR HTP_Enemy5RPG : HTP_Enemy5 replaces HTP_Enemy5
+{
+    Tag "Liquid Metal Converter"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Artillery Robot
+ACTOR HTP_Enemy6RPG : HTP_Enemy6 replaces HTP_Enemy6
+{
+    Tag "Artillery Robot"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+// Boss Brain
+ACTOR PlanetHellExplosionRPG : PlanetHellExplosion replaces PlanetHellExplosion
+{
+    Tag "Boss Brain"
+
+	States
+	{
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOSTATS | MF_NOAURA | MF_NOPAYKILL | MF_NODROPS | MF_NOHEALTHBAR)
+        Goto Super::Spawn
+	}
+}
+
+//--------------------------------------------------
+//Mars Doom
+
+//Spectre Imp
+ACTOR SpectreImpRPG : SpectreImp replaces SpectreImp
+{
+    Tag "Spectre Imp"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Spectre HellKnight
+ACTOR SpectreHellKnightRPG : SpectreHellKnight replaces SpectreHellKnight
+{
+    Tag "Spectre HellKnight"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Security Drone
+ACTOR MarsDoomSecurityDroneRPG : MarsDoomSecurityDrone replaces MarsDoomSecurityDrone
+{
+    Tag "Security Drone"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Demonic Girl
+ACTOR MarsDoomEvilGirlRPG : MarsDoomEvilGirl replaces MarsDoomEvilGirl
+{
+    Tag "Demonic Girl"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Space Marine Shotgun
+ACTOR MarsDoomMarineShotgunRPG : MarsDoomMarineShotgun replaces MarsDoomMarineShotgun
+{
+    Tag "Space Marine Shotgun"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Space Marine Plasmagun
+ACTOR MarsDoomMarinePlasmaRPG : MarsDoomMarinePlasma replaces MarsDoomMarinePlasma
+{
+    Tag "Space Marine Plasmagun"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Space Marine Rocketlauncher
+ACTOR MarsDoomMarineRocketRPG : MarsDoomMarineRocket replaces MarsDoomMarineRocket
+{
+    Tag "Space Marine Rocketlauncher"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Fire Gargoyle
+ACTOR MarsDoomGargoyleRPG : MarsDoomGargoyle replaces MarsDoomGargoyle
+{
+    Tag "Fire Gargoyle"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//NeoDoom
+
+// Boss Brain
+ACTOR NeoDoomHeartRPG : NeoDoomHeart replaces NeoDoomHeart
+{
+    Tag "Boss Brain"
+
+	States
+	{
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOSTATS | MF_NOAURA | MF_NOPAYKILL | MF_NODROPS | MF_NOHEALTHBAR)
+        Goto Super::Spawn
+	}
+}
+
+//Babe Magia
+ACTOR FriendlyBabeRPG : FriendlyBabe replaces FriendlyBabe
+{
+    Tag "Babe Magia"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//Enjay ZDoom 2001
+
+//Enjay Super Imp
+ACTOR EnjaySuperImpRPG : EnjaySuperImp replaces EnjaySuperImp
+{
+    Tag "Enjay Super Imp"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Zombie Gunner
+ACTOR EnjayZombieGunnerRPG : EnjayZombieGunner replaces EnjayZombieGunner
+{
+    Tag "Zombie Gunner"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//Obituary
+
+//Bazooka Man
+ACTOR Obituary_BazookaManRPG : Obituary_BazookaMan replaces Obituary_BazookaMan
+{
+    Tag "Bazooka Man"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Harder Imp
+ACTOR Obituary_HarderImpRPG : Obituary_HarderImp replaces Obituary_HarderImp
+{
+    Tag "Harder Imp"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Hitech Guy
+ACTOR Obituary_HitechGuyRPG : Obituary_HitechGuy replaces Obituary_HitechGuy
+{
+    Tag "Hitech Guy"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//OSIRIS
+
+//Bat
+ACTOR OSIRISBatRPG : OSIRISBat replaces OSIRISBat
+{
+    Tag "Bat"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Archeologist
+ACTOR OSIRISArcheologistRPG : OSIRISArcheologist replaces OSIRISArcheologist
+{
+    Tag "Archeologist"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Anubis
+ACTOR OSIRISAnubisRPG : OSIRISAnubis replaces OSIRISAnubis
+{
+    Tag "Anubis"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Reaper
+ACTOR OSIRISReaperRPG : OSIRISReaper replaces OSIRISReaper
+{
+    Tag "Reaper"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Stealth Reaper
+ACTOR OSIRISReaperStealthRPG : OSIRISReaperStealth replaces OSIRISReaperStealth
+{
+    Tag "Stealth Reaper"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Pharaoh
+ACTOR OSIRISPharaohRPG : OSIRISPharaoh replaces OSIRISPharaoh
+{
+    Tag "Pharaoh"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//The Rebirth
+
+//Evil Snowman
+ACTOR RebirthSnowmanRPG : RebirthSnowman replaces RebirthSnowman
+{
+    Tag "Evil Snowman"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//Scientist 2
+
+//Scientist
+ACTOR SCI2_ScientistBaseRPG : SCI2_ScientistBase replaces SCI2_ScientistBase
+{
+    Tag "Scientist"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Scientist Boss
+ACTOR SCI2_ScientistBossRPG : SCI2_ScientistBoss replaces SCI2_ScientistBoss
+{
+    Tag "Scientist Boss"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//Strain
+
+//BFG Trooper
+ACTOR BFGtrooperRPG : BFGtrooper replaces BFGtrooper
+{
+    Tag "BFG Trooper"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Chaingunner
+ACTOR ChaingunnerRPG : Chaingunner replaces Chaingunner
+{
+    Tag "Chaingunner"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Cyberdemon jr.
+ACTOR CyberdemonjrRPG : Cyberdemonjr replaces Cyberdemonjr
+{
+    Tag "Cyberdemon jr."
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Skinless Demon
+ACTOR StrainDemonRPG : StrainDemon replaces StrainDemon
+{
+    Tag "Skinless Demon"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Demon Lord
+ACTOR DemonLordRPG : DemonLord replaces DemonLord
+{
+    Tag "Demon Lord"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Doppleganger
+ACTOR DopplegangerRPG : Doppleganger replaces Doppleganger
+{
+    Tag "Doppleganger"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Class 2 Imp
+ACTOR FastImpRPG : FastImp replaces FastImp
+{
+    Tag "Class 2 Imp"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Holobot
+ACTOR HolobotRPG : Holobot replaces Holobot
+{
+    Tag "Holobot"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//PolyDrone
+ACTOR PolyDroneRPG : PolyDrone replaces PolyDrone
+{
+    Tag "PolyDrone"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//The Talosian Incident
+
+//Boss Brain
+ACTOR TalosMachineryRPG : TalosMachinery replaces TalosMachinery
+{
+    Tag "Boss Brain"
+
+	States
+	{
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOSTATS | MF_NOAURA | MF_NOPAYKILL | MF_NODROPS | MF_NOHEALTHBAR)
+        Goto Super::Spawn
+	}
+}
+
+//--------------------------------------------------
+//The Trooper's Playground
+
+//Evil Trooper
+ACTOR TTPEvilTrooperRPG : TTPEvilTrooper replaces TTPEvilTrooper
+{
+    Tag "Evil Trooper"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//--------------------------------------------------
+//Twilight Zone II: Final Dreams
+
+//SS Predator Spectre
+ACTOR SSPredatorSpectreRPG : SSPredatorSpectre replaces SSPredatorSpectre
+{
+    Tag "SS Predator Spectre"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
+//Johnny's Baby Cyberdemon Marine
+ACTOR JohnnysMarineRPG : JohnnysMarine replaces JohnnysMarine
+{
+    Tag "Johnny's Baby Cyberdemon Marine"
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
+//Boss Brain
+ACTOR JohnnyBoyRPG : JohnnyBoy replaces JohnnyBoy
+{
+    Tag "Boss Brain"
+
+	States
+	{
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_NOXP | MF_NOSTATS | MF_NOAURA | MF_NOPAYKILL | MF_NODROPS | MF_NOHEALTHBAR)
+        Goto Super::Spawn
+	}
+}

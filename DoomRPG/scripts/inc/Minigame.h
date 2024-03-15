@@ -4,5 +4,6 @@
 #include "Defs.h"
 
 NamedScript void ItemRoulette(bool);
+ItemInfoPtr GetItemRoulette(int);
 
 #endif

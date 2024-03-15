@@ -13,7 +13,7 @@
 
 ACTOR DRPGMegabossSloth
 {
-  Health 120000
+  Health 60000
   Radius 68
   Height 136
   Mass 100000
@@ -530,13 +530,13 @@ ACTOR DRPGSlothToxicityBlastGiver : CustomInventory
   Pickup:
     TNT1 A 0
     TNT1 A 0 A_TakeInventory("PowerInvulnerable", 1)
-    TNT1 A 0 ACS_NamedExecuteAlways("AddToxicity", 0, random(5,15))
+    TNT1 A 0 ACS_NamedExecuteAlways("AddToxicity", 0, random(3,10))
     TNT1 A 0 A_Jump (45, 2)
-    TNT1 A 0 ACS_NamedExecuteAlways("StatusEffect", 0, SE_RADIATION, random(5,30), random(4,5))
+    TNT1 A 0 ACS_NamedExecuteAlways("StatusEffect", 0, SE_RADIATION, random(3,10), random(4,5))
     TNT1 A 0 A_Jump (45, 2)
-    TNT1 A 0 ACS_NamedExecuteAlways("StatusEffect", 0, SE_POISON, random(5,30), random(1,5))
+    TNT1 A 0 ACS_NamedExecuteAlways("StatusEffect", 0, SE_POISON, random(3,10), random(1,5))
     TNT1 A 0 A_Jump (45, 2)
-    TNT1 A 0 ACS_NamedExecuteAlways("StatusEffect", 0, SE_CORROSION, random(5,30), random(3,5))
+    TNT1 A 0 ACS_NamedExecuteAlways("StatusEffect", 0, SE_CORROSION, random(3,10), random(3,5))
     TNT1 A 0
     Stop
   }

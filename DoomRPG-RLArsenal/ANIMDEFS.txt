@@ -211,6 +211,15 @@ texture MMAPA0
     pic MMAPC0 tics 6
     pic MMAPB0 tics 6
 
+// Tracking Map Inventory Icon
+texture MMAP
+    pic MMAP tics 6
+    pic MMAPB tics 6
+    pic MMAPC tics 6
+    pic MMAPD tics 6
+    pic MMAPC tics 6
+    pic MMAPB tics 6
+
 // Blueprint Computer
 texture BLUPA0
     pic BLUPA0 tics 12
@@ -324,6 +333,43 @@ texture AMK1A0
     pic AMK1D0 tics 3
     pic AMK1C0 tics 3
     pic AMK1B0 tics 3
+
+// --------------------------------------------------
+// CRAFT PARTS
+// 
+
+// Craft Parts Exotic
+texture CREXA
+    pic CREXA tics 3
+    pic CREXB tics 3
+    pic CREXC tics 3
+    pic CREXD tics 3
+    pic CREXE tics 3
+    pic CREXF tics 3
+    pic CREXG tics 3
+    pic CREXH tics 3
+    pic CREXI tics 3
+    pic CREXJ tics 3
+    pic CREXK tics 3
+    pic CREXL tics 3
+    pic CREXM tics 3
+
+// Craft Parts Unique
+texture CRUNA
+    pic CRUNA tics 3
+    pic CRUNB tics 3
+    pic CRUNC tics 3
+    pic CRUND tics 3
+    pic CRUNE tics 3
+    pic CRUNF tics 3
+    pic CRUNG tics 3
+    pic CRUNH tics 3
+    pic CRUNI tics 3
+    pic CRUNJ tics 3
+    pic CRUNK tics 3
+    pic CRUNL tics 3
+    pic CRUNM tics 3
+    pic CRUNN tics 3
 
 // --------------------------------------------------
 // BOOTS

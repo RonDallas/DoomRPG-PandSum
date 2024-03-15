@@ -24,7 +24,27 @@ gameinfo
     menufontcolor_selection = "green"
     
     // ZScript
-    AddEventHandlers = "DRPGZEHandler", "DRPGZInputHandler"
+    AddEventHandlers = "DRPGZEHandler", "DRPGZInputHandler", "DRPGZHUD"
+}
+
+DoomEdNums
+{
+    11018 = OutpostSignMissionBBS2
+	11019 = OutpostSignShopS2
+	11017 = OutpostSignTransporter2
+	11020 = OutpostSignSkillComputer2
+	11021 = OutpostSignRechargePads2
+	11022 = OutpostSignEastArea2
+	11023 = OutpostSignItemRoulette2
+	11024 = OutpostSignArena2
+	11025 = OutpostSignArenaFar2
+	11026 = OutpostSignArenaWS2
+	11027 = OutpostSignArenaStart2
+	11028 = OutpostSignArenaReady2
+	11029 = OutpostSignShootingRange2
+	11030 = OutpostSignSale2
+	11031 = OutpostSignSurgeonCapsule2
+	11032 = OutpostSignDisassemblingDevice2    
 }
 
 // UAC Outpost
@@ -51,12 +71,18 @@ episode OUTPOST
     noskillmenu
 }
 
+// Arenas
+map DAM01 "Training Ground" {}
+map DAM02 "Throne Room" {}
+
 // Rejigger the skills
 clearskills
 
 // Easy skill
 skill easy
 {
+    damagefactor = 0.5
+    monsterhealth = 1.0
     aggressiveness = 0.0
     spawnfilter = normal
 
@@ -73,6 +99,8 @@ skill easy
 // Normal skill
 skill normal
 {
+    damagefactor = 1.0
+    monsterhealth = 1.0
     aggressiveness = 0.25
     spawnfilter = hard
     
@@ -87,10 +115,13 @@ skill normal
 // Hard skill
 skill hard
 {
+    damagefactor = 1.25
+    monsterhealth = 1.25
     aggressiveness = 0.5
     spawnfilter = nightmare
     
     autousehealth
+    defaultskill
 
     acsreturn = 3
     
@@ -101,11 +132,12 @@ skill hard
 // Nightmare skill
 skill nightmare
 {
+    damagefactor = 1.5
+    monsterhealth = 1.5
     aggressiveness = 1.0
     spawnfilter = nightmare
     
     autousehealth
-    defaultskill
 
     acsreturn = 4
     
@@ -117,6 +149,8 @@ skill nightmare
 // Hell skill
 skill hell
 {
+    damagefactor = 2.0
+    monsterhealth = 2.0
     aggressiveness = 1.0
     spawnfilter = nightmare
 

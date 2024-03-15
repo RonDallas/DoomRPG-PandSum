@@ -1,0 +1,68 @@
+// --------------------------------------------------
+// PLAYERS
+// 
+
+// Mechanoid
+texture 1337A1
+	pic 1337A1 tics 6
+	pic 1337B1 tics 6
+	pic 1337C1 tics 6
+	pic 1337D1 tics 6
+
+// Nomad
+texture ZHRTA1
+	pic ZHRTA1 tics 6
+	pic ZHRTB1 tics 6
+	pic ZHRTC1 tics 6
+	pic ZHRTD1 tics 6
+
+// NanoManiac
+texture DKCPA1
+	pic DKCPA1 tics 6
+	pic DKCPB1 tics 6
+	pic DKCPC1 tics 6
+	pic DKCPD1 tics 6
+
+// PhaseSisters Portia
+texture ILLPA1
+	pic ILLPA1 tics 6
+	pic ILLPB1 tics 6
+	pic ILLPC1 tics 6
+	pic ILLPD1 tics 6
+
+// PhaseSisters Terri
+texture REVYA1
+	pic REVYA1 tics 6
+	pic REVYB1 tics 6
+	pic REVYC1 tics 6
+	pic REVYD1 tics 6
+
+// Sarge
+texture SUT1A1
+	pic SUT1A1 tics 6
+	pic SUT1B1 tics 6
+	pic SUT1C1 tics 6
+	pic SUT1D1 tics 6
+
+// Trespasser
+texture TRSPA1
+	pic TRSPA1 tics 6
+	pic TRSPB1 tics 6
+	pic TRSPC1 tics 6
+	pic TRSPD1 tics 6
+
+// Bunker
+texture BUNKA1
+	pic BUNKA1 tics 6
+	pic BUNKB1 tics 6
+	pic BUNKC1 tics 6
+	pic BUNKD1 tics 6
+
+// --------------------------------------------------
+// ITEMS
+// 
+
+// Radar Device
+texture SNRBB0
+	pic SNRBB0 tics 8
+	pic SNRBC0 tics 8

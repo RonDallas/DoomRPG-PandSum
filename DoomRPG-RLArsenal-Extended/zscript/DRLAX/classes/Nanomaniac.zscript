@@ -1,0 +1,519 @@
+class RLNanoManiacRerolled : Inventory
+{
+    override void Tick()
+    {
+        if(owner)
+        {
+            if(GetAge() == 2)
+            {
+                owner.A_StartSound("weapons/nanoweaponchargemedium");
+
+                owner.A_SetMugshotState("Grin");
+                Weapon p;
+
+                for(int i=1; i<9; i++)
+                {
+                    p = owner.player.mo.PickWeapon(i, false);
+
+                    if(p && p.GetClassName() != "RLFist")
+                    {
+                        owner.player.PendingWeapon = p;
+                        break;
+                    }
+                }
+
+                Destroy();
+                return;
+            }
+        }
+        Super.Tick();
+    }
+}
+
+
+class RLNanoManiacPassive : Inventory
+{
+    Default
+    {
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.UNTOSSABLE;
+    }
+
+    override void ModifyDamage (int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
+    {
+        if(passive)
+        {
+            return;
+        }
+
+        if(source && source.health > 0 && source.bISMONSTER && damage > 0 && damagetype == "Melee")
+        {
+            bool trigger;
+
+            if(owner.CountInv("Clip") < 56)
+            {
+                owner.GiveInventory("Clip", 5);
+                trigger = true;
+            }
+
+            if(owner.CountInv("Shell") < 29)
+            {
+                owner.GiveInventory("Shell", 2);
+                trigger = true;
+            }
+
+            if(owner.CountInv("RocketAmmo") < 15)
+            {
+                owner.GiveInventory("RocketAmmo", 1);
+                trigger = true;
+            }
+
+            if(owner.CountInv("Cell") < 57)
+            {
+                owner.GiveInventory("Cell", 4);
+                trigger = true;
+            }
+
+            if(trigger)
+            {
+                owner.A_StartSound("solospaghetti/zap3");
+            }
+        }
+    }
+}
+
+class RLNanoManiacStartingLoadout : CustomInventory
+{
+	states
+	{
+		Pickup:
+		TNT1 A 0
+        {
+            switch(random(0,3))
+            {
+                case 0:
+                A_GiveInventory("RLPistolPowerMod", 1);
+                break;
+
+                case 1:
+                A_GiveInventory("RLPistolBulkMod", 1);
+                break;
+
+                case 2:
+                A_GiveInventory("RLPistolAgilityMod", 1);
+                break;
+
+                case 3:
+                A_GiveInventory("RLPistolTechnicalMod", 1);
+                break;
+            }
+
+            A_GiveInventory("RLNanoManiacPassive");
+        } //
+		stop;
+	}
+}
+
+Class RLNanoManiacEvents : StaticEventHandler
+{
+    Array<String> NormalWeapons;
+    Array<String> SuperiorWeapons;
+    Array<String> BasicWeapons;
+    Array<String> AdvancedWeapons;
+    Array<String> MasterWeapons;
+    
+    override void OnRegister ()
+    {   
+        AddWeapon("RLChainsaw", 3);
+        AddWeapon("RLPistol", 3);
+        AddWeapon("RLShotgun", 3);
+        AddWeapon("RLCombatShotgun", 3);
+        AddWeapon("RLDoubleShotgun", 3);
+        AddWeapon("RLChaingun", 3);
+        AddWeapon("RLBattleRifle", 3);
+        AddWeapon("RLRocketLauncher", 3);
+        AddWeapon("RLPlasmaRifle", 3);
+        AddWeapon("RLBFG9000", 3);
+
+        AddWeapon("RLBlaster", 4);
+        AddWeapon("RLCombatPistol", 4);
+        AddWeapon("RLMarksmanPistol", 4);
+        AddWeapon("RLHandcannon", 4);
+        AddWeapon("RLSuperShotgun", 4);
+        AddWeapon("RLAssaultShotgun", 4);
+        AddWeapon("RLPlasmaShotgun", 4);
+        AddWeapon("RLTristarBlaster", 4);
+        AddWeapon("RLMinigun", 4);
+        AddWeapon("RLMissileLauncher", 4);
+        AddWeapon("RLNapalmLauncher", 4);
+        AddWeapon("RLLaserRifle", 4);
+        AddWeapon("RLNuclearPlasmaPistol", 4);
+        AddWeapon("RLNuclearPlasmaRifle", 4);
+        AddWeapon("RLNuclearBFG9000", 4);
+        //AddWeapon("RLCombatTranslocator", 4);
+        AddWeapon("RLUzi", 4);
+
+        AddWeapon("RLMarksmanRifle", 5);
+        AddWeapon("RLVanguardRifle", 5);
+        AddWeapon("RLHuntingRevolver", 5);
+        AddWeapon("RLThompson", 5);
+        AddWeapon("RLPP7", 5);
+        AddWeapon("RLHuntingShotgun", 5);
+        AddWeapon("RLRCP90", 5);
+
+        AddWeapon("RLHeavyShotgun", 0);
+        AddWeapon("RLHeavyCombatShotgun", 0);
+        AddWeapon("RLHeavyDoubleShotgun", 0);
+        AddWeapon("RLHeavySuperShotgun", 0);
+        AddWeapon("RLHeavyAssaultShotgun", 0);
+        AddWeapon("RLHeavyPlasmaShotgun", 0);
+        AddWeapon("RLHeavyHuntingShotgun", 0);
+        AddWeapon("RLPiercingChainsaw", 0);
+        AddWeapon("RLHighPowerPistol", 0);
+        AddWeapon("RLHighPowerChaingun", 0);
+        AddWeapon("RLHighPowerBattleRifle", 0);
+        AddWeapon("RLHighPowerPlasmaRifle", 0);
+        AddWeapon("RLHighPowerBFG9000", 0);
+        AddWeapon("RLHighPowerBlaster", 0);
+        AddWeapon("RLHighPowerCombatPistol", 0);
+        AddWeapon("RLHighPowerMarksmanPistol", 0);
+        AddWeapon("RLHighPowerHandcannon", 0);
+        AddWeapon("RLHighPowerTristarBlaster", 0);
+        AddWeapon("RLHighPowerMinigun", 0);
+        AddWeapon("RLHighPowerLaserRifle", 0);
+        AddWeapon("RLHighPowerNuclearPlasmaPistol", 0);
+        AddWeapon("RLHighPowerNuclearPlasmaRifle", 0);
+        AddWeapon("RLHighPowerNuclearBFG9000", 0);
+        AddWeapon("RLHighPowerUzi", 0);
+        AddWeapon("RLHighPowerMarksmanRifle", 0);
+        AddWeapon("RLHighPowerVanguardRifle", 0);
+        AddWeapon("RLHighPowerHuntingRevolver", 0);
+        AddWeapon("RLHighPowerThompson", 0);
+        AddWeapon("RLHighPowerPP7", 0);
+        AddWeapon("RLHighPowerRCP90", 0);
+        AddWeapon("RLPlasmaticShrapnelShotgun", 0);
+        AddWeapon("RLPlasmaticShrapnelCombatShotgun", 0);
+        AddWeapon("RLPlasmaticShrapnelDoubleShotgun", 0);
+        AddWeapon("RLPlasmaticShrapnelSuperShotgun", 0);
+        AddWeapon("RLPlasmaticShrapnelAssaultShotgun", 0);
+        AddWeapon("RLPlasmaticShrapnelPlasmaShotgun", 0);
+        AddWeapon("RLPlasmaticShrapnelHuntingShotgun", 0);
+        AddWeapon("RLSilencedPistol", 0);
+        AddWeapon("RLStealthRifle", 0);
+        AddWeapon("RLShredderPistol", 0);
+        AddWeapon("RLShredderShotgun", 0);
+        AddWeapon("RLSpeedloaderPistol", 0);
+        AddWeapon("RLElephantGun", 0);
+        AddWeapon("RLGatlingGun", 0);
+        AddWeapon("RLMicroLauncher", 0);
+        AddWeapon("RLTacticalShotgun", 0);
+        AddWeapon("RLFlamethrower", 0);
+        AddWeapon("RLSniperRifle", 0);
+        AddWeapon("RLShrapnelCannon", 0);
+        AddWeapon("RLNuclearPlasmaRevolver", 0);
+        AddWeapon("RLAssaultRifleChaingun", 1);
+        AddWeapon("RLAssaultRifleBattleRifle", 1);
+        AddWeapon("RLAssaultRiflePlasmaRifle", 1);
+        AddWeapon("RLAssaultRifleMinigun", 1);
+        AddWeapon("RLAssaultRifleLaserRifle", 1);
+        AddWeapon("RLAssaultRifleNuclearPlasmaRifle", 1);
+        AddWeapon("RLAssaultRifleUzi", 1);
+        AddWeapon("RLBurstCannonChaingun", 1);
+        AddWeapon("RLBurstCannonBattleRifle", 1);
+        AddWeapon("RLBurstCannonPlasmaRifle", 1);
+        AddWeapon("RLBurstCannonMinigun", 1);
+        AddWeapon("RLBurstCannonLaserRifle", 1);
+        AddWeapon("RLBurstCannonNuclearPlasmaRifle", 1);
+        AddWeapon("RLBurstCannonUzi", 1);
+        AddWeapon("RLNanoShrapnelShotgun", 1);
+        AddWeapon("RLNanoShrapnelCombatShotgun", 1);
+        AddWeapon("RLNanoShrapnelDoubleShotgun", 1);
+        AddWeapon("RLNanoShrapnelSuperShotgun", 1);
+        AddWeapon("RLNanoShrapnelAssaultShotgun", 1);
+        AddWeapon("RLNanoShrapnelPlasmaShotgun", 1);
+        AddWeapon("RLStormPistol", 1);
+        AddWeapon("RLStormCombatPistol", 1);
+        AddWeapon("RLStormMarksmanPistol", 1);
+        AddWeapon("RLStormHandcannon", 1);
+        AddWeapon("RLStormUzi", 1);
+        AddWeapon("RLStormBlaster", 1);
+        AddWeapon("RLStormNuclearPlasmaPistol", 1);
+        AddWeapon("RLPlasmaPistol", 1);
+        AddWeapon("RLPlasmaCombatPistol", 1);
+        AddWeapon("RLPlasmaMarksmanPistol", 1);
+        AddWeapon("RLPlasmaHandcannon", 1);
+        AddWeapon("RLPlasmaUzi", 1);
+        AddWeapon("RLOverchargedBlaster", 1);
+        AddWeapon("RLSuperchargedNuclearPlasmaPistol", 1);
+        AddWeapon("RLDoubleChainsaw", 1);
+        AddWeapon("RLTacticalRocketLauncher", 1);
+        AddWeapon("RLVBFG9000", 1);
+        AddWeapon("RLNuclearVBFG9000", 1);
+        AddWeapon("RLFocusedDoubleShotgun", 1);
+        AddWeapon("RLHyperBlaster", 1);
+        AddWeapon("RLBulletstormChaingun", 1);
+        AddWeapon("RLBulletstormRifle", 1);
+        AddWeapon("RLAutoshotgun", 1);
+        AddWeapon("RLAutoDoubleShotgun", 1);
+        AddWeapon("RLMiniMissilePistol", 1);
+        AddWeapon("RLPlasmaRifleMkII", 1);
+        AddWeapon("RLPlasmaShotgunMkII", 1);
+        AddWeapon("RLNuclearPlasmaRifleMkII", 1);
+        AddWeapon("RLNuclearPlasmaShotgun", 1);
+        AddWeapon("RLLaserShotgun", 1);
+        AddWeapon("RLGrenadeLauncher", 1);
+        AddWeapon("RLPlasmaCannon", 1);
+        AddWeapon("RLLaserPulseLauncher", 1);
+        AddWeapon("RLLaserMinigun", 1);
+        AddWeapon("RLInfusionLauncher", 1);
+        AddWeapon("RLIncinerationDeviceLauncher", 1);
+        AddWeapon("RLHeavyPulseBlaster", 1);
+        AddWeapon("RLNanomanufactureAmmoUzi", 2);
+        AddWeapon("RLNanomanufactureAmmoTristarBlaster", 2);
+        AddWeapon("RLNanomanufactureAmmoRocketLauncher", 2);
+        AddWeapon("RLNanomanufactureAmmoPlasmaRifle", 2);
+        AddWeapon("RLNanomanufactureAmmoPistol", 2);
+        AddWeapon("RLNanomanufactureAmmoNapalmLauncher", 2);
+        AddWeapon("RLNanomanufactureAmmoMissileLauncher", 2);
+        AddWeapon("RLNanomanufactureAmmoMinigun", 2);
+        AddWeapon("RLNanomanufactureAmmoMarksmanPistol", 2);
+        AddWeapon("RLNanomanufactureAmmoLaserRifle", 2);
+        AddWeapon("RLNanomanufactureAmmoHandcannon", 2);
+        AddWeapon("RLNanomanufactureAmmoCombatPistol", 2);
+        AddWeapon("RLNanomanufactureAmmoChaingun", 2);
+        AddWeapon("RLNanomanufactureAmmoBlaster", 2);
+        AddWeapon("RLNanomanufactureAmmoBattleRifle", 2);
+        AddWeapon("RLDemolitionAmmoPistol", 2);
+        AddWeapon("RLDemolitionAmmoChaingun", 2);
+        AddWeapon("RLDemolitionAmmoBattleRifle", 2);
+        AddWeapon("RLDemolitionAmmoCombatPistol", 2);
+        AddWeapon("RLDemolitionAmmoMarksmanPistol", 2);
+        AddWeapon("RLDemolitionAmmoHandcannon", 2);
+        AddWeapon("RLDemolitionAmmoMinigun", 2);
+        AddWeapon("RLDemolitionAmmoUzi", 2);
+        AddWeapon("RLEnergysaw", 2);
+        AddWeapon("RLRipper", 2);
+        AddWeapon("RLBiggestFuckingGun", 2);
+        AddWeapon("RLNuclearBiggestFuckingGun", 2);
+        AddWeapon("RLMotherInLaw", 2);
+        AddWeapon("RLAutocannon", 2);
+        AddWeapon("RLPlasmaRefractor", 2);
+        AddWeapon("RLClusterBombLauncher", 2);
+        AddWeapon("RLMegatonShotgun", 2);
+        AddWeapon("RLConquerorShotgun", 2);
+        AddWeapon("RLVoltgun", 2);
+        AddWeapon("RLSuperMachinegun", 2);
+        AddWeapon("RLGaussRifle", 2);
+        AddWeapon("RLAntiMaterielRifle", 2);
+        AddWeapon("RLZeusCannon", 2);
+    }
+
+    void AddWeapon(String w, uint rank)
+    {
+        switch(rank)
+        {
+            Case 0:
+            BasicWeapons.Push(w);
+            break;
+            
+            Case 1:
+            AdvancedWeapons.Push(w);
+            break;
+            
+            Case 2:
+            MasterWeapons.Push(w);
+            break;
+
+            
+            Case 5:
+            SuperiorWeapons.Push(w);
+            Case 3:
+            Case 4:
+            NormalWeapons.Push(w);
+            break;
+        }
+    }
+
+    bool CheckSuperior(String n)
+    {
+        for(int i = 0; i<SuperiorWeapons.Size(); i++)
+        {
+            if(n == SuperiorWeapons[i])
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+/*
+    override void WorldTick()
+    {
+        for(int i; i<players.Size(); i++)
+        {
+            if(players[i].mo && players[i].WeaponState & WF_WEAPONREADY)
+            {
+                int index = unsyncedweps.Find(players[i].ReadyWeapon.GetClass());
+
+                if(index != unsyncedweps.Size())
+                {
+                    unsyncedweps.Delete(index);
+                    //Console.Printf("synced");
+                }
+            }
+        }
+    }
+*/
+    static const String Mods[] = {"PowerMod", "BulkMod", "AgilityMod", "TechnicalMod", "NanoMod", "FirestormMod", "SniperMod"};
+
+    int rerollmodpacks;
+    Array<Class<Weapon> > rerolledweps;
+
+    override void WorldUnloaded(WorldEvent e)
+    {
+        if(e.IsSaveGame)
+        {
+            return;
+        }
+
+        for(int i; i<players.Size(); i++)
+        {
+            rerollmodpacks = 0;
+            rerolledweps.Clear();
+
+            if(players[i].mo && players[i].mo.GetClassName() == "DoomRLNanoManiacRPG" && players[i].mo.CountInv("RLNanoManiacTransportToken") <= 0)
+            {
+                players[i].mo.GiveInventory("RLNanoManiacRerolled", 1);
+                RerollWeapons(players[i].mo, NormalWeapons);
+                RerollWeapons(players[i].mo, BasicWeapons);
+                RerollWeapons(players[i].mo, AdvancedWeapons);
+                RerollWeapons(players[i].mo, MasterWeapons);
+            }
+			else if(players[i].mo && players[i].mo.GetClassName() == "DoomRLNanoManiacRPG" && players[i].mo.CountInv("RLNanoManiacTransportToken") > 0)
+				players[i].mo.TakeInventory("RLNanoManiacTransportToken", 1);
+        }
+    }
+
+    void RerollWeapons(Actor p, Array<String> weppool)
+    {
+        for(int i; i<weppool.Size(); i++)
+        {
+            Class<Weapon> w = weppool[i];
+            bool success;
+
+            while(p.CountInv(w) > 0 && rerolledweps.Find(w) == rerolledweps.Size())
+            {
+                Class<Weapon> newwep = w;
+
+                CountWeaponModpacks(p, w);
+                //Console.Printf(rerollmodpacks .. "");
+
+                while(!success)
+                {
+                    bool exit = false;
+
+                    while(newwep == w || p.CountInv(newwep) > 0 || (CheckSuperior(newwep.GetClassName()) && rerollmodpacks > 2))
+                    {
+                        //Console.Printf("try again");
+						newwep = weppool[random(0, weppool.Size()-1)];
+                    }
+
+                    int modcount = rerollmodpacks;
+
+                    int nanos;
+                    int snipers;
+                    int firestorms;
+
+                    while(modcount > 0)
+                    {
+                        String rmod = Mods[random(0, Mods.Size()-1)];
+
+                        String m = newwep.GetClassName() .. rmod;
+                        Class<Actor> possiblemod;
+                        possiblemod = (Class<Actor>)(m);
+
+                        if(!possiblemod)
+                        {
+                            //Console.Printf("failed to reroll!");
+                            exit = true;
+                            break;
+                        }
+
+                        if(rmod == "NanoMod")
+                        {
+                            if(nanos > 1)
+                            {
+                                continue;
+                            }
+                            nanos++;
+                        }
+                        if(rmod == "FirestormMod")
+                        {
+                            if(firestorms > 1)
+                            {
+                                continue;
+                            }
+                            firestorms++;
+                        }
+                        if(rmod == "SniperMod")
+                        {
+                            if(snipers > 1)
+                            {
+                                continue;
+                            }
+                            snipers++;
+                        }
+                        
+                        modcount--;
+                        p.GiveInventory(m, 1);
+                    }
+
+                    if(exit)
+                    {
+                        success = false;
+                        break;
+                    }
+
+                    TakeModpacks(p, w, "PowerMod");
+                    TakeModpacks(p, w, "BulkMod");
+                    TakeModpacks(p, w, "AgilityMod");
+                    TakeModpacks(p, w, "TechnicalMod");
+                    TakeModpacks(p, w, "NanoMod");
+                    TakeModpacks(p, w, "FirestormMod");
+                    TakeModpacks(p, w, "SniperMod");
+
+                    p.TakeInventory(w, 1);
+                    p.GiveInventory(newwep, 1);
+                    p.GiveInventory(newwep.GetClassName() .. "ModLimit", rerollmodpacks);
+                    p.TakeInventory("RLRarityTokenRemover", 1);
+                    p.TakeInventory(w.GetClassName() .. "Selected", 1);
+                    p.TakeInventory(w.GetClassName() .. "ModLimit", 9999);
+                    
+                    rerolledweps.Push(newwep);
+                    success = true;
+                }
+            }
+        }
+
+        rerolledweps.Clear();
+    }
+
+    void CountWeaponModpacks(Actor p, Class<Weapon> w)
+    {
+        rerollmodpacks = 0;
+        for(int i; i<mods.Size(); i++)
+        {
+            rerollmodpacks += p.CountInv(w.GetClassName() .. mods[i]);
+        }
+    }
+
+    void TakeModpacks(Actor p, Class<Weapon> w, String mod)
+    {
+        while(p.CountInv(w.GetClassName() .. mod) > 0)
+        {
+            p.TakeInventory(w.GetClassName() .. mod, 1);
+        }
+    }
+}
+
+class RLNanoManiacTransportToken : Inventory {Default{Inventory.MaxAmount 1;}}

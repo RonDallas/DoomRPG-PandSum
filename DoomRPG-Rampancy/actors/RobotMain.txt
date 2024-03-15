@@ -1,0 +1,251 @@
+
+Actor Robot_PermanentInventory : Inventory
+{
+  +INVENTORY.UNDROPPABLE
+  +INVENTORY.UNTOSSABLE
+  +INVENTORY.IGNORESKILL
+inventory.maxamount 1
+}
+
+actor Robot_NullActor
+{
+	Radius 6
+	Height 6
+	+NOGRAVITY
+	+NOCLIP
+	+NOTONAUTOMAP
+	+NOINTERACTION
+    +NOTIMEFREEZE
+	+FORCEXYBILLBOARD
+    States
+    {
+    Spawn:
+	    TNT1 AA 1
+        Stop
+    }
+}
+
+ // A thing that does multiple actions on an actor
+ACTOR Robot_CustomFunction : CustomInventory
+{
+  -COUNTITEM
+  +INVENTORY.ALWAYSPICKUP
+  Inventory.PickupMessage ""
+  Inventory.PickupSound ""
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 A 0
+	TNT1 A 0
+    Stop
+  }
+}
+
+ // Base PowerupGiver for inheritance
+actor Robot_PowerupGiver : PowerupGiver
+{
+  inventory.pickupmessage ""
+  inventory.maxamount 0
+  Powerup.Duration -30
+  powerup.type "PowerProtection"
+  +INVENTORY.AUTOACTIVATE
+  +INVENTORY.ALWAYSPICKUP
+//  +INVENTORY.ADDITIVETIME
+  Inventory.PickupSound ""
+  states
+  {
+  Spawn:
+    TNT1 A 0
+    Stop
+  }
+}
+
+ACTOR Robot_Cooldown : Powerup
+{
+	Powerup.Duration -1
+   +INVENTORY.UNTOSSABLE
+}
+
+Actor Robot_LevelRestrictedInventory : Inventory
+{
+  +INVENTORY.UNTOSSABLE
+  +INVENTORY.IGNORESKILL
+Inventory.InterHubAmount 0
+inventory.maxamount 1
+}
+
+ACTOR Robot_NullBeamPuff : BulletPuff
+{
+  -ALLOWPARTICLES
+  -RANDOMIZE
+  +PUFFONACTORS
+  +ALWAYSPUFF
+  +PUFFGETSOWNER
+  +THRUGHOST
+  +MTHRUSPECIES
+  +NOTIMEFREEZE
+  +BLOODLESSIMPACT
+  +PAINLESS
+  +NODECAL
+  VSpeed 0
+  Mass 5
+  Damagetype "NullDamage"
+  States
+  {
+  Spawn:
+    TNT1 A 0
+	Stop
+  Melee:
+    Goto Spawn
+  }
+}
+
+ACTOR Robot_NullBeamPuff2 : Robot_NullBeamPuff
+{
+  +THRUACTORS
+}
+
+//==============================================================================
+//		ENEMY DROPPED WEAPONS
+//==============================================================================
+// These exist so that the gameplay modes can modify enemy weapon or ammo drops
+
+ACTOR Robot_ItemDrop
+{
+	+NOINTERACTION
+	+NOCLIP
+	States
+	{
+	Spawn:
+		TNT1 A 0
+// Any special stuff, like mod compatibility, can go here.
+		TNT1 A 0 A_JumpIf(CallACS("Robot_DRLACompat"), "ItemDropDRLA")
+		TNT1 A 0 A_JumpIf(CallACS("Robot_HideousDestructorCompat"), "ItemDropHideousDestructor")
+		TNT1 A 0 A_JumpIf(CallACS("Robot_ProjectMSXCompat"), "ItemDropProjectMSX")
+		TNT1 A 0 A_JumpIf(CallACS("Robot_PsychicCompat"), "NoDrop")
+		TNT1 A 0 A_JumpIf(CallACS("Robot_MetroidDreadnoughtCompat"), "NoDrop")
+		TNT1 A 0 A_JumpIf(CallACS("Robot_itemdroptype") == 2, "ItemDropAmmoOnly")
+		TNT1 A 0 A_JumpIf(CallACS("Robot_itemdroptype") == 1, "ItemDropStandard")
+		TNT1 A 0 A_Jump(256, "NoDrop")
+		Goto NoDrop
+		 // These are empty states that get replaced with whatever a robot needs to drop
+	ItemDropStandard:
+		TNT1 A 0
+		Stop
+	ItemDropAmmoOnly:
+		TNT1 A 0
+		Stop
+	NoDrop:
+		TNT1 A 0
+		Stop
+		
+	ItemDropDRLA:
+		TNT1 A 0 A_JumpIf(CallACS("Robot_itemdroptype") == 2, "ItemDropDRLAAmmoOnly")
+		TNT1 A 0 A_Jump(202, "ItemDropDRLAAmmoOnly")
+		TNT1 A 0 A_Jump(6, "WeaponSpawner")
+		TNT1 A 0 A_JumpIf(CallACS("Robot_itemdroptype") == 1, "ItemDropDRLAStandard")
+		TNT1 A 0 A_Jump(256, "NoDrop")
+		Goto NoDrop
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner")
+		Stop
+	ItemDropDRLAStandard:
+		TNT1 A 0
+		Stop
+	ItemDropDRLAAmmoOnly:
+		TNT1 A 0
+		Stop
+		
+	ItemDropHideousDestructor:
+		TNT1 A 0 A_JumpIf(CallACS("Robot_itemdroptype") == 2, "ItemDropHideousDestructorAmmoOnly")
+		TNT1 A 0 A_JumpIf(CallACS("Robot_itemdroptype") == 1, "ItemDropHideousDestructorStandard")
+		TNT1 A 0 A_Jump(256, "NoDrop")
+		Goto NoDrop
+	ItemDropHideousDestructorStandard:
+		TNT1 A 0
+		Stop
+	ItemDropHideousDestructorAmmoOnly:
+		TNT1 A 0
+		Stop
+		
+	ItemDropProjectMSX:
+		TNT1 A 0 A_JumpIf(CallACS("Robot_itemdroptype") == 2, "ItemDropProjectMSXAmmoOnly")
+		TNT1 A 0 A_JumpIf(CallACS("Robot_itemdroptype") == 1, "ItemDropProjectMSXStandard")
+		TNT1 A 0 A_Jump(256, "NoDrop")
+		Goto NoDrop
+	ItemDropProjectMSXStandard:
+		TNT1 A 0
+		Stop
+	ItemDropProjectMSXAmmoOnly:
+		TNT1 A 0
+		Stop
+	}
+}
+
+//==============================================================================
+//		CAST CALL BASE
+//==============================================================================
+
+ACTOR Robot_CC_Base
+{
+  Scale 0.5
+  States
+  {
+  See:
+    TNT1 A 4
+    Loop
+  Missile:
+    TNT1 A 4
+    Goto See
+  Death:
+    TNT1 A -1
+    Stop
+  }
+}
+
+//==============================================================================
+//		DAMAGE TYPES
+//==============================================================================
+
+DamageType NullDamage
+{
+   Factor 0
+   ReplaceFactor // Used for weapons that must deal no damage at a certain point.
+}
+
+DamageType Bullet
+{
+   Factor 1
+   ReplaceFactor // Bullet and shrapnel based damage
+}
+
+DamageType Plasma
+{
+   Factor 1
+   ReplaceFactor // Zapinating based damage
+}
+
+DamageType EMP
+{
+   Factor 1
+   NoArmor
+   ReplaceFactor // Shuts down robots real good
+}
+
+DamageType Repair
+{
+   Factor 1
+   ReplaceFactor // Healy healy robots
+   NoArmor
+}
+
+DamageType RobotExploder
+{
+   Factor 0
+   ReplaceFactor // Used by robot detonations that only affect other robots
+}
+
+//EOF

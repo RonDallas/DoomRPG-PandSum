@@ -49,12 +49,8 @@ str const ArenaBonus[ABONUS_MAX] =
     "\CfChip Drop",
     "\CeAmmo Drop",
     "\CaHealth Drop",
-    "\CdArmor Drop",
-    "\CgWeapon Drop",
     "\CqPowerup Drop",
     "\CkStim Drop",
-    "\CiCrate Drop",
-    "\CtMod Drop",
     "\CjKey Drop"
 };
 
@@ -102,7 +98,10 @@ NamedScript MapSpecial void ArenaLoop()
             {
                 if (!Player.InMenu && !Player.InShop && !Player.OutpostMenu)
                 {
-                    HudMessage("Hold \Cd%jS\C- to start the next wave\nHold \Cd%jS\C- to end the Arena", "+use", "+speed");
+                    if (GetCVar("use_joystick") || GetUserCVar(PlayerNumber(), "drpg_deltatouch"))
+                        HudMessage("Hold \Cd%S\C- to start the next wave\nHold \Cd%S\C- to end the Arena", "Use", "Jump");
+                    else
+                        HudMessage("Hold \Cd%jS\C- to start the next wave\nHold \Cd%jS\C- to end the Arena", "+use", "+jump");
                     EndHudMessage(HUDMSG_PLAIN, 0, "White", 1.5, 0.75, 0.05);
                 }
 
@@ -115,10 +114,17 @@ NamedScript MapSpecial void ArenaLoop()
 
                     if (Ready)
                     {
-                        ArenaKeyTimer++;
-                        ArenaKeyTimerType = AKTIMER_CONTINUE;
+                        if (ArenaKeyTimerType == AKTIMER_CONTINUE)
+                            ArenaKeyTimer++;
+                        else
+                        {
+                            ArenaKeyTimer = 0;
+                            ArenaKeyTimerType = AKTIMER_CONTINUE;
+                        }
+
                         if (ArenaKeyTimer > ARENA_HOLDTIME)
                         {
+                            ArenaKeyTimer = 0;
                             // Multiplayer Countdown
                             if (InMultiplayer)
                             {
@@ -141,18 +147,27 @@ NamedScript MapSpecial void ArenaLoop()
                         ActivatorSound("menu/error", 127);
                     }
                 }
-                else if (CheckInput(BT_SPEED, KEY_HELD, false, ArenaPlayerNumber) && (!Player.InMenu && !Player.InShop && !Player.OutpostMenu && !Player.CrateOpen))
+                else if (CheckInput(BT_JUMP, KEY_HELD, false, ArenaPlayerNumber) && (!Player.InMenu && !Player.InShop && !Player.OutpostMenu && !Player.CrateOpen))
                 {
-                    ArenaKeyTimer++;
-                    ArenaKeyTimerType = AKTIMER_STOP;
+                    if (ArenaKeyTimerType == AKTIMER_STOP)
+                        ArenaKeyTimer++;
+                    else
+                    {
+                        ArenaKeyTimer = 0;
+                        ArenaKeyTimerType = AKTIMER_STOP;
+                    }
+
                     if (ArenaKeyTimer > ARENA_HOLDTIME)
                     {
+                        ArenaKeyTimer = 0;
                         ArenaStop();
                         return;
                     }
                 }
                 else
+                {
                     ArenaKeyTimer = 0;
+                }
 
                 // Reset menu block
                 if (CheckInput(0, KEY_ANYIDLE, false, ArenaPlayerNumber))
@@ -274,16 +289,14 @@ NamedScript MapSpecial void ArenaChooseBonus()
             ActivatorSound("menu/move", 127);
             BonusChoice--;
             if (BonusChoice < 1) BonusChoice = ABONUS_MAX - (CanChooseKey ? 1 : 2);
-            if (BonusChoice == ABONUS_MODDROP && CompatMode != COMPAT_DRLA) BonusChoice--;
         }
         if (CheckInput(BT_BACK, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
             ActivatorSound("menu/move", 127);
             BonusChoice++;
-            if (BonusChoice == ABONUS_MODDROP && CompatMode != COMPAT_DRLA) BonusChoice++;
             if (BonusChoice > ABONUS_MAX - (CanChooseKey ? 1 : 2)) BonusChoice = 1;
         }
-        if (CheckInput(BT_USE, KEY_ONLYPRESSED, false, PlayerNumber()))
+        if (CheckInput(BT_USE, KEY_PRESSED, false, PlayerNumber()))
         {
             SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
             ArenaGetBonus(BonusChoice);
@@ -295,9 +308,6 @@ NamedScript MapSpecial void ArenaChooseBonus()
         // Drawing
         for (int i = 1; i < ABONUS_MAX; i++)
         {
-            // Skip Mod Drop if DRLA extension isn't enabled
-            if (i == ABONUS_MODDROP && CompatMode != COMPAT_DRLA) continue;
-
             // Skip Key Drop if the randomizer hates you
             if (i == ABONUS_KEYDROP && !CanChooseKey) continue;
 
@@ -359,7 +369,9 @@ void ArenaGetBonus(int Bonus)
         }
         break;
     case ABONUS_CHIPDROP: // Chip Drop
-        DropArenaItem("DRPGChipDropper");
+        if (Random(1, 16) == 1)
+            DropArenaItem("DRPGChipPlatinum");
+        DropArenaItem("DRPGChipGold");
         break;
     case ABONUS_AMMODROP: // Ammo Drop
         DropArenaItem("DRPGBackpackRandomizer");
@@ -373,16 +385,6 @@ void ArenaGetBonus(int Bonus)
             SpawnItem = "DRPGHealthDropper";
         DropArenaItem(SpawnItem);
         break;
-    case ABONUS_ARMORDROP: // Armor Drop
-        if (Random(1, 2) == 1)
-            SpawnItem = "DRPGBlueArmorRandomizer";
-        else
-            SpawnItem = "DRPGGreenArmorRandomizer";
-        DropArenaItem(SpawnItem);
-        break;
-    case ABONUS_WEAPONDROP: // Weapon Drop
-        DropArenaItem("DRPGWeaponDropper");
-        break;
     case ABONUS_POWERUPDROP: // Powerup Drop
         DropArenaItem("DRPGPowerupDropper");
         break;
@@ -392,18 +394,6 @@ void ArenaGetBonus(int Bonus)
         else if (Random(1, 8) == 1)
             DropArenaItem("DRPGStimPackagePowerup");
         DropArenaItem("DRPGStimDropper");
-        break;
-    case ABONUS_CRATEDROP: // Crate Drop
-        DropArenaItem("DRPGCrate");
-        break;
-    case ABONUS_MODDROP: // Mod Drop (DRLA Only)
-        if (CompatMode == COMPAT_DRLA)
-            DropArenaItem("RLModPackSpawner");
-        else
-        {
-            ArenaGetBonus(Random(0, ABONUS_MAX - 1));
-            return;
-        }
         break;
     case ABONUS_KEYDROP: // Key Drop
         if (ArenaKey == 0) SpawnItem = "DRPGRedCard";
@@ -551,7 +541,7 @@ void ArenaCheckMod()
 
 void ArenaSpawnMobs()
 {
-    int MonsterDiffLimit = 2 + ArenaWave;
+    int MonsterDiffLimit = 2 + ArenaWave * ((CompatMonMode == COMPAT_DRLA || CompatMonMode == COMPAT_PANDEMONIA) ? 3 : 1);
     int Spawned;
     int SpawnChanceModifier;
     bool Boss = false;

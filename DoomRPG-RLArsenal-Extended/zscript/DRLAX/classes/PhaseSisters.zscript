@@ -1,0 +1,578 @@
+Class RLPhaseSistersEvents : StaticEventHandler
+{
+    bool ss;
+    String oldlevelname;
+
+    override void NetworkProcess (ConsoleEvent e) 
+    {
+        if(e.Name == "debug")
+        {
+            //Console.Printf("" .. players[e.player].mo.CountInv("RLArmorInInventory"));
+        }
+    }
+
+    override void WorldThingSpawned (WorldEvent e)
+    {
+        Actor a = e.Thing;
+
+        if(a && a.GetclassName() == "TeleportFog")
+        {
+            if(a.target && a.target.health > 0)
+            {
+                RLPhaseSistersPassive p = RLPhaseSistersPassive(a.target.FindInventory("RLPhaseSistersPassive"));
+                
+                if(p)
+                {
+                    p.Swap();
+                    a.A_Remove(AAPTR_DEFAULT);
+                }
+            }
+        }
+
+        if(a && a.master && a.master.GetClassName() == "DoomRLPhaseSistersRPG")
+        {
+            if(a.GetClassName() == "DroppedRLPhaseDevice")
+            {
+                a.master.TakeInventory("RLPhaseSistersDevice", 1);
+            }
+
+            if(a.GetClassName() == "DroppedRLHomingPhaseDevice")
+            {
+                a.master.TakeInventory("RLPhaseSistersHomingDevice", 1);
+            }
+        }
+    }
+
+    override void NewGame()
+    {
+        oldlevelname = "";
+    }
+
+    override void WorldTick ()
+    {
+        if(Level.Time == 2)
+        {
+            if(Level.LevelName != oldlevelname && oldlevelname != "")
+            {
+                ThinkerIterator i = ThinkerIterator.Create("RLPhaseSistersPassive");
+
+                RLPhaseSistersPassive inv;
+                
+                while(inv = RLPhaseSistersPassive(i.Next()))
+                {
+                    if(inv.owner && inv.owner.health > 0)
+                    {
+                        inv.Swap();
+                        inv.SwapSound(true);
+                        //inv.owner.A_SpawnItemEx("TeleportFog", 4);
+                    }
+                }
+            }
+
+            oldlevelname = Level.LevelName;
+        }
+    }
+
+    override void WorldLoaded (WorldEvent e) 
+    {
+        if(e.isSaveGame && Level.Time > 2)
+        {
+            oldlevelname = Level.LevelName;
+        }
+    }
+
+}
+
+class RLPhaseSistersTeleportFX1 : Actor
+{
+    Default
+    {
+        +NOINTERACTION;
+        +NOGRAVITY;
+        Height 2;
+        radius 2;
+        Translation "CMMDRLA_PurpleFog";
+        Renderstyle "Add";
+        Alpha 0.8;
+    }
+
+    states
+    {
+        Spawn:
+        TNT1 A 0;
+        TNT1 A 0 A_PlaySound("phasesisters/swap");
+        TFOG AAAAAABBBBBBAAAAAABBBBBBCCCCCC 1 Bright
+        {
+            A_SpawnItemEx("RLPhaseSistersTeleportMicroFX", 0, 0, 0, 6, 0, random(-6, 6), random(0, 360), SXF_TRANSFERTRANSLATION);
+        }
+        TFOG DEFGHIJ 6 Bright;
+		Stop;
+    }
+}
+
+class RLPhaseSistersTeleportMicroFX : RLPhaseSistersTeleportFX1
+{
+    Default
+    {
+        scale 0.7;
+    }
+
+    states
+    {
+        Spawn:
+        TFOG I 2 Bright
+        {
+            A_FadeOut(0.025);
+            A_ScaleVelocity(0.9);
+        }
+        loop;
+    }
+}
+
+class RLPhaseSistersTeleportFX2 : RLPhaseSistersTeleportFX1
+{
+    Default
+    {
+        Translation "CMMDRLA_CyanFog";
+    }
+}
+
+class RLPhaseSistersStartingLoadout : CustomInventory
+{
+	states
+	{
+		Pickup:
+        //TNT1 A 0 A_GiveInventory("Clip", 10);
+		//TNT1 A 0 A_TakeInventory("RLPistol", 1);
+        //TNT1 A 0 A_GiveInventory("RLBattleRifle", 1);
+        //TNT1 A 0 A_SelectWeapon("RLBattleRifle");
+        TNT1 A 0 A_GiveInventory("RLPhaseSistersDevice");
+		TNT1 A 0 A_GiveInventory("RLPhaseSistersPassive");
+        TNT1 A 0 A_GiveInventory("DRLAX_ShavedArms", 1);
+        TNT1 A 0 A_GiveInventory("RLWeaponLimit", 2);
+        TNT1 A 0 A_GiveInventory("RLAmmoChainPerk");
+		stop;
+	}
+}
+
+Class RLPhaseSistersTempInv
+{
+    Class<Inventory> inv;
+    int amount;
+    int durability;
+    int duration;
+    color blendcolor;
+}
+
+Class RLPhasesistersSwapCD : Powerup
+{
+    Default
+    {
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.UNTOSSABLE;
+        powerup.duration 10;
+    }
+}
+
+Class RLPhaseSistersPassive : Inventory
+{
+    Array<RLPhaseSistersTempInv> items;
+    Array<String> blacklist;
+
+    Class<Weapon> lastwep; 
+    bool whichsis;
+    int lasthealth;
+    
+    Default
+    {
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.UNTOSSABLE;
+    }
+
+    override void PostBeginPlay()
+    {
+        spritename = "REVY";
+        AddStarterItem("RLWipeAssemblies", 1);
+        AddStarterItem("RLArmorSpecial", 1);
+        AddStarterItem("RLBootsRemover", 1);
+        AddStarterItem("RLArmorRemover", 1);
+        AddStarterItem("RLFist", 1);
+        AddStarterItem("RLAllAmmoStarter", 1);
+        AddStarterItem("Shell", 30);
+        AddStarterItem("RLShotgun", 1);
+        AddStarterItem("RLStamina", 100);
+        AddStarterItem("RLWeaponLimit", 1);
+        AddStarterItem("RLShellshockPerk", 1);
+        lastwep = "RLShotgun";
+
+        blacklist.Push("RLPhaseSistersPassive");
+        blacklist.Push("DRLAX_ShavedArms");
+        blacklist.Push("RLPhasesistersSwapCD");
+
+        blacklist.Push("RLDangerLevel");
+        blacklist.Push("RLStatusBarHUDType");
+        blacklist.Push("RLStatusBarAltHUDType");
+        blacklist.Push("RLFullscreenOriginalHUDType");
+        blacklist.Push("RLFullscreenShinyHUDType");
+        blacklist.Push("RLFullscreenDookHUDType");
+        blacklist.Push("RLSpecialHUD");
+        blacklist.Push("RLUniqueBossActive");
+        blacklist.Push("RLLegendaryBossActive");
+        blacklist.Push("RLDemonicBossActive");
+
+        blacklist.Push("RLDemonArtifactItem"); // It sees both dimensions
+
+        blacklist.Push("DRLAX_FamiliarManager");
+
+        // Handle these after swap
+        blacklist.Push("RLWeaponLimit");
+        blacklist.Push("RLArmorInInventory");
+        blacklist.Push("RLSkullLimit");
+        blacklist.Push("RLPhaseDeviceLimit");
+        blacklist.Push("RLModLimit");
+
+        blacklist.Push("DRPGDRLAActive");
+        blacklist.Push("RLDangerLevel");
+        blacklist.Push("PMGameLevel");
+
+        blacklist.Push("DRPGAugCanister");
+        blacklist.Push("DRPGAugUpgradeCanister");
+        blacklist.Push("DRPGAugSlotUpgrade");
+
+        lasthealth = 100;
+    }
+
+    String spritename;
+
+    override void Tick()
+    {
+        if(owner)
+        {
+            if(whichsis)
+            {
+                owner.sprite = GetSpriteIndex(spritename);
+            }
+            else
+            {
+                owner.sprite = GetSpriteIndex(spritename); 
+            }
+
+            while(owner.CountInv("RLHomingPhaseDevice") > 0)
+            {
+                owner.A_TakeInventory("RLHomingPhaseDevice", 1);
+                owner.TakeInventory("RLPhaseDeviceLimit", 1);
+                owner.A_GiveInventory("RLPhaseSistersHomingDevice", 1);
+            }
+
+            while(owner.CountInv("RLPhaseDevice") > 0)
+            {
+                owner.A_TakeInventory("RLPhaseDevice", 1);
+                owner.TakeInventory("RLPhaseDeviceLimit", 1);
+                owner.A_GiveInventory("RLPhaseSistersDevice", 1);
+            }
+
+            //Console.Printf("" .. owner.CountInv("RLPhaseDeviceLimit"));
+        }
+        Super.Tick();
+    }
+
+    void AddStarterItem(Class<Inventory> inv, int amount)
+    {
+        RLPhaseSistersTempInv temp = RLPhaseSistersTempInv(new ("RLPhaseSistersTempInv"));
+        temp.inv = inv;
+        temp.amount = amount;
+        items.Push(temp);
+    }
+    
+    void Swap()
+    {
+        if(owner.CountInv("RLPhasesistersSwapCD") > 0 || owner.health < 1)
+        {
+            return;
+        }
+
+        owner.GiveInventory("RLPhasesistersSwapCD", 1);
+
+        ThinkerIterator i = ThinkerIterator.Create("Inventory");
+		
+		int count = 0;
+		Inventory inv;
+
+        Array<RLPhaseSistersTempInv> tempitems;
+        Class<Weapon> newwep = lastwep;
+        lastwep = owner.player.ReadyWeapon.GetClass();
+
+        owner.ACS_ScriptCall("PhaseSistersDataSave");
+
+        tempitems.Copy(items);
+        items.Clear();
+        
+		while(inv = Inventory(i.Next()))
+		{    
+			if(inv.owner != owner)
+			{
+				continue;
+			}
+
+            bool blacklisted = false;
+
+            if(IsBlacklisted(inv.GetClass()))
+            {
+                continue;
+            }
+
+            RLPhaseSistersTempInv temp = RLPhaseSistersTempInv(new ("RLPhaseSistersTempInv"));
+
+            temp.inv = inv.GetClassName();
+            temp.amount = owner.CountInv(inv.GetClassName());
+
+            BasicArmor armor = BasicArmor(inv);
+            Powerup powerup = Powerup(inv);
+            
+            if(armor)
+            {
+                temp.durability = inv.amount;
+            }
+
+            if(powerup)
+            {
+                temp.duration = powerup.effecttics;
+                temp.blendcolor = powerup.blendcolor;
+                //Console.Printf(temp.blendcolor .. "");
+            }
+
+            items.Push(temp);
+            //Console.Printf(inv.GetClassName() .. "");
+            
+            owner.TakeInventory(inv.GetClassName(), 99999);
+        }
+
+        owner.SetInventory("RLWeaponLimit", 0, true);
+        owner.SetInventory("RLArmorInInventory", 0, true);
+        owner.SetInventory("RLPhaseDeviceLimit", 0, true);
+        owner.SetInventory("RLSkullLimit", 0, true);
+        owner.SetInventory("RLModLimit", 0, true);
+
+        for(int i; i < tempitems.Size(); i++)
+        {
+            //Console.Printf(tempitems[i].inv.GetClassName() .. "");
+            if(IsBlacklisted(tempitems[i].inv))
+            {
+                continue;
+            }
+            
+            if(tempitems[i].inv is "RLGenericArmorPickup")
+            {
+                //Console.Printf("Found " .. tempitems[i].inv.GetClassName());
+            }
+
+            if(tempitems[i].amount > 0)
+            {
+                bool given = owner.GiveInventory(tempitems[i].inv, tempitems[i].amount);
+
+                if(!given)
+                {
+                    //Console.Printf("Could not give item " .. tempitems[i].GetClassName());
+                }
+
+                if(tempitems[i].durability>0)
+                {
+                    BasicArmor a = BasicArmor(owner.FindInventory(tempitems[i].inv));
+
+                    a.amount = tempitems[i].durability;
+                }
+
+                if(tempitems[i].duration>0)
+                {
+                    Powerup a = Powerup(owner.FindInventory(tempitems[i].inv));
+
+                    a.effecttics = tempitems[i].duration;
+                    a.blendcolor = tempitems[i].blendcolor;
+                    a.InitEffect();
+                }
+            }
+        }
+
+        whichsis = !whichsis;
+
+        if(whichsis)
+        {
+            Console.Printf(owner.player.GetUserName() .. " \c-swapped to \ctPortia\c-.");
+            owner.A_SpawnItemEx("RLPhaseSistersTeleportFX1", 8);
+            owner.player.mo.SetInventory("RLPhaseSistersSwapToken", 1, true);
+            owner.player.mo.soundclass = "phase-portia";
+            spritename = "ILLP";
+        }
+        else
+        {
+            Console.Printf(owner.player.GetUserName() .. " \c-swapped to \cvTerri\c-.");
+            owner.A_SpawnItemEx("RLPhaseSistersTeleportFX2", 8);
+            owner.player.mo.SetInventory("RLPhaseSistersSwapToken", 0, true);
+            owner.player.mo.soundclass = "phase-terri";
+            spritename = "REVY";
+        }
+        
+        owner.A_SelectWeapon(newwep, SWF_SELECTPRIORITY);
+        owner.A_Print("");
+
+        int newhealth = owner.health;
+        owner.health = lasthealth;
+        owner.player.health = lasthealth;
+
+        lasthealth = newhealth;
+
+        owner.ACS_ScriptCall("PhaseSistersDataLoad");
+
+        SetLimits();
+    }
+
+    void SwapSound(bool exitonly)
+    {
+        switch(whichsis)
+        {
+            Case true:
+                switch(random(0 + exitonly, 1))
+                {
+                    Case 0: owner.A_StartSound("phase-terri/exit"); break;
+                    Case 1: owner.A_StartSound("phase-portia/enter"); break;
+                }
+            break;
+
+            Case false:
+                switch(random(0, 1 - exitonly))
+                {
+                    Case 0: owner.A_StartSound("phase-terri/enter"); break;
+                    Case 1: owner.A_StartSound("phase-portia/exit"); break;
+                }
+            break;
+        }
+    }
+
+    void SetLimits()
+    {
+        ThinkerIterator i = ThinkerIterator.Create("Inventory");
+		Inventory inv;
+
+        int wepcount = 2;
+        int armorcount;
+        int phasecount;
+        int skullcount;
+        int modcount;
+
+		while(inv = Inventory(i.Next()))
+		{
+            if(inv.owner != owner)
+			{
+				continue;
+			}
+
+            if(inv is "RLWeapon" && !(inv is "RLFist"))
+            {
+                wepcount += owner.CountInv(inv.GetClassName());
+            }
+
+            if(inv is "RLGenericArmorPickup" || inv is "RLGenericBootsPickup")
+            {
+                armorcount += owner.CountInv(inv.GetClassName());
+            }
+
+            if(inv is "RLHomingPhaseDevice" || inv is "RLPhaseDevice" || inv is "RLRecallPhaseDevice" || inv is "RLExperimentalPhaseDevice" ||
+            inv is "RLPhaseSistersDevice" || inv is "RLPhaseSistersHomingDevice")
+            {  
+                phasecount += owner.CountInv(inv.GetClassName());
+            }
+
+            if(inv is "RLHatredSkull" || inv is "RLBloodSkull" || inv is "RLFireSkull")
+            {  
+                skullcount += owner.CountInv(inv.GetClassName());
+            }
+
+            if(inv is "RLBulkModItem" || inv is "RLPowerModItem" || inv is "RLAgilityModItem" || inv is "RLTechnicalModItem" || inv is "RLNanoModItem" ||
+            inv is "RLFirestormModItem" || inv is "RLSniperModItem" || inv is "RLOnyxModItem")
+            {  
+                modcount += owner.CountInv(inv.GetClassName());
+            }
+        }
+
+        owner.SetInventory("RLWeaponLimit", wepcount, true);
+        owner.SetInventory("RLArmorInInventory", armorcount, true);
+        owner.SetInventory("RLPhaseDeviceLimit", phasecount, true);
+        owner.SetInventory("RLSkullLimit", skullcount, true);
+        owner.SetInventory("RLModLimit", modcount, true);
+
+        /*
+        Console.Printf("Weapons " ..  wepcount);
+        Console.Printf("Armor " ..  armorcount);
+        Console.Printf("Phase " ..  phasecount);
+        Console.Printf("Skulls " ..  skullcount);
+        Console.Printf("Mods " ..  modcount);
+        */
+    }
+
+    bool IsBlacklisted(Class<Inventory> inv)
+    {
+        if(inv is "Key" || inv is "RLAssemblyLearntToken" || inv is "RLUniqueEffectLearntToken" || inv is "DRPGCredits" || inv is "DRPGModule")
+        {
+            return true;
+        }
+
+        String s = inv.GetClassName();
+
+        if(s.IndexOf("Familiar") > 0)
+        {
+            return true;
+        }
+
+        for(int i; i<blacklist.Size(); i++)
+        {
+            if(inv.GetClassName() == blacklist[i])
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+class RLPhaseSistersPhaseTrigger : CustomInventory
+{
+    states
+    {
+        Pickup:
+        TNT1 A 0
+        {
+            RLPhaseSistersPassive p = RLPhaseSistersPassive(FindInventory("RLPhaseSistersPassive"));
+                
+            if(p)
+            {
+                A_TakeInventory("RLPhaseSistersDevice", 1);
+                p.Swap();
+                p.SwapSound(false);
+            }
+        }
+        stop;
+    }
+}
+
+class RLPhaseSistersHomingTrigger : CustomInventory
+{
+    states
+    {
+        Pickup:
+        TNT1 A 0
+        {
+            RLPhaseSistersPassive p = RLPhaseSistersPassive(FindInventory("RLPhaseSistersPassive"));
+                
+            if(p)
+            {
+                A_TakeInventory("RLPhaseSistersHomingDevice", 1);
+                p.Swap();
+                p.SwapSound(false);
+            }
+        }
+        stop;
+    }
+}
+
+class RLPhaseSistersSwapToken : Inventory {}

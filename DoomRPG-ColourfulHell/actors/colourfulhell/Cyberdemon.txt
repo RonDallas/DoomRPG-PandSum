@@ -12,6 +12,8 @@ ACTOR CommonCybieRPG : CommonCybie Replaces CommonCybie
 {
 	Tag "Cyberdemon"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -27,6 +29,8 @@ ACTOR CommonCybieRPG : CommonCybie Replaces CommonCybie
 ACTOR GreenCybieRPG : GreenCybie Replaces GreenCybie
 {
 	Tag "Uncommon Cyberdemon"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -44,6 +48,8 @@ ACTOR CyanCybie2RPG : CyanCybie2 Replaces CyanCybie2
 {
 	Tag "Icy Cyberdemon"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -59,6 +65,8 @@ ACTOR CyanCybie2RPG : CyanCybie2 Replaces CyanCybie2
 ACTOR BlueCybieRPG : BlueCybie Replaces BlueCybie
 {
 	Tag "Rare Cyberdemon"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -76,6 +84,8 @@ ACTOR PurpleCybieRPG : PurpleCybie Replaces PurpleCybie
 {
 	Tag "Epic Cyberdemon"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -90,6 +100,8 @@ ACTOR PurpleCybieRPG : PurpleCybie Replaces PurpleCybie
 ACTOR SpecialHKRPG : SpecialHK Replaces SpecialHK
 {
 	Tag "Epic Hell Knight"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -107,6 +119,8 @@ ACTOR FireBluCybie2RPG : FireBluCybie2 Replaces FireBluCybie2
 {
 	Tag "Enchanted Cyberdemon"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -123,6 +137,8 @@ ACTOR Graycybie2RPG : Graycybie2 Replaces Graycybie2
 {
 	Tag "Ancient Cyberdemon"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -134,10 +150,30 @@ ACTOR Graycybie2RPG : Graycybie2 Replaces Graycybie2
 	}
 }
 
+// Brown Cyberdemon
+ACTOR Browncybie2RPG : Browncybie2 Replaces Browncybie2
+{
+	Tag "Monstrous Cyberdemon"
+
+    DropItem "DRPGEmpty"
+
+	States
+	{
+	Spawn:
+		SUPR A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		8CYB A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
 // Yellow Cyberdemon
 ACTOR YellowcybieRPG : Yellowcybie Replaces Yellowcybie
 {
 	Tag "Legendary Cyberdemon"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -155,6 +191,8 @@ ACTOR AbyssCybie2RPG : AbyssCybie2 Replaces AbyssCybie2
 {
 	Tag "Abyssal Cyberdemon"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -171,6 +209,8 @@ ACTOR RedCybieRPG : RedCybie Replaces RedCybie
 {
 	Tag "Moloch"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -186,6 +226,8 @@ ACTOR SummonPortalCybieRPG : SummonPortalCybie Replaces SummonPortalCybie
 {
 	Tag "Hell Portal"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -200,6 +242,8 @@ ACTOR SummonPortalCybieRPG : SummonPortalCybie Replaces SummonPortalCybie
 ACTOR MolochWraithRPG : MolochWraith Replaces MolochWraith
 {
 	Tag "Wraith"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -217,6 +261,8 @@ ACTOR BlackCybie2RPG : BlackCybie2 Replaces BlackCybie2
 {
 	Tag "Cybersmith"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -233,6 +279,8 @@ ACTOR WhiteCybie2RPG : WhiteCybie2 Replaces WhiteCybie2
 {
 	Tag "DOOM.EXE"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -247,7 +295,9 @@ ACTOR WhiteCybie2RPG : WhiteCybie2 Replaces WhiteCybie2
 // White Cyberdemon's spawns.
 actor RomeroBaronsCHRPG : RomeroBaronsCH Replaces RomeroBaronsCH
 {
-  Tag "Romero's Baron"
+	Tag "Romero's Baron"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{

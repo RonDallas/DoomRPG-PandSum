@@ -53,3 +53,60 @@ Graphic ARM3BOX, 33, 17
 	Offset -6, -22
 	Patch ARM3A0, 0, 0
 }
+
+Graphic "EXCRE", 62, 33
+{
+	XScale 2.200
+	YScale 2.200
+	Offset -1, -18
+	Graphic "CREXM0", 0, 0
+}
+
+Graphic "UNCRE", 62, 33
+{
+	XScale 2.200
+	YScale 2.200
+	Offset -1, -18
+	Graphic "CRUNN0", 0, 0
+}
+
+// Tracking Map
+Graphic "MMAP", 28, 27 {XScale 1.150 YScale 1.150 Offset -3, -4 Graphic "MMAPA0", 0, 0 }
+Graphic "MMAPB", 28, 27 {XScale 1.150 YScale 1.150 Offset -3, -4 Graphic "MMAPB0", 0, 0 }
+Graphic "MMAPC", 28, 27 {XScale 1.150 YScale 1.150 Offset -3, -4 Graphic "MMAPC0", 0, 0 }
+Graphic "MMAPD", 28, 27 {XScale 1.150 YScale 1.150 Offset -3, -4 Graphic "MMAPD0", 0, 0 }
+
+// --------------------------------------------------
+// CRAFT PARTS
+// 
+
+// Craft Parts Exotic
+Graphic "CREXA", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXA0", 0, 0 }
+Graphic "CREXB", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXB0", 0, 0 }
+Graphic "CREXC", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXC0", 0, 0 }
+Graphic "CREXD", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXD0", 0, 0 }
+Graphic "CREXE", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXE0", 0, 0 }
+Graphic "CREXF", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXF0", 0, 0 }
+Graphic "CREXG", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXG0", 0, 0 }
+Graphic "CREXH", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXH0", 0, 0 }
+Graphic "CREXI", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXI0", 0, 0 }
+Graphic "CREXJ", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXJ0", 0, 0 }
+Graphic "CREXK", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXK0", 0, 0 }
+Graphic "CREXL", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXL0", 0, 0 }
+Graphic "CREXM", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CREXM0", 0, 0 }
+
+// Craft Parts Unique
+Graphic "CRUNA", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNA0", 0, 0 }
+Graphic "CRUNB", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNB0", 0, 0 }
+Graphic "CRUNC", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNC0", 0, 0 }
+Graphic "CRUND", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUND0", 0, 0 }
+Graphic "CRUNE", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNE0", 0, 0 }
+Graphic "CRUNF", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNF0", 0, 0 }
+Graphic "CRUNG", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNG0", 0, 0 }
+Graphic "CRUNH", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNH0", 0, 0 }
+Graphic "CRUNI", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNI0", 0, 0 }
+Graphic "CRUNJ", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNJ0", 0, 0 }
+Graphic "CRUNK", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNK0", 0, 0 }
+Graphic "CRUNL", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNL0", 0, 0 }
+Graphic "CRUNM", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNM0", 0, 0 }
+Graphic "CRUNN", 62, 33 {XScale 1.500 YScale 1.500 Offset -1, -18 Graphic "CRUNN0", 0, 0 }

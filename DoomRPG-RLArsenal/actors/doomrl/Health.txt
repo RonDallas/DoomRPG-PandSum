@@ -1,3 +1,12 @@
+// Health Bonus
+actor RLHealthBonusRPG : DRPGHealthBonus Replaces RLHealthBonus {}
+
+// Stimpack
+actor RLStimpackRPG : DRPGStimpack Replaces RLStimpack {}
+
+// Medikit
+actor RLMedikitRPG : DRPGMedikit Replaces RLMedikit {}
+
 // Soulspheres
 ACTOR RLSoulsphere2 : DRPGSoulsphere replaces DRPGSoulsphere
 {

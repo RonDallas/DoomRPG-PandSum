@@ -8,103 +8,93 @@
 // Handles Damage Numbers
 NamedScript void DamageNumbers()
 {
-    int Health;
+    // Terminate if Toaster Mode on and Damage Numbers off
+    if (GetCVar("drpg_toaster") && !GetCVar("drpg_damagenumbers"))
+        return;
+
+    bool FirstShot;
     bool IsPlayer;
     bool ShieldActive;
+    int Health;
     int Shield;
     int Color;
     int OldTID;
     int DrawDist = GetCVar("drpg_popoffs_drawdistance");
-    bool CloseToPlayers;
 
     IsPlayer = PlayerNumber() > -1;
 
-Start:
+    // Init Toaster Mode
+    bool ToasterMod = GetCVar("drpg_toaster");
+
+    // Calculate delay time
+    int DelayTime = 8;
+    if (ToasterMod)
+        DelayTime = 16;
 
     // Initial delay so we don't show max health being calculated or other nonsense
     Delay(4);
 
-    while (GetCVar("drpg_damagenumbers"))
+Start:
+
+    // While if Damage Numbers is turn off
+    while (!GetCVar("drpg_damagenumbers")) Delay(105);
+
+    // Distance and sight checks
+    while (ActorNotSeePlayers(0, DrawDist, false)) Delay(DelayTime);
+
+    Health = GetActorProperty(0, APROP_Health);
+    if (IsPlayer)
     {
-        // Distance 'n sight checks
-        for (int i = 0; i < MAX_PLAYERS; i++)
-        {
-            if (!PlayerInGame(i))
-                continue;
-
-            if (Distance(Players(i).TID, 0) < DrawDist)
-                CloseToPlayers = true;
-            else
-            {
-                CloseToPlayers = false;
-                break;
-            }
-
-            if (CheckSight(Players(i).TID, 0, CSF_NOBLOCKALL))
-                break;
-        }
-
-        if (!CloseToPlayers)
-        {
-            Delay(35);
-            continue;
-        }
-
-        Health = GetActorProperty(0, APROP_Health);
-        if (IsPlayer)
-        {
-            ShieldActive = CheckInventory("DRPGShield");
-            Shield = Player.Shield.Charge;
-        }
-
-        // Lag handling
-        Delay(1 + GetDamageNumbersDelay());
-
-        // Check Health
-        Health = Health - GetActorProperty(0, APROP_Health);
-
-        if (IsPlayer)
-        {
-            // Nullify Health if a Shield is active
-            if (PlayerNumber() > -1 && CheckInventory("DRPGShield") || GetActorProperty(0, APROP_Health) >= MAX_HEALTH - GetActorProperty(0, APROP_SpawnHealth))
-                Health = 0;
-
-            // Shield breaking hits will cause a major health drop, don't show this
-            if (PlayerNumber() > -1 && Health >= (MAX_HEALTH / 1000) - GetActorProperty(0, APROP_SpawnHealth))
-                Health = 0;
-
-            // Shield checks
-            if (CheckInventory("DRPGShield"))
-                Shield = Shield - Player.Shield.Charge;
-        }
-
-        if (Health != 0 || Shield != 0)
-        {
-            if (Health >= GetActorProperty(0, APROP_SpawnHealth)) // Critical
-                Color = DNUM_CRITICAL;
-            else if (Health < 0 && IsPlayer && !CheckInventory("DRPGShield")) // Healed
-                Color = DNUM_HEAL;
-            else if (Health == 1) // Scratch
-                Color = DNUM_SCRATCH;
-            else if (IsPlayer && ShieldActive && Shield > 0) // Shield Loss
-                Color = DNUM_SHIELDLOSS;
-            else if (IsPlayer && ShieldActive && Shield < 0) // Shield Gain
-                Color = DNUM_SHIELDGAIN;
-            else // Normal
-                Color = DNUM_NORMAL;
-
-            // Damage Popoff
-            if (IsPlayer && CheckInventory("DRPGShield"))
-                Popoff(0, Shield, Color, "DRPGDigit", true);
-            else
-                Popoff(0, Health, Color, "DRPGDigit", true);
-        }
-
-        // Terminate if the Actor is dead
-        if (GetActorProperty(0, APROP_Health) <= 0) return;
+        ShieldActive = CheckInventory("DRPGShield");
+        Shield = Player.Shield.Charge;
     }
 
-    Delay(35);
+    // Lag handling
+    Delay(2 + GetDamageNumbersDelay());
+
+    // Check Health
+    Health = Health - GetActorProperty(0, APROP_Health);
+
+    if (IsPlayer)
+    {
+        // Nullify Health if a Shield is active
+        if (PlayerNumber() > -1 && CheckInventory("DRPGShield") || GetActorProperty(0, APROP_Health) >= MAX_HEALTH - GetActorProperty(0, APROP_SpawnHealth))
+            Health = 0;
+
+        // Shield breaking hits will cause a major health drop, don't show this
+        if (PlayerNumber() > -1 && Health >= (MAX_HEALTH / 1000) - GetActorProperty(0, APROP_SpawnHealth))
+            Health = 0;
+
+        // Shield checks
+        if (CheckInventory("DRPGShield"))
+            Shield = Shield - Player.Shield.Charge;
+    }
+
+    if (Health != 0 || Shield != 0)
+    {
+        if (Health >= GetActorProperty(0, APROP_SpawnHealth)) // Critical
+            Color = DNUM_CRITICAL;
+        else if (Health < 0 && IsPlayer && !CheckInventory("DRPGShield")) // Healed
+            Color = DNUM_HEAL;
+        else if (Health == 1) // Scratch
+            Color = DNUM_SCRATCH;
+        else if (IsPlayer && ShieldActive && Shield > 0) // Shield Loss
+            Color = DNUM_SHIELDLOSS;
+        else if (IsPlayer && ShieldActive && Shield < 0) // Shield Gain
+            Color = DNUM_SHIELDGAIN;
+        else // Normal
+            Color = DNUM_NORMAL;
+
+        // Damage Popoff
+        if (IsPlayer && CheckInventory("DRPGShield"))
+            Popoff(0, Shield, Color, "DRPGDigit", true);
+        else
+            Popoff(0, Health, Color, "DRPGDigit", true);
+    }
+
+    // Terminate if the Actor is dead
+    if (GetActorProperty(0, APROP_Health) <= 0) return;
+
     goto Start;
 }
 
@@ -154,40 +144,22 @@ Start:
 NamedScript DECORATE void ModulePopoffs()
 {
     int DrawDist = GetCVar("drpg_popoffs_drawdistance");
-    bool CloseToPlayers;
 
-    while (!(ClassifyActor(0) == ACTOR_WORLD))
-    {
-        // Standby loop.
-        while (!GetCVar("drpg_modulenumbers")) Delay(35);
+Start:
 
-        // Distance 'n sight checks
-        for (int i = 0; i < MAX_PLAYERS; i++)
-        {
-            if (!PlayerInGame(i))
-                continue;
+    if (ClassifyActor(0) & ACTOR_WORLD)
+        return;
 
-            if (Distance(Players(i).TID, 0) < DrawDist)
-                CloseToPlayers = true;
-            else
-            {
-                CloseToPlayers = false;
-                break;
-            }
+    // Standby loop
+    while (!GetCVar("drpg_modulenumbers")) Delay(35);
 
-            if (CheckSight(Players(i).TID, 0, CSF_NOBLOCKALL))
-                break;
-        }
+    // Distance and sight checks
+    while (ActorNotSeePlayers(0, DrawDist, false)) Delay(35);
 
-        if (!CloseToPlayers)
-        {
-            Delay(35);
-            continue;
-        }
+    Popoff(0, GetUserVariable(0, "user_amount"), 0, "DRPGDigitalDigit", false);
 
-        Popoff(0, GetUserVariable(0, "user_amount"), 0, "DRPGDigitalDigit", false);
-        Delay(1);
-    }
+    Delay(1);
+    goto Start;
 }
 
 // Spawn a popoff number

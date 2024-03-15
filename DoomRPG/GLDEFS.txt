@@ -175,6 +175,7 @@ pulselight MEGASPHERE
 
 // Health Bonus
 object DRPGHealthBonus  	    { frame BON1 { light HEALTHBONUS } }
+object DRPGHealthBonus2  	    { frame BON1 { light HEALTHBONUS } }
 object DRPGArmorBonusReplacer  	{ frame BON1 { light HEALTHBONUS } }
 
 // Soulspheres
@@ -199,14 +200,21 @@ pointlight EPCAPSULE
 	size 9
 }
 
+pointlight LITTLEEPCAPSULE
+{
+	color 0.25 0.5 0.5
+	size 7
+}
+
 pointlight BIGEPCAPSULE
 {
 	color 0.25 0.5 0.5
 	size 12
 }
 
-object DRPGEPCapsule 	{ frame EPUP { light EPCAPSULE } }
-object DRPGBigEPCapsule	{ frame EPUP { light BIGEPCAPSULE } }
+object DRPGEPCapsule    	{ frame EPUP { light EPCAPSULE } }
+object DRPGLittleEPCapsule 	{ frame EPUP { light LITTLEEPCAPSULE } }
+object DRPGBigEPCapsule 	{ frame EPUP { light BIGEPCAPSULE } }
 
 // ARMOR
 // --------------------------------------------------

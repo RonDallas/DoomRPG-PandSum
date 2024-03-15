@@ -5,13 +5,13 @@ ACTOR Clip2 : Clip replaces Clip
 {
     Game Doom
     SpawnID 11
-    Inventory.PickupMessage "$GOTCLIP"
+    Inventory.PickupMessage "You picked up a bullet clip."
     Inventory.Amount 10
     Inventory.MaxAmount 200
     Ammo.BackpackAmount 10
     Ammo.BackpackMaxAmount 400
     Inventory.Icon "CLIPA0"
-    inventory.pickupsound "items/clip"
+    Inventory.PickupSound "items/clip"
     States
     {
     Spawn:
@@ -25,9 +25,9 @@ ACTOR ClipBox2 : Clip replaces ClipBox
 {
     Game Doom
     SpawnID 139
-    Inventory.PickupMessage "$GOTCLIPBOX"
+    Inventory.PickupMessage "You picked up a bullet box."
     Inventory.Amount 50
-    inventory.pickupsound "items/clipbox"
+    Inventory.PickupSound "items/clipbox"
     States
     {
     Spawn:
@@ -41,13 +41,13 @@ ACTOR RocketAmmo2 : RocketAmmo replaces RocketAmmo
 {
     Game Doom
     SpawnID 140
-    Inventory.PickupMessage "$GOTROCKET"
+    Inventory.PickupMessage "You picked up a rocket."
     Inventory.Amount 1
     Inventory.MaxAmount 50
     Ammo.BackpackAmount 1
     Ammo.BackpackMaxAmount 100
     Inventory.Icon "ROCKA0"
-    inventory.pickupsound "items/rocket"
+    Inventory.PickupSound "items/rocket"
     States
     {
     Spawn:
@@ -61,9 +61,9 @@ ACTOR RocketBox2 : RocketAmmo replaces RocketBox
 {
     Game Doom
     SpawnID 141
-    Inventory.PickupMessage "$GOTROCKBOX"
+    Inventory.PickupMessage "You picked up a rocket crate."
     Inventory.Amount 5
-    inventory.pickupsound "items/rocket"
+    Inventory.PickupSound "items/rocket"
     States
     {
     Spawn:
@@ -77,13 +77,13 @@ ACTOR Cell2 : Cell replaces Cell
 {
     Game Doom
     SpawnID 75
-    Inventory.PickupMessage "$GOTCELL"
+    Inventory.PickupMessage "You picked up an energy cell."
     Inventory.Amount 20
     Inventory.MaxAmount 300
     Ammo.BackpackAmount 20
     Ammo.BackpackMaxAmount 600
     Inventory.Icon "CELLA0"
-    inventory.pickupsound "items/cell"
+    Inventory.PickupSound "items/cell"
     States
     {
     Spawn:
@@ -97,9 +97,9 @@ ACTOR CellPack2 : Cell replaces CellPack
 {
     Game Doom
     SpawnID 142
-    Inventory.PickupMessage "$GOTCELLBOX"
+    Inventory.PickupMessage "You picked up an energy cell pack."
     Inventory.Amount 100 
-    inventory.pickupsound "items/cell"
+    Inventory.PickupSound "items/cell"
     States
     {
     Spawn:
@@ -113,13 +113,13 @@ ACTOR Shell2 : Shell replaces Shell
 {
     Game Doom
     SpawnID 12
-    Inventory.PickupMessage "$GOTSHELLS"
+    Inventory.PickupMessage "You picked up four shotgun shells."
     Inventory.Amount 4
     Inventory.MaxAmount 50
     Ammo.BackpackAmount 4
     Ammo.BackpackMaxAmount 100
     Inventory.Icon "SHELA0"
-    inventory.pickupsound "items/shell"
+    Inventory.PickupSound "items/shell"
     States
     {
     Spawn:
@@ -133,8 +133,8 @@ ACTOR ShellBox2 : Shell replaces ShellBox
 {
     Game Doom
     SpawnID 143
-    Inventory.PickupMessage "$GOTSHELLBOX"
-        inventory.pickupsound "items/shell"
+    Inventory.PickupMessage "You picked up a shotgun shell box."
+    Inventory.PickupSound "items/shell"
     Inventory.Amount 20
     States
     {
@@ -152,8 +152,8 @@ ACTOR Backpack2 : BackpackItem replaces Backpack
     Game Doom
     SpawnID 144
     Height 26
-    Inventory.PickupMessage "$GOTBACKPACK"
-        inventory.pickupsound "items/pack"
+    Inventory.PickupMessage "You picked up a backpack with ammo."
+    Inventory.PickupSound "items/pack"
     States
     {
     Spawn:

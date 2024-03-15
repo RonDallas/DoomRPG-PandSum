@@ -1,0 +1,43 @@
+map TSP01 "The Spire"
+{
+	next = "OUTPOST"
+	sky1 = "TSPSKY1"
+	music = "D_SPIRE"
+    SuckTime = 1337
+}
+	
+map TSP201 "The Spire 2"
+{
+	next = "OUTPOST"
+	sky1 = "SKY1"
+	music = "D_SPIRE2"
+    SuckTime = 1337
+}
+	
+map EYE01 "The Eye"
+{
+	music = D_EYE
+	next = "OUTPOST"
+	sky1 = "SKY1"
+    SuckTime = 1337
+}
+
+map HP103 "Sens"
+{
+	sky1 = "AFGSKY1"
+	music = "TOTSIREN"
+	next = "OUTPOST"
+}
+
+MAP AAA01 "A Clear Line Drawn"
+{
+music = "DEFTONES"
+sky1 = "RSKY15"
+next = OUTPOST
+}
+Map AAA02 "Hot Water Music"
+{ 
+music = "WARBRAIN"
+sky1 = "RSKY15"
+next = "OUTPOST"
+}

@@ -12,6 +12,8 @@ ACTOR CommonRevenantRPG : CommonRevenant Replaces CommonRevenant
 {
 	Tag "Revenant"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -27,6 +29,8 @@ ACTOR CommonRevenantRPG : CommonRevenant Replaces CommonRevenant
 ACTOR GreenRevenantRPG : GreenRevenant Replaces GreenRevenant
 {
 	Tag "Uncommon Revenant"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -44,6 +48,8 @@ ACTOR CyanRevenant2RPG : CyanRevenant2 Replaces CyanRevenant2
 {
 	Tag "Icy Revenant"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -60,6 +66,8 @@ ACTOR BlueRevenantRPG : BlueRevenant Replaces BlueRevenant
 {
 	Tag "Rare Revenant"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -71,10 +79,30 @@ ACTOR BlueRevenantRPG : BlueRevenant Replaces BlueRevenant
 	}
 }
 
+// Brown Revenant
+ACTOR BrownRevenant2RPG : BrownRevenant2 Replaces BrownRevenant2
+{
+	Tag "Monstrous Revenant"
+
+    DropItem "DRPGEmpty"
+
+	States
+	{
+	Spawn:
+		INCA A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		INCA A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
 // Purple Revenant
 ACTOR PurpleRevenantRPG : PurpleRevenant Replaces PurpleRevenant
 {
 	Tag "Epic Revenant"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -92,6 +120,8 @@ ACTOR YellowRevenantRPG : YellowRevenant Replaces YellowRevenant
 {
 	Tag "Ghostly Revenant"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -106,6 +136,8 @@ ACTOR YellowRevenantRPG : YellowRevenant Replaces YellowRevenant
 ACTOR SpecialSoulRPG : SpecialSoul Replaces SpecialSoul
 {
 	Tag "Soul"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -123,6 +155,8 @@ ACTOR RedRevenantRPG : RedRevenant Replaces RedRevenant
 {
 	Tag "Bloody Revenant"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -138,6 +172,8 @@ ACTOR RedRevenantRPG : RedRevenant Replaces RedRevenant
 ACTOR AbyssRevenant2RPG : AbyssRevenant2 Replaces AbyssRevenant2
 {
 	Tag "Abyssal Revenant"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -155,6 +191,8 @@ ACTOR BlackRevenant3RPG : BlackRevenant3 Replaces BlackRevenant3
 {
 	Tag "The Black Knight"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -169,6 +207,8 @@ ACTOR BlackRevenant3RPG : BlackRevenant3 Replaces BlackRevenant3
 ACTOR BlackRev2RPG : BlackRev2 Replaces BlackRev2
 {
 	Tag "The Black Knight"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -186,6 +226,8 @@ ACTOR BlackRevenantEXRPG : BlackRevenantEX Replaces BlackRevenantEX
 {
 	Tag "The Black Knight Unleashed"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -201,6 +243,8 @@ ACTOR BlackRevenantEXRPG : BlackRevenantEX Replaces BlackRevenantEX
 ACTOR FireBLURevenant2RPG : FireBLURevenant2 Replaces FireBLURevenant2
 {
 	Tag "Enchanted Revenant"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -218,6 +262,8 @@ ACTOR GrayRevenant2RPG : GrayRevenant2 Replaces GrayRevenant2
 {
 	Tag "Ancient Revenant"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -233,6 +279,8 @@ ACTOR GrayRevenant2RPG : GrayRevenant2 Replaces GrayRevenant2
 ACTOR WhiteRevenant2RPG : WhiteRevenant2 Replaces WhiteRevenant2
 {
 	Tag "The Lichest Lich"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{

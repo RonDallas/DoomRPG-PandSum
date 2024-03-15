@@ -24,8 +24,10 @@
 bool Transported;
 bool GlobalsInitialized;
 int CompatMode;
+int CompatModeEx;
+int CompatModeLite;
 int CompatMonMode;
-bool WadSmoosh;
+bool MapPacks;
 
 // Arrays
 str PlayerWeapon[MAX_PLAYERS];
@@ -76,7 +78,7 @@ NamedScript Type_OPEN void GlobalInit()
     if (!GlobalsInitialized)
     {
         // Version Info
-        Log("\CnDoom RPG SE [EXPERIMENTAL] (GDCC) (Compiled on %S) loaded!", __DATE__);
+        Log("\CnDoom RPG SE Rebalance (GDCC) (Compiled on %S) loaded!", __DATE__);
 
         // Compatibility checking
         CheckCompatibility();
@@ -164,12 +166,10 @@ NamedScript Type_ENTER void Init()
         if (GetCVar("drpg_start_level") > 0)
         {
             Player.Level = GetActivatorCVar("drpg_start_level");
-            Player.XP = XPTable[Player.Level - 1];
         }
         if (GetCVar("drpg_start_rank") > 0)
         {
             Player.RankLevel = GetActivatorCVar("drpg_start_rank");
-            Player.Rank = RankTable[Player.RankLevel - 1];
         }
 
         // Stats
@@ -215,8 +215,8 @@ NamedScript Type_ENTER void Init()
         Player.LuckXP = 0;
 
         // Default Health/EP
-        Player.EP = Player.EnergyTotal * 10;
-        Player.ActualHealth = Player.VitalityTotal * 10;
+        Player.EP = 50 + ((Player.Level + 1) / 2) * 5 + Player.EnergyTotal * 5;
+        Player.ActualHealth = 50 + ((Player.Level + 1) / 2) * 5 + Player.VitalityTotal * 5;
         Player.PrevHealth = Player.ActualHealth;
         SetActorProperty(0, APROP_Health, Player.ActualHealth);
 
@@ -240,11 +240,8 @@ NamedScript Type_ENTER void Init()
         // Set default selected skill to nothing
         Player.SkillSelected = -1;
 
-        // Unset current reviver
-        Player.Reviver = -1;
-
         // Fill Augmentation Battery
-        Player.Augs.Battery = Player.CapacityTotal * 10;
+        Player.Augs.Battery = 100;
 
         // Setup the New! shield parts arrays
         for (int i = 0; i < SHIELDPAGE_MAX; i++)
@@ -252,6 +249,43 @@ NamedScript Type_ENTER void Init()
                 Player.NewShieldParts[i][j] = true;
         for (int i = 0; i < MAX_ACCESSORIES; i++)
             Player.NewShieldAccessoryParts[i] = true;
+
+        // Compatibility Handling - DoomRL Arsenal
+        if (CompatMode == COMPAT_DRLA)
+        {
+            // Set start chances for Exotic/Superior/Unique/Demonic/Legendary armor and boots
+            Player.ArmorAssembledChance = 75.0;
+            Player.ArmorExoticChance = 50.0;
+            Player.ArmorSuperiorChance = 3.0;
+            Player.ArmorUniqueChance = 5.0;
+            Player.ArmorDemonicChance = 0.3;
+            Player.ArmorLegendaryChance = 0.2;
+
+            // Set start chances for Exotic/Superior/Unique/Demonic/Legendary weapon
+            Player.WeaponExoticChance = 50.0;
+            Player.WeaponSuperiorChance = 3.0;
+            Player.WeaponUniqueChance = 10.0;
+            Player.WeaponDemonicChance = 0.3;
+            Player.WeaponLegendaryChance = 0.2;
+        }
+
+        // Compatibility Handling - DoomRL Extended
+        if (CompatModeEx == COMPAT_DRLAX)
+        {
+            // Default Health/EP for Phase Sisters
+            if (PlayerClass(PlayerNumber()) == 9) // Phase Sisters
+            {
+                Player.Portia.ActualHealth = 50 + ((Player.Level + 1) / 2) * 5 + Player.VitalityTotal * 5;
+                Player.Portia.EP = 50 + ((Player.Level + 1) / 2) * 5 + Player.EnergyTotal * 5;
+                Player.Terri.ActualHealth = 50 + ((Player.Level + 1) / 2) * 5 + Player.VitalityTotal * 5;
+                Player.Terri.EP = 50 + ((Player.Level + 1) / 2) * 5 + Player.EnergyTotal * 5;
+            }
+        }
+
+        // Compatibility Handling - DoomRL Monsters
+        if (CompatMonMode == COMPAT_DRLA)
+            if (CurrentLevel->UACBase)
+                TakeInventory("RLDangerLevel", 1);
 
         // Done first run
         Player.FirstRun = true;
@@ -306,6 +340,7 @@ NamedScript Type_ENTER void Init()
     // Execute Game Loops
     Loop();
     PlayerHealth();
+    PlayerSurvive();
     MoneyChecker();
     ShieldTimer();
     WeaponSpeed();
@@ -320,6 +355,9 @@ NamedScript Type_ENTER void Init()
 // Loop Script
 NamedScript void Loop()
 {
+    // Small delay before initializing the script
+    Delay(4);
+
 Start:
 
     // If we're on the title map, terminate
@@ -365,7 +403,7 @@ Start:
     MenuCursorColor = CursorColors[(Timer() / 3) % 6];
 
     // Calculate Shop Discount
-    Player.ShopDiscount = (int)((Player.RankLevel * 2.1) + (CurrentLevel->UACBase ? (Player.ShopCard * 5) : 0));
+    Player.ShopDiscount = (int)((Player.RankLevel * 1.05) + (CurrentLevel->UACBase ? (Player.ShopCard * 5) : 0));
 
     // Main Menu
     if (Player.InMenu)
@@ -432,8 +470,11 @@ Start:
         SetInventory("RLPhaseDeviceLimit", 0);
     }
 
-    if (GetCVar("drpg_multi_revives"))
+    if (InMultiplayer && GetCVar("drpg_multi_revives"))
         ReviveHandler();
+
+    if (Player.FocusingCooldown > 0)
+        Player.FocusingCooldown--;
 
     // Loop
     Delay(1);
@@ -447,43 +488,75 @@ NamedScript void PlayerHealth()
     int BeforeHealth;
     int AfterHealth;
 
+    // Compatibility Handling - DoomRL Extended
+    // Check Health for Phase Sisters
+    if (CompatModeEx == COMPAT_DRLAX && PlayerClass(PlayerNumber()) == 9) // Phase Sisters
+    {
+        bool BeforeSwap;
+        bool AfterSwap;
+
+        while (true)
+        {
+            BeforeSwap = CheckInventory("RLPhaseSistersSwapToken");
+            BeforeHealth = GetActorProperty(0, APROP_Health);
+
+            // If the player's dead, terminate
+            if (BeforeHealth <= 0) break;
+
+            Delay(1);
+
+            AfterSwap = CheckInventory("RLPhaseSistersSwapToken");
+            AfterHealth = GetActorProperty(0, APROP_Health);
+
+            if (AfterHealth > BeforeHealth && AfterSwap == BeforeSwap)
+                Player.ActualHealth += AfterHealth - BeforeHealth;
+
+            // Update health
+            SetActorProperty(0, APROP_Health, Player.ActualHealth);
+        }
+    }
+    else
+    {
+        while (true)
+        {
+            BeforeHealth = GetActorProperty(0, APROP_Health);
+
+            // If the player's dead, terminate
+            if (BeforeHealth <= 0) break;
+
+            Delay(1);
+
+            AfterHealth = GetActorProperty(0, APROP_Health);
+
+            if (AfterHealth > BeforeHealth)
+                Player.ActualHealth += AfterHealth - BeforeHealth;
+
+            // Update health
+            SetActorProperty(0, APROP_Health, Player.ActualHealth);
+        }
+    }
+}
+
+NamedScript void PlayerSurvive()
+{
     while (true)
     {
-        BeforeHealth = GetActorProperty(0, APROP_Health);
-
-        // If the player's dead, terminate
-        if (BeforeHealth <= 0) break;
-
-        Delay(1);
-
-        AfterHealth = GetActorProperty(0, APROP_Health);
-
-        if (AfterHealth > BeforeHealth)
-            Player.ActualHealth += AfterHealth - BeforeHealth;
-
-        // Update health
-        SetActorProperty(0, APROP_Health, Player.ActualHealth);
+        Player.CanSurvive = (Random(0, 100) <= Player.SurvivalBonus);
+        if (Player.CanSurvive || CheckInventory("DRPGLife"))
+            SetPlayerProperty(0, 1, PROP_BUDDHA);
+        else
+            SetPlayerProperty(0, 0, PROP_BUDDHA);
+        Delay(35);
     }
 }
 
 // Damage Handler Entry Point
 NamedScript DECORATE int PlayerDamage(int Inflictor, int DamageTaken)
 {
-    bool CanSurvive;
     bool Critical;
     int MonsterID;
     fixed LuckChance;
     fixed EnergyLevel;
-
-    CanSurvive = Player.SurvivalBonus > 0 && RandomFixed(0.0, 100.0) <= Player.SurvivalBonus && !Player.LastLegs;
-
-    if (Player.ActualHealth > 2)
-        Player.LastLegs = false;
-
-    if (CanSurvive || CheckInventory("DRPGLife"))
-        SetPlayerProperty(0, 1, PROP_BUDDHA);
-    else
-        SetPlayerProperty(0, 0, PROP_BUDDHA);
 
     // Assign attacker's ID
     Player.DamageTID = Inflictor;
@@ -501,7 +574,7 @@ NamedScript DECORATE int PlayerDamage(int Inflictor, int DamageTaken)
     if (Player.DamageTID > 0 && MonsterID > 0)
         if (RandomFixed(0.0, 100.0) <= EnergyLevel)
         {
-            DamageTaken *= 2;
+            DamageTaken *= 2.0;
             Critical = true;
         }
 
@@ -511,7 +584,7 @@ NamedScript DECORATE int PlayerDamage(int Inflictor, int DamageTaken)
     if (MonsterID > 0)
         StatusDamage(DamageTaken, LuckChance, Critical);
     else
-        StatusDamage(DamageTaken, RandomFixed(0.0, 100.0), Critical);
+        StatusDamage(DamageTaken, RandomFixed(0.0, 100.0 * MapLevelModifier), Critical);
 
     ResetRegen();
     DamageHUD(DamageTaken, Critical);
@@ -525,7 +598,7 @@ NamedScript DECORATE int PlayerDamage(int Inflictor, int DamageTaken)
     if (Player.ActualHealth <= 1) // Near-Death stuff
     {
         // Extra Life check
-        if (CheckInventory("DRPGLife"))
+        if (!Player.CanSurvive && CheckInventory("DRPGLife"))
         {
             Player.ActualHealth = Player.HealthMax;
             ActivatorSound("health/resurrect", 127);
@@ -541,13 +614,16 @@ NamedScript DECORATE int PlayerDamage(int Inflictor, int DamageTaken)
             HudMessage("Used an Extra Life!");
             EndHudMessage(HUDMSG_FADEOUT, 0, "Gold", 160.0, 140.0, 0.5, 1.5);
             PrintSpriteFade("P1UPA0", 0, 172.0, 210.0, 0.5, 1.5);
+
+            return 0;
         }
 
         // Survival Bonus
-        if (CanSurvive)
+        if (Player.CanSurvive)
         {
-            Player.ActualHealth = 2;
-            Player.LastLegs = true;
+            Player.ActualHealth = Player.HealthMax / 5;
+
+            SetInventory("DRPGInvulnerabilitySurvive", 1);
 
             if (Player.Shield.Accessory && Player.Shield.Accessory->PassiveEffect == SHIELD_PASS_SURVIVECHARGE)
                 Player.Shield.Charge = Player.Shield.Capacity;
@@ -558,6 +634,8 @@ NamedScript DECORATE int PlayerDamage(int Inflictor, int DamageTaken)
             HudMessage("Agility Save!");
             EndHudMessage(HUDMSG_FADEOUT, 0, "Orange", 160.0, 140.0, 0.5, 0.5);
             PrintSpriteFade("AGISAVE", 0, 160.0, 140.0, 0.5, 0.5);
+
+            return 0;
         }
     }
 
@@ -578,7 +656,7 @@ NamedScript DECORATE int ShieldDamage(int DamageTaken)
         Player.AutosaveTimerReset = true;
         AugDamage(DamageTaken);
         ToxicityDamage();
-        StatusDamage(DamageTaken, RandomFixed(0.0, 100.0), false);
+        StatusDamage(DamageTaken, RandomFixed(0.0, 10.0 * MapLevelModifier), false);
         DamageHUD(DamageTaken, false);
 
         ShieldDamageAmount = DamageTaken; // For callback
@@ -588,8 +666,11 @@ NamedScript DECORATE int ShieldDamage(int DamageTaken)
         Player.Shield.Charge -= DamageTaken;
         Player.Shield.Full = false;
 
-        FadeRange(0, 100, 255, 0.25, 0, 100, 255, 0, 0.25);
-        PlaySound(0, "shield/hit", 5, 1.0, false, 1.0);
+        if (GetActivatorCVar("drpg_shield_effect_hit_enable"))
+        {
+            FadeRange(0, 100, 255, 0.25, 0, 100, 255, 0, 0.25);
+            PlaySound(0, "shield/hit", 5, 1.0, false, 1.0);
+        }
         if (Player.Shield.Accessory && Player.Shield.Accessory->Damage)
             Player.Shield.Accessory->Damage(ShieldDamageAmount);
 
@@ -603,7 +684,9 @@ NamedScript DECORATE int ShieldDamage(int DamageTaken)
             else
                 DamageTaken = 0;
 
-            PlaySound(0, "shield/empty", 5, 1.0, false, 1.0);
+            if (GetActivatorCVar("drpg_shield_sound_empty_enable"))
+                PlaySound(0, "shield/empty", 5, 1.0, false, 1.0);
+
             if (Player.Shield.Accessory && Player.Shield.Accessory->Break)
                 Player.Shield.Accessory->Break();
         }
@@ -635,64 +718,71 @@ NamedScript DECORATE int AddHealth(int HealthPercent, int MaxPercent)
     int RealMax = Player.HealthMax * MaxPercent / 100;
     int HealthAmount = Player.HealthMax * HealthPercent / 100;
 
-    if (Player.OverHeal)
-        if (MaxPercent >= 200 && Player.ActualHealth + HealthAmount >= RealMax)
-            Player.OverHeal = false;
-
-    if (HealthAmount > 0 && Player.ActualHealth >= RealMax)
-        return 0;
-
-    if (Player.ActualHealth + HealthAmount > RealMax)
-        HealthAmount = RealMax - Player.ActualHealth;
-
-    // Add Vitality XP for using healing items
-    if (GetCVar("drpg_levelup_natural"))
+    if (HealthPercent > 0) //to make this consistent with how AddHealthDirect handles non-positive values
     {
-        fixed Scale = GetCVarFixed("drpg_vitality_scalexp");
-        if (GetCVar("drpg_allow_spec"))
-        {
-            if (GetActivatorCVar("drpg_character_spec") == 3)
-                Scale *= 2;
-        }
+        if (Player.OverHeal)
+            if (MaxPercent >= 200 && Player.ActualHealth + HealthAmount >= RealMax)
+                Player.OverHeal = false;
 
-        int Factor = CalcPercent(HealthAmount, Player.HealthMax);
-        Player.VitalityXP += (int)(Factor * Scale * 10);
+        if (HealthAmount > 0 && Player.ActualHealth >= RealMax)
+            return 0;
+
+        if (Player.ActualHealth + HealthAmount > RealMax)
+            HealthAmount = RealMax - Player.ActualHealth;
+
+        // Add Vitality XP for using healing items
+        if (GetCVar("drpg_levelup_natural"))
+        {
+            fixed Scale = GetCVarFixed("drpg_vitality_scalexp") / GetCVar("drpg_ws_use_wads");
+            if (GetCVar("drpg_allow_spec"))
+            {
+                if (GetActivatorCVar("drpg_character_spec") == 3)
+                    Scale *= 2;
+            }
+
+            int Factor = CalcPercent(HealthAmount, Player.HealthMax);
+            Player.VitalityXP += (RoundInt)(Factor * Scale * 10);
+        }
     }
 
     Player.ActualHealth += HealthAmount;
-    return 1;
+    HealthPercent = HealthAmount * 100 / Player.HealthMax;
+    return HealthPercent;
 }
 
 NamedScript DECORATE int AddHealthDirect(int HealthAmount, int MaxPercent)
 {
     int RealMax = Player.HealthMax * MaxPercent / 100;
 
-    if (Player.OverHeal)
-        if (MaxPercent >= 200 && Player.ActualHealth + HealthAmount >= RealMax)
-            Player.OverHeal = false;
-
-    if (HealthAmount > 0 && Player.ActualHealth >= RealMax)
-        return 0;
-
-    if (Player.ActualHealth + HealthAmount > RealMax)
-        HealthAmount = RealMax - Player.ActualHealth;
-
-    // Add Vitality XP for using healing items
-    if (GetCVar("drpg_levelup_natural"))
+    if (HealthAmount > 0) //basically none of this applies if you're being directly hurt, or if HealthAmount is zero somehow
     {
-        fixed Scale = GetCVarFixed("drpg_vitality_scalexp");
-        if (GetCVar("drpg_allow_spec"))
-        {
-            if (GetActivatorCVar("drpg_character_spec") == 3)
-                Scale *= 2;
-        }
+        if (Player.OverHeal)
+            if (MaxPercent >= 200 && Player.ActualHealth + HealthAmount >= RealMax)
+                Player.OverHeal = false;
 
-        int Factor = CalcPercent(HealthAmount, Player.HealthMax);
-        Player.VitalityXP += (int)(Factor * Scale * 10);
+        if (Player.ActualHealth >= RealMax)
+            return 0;
+
+        if (Player.ActualHealth + HealthAmount > RealMax)
+            HealthAmount = RealMax - Player.ActualHealth;
+
+        // Add Vitality XP for using healing items
+        if (GetCVar("drpg_levelup_natural"))
+        {
+            fixed Scale = GetCVarFixed("drpg_vitality_scalexp") / GetCVar("drpg_ws_use_wads");
+            if (GetCVar("drpg_allow_spec"))
+            {
+                if (GetActivatorCVar("drpg_character_spec") == 3)
+                    Scale *= 2;
+            }
+
+            int Factor = CalcPercent(HealthAmount, Player.HealthMax);
+            Player.VitalityXP += (RoundInt)(Factor * Scale * 10);
+        }
     }
 
     Player.ActualHealth += HealthAmount;
-    return 1;
+    return HealthAmount;
 }
 
 typedef struct
@@ -703,116 +793,116 @@ typedef struct
 
 NamedScript void GiveTip()
 {
-    if ((CurrentLevel->Event == MAPEVENT_SKILL_HELL && GameSkill() != 5) || (CurrentLevel->Event == MAPEVENT_SKILL_ARMAGEDDON && GameSkill() != 6))
+    if ((CurrentLevel->Event == MAPEVENT_SKILL_TECHNOPHOBIA && GameSkill() != 6) || (CurrentLevel->Event == MAPEVENT_SKILL_ARMAGEDDON && GameSkill() != 7))
         return;
 
     TipInfo Tips[MAX_TIPS] =
     {
         // Level/Rank
-        { "\CjLevel",                           "Your level determines your basic strength and progress through the game. Your level is increased by killing monsters, completing missions and achieving combos.", },
-        { "\CkRank",                            "Your rank determines your standing within the UAC. Rank will determine how much money you are paid by the UAC as well as the discount you will receive when purchasing items from the shop.", },
-        { "\CtCombo",                           "The combo system allows you to kill enemies in rapid succession in order to gain bonus XP and Rank. When an enemy is killed, you will gain +1 to your combo counter and your combo timer will reset. When your timer reaches its cooldown point, indicated by the split between the red and green in the bar, it will add the indicated XP and Rank to your totals and calculate a bonus (the green number). If you keep incrementing your combo during the cooldown period, you can keep stacking XP and Rank into the bonus. When the combo timer ends, your combo will be completely reset and your bonus will be added to your totals.", },
+        { "\CjLevel",                           "Your level determines your general competency and progress through the game. Your level is increased by gathering XP by killing monsters, completing missions, and achieving combos.", },
+        { "\CkRank",                            "Your rank determines your standing within the UAC. Rank will determine how much money you are paid by the UAC as well as the discount you will receive when executing financial operations at the Outpost. Your rank is increased by killing monsters, completing missions, achieving combos, and engaging in certain secret activities.", },
+        { "\CtCombo",                           "The combo system allows you to kill enemies in rapid succession in order to gain bonus XP and rank. When an enemy is killed, you will gain +1 to your combo counter, and your combo timer will reset. When your timer reaches its cooldown point, indicated by the split between the red and green in the bar, it will add the indicated XP and rank to your totals and calculate a bonus (the green number). If you keep incrementing your combo during the cooldown period, you can keep stacking XP and rank into the bonus. When the combo timer ends, your combo will be completely reset, and your bonus will be added to your totals.", },
 
         // Currencies
-        { "\CfCredits",                         "Credits are the universal currency used by the UAC and are used for purchasing goods in the shop.", },
-        { "\CdModules",                         "Modules are used to upgrade your stats and skills. They are typically given by level ups, missions and completing level events as well as occasionally being dropped by monsters and found in the world.", },
-        { "\CcTurret Parts",                    "Turret parts are used to build and upgrade your turret. They can be found by disassembling broken-down turrets you find in the world.", },
+        { "\CfCredits",                         "Credits are the universal currency of the UAC and are used for almost all actions at the Outpost that include obtaining goods and services.", },
+        { "\CdModules",                         "Modules are used to upgrade your stats and skills. They are typically given by level ups, missions, and completing level events, as well as occasionally being dropped by monsters and found in the world.", },
+        { "\CcTurret Parts",                    "Turret parts are used to build and upgrade your turret. They can be found around the world by disassembling broken turrets and lying freely.", },
 
         // Stats
-        { "\CgStrength",                        "Your Strength stat determines the extra damage you deal with all types of attacks.", },
-        { "\CdDefense",                         "Your Defense stat determines your resistance to all forms of damage.", },
-        { "\CaVitality",                        "Your Vitality stat determines your max health and health regeneration rate.", },
-        { "\CnEnergy",                          "Your Energy stat determines your max EP and EP regeneration rate.", },
-        { "\CtRegeneration",                    "Your Regeneration stat determines your regeneration rate and the time that Regeneration Spheres last.", },
-        { "\CiAgility",                         "Your Agility stat governs your movement, jumping and fire speeds as well as your survival bonus.", },
-        { "\ChCapacity",                        "Your Capacity stat determines your ammo carrying capacity, how many compounds of each type you can carry for Stims as well as how many inventory items you can hold", },
-        { "\CfLuck",                            "Your Luck stat determines which items can drop as well as the chance which they will drop. Luck also affects several other hidden factors as well.", },
+        { "\CgStrength",                        "Your strength stat determines the extra damage you deal with all types of attacks.", },
+        { "\CdDefense",                         "Your defense stat determines your resistance to all forms of damage and knockback.", },
+        { "\CaVitality",                        "Your vitality stat determines your max HP, HP regeneration amount, and resistance to status effects.", },
+        { "\CnEnergy",                          "Your energy stat determines your max EP, EP regeneration amount, and how many and for how long your auras last.", },
+        { "\CtRegeneration",                    "Your regeneration stat determines your EP and HP regeneration amounts/rates, toxicity dissipation, and the time that regeneration spheres last.", },
+        { "\CiAgility",                         "Your agility stat governs your movement and fire speeds, jumping height, as well as your survival bonus.", },
+        { "\ChCapacity",                        "Your capacity stat determines your ammo carrying capacity, how many compounds of each type you can carry for stims, as well as how many various inventory items you can hold.", },
+        { "\CfLuck",                            "Your luck stat determines which items can drop as well as the chance that they will drop. Luck also affects several other hidden factors as well.", },
 
         // Stats Extended
-        { "\CiSurvival Bonus",                  "Survival Bonus is a special attribute which works as a last stand mechanic. When you take a hit that would kill you and your survival bonus is triggered, you will not be killed by the attack.", },
+        { "\CiSurvival Bonus",                  "Survival bonus is a special attribute that works as a last stand mechanic. When you take a hit that would kill you and your survival bonus is triggered, you will not be killed by the attack and instead be instantly revived with part of your HP and EP restored.", },
         { "\CdPerks",                           "Perks are special enhancements that you receive when you upgrade a stat to 100 points or more.", },
         { "\CgStat Cap",                        "You can only increase a stat past 100 up to the maximum of your current level + 100.", },
 
         // Skills
-        { "\CnEP",                              "Energy Points are needed in order to use skills. They can also be used to charge your Shield and to deposit and withdraw items from your personal locker while not in the Outpost.", },
-        { "\CnOverdrive",                       StrParam("You can Overdrive a skill by holding the \Cd%jS\C- button. Doing this will always use the skill, regardless of it's EP cost. However, this will bring your current EP into the negatives. When negative, you will suffer stat penalties and not be able to use any skills until your EP is restored past 0.", "+speed"), },
-        { "\CnAuras",                           "Auras are special passive abilities you can activate to give you temporary boosts to your stats. Auras will also affect teammates within it's radius, determined by your Energy stat", },
+        { "\CnEP",                              "Energy points (EP) are needed in order to use skills. They can also be used to charge your shield and to deposit and withdraw items from your personal locker while not in the Outpost.", },
+        { "\CnOverdrive",                       StrParam("You can overdrive a skill by holding the \Cd%jS\C- button. Doing this will always use the skill, regardless of its EP cost. However, this will bring your current EP into the negatives. When negative, you will suffer stat penalties and not be able to use any skills until your EP is restored past 0.", "+speed"), },
+        { "\CnAuras",                           "Auras are special passive abilities you can activate to give you temporary boosts to your ability. Auras will also affect teammates within their respective radii, as determined by your energy stat.", },
 
         // Augmentations
-        { "\CkAugmentations",                   "Augmentations give you permanent bonuses to your stats while they are active.", },
-        { "\CkAugmentation Battery",            "Augmentations can only work while your augmentation battery has a charge. Your battery can be recharged by using augmentation batteries from your inventory or by receiving certain types of damage. Battery drain is determined by how many augmentations you have active and how high their levels are. The more augmentation active and the higher their levels, the quicker the battery will drain.", },
-        { "\CkAugmentation Slots",              "You can only activate as many augmentations as you have available slots for. To increase the number of slots you have, you must find an augmentation slot upgrade. Augmentation slot upgrades can be bought from the shop, found as rare drops from enemies or found in the world.", },
+        { "\CkAugmentations",                   "Augmentations give you permanent bonuses to your ability while they are active.", },
+        { "\CkAugmentation Battery",            "Augmentations can only work while your augmentation battery has a charge. Your battery can be recharged by using augmentation batteries from your inventory or by receiving certain types of damage. Battery drain is determined by how many augmentations you have active and how high their levels are. The more augmentations that are active and the higher their levels, the quicker the battery will drain.", },
+        { "\CkAugmentation Slots",              "You can only activate as many augmentations as you have available slots for. To increase the number of slots you have, you must obtain an augmentation slot upgrade. Augmentation slot upgrades can be bought from the shop, found as rare drops from enemies, or found in the world.", },
 
         // Shield
-        { "\CvShields",                         "Shields will protect you from taking direct damage by absorbing the damage into their own charge pool. When a shield takes damage, it's charge is directly affected and will be reduced by the damage's amount. When a shield's charge reaches 0, you will begin taking normal damage again.", },
-        { "\CvShield Components",               "Shields are built from 4 basic components which you can collect and customize during the game. The body is named after the manufacturer and is generally responsible for modifying the capacity of the Shield, but also evenly modifies the other stats as well. The battery is generally responsible for modifying the charge rate of the shield. The capacitor is generally responsible for modifying the charge rate and delay rate of the shield. Accessories give the shield unique effects and abilities which can be triggered in various ways.", },
-        { "\CvShield Stats",                    "Each shield has 4 stats which govern it's behavior and ability. Capacity determines the total amount of charge the shield can hold. Charge Rate determines the amount the charge pool will regenerate when a charge cycle is completed. Delay Rate determines the wait time that occurs when a charge cycle is interrupted before charging will resume again. Charge interval determines the length between charge cycles.", },
-        { "\CvShield Charge Cycle",             "A charging cycle occurs based on the Charge Interval (default of 1 second) and increases the Shield's charge pool, determined by the Charge Rate. When the shield is struck, the charging cycle is interrupted and a waiting period, determined by the Delay Rate, must complete before charging cycles will resume again.", },
+        { "\CvShields",                         "Shields will protect you from direct damage by absorbing the damage into their own charge pool. When a shield takes damage, its charge is directly affected and will be reduced by the damage's amount. When a shield's charge reaches 0, you will begin taking normal damage again.", },
+        { "\CvShield Components",               "Shields are built from 4 basic components, which you can collect and customize during the game. The body is named after the manufacturer and is generally responsible for modifying the capacity of the shield, but it also evenly modifies the other stats as well. The battery is generally responsible for modifying the charge rate of the shield. The capacitor is generally responsible for modifying the charge rate and delay rate of the shield. Accessories give the shield unique effects and abilities, which can be triggered in various ways.", },
+        { "\CvShield Stats",                    "Each shield has 4 stats that govern its behavior and abilities. The capacity determines the total amount of charge the shield can hold. The charge rate determines the amount the charge pool will regenerate when a charge cycle is completed. The delay rate determines the wait time that occurs when a charge cycle is interrupted before charging will resume. The charge interval determines the length between charge cycles.", },
+        { "\CvShield Charge Cycle",             "A charging cycle occurs based on the charge interval (by default, 1 second) and increases the shield's charge pool, which is determined by the charge rate. When the shield is struck, the charging cycle is interrupted, and a waiting period, determined by the delay rate, must complete before charging cycles will resume again.", },
         { "\CvQuick Shield Recharge",           StrParam("You can quickly recharge your shield at the cost of EP by holding \Cd%jS\C- + \Cd%jS\C-.", "+speed", "+use"), },
 
         // Stims
-        { "\CcStims",                           "Stims are portable injected temporary stat increases. There are three forms of Stim vials that can be encountered: Stat vials, Booster vials and Powerup vials.", },
-        { "\CcStim Injectors",                  "Injectors are what are used to actually store the compounds for usage. Injectors can either be bought in the shop or found in the world. There are 4 different injector sizes, which hold varying amounts of compounds.", },
-        { "\CcStim Vials",                      "Vials are the items you pickup which contain the different kinds of compounds. Vials can be bought in the shop or found by killing enemies which have auras or elsewhere in the world.", },
+        { "\CcStims",                           "Stims are portable, injected temporary increases in ability. There are three types of stim vials that can be encountered: stat vials, booster vials, and powerup vials.", },
+        { "\CcStim Injectors",                  "Injectors are what are used to actually store the compounds for use. Injectors can either be bought in the shop or found around the world. There are 4 different injector sizes, which hold varying amounts of compounds.", },
+        { "\CcStim Vials",                      "Vials are the items that contain the different kinds of compounds. Vials can be bought in the shop or found by killing enemies that have auras or elsewhere in the world.", },
         { "\CcStim Stat Vials",                 "Stat vials increase their various corresponding stats when used.", },
-        { "\CcStim Booster Vials",              "Booster vials are special vials which have unique stat-related effects. Purifier vials increase the duration that stat vials will last. Potency vials increase all stats at once.", },
-        { "\CcStim Powerup Vials",              "Powerup vials give various special powers for a limited duration. Unlike the Stat stims, they are unaffected by Purifier vials, and their time is affected solely by the amount of vials put into the Stim.", },
-        { "\CdToxicity",                        "Toxicity is a measure of the radiation and toxins in your body. Toxicity is increased by taking radiation or toxin related damage, such as standing on damage floors. The higher your toxicity levels get, the more penalties you will suffer. If your toxicity levels reach 100%, you will die. Toxicity will naturally dissipate over time, the speed of which is determined by your Regeneration stat.", },
+        { "\CcStim Booster Vials",              "Booster vials are special vials that have unique stat related effects. Purifier vials increase the duration that stat vials will last. Potency vials increase all stats at once.", },
+        { "\CcStim Powerup Vials",              "Powerup vials grant various special powers for a limited duration. Unlike the stat stims, they are unaffected by purifier vials, and their time is affected solely by the amount of vials put into the stim.", },
+        { "\CdToxicity",                        "Toxicity is a measure of the radiation and toxins in your body. Toxicity is increased by exposure to radiation or toxin related damage, such as standing on damage floors. The higher your toxicity levels get, the more penalties you will suffer. If your toxicity levels reach 100%, you will die. Toxicity will naturally dissipate over time, the speed of which is determined by your regeneration stat.", },
 
         // Turrets
-        { "\CdTurrets",                         "Turrets are portable sentry drones which can be built and equipped with multiple offensive and defensive upgrades. Turrets must initially be built from turret parts, at which point the turret may be used and upgraded further as more parts become available.", },
+        { "\CdTurrets",                         "Turrets are portable sentry drones that can be built and equipped with multiple offensive and defensive upgrades. Turrets must initially be built from turret parts, at which point the turret may be used and upgraded further as more parts become available.", },
         { "\CdDestroyed Turrets",               "In the world, you will find destroyed turrets. These turrets can be scavenged for spare turret parts. Some turrets will be in better condition than others, allowing for more parts to be scavenged.", },
-        { "\CdTurret Maintenance",              StrParam("Your turret will need routine maintenance performed on it in order to keep it in working condition. There are three components to maintenance: charging, repairing and refitting. Charging will charge the turret's internal battery, allowing it to stay active on the field. Repairing will patch up the turret, restoring it's health. Refitting occurs when upgrades are performed on the turret, and must be allowed to finish before the turret can be used again. In order for maintenance to begin and to continue, a steady supply of Credits will be deducted from your account. To send the turret in for maintenance, in either the turret menu or with the turret command wheel open, press \Cd%jS\C-.", "+speed"), },
+        { "\CdTurret Maintenance",              StrParam("Your turret will need routine maintenance performed on it in order to keep it in working condition. There are three components to maintenance: charging, repairing, and refitting. Charging will charge the turret's internal battery, allowing it to stay active on the field. Repairing the turret will patch it up, restoring its durability. Refitting occurs when upgrades are performed on the turret and must be allowed to finish before the turret can be used again. In order for maintenance to begin and continue, a steady supply of credits will be deducted from your account. To send the turret in for maintenance, in either the turret menu or with the turret command wheel open, press \Cd%jS\C-.", "+speed"), },
         { "\CdTurret Deployment",               StrParam("To quickly deploy or deactivate your turret, use \Cd%jS\C- + \Cd%jS\C-.", "+speed", "+user2"), },
 
         // Monsters
-        { "\CgMonster Stats",                   "Like you, monsters also have a level and stats which will affect their abilities in various ways.", },
-        { "\CgMonster Auras",                   "Like you, monsters can also have one or multiple auras which will give them special abilities. Each aura a monster has will also double its respective stat.", },
-        { "\CgMonster Shadow Auras",            "Monsters which have all auras active at once will become a shadow enemy with extremely high stats and abilities for their level. These enemies will receive names and should be priority targets to take down, as their combined abilities can quickly overwhelm a player if they are not prepared.", },
-        { "\CgMonster Regeneration Cycle",      "Like you, monsters will regenerate a portion of their health every so often. The amount of health they will regenerate is determined by their regeneration stat.", },
-        { "\CgMonster Threat Level",            "Each monster has a threat level. Their threat level is determined by their level, stats and active auras and ranges from 0 to 10. Threat level can be used as a general way to gauge a monster's abilities and which ones should be prioritized when attacking. The higher a monster's threat level, the higher XP and Rank you will receive for defeating them. Threat level is represented on a monster's health bar by the number of emblems present.", },
-        { "\CgMegabosses",                      "Under certain circumstances, you will encounter monsters known as megabosses. These bosses are extremely difficult, having special and unique behaviors which can quickly and effectively destroy you if not prepared. When killed, megabosses will provide a tremendous amount of loot as well as XP and Rank.", },
+        { "\CgMonster Stats",                   "Like you, monsters also have a level and stats, which will affect their abilities in various ways.", },
+        { "\CgMonster Auras",                   "Like you, monsters can also have one or more auras, which will give them special abilities. Each aura a monster has will also double its respective stat.", },
+        { "\CgMonster Shadow Auras",            "Monsters that have all possible auras active at once will become shadow enemies with extremely high stats and abilities for their level. These enemies will receive names and should be priority targets to take down, as their combined abilities can quickly overwhelm you if you are not prepared.", },
+        { "\CgMonster Regeneration Cycle",      "Like you, monsters will regenerate a portion of their HP every so often. The amount of HP they will regenerate is determined by their regeneration stat.", },
+        { "\CgMonster Threat Level",            "Each monster has a threat level. Their threat level is determined by their level, stats, and active auras, and ranges from 0 to 10. Threat level can be used as a general way to gauge a monster's abilities and which ones should be prioritized when attacking. The higher a monster's threat level, the more XP and rank you will receive for defeating it. The threat level is represented on a monster's health bar by the number of emblems present.", },
+        { "\CgMegabosses",                      "Under certain circumstances, you will encounter monsters known as megabosses. These bosses are extremely difficult, having special and unique behaviors that can quickly and effectively destroy you if you are not prepared. When killed, megabosses will provide a tremendous amount of loot as well as XP and rank.", },
 
         // Status Effects
-        { "\CaStatus Effects",                  "Status effects are debuffs which will affect you in different ways. You can get them from taking different types of damage or by exposing yourself to specific types of hazards. When inflicted with a status effect, it will last for a certain amount of time. Each status effect has 5 levels of intensity which are increasingly more detrimental to you. If you are hit with a status effect you already have, it will add to your current timer and potentially increase it's intensity.", },
-        { "\CcBlindness",                       "Blindness is a status effect which will darken your view and make it harder to see.", },
-        { "\CfConfusion",                       "Confusion is a status effect which will make your vision blurry and make it harder for you to aim and move.", },
-        { "\CqPoison",                          "Poison is a status effect which will deal direct health damage to you every second. It will not actually kill you if your health reaches a critical level.", },
-        { "\CdCorrosion",                       "Corrosion is a status effect which will deal damage to your armor every second.", },
-        { "\CiFatigue",                         "Fatigue is a status effect which will decrease your movement speed and jumping height.", },
-        { "\CtVirus",                           "Virus is a status effect which will stop you from regenerating.", },
-        { "\CnSilence",                         "Silence is a status effect which prevents you from using skills.", },
-        { "\CgCurse",                           "Curse is a status effect which increases the amount of damage you take.", },
-        { "\CvEMP",                             "EMP is a status effect which will completely disable your shields and augmentations and not allow you to re-enable them. It will also drain your augmentation battery.", },
-        { "\CdRadiation",                       "Radiation is a status effect which slowly increases your toxicity levels. It will not increase your toxicity past 85%.", },
+        { "\CaStatus Effects",                  "Status effects are debuffs that will affect you in different ways. You can get them from taking different types of damage or by exposing yourself to specific types of hazards. When inflicted with a status effect, it will last for a certain amount of time. Each status effect has 5 levels of intensity, which are increasingly detrimental to you. If you are hit with a status effect you already have, it will add to your current timer and potentially increase its intensity.", },
+        { "\CcBlindness",                       "Blindness is a status effect that will darken your view and make it harder to see.", },
+        { "\CfConfusion",                       "Confusion is a status effect that will make your vision blurry and make it harder for you to aim and move.", },
+        { "\CqPoison",                          "Poison is a status effect that deals direct damage to you every second. It will not actually kill you if your HP reaches a critical level.", },
+        { "\CdCorrosion",                       "Corrosion is a status effect that will deal damage to your armor every second.", },
+        { "\CiFatigue",                         "Fatigue is a status effect that will decrease your movement speed and jumping height.", },
+        { "\CtVirus",                           "Virus is a status effect that will stop you from regenerating altogether.", },
+        { "\CnSilence",                         "Silence is a status effect that prevents you from using skills.", },
+        { "\CgCurse",                           "Curse is a status effect that increases the amount of damage you take.", },
+        { "\CvEMP",                             "EMP is a status effect that will completely disable your shields and augmentations and not allow you to reenable them. It will also drain your augmentation battery.", },
+        { "\CdRadiation",                       "Radiation is a status effect that slowly increases your toxicity levels. It will not increase your toxicity past 85%, however.", },
 
         // Outpost/Arena
-        { "\CqOutpost",                         "The UAC Outpost is the main hub of operations where you can perform various activities, access various facilities and stock up between levels. You can transport to the Outpost at any time using the Transport skill.", },
-        { "\CgArena",                           "In the Arena, you can fight waves of enemies for XP, Rank and loot.", },
+        { "\CqOutpost",                         "The UAC Outpost is the main hub of operations where you can perform various activities, access various facilities, and stock up between levels. You can transport to the Outpost at any time using the Transport skill.", },
+        { "\CgArena",                           "In the Arena, you can fight waves of enemies for XP, rank, and loot.", },
         { "\CdLevel Transporter",               "In the Outpost, you can use the level transporter to view stats on all the levels you have visited and to transport back to them at will.", },
         { "\CdSkill Computer",                  "In the Outpost, you can use the skill computer to change the current skill level without the need to restart the game.", },
-        { "\CdMinigames",                       "In the Outpost, there are minigames which you can play in order to win items using your gold and platinum chips.", },
+        { "\CdMinigames",                       "In the Outpost, there are minigames that you can play in order to win items using your gold and platinum chips.", },
         { "\CgPractice Target",                 "In the Outpost, you can shoot the target in order to gauge the amount of damage your weapons are doing.", },
 
         // Missions
-        { "\CdMissions",                        "You can accept different missions in the Outpost in order to gain XP, Rank, Credits, Modules and items. There are several different types of missions at varying difficulty levels you can undertake. The available missions will refresh each time you visit the Outpost.", },
-        { "\CdCollection Missions",             "You must collect a specific number of a specified item to complete the mission. These items are found scattered around the world.", },
-        { "\CaKill Missions",                   "You must kill a given amount of enemies of the same type to complete the mission.", },
-        { "\CaKill Auras Missions",             "You must Kill a given amount of enemies which have at least one aura to complete the mission.", },
-        { "\CaKill Reinforcements Missions",    "While in the field, monsters will spawn in around you. You must kill a given amount of them to complete the mission.", },
-        { "\CgAssassination Missions",          "You must eliminate the specified enemy, which will be located somewhere in the level and will always have a shadow aura to complete the mission.", },
-        { "\CkFind Secrets Missions",           "You must find the given amount of unique secrets to complete the mission.", },
-        { "\CnFind Items Missions",             "You must find the given amount of items to complete the mission.", },
+        { "\CdMissions",                        "You can accept different missions in the Outpost in order to gain XP, rank, credits, modules, and items. There are several different types of missions at varying difficulty levels you can undertake. The list of available missions will refresh each time you visit the Outpost.", },
+        { "\CdCollection Missions",             "You must collect a specific number of a specified item to complete the mission. These items are scattered around the world.", },
+        { "\CaKill Missions",                   "You must kill a given number of enemies of the same type to complete the mission.", },
+        { "\CaKill Auras Missions",             "You must kill a given number of enemies who have at least one aura to complete the mission.", },
+        { "\CaKill Reinforcements Missions",    "While in the field, monsters will spawn around you. You must kill a given number of them to complete the mission.", },
+        { "\CgAssassination Missions",          "You must eliminate the specified shadow enemy, located somewhere in the level, to complete the mission.", },
+        { "\CkFind Secrets Missions",           "You must find the given number of unique secrets to complete the mission.", },
+        { "\CnFind Items Missions",             "You must find the given number of items to complete the mission.", },
         { "\CtAchieve Combo Missions",          "You must get your combo to the given amount to complete the mission.", },
 
         // Shop/Locker
         { "\CfShop",                            "The shop is where you can go to purchase and sell the various equipment and items you can find during the game. The shop also contains a locker system, where you may withdraw and deposit items for later usage.", },
-        { "\ChLocker",                          StrParam("You can access the locker system via the shop and deposit/withdraw your items there. Withdrawing and depositing items has a 1%% cost to your EP per use outside the Outpost. You can switch between the shop and locker using the \Cd%jS\C- key.", "+jump"), },
-        { "\CfShop Cards",                      "While playing, you may find UAC cards which provide you with a discount as well as other benefits. Finding a new card will replace your old card with the upgraded version. Discount benefits from a card will only apply when shopping at the Outpost.", },
+        { "\ChLocker",                          StrParam("You can access the locker system via the shop and deposit or withdraw your items there. Withdrawing and depositing items has a 1%% cost to your EP per use outside the Outpost. You can switch between the shop and locker using the \Cd%jS\C- key.", "+jump"), },
+        { "\CfShop Cards",                      "You may find UAC cards that provide you with a discount as well as other benefits, like access to certain equipment. Finding a new card will replace your old card with the upgraded version. The discount benefits from a card will only apply when shopping at the Outpost.", },
 
         // Level Events
-        { "\CdLevel Events",                    "When entering a level, sometimes unique level-wide events will happen. Each event has it's own unique characteristics and conditions for ending the event.", },
-        { "\CdRolling Level Events",            "Level events will not only occur when entering a level, but previous levels which you have visited will also sometimes contain events and require revisiting in order to participate in the event.", },
+        { "\CdLevel Events",                    "When entering a level, sometimes unique, levelwide events will happen. Each event has its own unique characteristics and conditions for ending the event.", },
+        { "\CdRolling Level Events",            "Level events will not only occur when entering a level, but previous levels that you have visited will also sometimes contain events and require revisiting in order to participate in the event.", },
     };
 
     TipInfo const EventTips[MAPEVENT_MAX] =
@@ -820,20 +910,20 @@ NamedScript void GiveTip()
         { "", "", }, // Never used
 
         { "\CgMegaboss Event",                  "All of the hostiles have vacated the area, and a very powerful creature is lurking about. Return to the Outpost if needed, and make sure you have the power and munitions to take down the death machine.", },
-        { "\CqEnvironmental Hazard Event",      "The area's covered in deadly radiation, but there is also a Radiation Neutralizer to fix the problem. Gather fuel and refill the Neutralizer whenever it runs low, until the radiation is brought down to safe levels.", },
+        { "\CqEnvironmental Hazard Event",      "The area is covered in lethal radiation, but there is also a radiation neutralizer to fix the problem. Gather fuel and refill the neutralizer whenever it runs low, until the radiation is brought down to safe levels.", },
         { "\CiThermonuclear Bomb Event",        "Find as many keys as you can to disable the countdown. Worse comes to worst, you can hack through the key slots by using the bomb without keys, but it's going to take time to do so for each key missing, as indicated by the HUD. And make sure the bomb doesn't get shot!", },
-        { "\CuLow Power Event",                 "The UAC had a major battle in this area, and the discards have been left behind when the area was damaged. Pluck some extra items out of the wreckage before they come back to clean up. You can even get some extra credits and modules if you restore the backup power before you leave.", },
-        { "\CdAll Auras Event",                 "All of the monsters have rather deadly magic auras. Understand their weaknesses, and attempt to stay away from some of them, as they are dangerous.", },
-        { "\CnOne-Monster Event",               "There is one species of demons currently occupying the area. Clearing the area of the hostiles will net you a bonus.", },
-        { "\CgHell Unleashed Event",            "Open the box, and partake in the rare contents within, but be warned: You will anger the demonic army, and they will pursue you endlessly until you are killed or leave the area. The longer you stay, the more likely they are to drop items, but the higher level they will become.", },
-        { "\CdHarmonized Destruction Event",    "All of the enemies in the area have one aura type. Get accustomed to the aura's strength and weakness and use it to your advantage. Don't get caught off-guard, as some monsters can and will have other auras as well.", },
+        { "\CuLow Power Event",                 "The UAC had a major battle in this area, and the discards were left behind when the area was damaged. Pluck some extra items out of the wreckage before they come back to clean up. You can even get some extra credits and modules if you restore the backup power before you leave.", },
+        { "\CdAll Auras Event",                 "All of the monsters have rather deadly magic auras. Understand their weaknesses and attempt to stay away from some of them, as they are dangerous.", },
+        { "\CnOne Monster Event",               "There is one species of demon currently occupying the area. Clearing the area of hostiles will net you a bonus.", },
+        { "\CgHell Unleashed Event",            "Open the box and partake in the rare contents within, but be warned: you will anger the demonic army, and they will pursue you endlessly until you are killed or leave the area. The longer you stay, the more likely they are to drop items, but the deadlier they will become.", },
+        { "\CdHarmonized Destruction Event",    "All of the enemies in the area have the same type of aura. Get accustomed to the aura's strengths and weaknesses and use them to your advantage. Don't get caught off guard, as some monsters can and will have other auras as well.", },
         { "\CdCracks in the Veil Event",        "The area is spatially unstable. Avoid stepping into the portals, as they will teleport you to other points in the area at random. Enemies will be teleported in as well.", },
-        { "\Cg12 Hours 'til Doomsday Event",    "Hell has claimed the area! Run while you still can.", },
-        { "\CqVicious Downpour",                "It's raining acidic substances. Best to wear a radiation suit if you plan to head outdoors.", },
-        { "\CtThe Dark Zone",                   "This is no ordinary mist. The evil fog will slowly sap away the light from its' surroundings. Once that happens, enemies will begin to resurrect and become infused with Shadow Auras. Sticking around here for long is not recommended without preparation.", },
+        { "\Cg12 Hours 'til Doomsday Event",    "Hell has claimed the area! Flee while you still can.", },
+        { "\CqVicious Downpour",                "It's raining acidic substances. It's best to wear a radiation suit if you plan to head outdoors.", },
+        { "\CtThe Dark Zone",                   "This is no ordinary mist. The evil fog will slowly sap away the light from its surroundings. Once that happens, enemies will begin to resurrect and become infused with shadow auras. Sticking around here for too long is not recommended without preparation.", },
 
         { "\CaC       O     N   S    U    M    E         \CgY   O     U", "Tip: Run.", },
-        { "\CmWhispers of Darkness",            "\Cg\"He who fights with monsters should look to it that he himself does not become a monster. \CaAnd when you gaze long into an abyss, \Cuthe abyss also gazes into you.\"", },
+        { "\CmWhispers of Darkness",            "\Cg\"He who fights with monsters should see to it that he himself does not become one. \CaAnd when you gaze long into an abyss, \Cuthe abyss also gazes into you.\"", },
 
 
         { "\CgR\CiA\CkI\CdN\ChB\CtO\CaW\CjS",   "SHE BROKE THE REALITY GENERATOR AGAIN! WE'RE DOOMED!", },
@@ -841,7 +931,7 @@ NamedScript void GiveTip()
         { "\CaHell Event",                      "The difficulty level has increased to \CaHell\C- for this area.", },
         { "\CmArmageddon Event",                "The difficulty level has increased to \CmArmageddon\C- for this area.", },
 
-        { "\CgSinstorm",                        "You're getting close to the source of the invasion. The demonic legion is pulling all of its' last stops. Expect frequent battles with shadow enemies, and reinforcements to pour in relentlessly. Be careful when traversing outdoors, as the fire rain will harm you as well.", },
+        { "\CgSinstorm",                        "You're getting close to the source of the invasion. The demonic legion is pulling out all of its stops. Expect frequent battles with shadow enemies and reinforcements to pour in relentlessly. Be careful when traversing outdoors, as the fire rain will harm you as well.", },
     };
 
     int TipID = Random(0, MAX_TIPS - 1);
@@ -880,6 +970,11 @@ NamedScript void WeaponSpeed()
 
 Start:
 
+    // Compatibility Handling - DoomRL Arsenal
+    if (CompatMode == COMPAT_DRLA)
+        while (CheckInventory("RLWeaponDrop"))
+            Delay(35);
+
     if (Player.Stim.PowerupTimer[STIM_RAGE] > 0 || Player.WeaponSpeed >= 100 || Player.WeaponSpeed <= 0)
         Time = 4;
     else
@@ -899,7 +994,7 @@ Start:
 
     if (GetActivatorCVar("drpg_auto_spend"))
     {
-        while (CheckInventory("DRPGModule") > 0 && !StatsCapped())
+        while (CheckInventory("DRPGModule") > ((250 + Player.Level * 25) / 250 * 250) && !StatsCapped())
         {
             // Select Preferred Stat
             if (Random(1, 2) == 1 && GetActivatorCVar("drpg_auto_spend_pref") >= 0)
@@ -907,11 +1002,11 @@ Start:
             else // Select Random Stat
                 IncreaseStat(Random(0, STAT_MAX - 1));
 
-            Delay(1);
+            Delay(4);
         }
     }
 
-    Delay(1);
+    Delay(4);
     goto Start;
 }
 
@@ -984,19 +1079,19 @@ Start:
             break;
         case SHOPSPECIAL_LEVEL:
             MinValue = AveragePlayerLevel() * MAX_LEVEL;
-            MaxValue = AveragePlayerLevel() * (100 * MAX_LEVEL);
+            MaxValue = 1000 + AveragePlayerLevel() * (20 * MAX_LEVEL);
             break;
         case SHOPSPECIAL_RANK:
-            MinValue = AveragePlayerRank() * (25 * MAX_RANK);
-            MaxValue = AveragePlayerRank() * (2500 * MAX_RANK);
+            MinValue = AveragePlayerRank() * (20 * MAX_RANK);
+            MaxValue = 1000 + AveragePlayerRank() * (350 * MAX_RANK);
             break;
         case SHOPSPECIAL_CREDITS:
-            MinValue = AveragePlayerCredits() / 10;
-            MaxValue = AveragePlayerCredits() * 10;
+            MinValue = AveragePlayerCredits() / 20;
+            MaxValue = 1000 + AveragePlayerCredits() * 2;
             break;
         case SHOPSPECIAL_LUCK:
-            MinValue = AveragePlayerLuck() * 500;
-            MaxValue = AveragePlayerLuck() * 5000;
+            MinValue = AveragePlayerLuck() * 100;
+            MaxValue = 1000 + AveragePlayerLuck() * 2000;
             break;
         }
         if (DebugLog)
@@ -1033,6 +1128,46 @@ Start:
 
             // Skip Loot category entirely
             if (Category == 7)
+            {
+                ValidItem = false;
+                Tries++;
+                continue;
+            }
+
+            // Skip Vial category entirely
+            if (Category == 6 && Index < 24)
+            {
+                ValidItem = false;
+                Tries++;
+                continue;
+            }
+
+            // Skip Ammo category entirely
+            if (Category == 1 && Index < 8)
+            {
+                ValidItem = false;
+                Tries++;
+                continue;
+            }
+
+            // Skip Armor Bonus
+            if (Category == 3 && Index == 0)
+            {
+                ValidItem = false;
+                Tries++;
+                continue;
+            }
+
+            // Skip Thermonuclear Bomb and Extra Life
+            if (Category == 4 && (Index == 17 || Index == 18))
+            {
+                ValidItem = false;
+                Tries++;
+                continue;
+            }
+
+            // Skip over high rarity items
+            if (ItemData[Category][Index].Rarity > 4 + RoundInt(8.0 * MapLevelModifier))
             {
                 ValidItem = false;
                 Tries++;
@@ -1153,9 +1288,21 @@ NamedScript void ItemHandler()
 
             // Enable/Disable clipping on this item
             if (NoClip)
-                SetActorInventory(ItemTIDs[i], "DRPGItemNoClip", 1);
+            {
+                SetActorFlag(ItemTIDs[i], "NOCLIP", true);
+                SetActorFlag(ItemTIDs[i], "NOGRAVITY", true);
+                SetActorFlag(ItemTIDs[i], "NOTELEPORT", true);
+                SetActorFlag(ItemTIDs[i], "VISIBILITYPULSE", true);
+                SetActorFlag(ItemTIDs[i], "BRIGHT", true);
+            }
             else
-                SetActorInventory(ItemTIDs[i], "DRPGItemNoClipOff", 1);
+            {
+                SetActorFlag(ItemTIDs[i], "NOCLIP", false);
+                SetActorFlag(ItemTIDs[i], "NOGRAVITY", false);
+                SetActorFlag(ItemTIDs[i], "NOTELEPORT", false);
+                SetActorFlag(ItemTIDs[i], "VISIBILITYPULSE", false);
+                SetActorFlag(ItemTIDs[i], "BRIGHT", false);
+            }
         }
 
         for (int i = 0; i < MAX_PLAYERS; i++)
@@ -1198,9 +1345,21 @@ NamedScript void ItemHandler()
                 NoClip = true;
 
                 if (NoClip)
-                    SetActorInventory(ItemTID[j], "DRPGItemNoClip", 1);
+                {
+                    SetActorFlag(ItemTID[j], "NOCLIP", true);
+                    SetActorFlag(ItemTID[j], "NOGRAVITY", true);
+                    SetActorFlag(ItemTID[j], "NOTELEPORT", true);
+                    SetActorFlag(ItemTID[j], "VISIBILITYPULSE", true);
+                    SetActorFlag(ItemTID[j], "BRIGHT", true);
+                }
                 else
-                    SetActorInventory(ItemTID[j], "DRPGItemNoClipOff", 1);
+                {
+                    SetActorFlag(ItemTID[j], "NOCLIP", false);
+                    SetActorFlag(ItemTID[j], "NOGRAVITY", false);
+                    SetActorFlag(ItemTID[j], "NOTELEPORT", false);
+                    SetActorFlag(ItemTID[j], "VISIBILITYPULSE", false);
+                    SetActorFlag(ItemTID[j], "BRIGHT", false);
+                }
             }
         }
 
@@ -1225,8 +1384,8 @@ NamedScript DECORATE void ItemInit()
     for (int i = 0; i < MAX_ITEMS; i++)
         if (ItemTIDs[i] == -1)
         {
-            //if (DebugLog)
-            //    Log("\CdDEBUG: \C-Item \Cd%S\C- added (Index \Cd%d\C-)", GetActorClass(0), i);
+            if (DebugLog)
+                Log("\CdDEBUG: \C-Item \Cd%S\C- added (Index \Cd%d\C-)", GetActorClass(0), i);
 
             // Doesn't have a TID, so assign it one
             if (ActivatorTID() == 0)
@@ -1256,9 +1415,15 @@ NamedScript Console void ItemDump()
 }
 
 // Dynamic Loot Generation System
-NamedScript bool DynamicLootGeneratorCheckRemoval(int TID, fixed Z)
+NamedScript bool DynamicLootGeneratorCheckRemoval(int TID, fixed Z, bool monster)
 {
     bool Remove = true;
+
+    // [KS] Don't spawn stuff on special-effects flats like skyfloor or blackness, or at extreme height differences, because more often than not those are used as void space filler or instakill floors.
+    // Examples: Epic2 MAP14, SF2012 MAP02, some CC4 maps.
+    bool BadFloor = (CheckActorFloorTexture(TID, "F_SKY1") || CheckActorFloorTexture(TID, "F_SKY2") || CheckActorFloorTexture(TID, "BLACK") || CheckActorFloorTexture(TID, "FBLACK") || CheckActorFloorTexture(TID, "ALLBLAKF"));
+    bool LegitSector = monster && GetCVar("drpg_spawnercheck_sector") ? ScriptCall("DRPGZUtilities", "CheckActorInLegitSector", TID, monster) : true;
+    bool check = monster ? GetCVar("drpg_spawnercheck_sight") : true;
 
     for (int i = 0; ItemTIDs[i] != -1; i++)
     {
@@ -1268,13 +1433,9 @@ NamedScript bool DynamicLootGeneratorCheckRemoval(int TID, fixed Z)
         // Randomly continue for variance
         if (Random(1, 4) == 1) continue;
 
-        bool CanSee = CheckSight(ItemTIDs[i], TID, 0);
+        bool CanSee = check ? CheckSight(ItemTIDs[i], TID, 0) : true;
 
-        // [KS] Don't spawn stuff on special-effects flats like skyfloor or blackness, or at extreme height differences, because more often than not those are used as void space filler or instakill floors.
-        // Examples: Epic2 MAP14, SF2012 MAP02, some CC4 maps.
-        bool BadFloor = (CheckActorFloorTexture(TID, "F_SKY1") || CheckActorFloorTexture(TID, "F_SKY2") || CheckActorFloorTexture(TID, "BLACK") || CheckActorFloorTexture(TID, "FBLACK") || CheckActorFloorTexture(TID, "ALLBLAKF"));
-
-        if (CanSee && !BadFloor && Abs(Z - GetActorZ(ItemTIDs[i])) <= 24)
+        if (CanSee && LegitSector && !BadFloor && Abs(Z - GetActorZ(ItemTIDs[i])) <= 24)
         {
             Remove = false;
             break;
@@ -1286,12 +1447,14 @@ NamedScript bool DynamicLootGeneratorCheckRemoval(int TID, fixed Z)
 
 NamedScript OptionalArgs(1) void DynamicLootGenerator(str Actor, int MaxItems)
 {
+    // Delay while the map is being initialized
+    while (!CurrentLevel->Init) Delay(1);
+
     LogMessage(StrParam("Running DynamicLootGenerator to create %d items of %S", MaxItems, Actor), LOG_DEBUG);
     fixed LowerX = GetActorX(0);
     fixed UpperX = GetActorX(0);
     fixed LowerY = GetActorY(0);
     fixed UpperY = GetActorY(0);
-    int LevelNum = CurrentLevel->LevelNum;
     int Items = 0;
     int Iterations = 0;
     int NumItems = 0;
@@ -1303,7 +1466,7 @@ NamedScript OptionalArgs(1) void DynamicLootGenerator(str Actor, int MaxItems)
     // Determine the max amount of items to create if it's not specifically specified
     if (MaxItems == 0)
     {
-        MaxItems = Random(LevelNum / GameSkill(), LevelNum) + ((AveragePlayerLuck() + AveragePlayerLevel()) / (GameSkill() * 2));
+        MaxItems = RoundInt(RandomFixed(24.0, 56.0) * ((fixed)AveragePlayerLuck() / 100.0));
         MaxItems *= GetCVarFixed("drpg_lootgen_factor");
     }
 
@@ -1363,9 +1526,15 @@ NamedScript OptionalArgs(1) void DynamicLootGenerator(str Actor, int MaxItems)
         Thing_Remove(TID);
 
         bool Spawned = Spawn("MapSpotTall", X, Y, Z, TID, A);
+
+        Iterations++;
+
+        if (Iterations < 512 && (CheckSight(TID, MAP_START_TID, 0) || Distance(TID, MAP_START_TID) <= 1024 - Iterations))
+            continue;
+
         if (Spawned)
         {
-            bool Remove = ScriptCall("DRPGZUtilities", "CheckActorInMap", TID) ? DynamicLootGeneratorCheckRemoval(TID, Z) : true;
+            bool Remove = ScriptCall("DRPGZUtilities", "CheckActorInMap", TID) ? DynamicLootGeneratorCheckRemoval(TID, Z, MaxItems < 0) : true;
             bool Visible = false;
 
             if (!Remove)
@@ -1399,6 +1568,32 @@ NamedScript OptionalArgs(1) void DynamicLootGenerator(str Actor, int MaxItems)
                         SpawnMonster = Actor;
                     if (!Visible && Spawn(SpawnMonster, X, Y, Z, TID, A))
                         Items++;
+
+                    // Compatibility Handling - LegenDoom
+                    if (CompatMode == COMPAT_LEGENDOOM || CompatModeLite == COMPAT_LEGENDOOMLITE)
+                    {
+                        if (CheckClass("LDLegendaryMonsterPickupEasy"))
+                        {
+                            switch (GameSkill())
+                            {
+                            case 0:
+                                GiveActorInventory(TID, "LDLegendaryMonsterPickupEasy", 1);
+                                break;
+                            case 1:
+                                GiveActorInventory(TID, "LDLegendaryMonsterPickupNormal", 1);
+                                break;
+                            case 2:
+                                GiveActorInventory(TID, "LDLegendaryMonsterPickupHard", 1);
+                                break;
+                            case 3:
+                                GiveActorInventory(TID, "LDLegendaryMonsterPickupUV", 1);
+                                break;
+                            default:
+                                GiveActorInventory(TID, "LDLegendaryMonsterPickupNightmare", 1);
+                                break;
+                            }
+                        }
+                    }
                 }
                 else if (Spawn(Actor, X, Y, Z, TID, A))
                     Items++;
@@ -1410,8 +1605,6 @@ NamedScript OptionalArgs(1) void DynamicLootGenerator(str Actor, int MaxItems)
             HudMessage("\CfGenerating Loot\n\Cd%d \Cj/ \Cd%d\n\n\CdActor: \C-%S\n\CdIteration: %d\n\CiBoundaries: %.2k-%.2k, %.2k-%.2k\n\nX: %.2k\nY: %.2k\nZ: %.2k", Items, MaxItems, Actor, Iterations, LowerX, UpperX, LowerY, UpperY, X, Y, Z);
             EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('L', 'O', 'O', 'T'), "White", 1.5, 0.8, 1.5, 0.5);
         }
-
-        Iterations++;
 
         if (Iterations % 50 == 0) Delay(1);
 
@@ -1431,6 +1624,20 @@ NamedScript OptionalArgs(1) void DynamicLootGenerator(str Actor, int MaxItems)
 // Activate Focus Mode
 NamedScript KeyBind void ToggleFocusMode()
 {
+    if (Player.Augs.Battery < (Player.EPMax / 50) * 5)
+    {
+        PrintError(StrParam("There is not enough power for focusing device\n\nYou need %d AUG Battery", (Player.EPMax / 50) * 5));
+        ActivatorSound("menu/error", 127);
+        return;
+    }
+
+    if (Player.FocusingCooldown > 0)
+    {
+        PrintError(StrParam("Focusing device is overloaded\n\nYou must wait %S before reattemtping the focusing", FormatTime(Player.FocusingCooldown)));
+        ActivatorSound("menu/error", 127);
+        return;
+    }
+
     Player.Focusing = !Player.Focusing;
 
     if (Player.Focusing)
@@ -1454,6 +1661,9 @@ NamedScript void FocusMode()
     if (Player.EP >= Player.EPMax) return;
 
     SetPlayerProperty(0, 1, PROP_FROZEN);
+
+    Player.Augs.Battery -= (Player.EPMax / 50) * 5;
+    DrawBattery();
 
     while (Player.Focusing)
     {
@@ -1494,6 +1704,7 @@ NamedScript void FocusMode()
         Delay(1);
     }
 
+    Player.FocusingCooldown += 35 * 300;
     Player.Focusing = false; // So we can't gain Regen XP out of thin air
     PlaySound(0, "misc/epfocusdone", CHAN_BODY, 0.5, false, ATTN_NORM);
     SetPlayerProperty(0, 0, PROP_FROZEN);
@@ -1551,7 +1762,7 @@ NamedScript Type_DEATH void Dead()
         // Incapacitation announcement
         SetHudSize(320, 200, false);
         SetFont("SMALLFONT");
-        if (AlivePlayers() >= 1)
+        if (SomePlayerAlive())
             HudMessage("%tS was incapacitated", PlayerNumber() + 1);
         else
             HudMessage("%tS has died", PlayerNumber() + 1);
@@ -1583,39 +1794,43 @@ NamedScript Type_RESPAWN void Respawn()
     AssignTIDs();
 
     // Heal to max health if revives are disabled or revive at the body's location
-    if (!GetCVar("drpg_multi_revives"))
-        Player.ActualHealth = Player.HealthMax;
-    else if (Player.BodyTID != 0)
+    if (Player.ReviverTID > 0 && Player.BodyTID > 0)
     {
-        SetActorPosition(Player.TID, GetActorX(Player.BodyTID), GetActorY(Player.BodyTID), GetActorZ(Player.BodyTID), 0);
+        SetActorFlag(Player.BodyTID, "INVISIBLE", true);
+        SetActorPosition(Player.TID, GetActorX(Player.BodyTID), GetActorY(Player.BodyTID), GetActorZ(Player.BodyTID), false);
         SetActorAngle(Player.TID, GetActorAngle(Player.BodyTID));
         Thing_Remove(Player.BodyTID);
-        Player.BodyTID = 0;
     }
+    else
+        Player.ActualHealth = Player.HealthMax;
+
     SetActorProperty(0, APROP_Health, Player.ActualHealth);
 
     // XP/Rank Penalty
-    if (GetCVar("drpg_multi_takexp"))
+    if (GetCVar("drpg_multi_takexp") && Player.ReviverTID == 0)
     {
         long int XPPenalty = (long int)(XPTable[Player.Level] * GetCVar("drpg_multi_takexp_percent") / 100);
         long int RankPenalty = (long int)(RankTable[Player.RankLevel] * GetCVar("drpg_multi_takexp_percent") / 100);
+
+        if (XPPenalty > Player.XP) XPPenalty = Player.XP;
+        if (RankPenalty > Player.Rank) RankPenalty = Player.Rank;
 
         if (XPPenalty > 0 || RankPenalty > 0)
         {
             Player.XP -= XPPenalty;
             Player.Rank -= RankPenalty;
             SetFont("BIGFONT");
-            HudMessage("\CjXP -%d\n\CkRank -%d", XPPenalty, RankPenalty);
+            HudMessage("\CjXP -%ld\n\CkRank -%ld", XPPenalty, RankPenalty);
             EndHudMessage(HUDMSG_FADEOUT | HUDMSG_LOG, 0, "White", 1.5, 0.75, 2.0, 2.0);
         }
     }
 
     // Restore EP if CVAR is set
-    if (GetCVar("drpg_multi_restoreep"))
+    if (GetCVar("drpg_multi_restoreep") && Player.ReviverTID == 0)
         Player.EP = Player.EPMax;
 
     // Give a box of ammo if a specific ammo type is empty if the CVAR is set
-    if (GetCVar("drpg_multi_restoreammo"))
+    if (GetCVar("drpg_multi_restoreammo") && Player.ReviverTID == 0)
     {
         if (CheckInventory("Clip") < GetAmmoAmount("Clip") * (Player.CapacityTotal / 10))
             SetInventory("Clip", GetAmmoAmount("Clip") * (Player.CapacityTotal / 10));
@@ -1627,6 +1842,15 @@ NamedScript Type_RESPAWN void Respawn()
             SetInventory("Cell", GetAmmoAmount("Cell") * (Player.CapacityTotal / 10));
     }
 
+    // Reset revive stuff
+    if (GetCVar("drpg_multi_revives"))
+    {
+        Player.ReviveeNum = -1;
+        Player.ReviveKeyTimer = 0;
+        Player.ReviverTID = 0;
+        Player.BodyTID = 0;
+    }
+
     // Apply camera textures and vars
     SetCameraToTexture(Player.TID, StrParam("P%iVIEW", PlayerNumber() + 1), 110);
     SetCameraToTexture(Player.TID, StrParam("P%iSVIEW", PlayerNumber() + 1), 90);
@@ -1635,6 +1859,7 @@ NamedScript Type_RESPAWN void Respawn()
     // Run Scripts
     Loop();
     PlayerHealth();
+    PlayerSurvive();
     MoneyChecker();
     DamageNumbers();
     InfoPopoffs();
@@ -1859,6 +2084,10 @@ NamedScript void Loadout_GiveAugs()
         if (Player.Augs.Level[Type] > 0) continue;
 
         Player.Augs.Level[Type]++;
+
+        if (Player.Augs.Level[Type] > 0)
+            Player.Augs.CurrentLevel[Type] = Player.Augs.Level[Type];
+
         ActiveAugs++;
     }
 
@@ -2024,6 +2253,14 @@ NamedScript void Loadout_GiveDRLAEquipment()
     int MaxWeaponCount = GetActivatorCVar("drpg_start_drla_weapon_amount");
     int ModPackCount = 0;
     int ModPackMax = GetActivatorCVar("drpg_start_drla_modpacks");
+
+    // Compatibility Handling - DoomRL Extended
+    if (CompatModeEx == COMPAT_DRLAX)
+    {
+        // Set Weapon Count for Phase Sisters
+        if (PlayerClass(PlayerNumber()) == 9) // Phase Sisters
+            if (MaxWeaponCount > 3) MaxWeaponCount = 3;
+    }
 
     // Weapons
     if (GetActivatorCVar("drpg_start_drla_weapon_type") > 0)
@@ -2262,6 +2499,8 @@ void CheckCompatibility()
     SkillLevelsMax = MAX_SKILLLEVELS_DF;
 
     CompatMode = COMPAT_NONE;
+    CompatModeEx = COMPAT_NONE;
+    CompatModeLite = COMPAT_NONE;
     CompatMonMode = COMPAT_NONE;
 
     MonsterData = MonsterDataDF;
@@ -2270,7 +2509,11 @@ void CheckCompatibility()
     MegaBosses = MegaBossesDF;
     MegaBossesAmount = MAX_MEGABOSSES_DF;
 
-    WadSmoosh = false;
+    MapPacks = false;
+
+    // Starting Map
+    if (!InTitle && CurrentLevel->UACBase && GetCVar("drpg_addstartmap"))
+        MapPacks = true;
 
     // WadSmoosh
     Success = SpawnForced("DRPGWadSmooshActive", 0, 0, 0, TID, 0);
@@ -2278,7 +2521,27 @@ void CheckCompatibility()
     {
         if (DebugLog)
             Log("\CdDEBUG: \CaWadSmoosh\C- detected");
-        WadSmoosh = true;
+        MapPacks = true;
+        Thing_Remove(TID);
+    }
+
+    // Lexicon
+    Success = SpawnForced("DRPGLexiconActive", 0, 0, 0, TID, 0);
+    if (Success)
+    {
+        if (DebugLog)
+            Log("\CdDEBUG: \CaLexicon\C- detected");
+        MapPacks = true;
+        Thing_Remove(TID);
+    }
+
+    // Compendium
+    Success = SpawnForced("DRPGCompendiumActive", 0, 0, 0, TID, 0);
+    if (Success)
+    {
+        if (DebugLog)
+            Log("\CdDEBUG: \CaCompendium\C- detected");
+        MapPacks = true;
         Thing_Remove(TID);
     }
 
@@ -2305,6 +2568,17 @@ void CheckCompatibility()
         Thing_Remove(TID);
     }
 
+    // LegenDoomLite
+    Success = SpawnForced("DRPGLegenDoomLiteActive", 0, 0, 0, TID, 0);
+    if (Success)
+    {
+        if (DebugLog)
+            Log("\CdDEBUG: \CdLegenDoomLite\C- detected");
+
+        CompatModeLite = COMPAT_LEGENDOOMLITE;
+        Thing_Remove(TID);
+    }
+
     // DoomRL Arsenal
     Success = SpawnForced("RLPistolPickup", 0, 0, 0, TID, 0);
     if (Success)
@@ -2314,6 +2588,17 @@ void CheckCompatibility()
 
         CompatMode = COMPAT_DRLA;
         SetInventory("DRPGDRLAActive", 1);
+        Thing_Remove(TID);
+    }
+
+    // DoomRL Arsenal Extended
+    Success = SpawnForced("DRLAX_RadarDevice", 0, 0, 0, TID, 0);
+    if (Success)
+    {
+        if (DebugLog)
+            Log("\CdDEBUG: \CdDoomRL Extended \C-detected");
+
+        CompatModeEx = COMPAT_DRLAX;
         Thing_Remove(TID);
     }
 
@@ -2346,7 +2631,45 @@ void CheckCompatibility()
         Thing_Remove(TID);
     }
 
-    if (DebugLog && CompatMode == COMPAT_NONE && CompatMonMode == COMPAT_NONE && !WadSmoosh)
+    // Rampancy
+    Success = SpawnForced("Robot_SentryBot", 0, 0, 0, TID, 0);
+    if (Success)
+    {
+        if (DebugLog)
+            Log("\CdDEBUG: \CdRampancy\C- detected");
+
+        CompatMonMode = COMPAT_RAMPANCY;
+        MonsterData = MonsterDataRAMPANCY;
+        MonsterDataAmount = MAX_DEF_MONSTERS_RM;
+        Thing_Remove(TID);
+    }
+
+    // Dehacked Attack
+    Success = SpawnForced("DEHZombieman", 0, 0, 0, TID, 0);
+    if (Success)
+    {
+        if (DebugLog)
+            Log("\CdDEBUG: \CdDeHacked Attack\C- detected");
+
+        CompatMonMode = COMPAT_DEHACKED;
+        MonsterData = MonsterDataDEHACKED;
+        Thing_Remove(TID);
+    }
+
+    // Pandemonia Monsters
+    Success = SpawnForced("PistolZombie", 0, 0, 0, TID, 0);
+    if (Success)
+    {
+        if (DebugLog)
+            Log("\CdDEBUG: \CdPandemonia Monsters\C- detected");
+
+        CompatMonMode = COMPAT_PANDEMONIA;
+        MonsterData = MonsterDataPANDM;
+        MonsterDataAmount = MAX_DEF_MONSTERS_PANDM;
+        Thing_Remove(TID);
+    }
+
+    if (DebugLog && CompatMode == COMPAT_NONE && CompatMonMode == COMPAT_NONE && !MapPacks)
         Log("\CdDEBUG: \C-No compatible mods found");
 }
 
@@ -2361,15 +2684,15 @@ void AssignTIDs()
 
 NamedScript void ReviveHandler()
 {
-    for (int i = 0; i < PlayerCount(); i++)
+    if ((!Player.InMenu && !Player.InShop && !Player.OutpostMenu && !Player.CrateOpen) && !Player.MenuBlock)
     {
-        if (i != PlayerNumber() && Players(i).ActualHealth <= 0 && Players(i).BodyTID > 0 && Distance(Player.TID, Players(i).BodyTID) < 48)
+        for (int i = 0; i < PlayerCount(); i++)
         {
-            if ((!Player.InMenu && !Player.InShop && !Player.OutpostMenu && !Player.CrateOpen) && !Player.MenuBlock)
+            if (i != PlayerNumber() && Players(i).ActualHealth <= 0 && Players(i).BodyTID > 0 && Distance(Player.TID, Players(i).BodyTID) < 48)
             {
                 SetHudSize(0, 0, false);
                 SetFont("BIGFONT");
-                if (Players(i).Reviver == -1 || Players(i).Reviver == PlayerNumber())
+                if (Players(i).ReviverTID == 0 || Players(i).ReviverTID == Player.TID)
                 {
                     if (Player.Medkit > 0)
                     {
@@ -2379,25 +2702,27 @@ NamedScript void ReviveHandler()
                         if (CheckInput(BT_USE, KEY_HELD, false, PlayerNumber()))
                         {
                             SetPlayerProperty(PlayerNumber(), true, PROP_TOTALLYFROZEN);
+                            Player.ReviveeNum = i;
+                            Players(i).ReviverTID = Player.TID;
                             Players(i).ReviveKeyTimer++;
                             if (Players(i).ReviveKeyTimer >= 105)
                             {
-                                if (!Stabilize)
+                                if (Stabilize)
+                                {
+                                    Players(i).ReviverTID = 0;
+                                    Players(i).ReviveKeyTimer = 0;
+                                    HudMessage("%tS was stabilized", i + 1);
+                                    EndHudMessage(HUDMSG_FADEOUT, 0, "Green", 1.5, 0.7, 1.0, 1.0);
+                                }
+                                else
                                 {
                                     ScriptCall("DRPGZUtilities", "ForceRespawn", i);
                                     HudMessage("%tS was revived", i + 1);
                                     EndHudMessageBold(HUDMSG_FADEOUT, 0, "Green", 1.5, 0.8, 1.0, 1.0);
                                 }
-                                else
-                                {
-                                    HudMessage("%tS was stabilized", i + 1);
-                                    EndHudMessage(HUDMSG_FADEOUT, 0, "Green", 1.5, 0.7, 1.0, 1.0);
-                                }
                                 SetPlayerProperty(PlayerNumber(), false, PROP_TOTALLYFROZEN);
                                 Players(i).ActualHealth += Expense;
                                 Player.Medkit -= Expense;
-                                Players(i).ReviveKeyTimer = 0;
-                                Players(i).Reviver = -1;
                             }
                             else if (Players(i).ReviveKeyTimer > 0)
                             {
@@ -2407,12 +2732,11 @@ NamedScript void ReviveHandler()
                                 else
                                     DrawProgressBar("Stabilizing", Percent);
                             }
+
+                            return;
                         }
                         else
                         {
-                            SetPlayerProperty(PlayerNumber(), false, PROP_TOTALLYFROZEN);
-                            Players(i).ReviveKeyTimer = 0;
-                            Players(i).Reviver = -1;
                             if (!Stabilize)
                                 HudMessage("Hold \Cd%jS\C- to revive", "+use");
                             else
@@ -2434,13 +2758,22 @@ NamedScript void ReviveHandler()
             }
         }
     }
+
+    if (Player.ReviveeNum >= 0)
+    {
+        SetPlayerProperty(PlayerNumber(), false, PROP_TOTALLYFROZEN);
+        Players(Player.ReviveeNum).ReviveKeyTimer = 0;
+        if (Players(Player.ReviveeNum).ActualHealth <= 0)
+            Players(Player.ReviveeNum).ReviverTID = 0;
+        Player.ReviveeNum = -1;
+    }
 }
 
-NamedScript int AlivePlayers()
+NamedScript bool SomePlayerAlive()
 {
-    int AlivePlayers = 0;
     for (int i = 0; i < PlayerCount(); i++)
         if (Players(i).ActualHealth > 0)
-            AlivePlayers++;
-    return AlivePlayers;
+            return true;
+
+    return false;
 }

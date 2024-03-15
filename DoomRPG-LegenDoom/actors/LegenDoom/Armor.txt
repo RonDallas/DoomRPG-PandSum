@@ -1,0 +1,196 @@
+// Armor Bonus
+actor LDArmorBonusPickupRPG : LDArmorBonusPickup Replaces DRPGArmorBonus {}
+
+// Normal Armors
+// ----------
+
+// Green Armor
+actor LDGreenArmorPickupRPG : DRPGGreenArmor Replaces DRPGGreenArmor
+{
+    Tag "Green Armor - 33% Damage Protection"
+
+    States
+    {
+    Use:
+        TNT1 A 0 A_JumpIf(CallACS("ShieldRemoveArmor") == 1, "UseFail")
+        TNT1 A 0 A_GiveInventory("LDGreenArmorPickup", 1)
+        Stop
+    }
+}
+
+// Blue Armor
+actor LDBlueArmorPickupRPG : DRPGBlueArmor Replaces DRPGBlueArmor
+{
+    Tag "Green Armor - 50% Damage Protection"
+
+    States
+    {
+    Use:
+        TNT1 A 0 A_JumpIf(CallACS("ShieldRemoveArmor") == 1, "UseFail")
+        TNT1 A 0 A_GiveInventory("LDBlueArmorPickup", 1)
+        Stop
+    }
+}
+
+// Yellow Armor
+actor LDYellowArmorPickupRPG : DRPGYellowArmor Replaces DRPGYellowArmor
+{
+    Tag "Yellow Armor - 63% Damage Protection"
+  
+    States
+    {
+    Use:
+        TNT1 A 0 A_JumpIf(CallACS("ShieldRemoveArmor") == 1, "UseFail")
+        TNT1 A 0 A_GiveInventory("LDYellowArmorEffectRPG", 1)
+        Stop
+    }
+}
+
+actor LDYellowArmorEffectRPG : DRPGYellowArmorEffect Replaces DRPGYellowArmorEffect
+{    
+    Armor.Savepercent 63.335
+    Armor.Saveamount 200
+}
+
+// Red Armor
+actor LDRedArmorPickupRPG : DRPGRedArmor Replaces DRPGRedArmor
+{
+    Tag "Red Armor - 75% Damage Protection"
+
+    States
+    {
+    Use:
+        TNT1 A 0 A_JumpIf(CallACS("ShieldRemoveArmor") == 1, "UseFail")
+        TNT1 A 0 A_GiveInventory("LDRedArmorEffectRPG", 1)
+        Stop
+    }
+}
+
+actor LDRedArmorEffectRPG : DRPGRedArmorEffect Replaces DRPGRedArmorEffect
+{
+    Armor.Savepercent 75
+    Armor.Saveamount 200
+}
+
+// White Armor
+actor LDWhiteArmorPickupRPG : DRPGWhiteArmor Replaces DRPGWhiteArmor
+{
+    Tag "White Armor - 100% Damage Protection"
+
+    States
+    {
+    Use:
+        TNT1 A 0 A_JumpIf(CallACS("ShieldRemoveArmor") == 1, "UseFail")
+        TNT1 A 0 A_GiveInventory("LDWhiteArmorEffectRPG", 1)
+        Stop
+    }
+}
+
+actor LDWhiteArmorEffectRPG : DRPGWhiteArmorEffect Replaces DRPGWhiteArmorEffect
+{
+    Armor.Savepercent 100
+    Armor.Saveamount 200
+}
+
+// Reinforced Armors
+// --------------------------------------------------
+
+// Reinforced Green Armor
+Actor LDReinforcedGreenArmorPickupRPG : DRPGReinforcedGreenArmor Replaces DRPGReinforcedGreenArmor
+{
+    Tag "Reinforced Green Armor - 33% Damage Protection"
+    
+    States
+    {
+    Use:
+        TNT1 A 0 A_JumpIf(CallACS("ShieldRemoveArmor") == 1, "UseFail")
+        TNT1 A 0 A_GiveInventory("LDReinforcedGreenArmorEffectRPG", 1)
+        Stop
+    }
+}
+
+actor LDReinforcedGreenArmorEffectRPG : DRPGReinforcedGreenArmorEffect Replaces DRPGReinforcedGreenArmorEffect
+{   
+    Armor.SavePercent 33.335
+    Armor.SaveAmount 200
+}
+
+// Reinforced Blue Armor
+Actor LDReinforcedBlueArmorPickupRPG : DRPGReinforcedBlueArmor Replaces DRPGReinforcedBlueArmor
+{
+    Tag "Reinforced Blue Armor - 50% Damage Protection"
+    
+    States
+    {
+    Use:
+        TNT1 A 0 A_JumpIf(CallACS("ShieldRemoveArmor") == 1, "UseFail")
+        TNT1 A 0 A_GiveInventory("LDReinforcedBlueArmorEffectRPG", 1)
+        Stop
+    }
+}
+
+actor LDReinforcedBlueArmorEffectRPG : DRPGReinforcedBlueArmorEffect Replaces DRPGReinforcedBlueArmorEffect
+{  
+    Armor.SavePercent 50
+    Armor.SaveAmount 300
+}
+
+// Reinforced Yellow Armor
+actor LDReinforcedYellowArmorPickupRPG : DRPGReinforcedYellowArmor Replaces DRPGReinforcedYellowArmor
+{
+    Tag "Reinforced Yellow Armor - 63% Damage Protection"
+    
+    States
+    {
+    Use:
+        TNT1 A 0 A_JumpIf(CallACS("ShieldRemoveArmor") == 1, "UseFail")
+        TNT1 A 0 A_GiveInventory("LDReinforcedYellowArmorEffectRPG", 1)
+        Stop
+    }
+}
+
+actor LDReinforcedYellowArmorEffectRPG : DRPGReinforcedYellowArmorEffect Replaces DRPGReinforcedYellowArmorEffect
+{    
+    Armor.SavePercent 63.335
+    Armor.SaveAmount 400
+}
+
+// Reinforced Red Armor
+actor LDReinforcedRedArmorPickupRPG : DRPGReinforcedRedArmor Replaces DRPGReinforcedRedArmor
+{
+    Tag "Reinforced Red Armor - 75% Damage Protection"
+    
+    States
+    {
+    Use:
+        TNT1 A 0 A_JumpIf(CallACS("ShieldRemoveArmor") == 1, "UseFail")
+        TNT1 A 0 A_GiveInventory("LDReinforcedRedArmorEffectRPG", 1)
+        Stop
+    }
+}
+
+actor LDReinforcedRedArmorEffectRPG : DRPGReinforcedRedArmorEffect Replaces DRPGReinforcedRedArmorEffect
+{    
+    Armor.SavePercent 75
+    Armor.SaveAmount 400
+}
+
+// Reinforced White Armor
+actor LDReinforcedWhiteArmorPickupRPG : DRPGReinforcedWhiteArmor Replaces DRPGReinforcedWhiteArmor
+{
+    Tag "Reinforced White Armor - 100% Damage Protection"
+    
+    States
+    {
+    Use:
+        TNT1 A 0 A_JumpIf(CallACS("ShieldRemoveArmor") == 1, "UseFail")
+        TNT1 A 0 A_GiveInventory("LDReinforcedWhiteArmorEffectRPG", 1)
+        Stop
+    }
+}
+
+actor LDReinforcedWhiteArmorEffectRPG : DRPGReinforcedWhiteArmorEffect Replaces DRPGReinforcedWhiteArmorEffect
+{    
+    Armor.SavePercent 100
+    Armor.SaveAmount 400
+}

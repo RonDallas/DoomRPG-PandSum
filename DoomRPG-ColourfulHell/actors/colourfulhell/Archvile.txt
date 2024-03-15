@@ -12,6 +12,8 @@ ACTOR CommonArchRPG : CommonArch Replaces CommonArch
 {
 	Tag "Archvile"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -27,6 +29,8 @@ ACTOR CommonArchRPG : CommonArch Replaces CommonArch
 ACTOR GreenArchRPG : GreenArch Replaces GreenArch
 {
 	Tag "Uncommon Archvile"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -44,6 +48,8 @@ ACTOR CyanVileRPG : CyanVile Replaces CyanVile
 {
 	Tag "Icy Archvile"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -55,10 +61,30 @@ ACTOR CyanVileRPG : CyanVile Replaces CyanVile
 	}
 }
 
+// Brown Archvile
+ACTOR BrownVileRPG : BrownVile Replaces BrownVile
+{
+	Tag "Monstrous Archvile"
+
+    DropItem "DRPGEmpty"
+
+	States
+	{
+	Spawn:
+		WICK A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		WICK A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
 // Blue Archvile
 ACTOR BlueArchRPG : BlueArch Replaces BlueArch
 {
 	Tag "Rare Archvile"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -76,6 +102,8 @@ ACTOR PurpleArchRPG : PurpleArch Replaces PurpleArch
 {
 	Tag "Epic Archvile"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -90,6 +118,8 @@ ACTOR PurpleArchRPG : PurpleArch Replaces PurpleArch
 ACTOR SpecialRevRPG : SpecialRev Replaces SpecialRev
 {
 	Tag "Agitated Revenant"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -107,6 +137,8 @@ ACTOR YellowArchRPG : YellowArch Replaces YellowArch
 {
 	Tag "Golden Archvile"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -121,6 +153,8 @@ ACTOR YellowArchRPG : YellowArch Replaces YellowArch
 ACTOR SpecialVileRPG : SpecialVile Replaces SpecialVile
 {
 	Tag "ArchArchvile"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -138,6 +172,8 @@ ACTOR GrayArch2RPG : GrayArch2 Replaces GrayArch2
 {
 	Tag "Ancient Archvile"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -153,6 +189,8 @@ ACTOR GrayArch2RPG : GrayArch2 Replaces GrayArch2
 ACTOR AbyssVileRPG : AbyssVile Replaces AbyssVile
 {
 	Tag "Abyssal Archvile"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -170,6 +208,8 @@ ACTOR FireBluArch2RPG : FireBluArch2 Replaces FireBluArch2
 {
 	Tag "Enchanted Archvile"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -185,6 +225,8 @@ ACTOR FireBluArch2RPG : FireBluArch2 Replaces FireBluArch2
 ACTOR RedArch2RPG : RedArch2 Replaces RedArch2
 {
 	Tag "Infernovile"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -202,6 +244,8 @@ ACTOR RedArch3RPG : RedArch3 Replaces RedArch3
 {
 	Tag "Grand Infernovile"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -218,6 +262,8 @@ ACTOR BlackVileRPG : BlackVile Replaces BlackVile
 {
 	Tag "The Void"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -233,6 +279,8 @@ ACTOR BlackVileRPG : BlackVile Replaces BlackVile
 ACTOR WhitevileRPG : Whitevile Replaces Whitevile
 {
 	Tag "Godly Archvile"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{

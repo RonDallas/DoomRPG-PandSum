@@ -18,6 +18,7 @@ NamedScript DECORATE int InOutpost();
 NamedScript DECORATE int GetUniqueTID();
 NamedScript DECORATE int GetAmmoMax(int);
 NamedScript DECORATE void SoulEffect(int);
+NamedScript DECORATE void SoulCalculate();
 NamedScript DECORATE void DestroyImmunity();
 NamedScript DECORATE int GetSkillLevel();
 NamedScript DECORATE int GetShopCard();
@@ -42,6 +43,11 @@ NamedScript DECORATE void HealMonster(int, int);
 NamedScript DECORATE void TeleportMonster();
 void DropMoney(int, int, int);
 OptionalArgs(6) int DropMonsterItem(int, int, str, int, fixed, fixed, fixed, fixed, fixed, fixed);
+bool MonsterSeeTarget(int);
+fixed MonsterDistanceTarget(int);
+bool ActorSeePlayers(int, int);
+bool ActorNotSeePlayers(int, int, bool);
+NamedScript DECORATE void CorpsesCleanup();
 
 // Players
 NamedScript DECORATE void RegenBoost();
@@ -62,12 +68,15 @@ int AveragePlayerLevel();
 int AveragePlayerRank();
 int AveragePlayerCredits();
 int AveragePlayerLuck();
+bool NomadInGame();
 bool HaveStatusEffect();
 bool DropPlayerItem(str);
 bool IsPlayerMoving();
 int FindPlayerID(int);
 OptionalArgs(1) bool SetActivatorToTargetExtended(int, int);
 bool IsTimeFrozen();
+NamedScript DECORATE fixed MapLevelMod();
+fixed StatsNatMod();
 
 // Inventory
 int CheckInventoryTID(int, str);
@@ -89,6 +98,8 @@ NamedScript DECORATE bool ShieldActive();
 NamedScript DECORATE int GetShield();
 NamedScript DECORATE int GetShieldMax();
 NamedScript DECORATE bool ShieldHealthMax();
+NamedScript Console int GetPlayerShieldCharge(int);
+NamedScript Console int GetPlayerShieldCapacity(int);
 
 // EP
 NamedScript DECORATE void AddEP(int, bool);
@@ -116,6 +127,7 @@ OptionalArgs(3) void EndHudMessageSelect(bool bold, int flags, int id, str color
 #define EndHudMessage(...) EndHudMessageSelect(false, __VA_ARGS__)
 #define EndHudMessageBold(...) EndHudMessageSelect(true, __VA_ARGS__)
 str StrParam(str Format, ...);
+NamedScript void FadeRangeFlash(int, int, int, fixed, int, int, int, fixed, fixed);
 
 NamedScript void PrintTextWiggle(char *, int, int, int, int, fixed, fixed, fixed, fixed);
 NamedScript void DrawStatUp(int);
@@ -137,12 +149,19 @@ void RemoveDRLAItem(int, int);
 void GiveDRLAArmorToken(str);
 void RemoveDRLAArmorToken(str);
 void CheckDRLASetWeapons();
+void NomadModPacksSave();
+void NomadModPacksLoad();
+void NanomaniacTransport();
+NamedScript DECORATE void PhaseSistersDataSave();
+NamedScript DECORATE void PhaseSistersDataLoad();
 
 // Math
 int CalcPercent(int, int);
 int Pow(int, int);
+fixed PowFixed(fixed, int);
 int Abs(int);
 int RoundInt(fixed);
+long int RoundLongInt(long fixed);
 fixed AbsFixed(fixed);
 fixed Min(fixed, fixed);
 fixed Max(fixed, fixed);

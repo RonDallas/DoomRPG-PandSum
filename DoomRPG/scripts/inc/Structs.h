@@ -73,6 +73,10 @@ struct CharSaveInfo_S
     int Level;
     int RankLevel;
 
+    // XP / Rank
+    int XP;
+    int Rank;
+
     // Stats
     int Stats[STAT_MAX];
     int StatsNat[STAT_MAX];
@@ -110,10 +114,30 @@ struct CharSaveInfo_S
     // Auto-Sell
     int ItemAutoMode[ITEM_CATEGORIES][ITEM_MAX];
 
+    // Map Level Number
+    int NextLevelNum;
+    int NextPrimaryLevelNum;
+
     // ----- COMPATIBILITY EXTENSIONS -----
 
+    // Compatibility Handling - DoomRL Arsenal
     // DRLA Tokens
     bool DRLATokens[DRLA_MAX_TOKENS];
+
+    // Chances for Exotic/Superior/Unique/Demonic/Legendary armor and boots
+    int ArmorChances[6];
+
+    // Chances for Exotic/Superior/Unique/Demonic/Legendary weapon
+    int WeaponsChances[5];
+
+    // Danger Level
+    int DangerLevel;
+
+    // Items spawned values
+    int WeaponsSpawned[ITEM_MAX];
+    int ArmorsSpawned[ITEM_MAX];
+    int BootsSpawned[ITEM_MAX];
+    int ShieldsSpawned[ITEM_MAX];
 
     // ------------------------------------
 
@@ -152,6 +176,8 @@ struct ItemInfo_S
     unsigned int CompatMods;
     int Category;
     int Index;
+
+    int Spawned;
 };
 
 // Crates
@@ -314,6 +340,8 @@ struct MonsterStats_S
 
     // Auras
     struct AuraInfo_S Aura;
+    bool HasAura;
+    bool HasShadowAura;
 
     int LevelAdd;
     bool AuraAdd[AURA_MAX];
@@ -530,7 +558,12 @@ struct PlayerData_S
 {
     int TID;
     int PlayerView;
+
+    // Revive stuff
     int BodyTID;
+    int ReviveKeyTimer;
+    int ReviverTID;
+    int ReviveeNum;
 
     // Flags
     bool FirstRun;
@@ -538,7 +571,7 @@ struct PlayerData_S
     bool InShop;
     bool InMinigame;
     bool CrateOpen;
-    bool LastLegs;      // You're about to die, do something about it!
+    bool CanSurvive;    // You're about to die, do something about it!
 
     // Primary Stats
     int Strength;       // Increases Damage
@@ -566,6 +599,18 @@ struct PlayerData_S
     int CapacityNat;
     int LuckNat;
 
+    // Souls Count
+    int SoulRedCount;
+    int SoulGreenCount;
+    int SoulWhiteCount;
+    int SoulPinkCount;
+    int SoulBlueCount;
+    int SoulPurpleCount;
+    int SoulOrangeCount;
+    int SoulDarkBlueCount;
+    int SoulYellowCount;
+    fixed SoulsCount;
+
     // Total Stat Values
     int StrengthTotal;
     int DefenseTotal;
@@ -585,6 +630,9 @@ struct PlayerData_S
     int AgilityBonus;
     int CapacityBonus;
     int LuckBonus;
+
+    // Compatibility Handling - DoomRL Arsenal Extended
+    int NomadLuckBonus;
 
     // Stat XP Levels
     long int StrengthXP;
@@ -613,7 +661,7 @@ struct PlayerData_S
     fixed Speed;                // Movement Speed
     fixed JumpHeight;           // Jump Height
     int WeaponSpeed;            // Weapon Speed Increase bsed on Agility
-    fixed SurvivalBonus;        // Chance that you will survive a fatal hit
+    int SurvivalBonus;          // Chance that you will survive a fatal hit
     int InvItems;               // How many inventory items you are currently carrying
     int MedkitMax;              // THe total amount of healing your Medkit can hold
     int StatCap;                // Current Stat Cap
@@ -626,12 +674,14 @@ struct PlayerData_S
     int Level;
     long int XP;
     long int XPNext;
+    int XPPercent;
 
     // Rank
     str RankString;
     int RankLevel;
     long int Rank;
     long int RankNext;
+    int RankPercent;
 
     // Combo System
     int Combo;
@@ -648,26 +698,40 @@ struct PlayerData_S
     int EPTime;
     int EPAmount;
     int RegenBoostTimer;
+    bool MovementRegenDelay;
 
     // Can Drop / Drop Chance Percentages
     bool HealthDrop;
     bool EPDrop;
-    bool ArmorDrop;
-    bool PowerupDrop;
-    bool WeaponDrop;
+    bool AmmoDrop;
+    bool TurretDrop;
     bool ModuleDrop;
-    bool AugDrop;
+    bool ArmorDrop;
+    bool WeaponDrop;
     bool ShieldDrop;
-    bool StimDrop;
+    bool AugDrop;
     fixed HealthChance;
     fixed EPChance;
-    fixed ArmorChance;
-    fixed PowerupChance;
-    fixed WeaponChance;
+    fixed AmmoChance;
+    fixed TurretChance;
     fixed ModuleChance;
-    fixed AugChance;
+    fixed ArmorChance;
+    fixed WeaponChance;
     fixed ShieldChance;
-    fixed StimChance;
+    fixed AugChance;
+
+    // Compatibility Handling - DoomRL Arsenal
+    fixed ArmorAssembledChance;
+    fixed ArmorExoticChance;
+    fixed ArmorSuperiorChance;
+    fixed ArmorUniqueChance;
+    fixed ArmorDemonicChance;
+    fixed ArmorLegendaryChance;
+    fixed WeaponExoticChance;
+    fixed WeaponSuperiorChance;
+    fixed WeaponUniqueChance;
+    fixed WeaponDemonicChance;
+    fixed WeaponLegendaryChance;
 
     // Menu Data
     bool MenuBlock;
@@ -684,7 +748,7 @@ struct PlayerData_S
     int ShopIndex;
     int ShopPage;
 
-    // WadSmoosh
+    // Map Packs (WadSmoosh, Lexicon and etc.)
     int SelectedMapPack;
 
     // Skill Info
@@ -707,6 +771,7 @@ struct PlayerData_S
     bool EPPadCooldown;
     int EPPadCooldownTimer;
     bool Focusing;
+    int FocusingCooldown;
     bool Overdrive;
 
     // Status Effects
@@ -716,8 +781,6 @@ struct PlayerData_S
     int StatusTimer[SE_MAX];
     int StatusTimerMax[SE_MAX];
     int Toxicity;
-    int ReviveKeyTimer;
-    int Reviver;
 
     // Locker
     bool LockerMode;
@@ -776,6 +839,105 @@ struct PlayerData_S
     bool AutosaveTimerReset;
     bool SeenEventTip[MAPEVENT_MAX];
 
+    // Familiars
+    bool Familiars;
+    int FamiliarTID[MAX_FAMILIARS];
+
+    // Nomad
+    str NomadBasicItems[30];
+    str NomadModPacks[30];
+    int NomadAmountModPacks[30];
+    bool NomadModPacksSave;
+
+    // Phase Sisters
+    // Portia
+    struct
+    {
+        // Portia's Health/EP
+        int ActualHealth;
+        int EP;
+
+        // Portia's Armor
+        str ArmorName;
+        int ArmorDurability;
+        int ArmorDurabilityMax;
+
+        // Portia's Aura
+        struct AuraInfo_S Aura;
+        int SkillCostMult;
+
+        // Portia's Energy Shield
+        struct
+        {
+            // Current Parts
+            struct ShieldPart_S const *Body;
+            struct ShieldPart_S const *Battery;
+            struct ShieldPart_S const *Capacitor;
+            struct ShieldAccessory_S const *Accessory;
+
+            // Flags
+            bool Active;
+            bool Full;
+
+            // Stats
+            int Charge;
+            int Capacity;
+            int Interval;
+            int ChargeRate;
+            fixed DelayRate;
+            int Timer;
+
+            // Accessories
+            int AccessoryBattery;
+            int AccessoryTimer;
+            struct Position_S AccessoryPosition;
+        } Shield;
+    } Portia;
+
+    // Terri
+    struct
+    {
+        // Terri's Health/EP
+        int ActualHealth;
+        int EP;
+
+        // Terri's Armor
+        str ArmorName;
+        int ArmorDurability;
+        int ArmorDurabilityMax;
+
+        // Terri's Aura
+        struct AuraInfo_S Aura;
+        int SkillCostMult;
+
+        // Terri's Energy Shield
+        struct
+        {
+            // Current Parts
+            struct ShieldPart_S const *Body;
+            struct ShieldPart_S const *Battery;
+            struct ShieldPart_S const *Capacitor;
+            struct ShieldAccessory_S const *Accessory;
+
+            // Flags
+            bool Active;
+            bool Full;
+
+            // Stats
+            int Charge;
+            int Capacity;
+            int Interval;
+            int ChargeRate;
+            fixed DelayRate;
+            int Timer;
+
+            // Accessories
+            int AccessoryBattery;
+            int AccessoryTimer;
+            struct Position_S AccessoryPosition;
+        } Shield;
+    } Terri;
+
     // Associated Drops
     struct DynamicArray_S DropTID;
 
@@ -789,6 +951,7 @@ struct PlayerData_S
         int Slots;
         int SlotsUsed;
         bool Active[AUG_MAX];
+        int CurrentLevel[AUG_MAX];
         int Level[AUG_MAX];
     } Augs;
 
@@ -882,6 +1045,7 @@ struct PlayerData_S
         // Battery
         int Battery;
         int BatteryMax;
+        bool AugBattery;
 
         // Timers
         int HitTimer;

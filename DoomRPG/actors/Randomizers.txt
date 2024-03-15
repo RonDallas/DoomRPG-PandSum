@@ -47,7 +47,6 @@ actor DRPGGenericMonsterDropper : RandomSpawner
 
 actor DRPGGenericDropper : RandomSpawner
 {
-    DropItem "DRPGMoneyDropper"                 255 10
     DropItem "DRPGHealthDropper"                255 10
     DropItem "DRPGEPDropper"                    255 10
     DropItem "DRPGArmorDropper"                 255 10
@@ -77,8 +76,8 @@ actor DRPGGenericBossDropper : RandomSpawner
     DropItem "DRPGAugDropper"
     DropItem "DRPGBatteryDropper"
     DropItem "DRPGShieldDropper"
-    DropItem "DRPGStimDropper"
-    DropItem "DRPGVialDropper"
+    DropItem "DRPGStimPackageStat"
+    DropItem "DRPGStimPackagePowerup"
     DropItem "DRPGChipDropper"
     DropItem "DRPGTurretDropper"
 }
@@ -93,46 +92,48 @@ actor DRPGMoneyDropper : RandomSpawner 25000
     DropItem "DRPGCredits100"       255 1
 }
 
-actor DRPGHealthDropper : RandomSpawner 25001
+actor DRPGHealthDropper : RandomSpawner
 {
-    DropItem "DRPGStimpack"         255 40
+    DropItem "DRPGHealthBonus"      255 150
+    DropItem "DRPGStimpack"         255 100
     DropItem "DRPGMedikit"          255 30
-    DropItem "DRPGLargeMedikit"     255 15
-    DropItem "DRPGXLMedikit"        255 10
-    DropItem "DRPGMedPack"          255 4
+    DropItem "DRPGLargeMedikit"     255 10
+    DropItem "DRPGXLMedikit"        255 6
+    DropItem "DRPGMedPack"          255 3
     DropItem "DRPGSurgeryKit"       255 1
 }
 
 actor DRPGLifeDropper : RandomSpawner
 {
     DropItem "DRPG1Up"              255 100
-    DropItem "DRPG3Up"              255 10
-    DropItem "DRPG5Up"              255 1
+//  DropItem "DRPG3Up"              255 5
+//  DropItem "DRPG5Up"              255 1
 }
 
-actor DRPGEPDropper : RandomSpawner 25002
+actor DRPGEPDropper : RandomSpawner
 {
-    DropItem "DRPGEPCapsule"    255 4
-    DropItem "DRPGBigEPCapsule" 255 1
+    DropItem "DRPGLittleEPCapsule"  255 50
+    DropItem "DRPGEPCapsule"        255 40
+    DropItem "DRPGBigEPCapsule"     255 10
 }
 
-actor DRPGArmorDropper : RandomSpawner 25003
+actor DRPGArmorDropper : RandomSpawner
 {
     DropItem "DRPGGreenArmorRandomizer" 255 75
     DropItem "DRPGBlueArmorRandomizer"  255 25
 }
 
-actor DRPGPowerupDropper : RandomSpawner 25004
+actor DRPGPowerupDropper : RandomSpawner
 {
-    DropItem "DRPGInvulnerabilitySphere"
-    DropItem "DRPGInvulnerabilityCharge"
-    DropItem "DRPGBlurSphere"
-    DropItem "DRPGInvisibilityCharge"
-    DropItem "DRPGTimeSphere"
-    DropItem "DRPGRegenSphere"
-    DropItem "DRPGRadSuit"
-    DropItem "DRPGInfrared"
-    DropItem "DRPGBerserk"
+    DropItem "DRPGInvulnerabilitySphere" 255 10
+    DropItem "DRPGInvulnerabilityCharge" 255 10
+    DropItem "DRPGBlurSphere"            255 10
+    DropItem "DRPGInvisibilityCharge"    255 10
+    DropItem "DRPGTimeSphere"            255 10
+    DropItem "DRPGRegenSphere"           255 10
+    DropItem "DRPGRadSuit"               255 10
+    DropItem "DRPGInfrared"              255 10
+//  DropItem "DRPGBerserk"               255 10
 }
 
 actor DRPGImmunityCrystalDropper : RandomSpawner
@@ -146,7 +147,7 @@ actor DRPGImmunityCrystalDropper : RandomSpawner
     DropItem "DRPGImmunityCrystalRadiation"
 }
 
-actor DRPGWeaponDropper : RandomSpawner 25005
+actor DRPGWeaponDropper : RandomSpawner
 {
     DropItem "Pistol"           255 7
     DropItem "Shotgun"          255 6
@@ -158,33 +159,37 @@ actor DRPGWeaponDropper : RandomSpawner 25005
     DropItem "Chainsaw"         255 1
 }
 
-actor DRPGAmmoDropper : RandomSpawner 25006
+actor DRPGAmmoDropper : RandomSpawner 20195
 {
-    DropItem "DRPGClipBox"              255 40
-    DropItem "DRPGShellBox"             255 30
-    DropItem "DRPGRocketBox"            255 20
-    DropItem "DRPGCellPack"             255 10
+    DropItem "DRPGClipSpawner"           255 80
+    DropItem "DRPGShellSpawner"          255 60
+    DropItem "DRPGRocketAmmoSpawner"     255 20
+    DropItem "DRPGCellSpawner"           255 10
+    DropItem "DRPGClipBoxSpawner"        255 4
+    DropItem "DRPGShellBoxSpawner"       255 3	
+    DropItem "DRPGRocketBoxSpawner"      255 2	
+    DropItem "DRPGCellPackSpawner"       255 1
 }
 
-actor DRPGModuleDropper : RandomSpawner 25007
+actor DRPGModuleDropper : RandomSpawner
 {
     DropItem "DRPGModulePickup"
 }
 
-actor DRPGAugDropper : RandomSpawner 25009
+actor DRPGAugDropper : RandomSpawner 20197
 {
     DropItem "DRPGAugCanister"          255 25
     DropItem "DRPGAugUpgradeCanister"   255 70
     DropItem "DRPGAugSlotUpgrade"       255 5
 }
 
-actor DRPGBatteryDropper : RandomSpawner 25010
+actor DRPGBatteryDropper : RandomSpawner 20198
 {
-    DropItem "DRPGBatterySmall"         255 4
+    DropItem "DRPGBatterySmall"         255 19
     DropItem "DRPGBatteryLarge"         255 1
 }
 
-actor DRPGShieldDropper : RandomSpawner 25011
+actor DRPGShieldDropper : RandomSpawner
 {
     // Bodies
     DropItem "DRPGShieldBody1"          255 40 // UAC
@@ -275,7 +280,7 @@ actor DRPGShieldDropper : RandomSpawner 25011
     DropItem "DRPGShieldAccessory29"    255 1 // RF-CT
     DropItem "DRPGShieldAccessory30"    255 6 // TEW-11
     DropItem "DRPGShieldAccessory31"    255 5 // NU-YU5
-    DropItem "DRPGShieldAccessory32"    255 4 // ADPT-V15
+    DropItem "DRPGShieldAccessory32"    255 4 // RUS-ROU1
     DropItem "DRPGShieldAccessory33"    255 4 // TENS-H11
     DropItem "DRPGShieldAccessory34"    255 3 // TEEM-AU5
     DropItem "DRPGShieldAccessory35"    255 3 // VENG-R
@@ -288,7 +293,7 @@ actor DRPGShieldDropper : RandomSpawner 25011
     DropItem "DRPGShieldAccessory42"    255 4 // REGN-ER8
     DropItem "DRPGShieldAccessory43"    255 3 // COUN-TR20
     DropItem "DRPGShieldAccessory44"    255 3 // PRO-100
-    DropItem "DRPGShieldAccessory45"    255 4 // RUS-ROU1
+    DropItem "DRPGShieldAccessory45"    255 4 // ADPT-V15
     DropItem "DRPGShieldAccessory46"    255 2 // OCD-MX90
     DropItem "DRPGShieldAccessory47"    255 2 // MASTA-R4
     DropItem "DRPGShieldAccessory48"    255 1 // HOW-EV3N
@@ -312,7 +317,7 @@ actor DRPGShieldDropper : RandomSpawner 25011
     DropItem "DRPGShieldAccessory66"    255 3 // S-SP4G3TT
 }
 
-actor DRPGStimDropper : RandomSpawner 25012
+actor DRPGStimDropper : RandomSpawner
 {
     // Stims
     DropItem "DRPGStimSmall"            255 70
@@ -321,54 +326,86 @@ actor DRPGStimDropper : RandomSpawner 25012
     DropItem "DRPGStimXL"               255 1
 }
 
-actor DRPGVialDropper : RandomSpawner 25013
+actor DRPGVialDropper : RandomSpawner
 {
     // Stats
-    DropItem "DRPGVialStrength"         255 10
-    DropItem "DRPGVialDefense"          255 10
-    DropItem "DRPGVialVitality"         255 10
-    DropItem "DRPGVialEnergy"           255 10
-    DropItem "DRPGVialRegeneration"     255 10
-    DropItem "DRPGVialAgility"          255 10
-    DropItem "DRPGVialCapacity"         255 10
-    DropItem "DRPGVialLuck"             255 10
+    DropItem "DRPGVialStrength"         255 20
+    DropItem "DRPGVialDefense"          255 20
+    DropItem "DRPGVialVitality"         255 20
+    DropItem "DRPGVialEnergy"           255 20
+    DropItem "DRPGVialRegeneration"     255 20
+    DropItem "DRPGVialAgility"          255 20
+    DropItem "DRPGVialCapacity"         255 20
+    DropItem "DRPGVialLuck"             255 20
     
     // Rare Vials
     DropItem "DRPGVialDropperRare"      255 5
     
     // Stim Packages
-    DropItem "DRPGStimPackageStat"      255 1
-    DropItem "DRPGStimPackagePowerup"   255 1
+//  DropItem "DRPGStimPackageStat"      255 1
+//  DropItem "DRPGStimPackagePowerup"   255 1
 }
 
-actor DRPGVialDropperRare : RandomSpawner 25014
+actor DRPGVialDropperRare : RandomSpawner
 {
-    // Boosters
-    DropItem "DRPGVialPotency"
-    DropItem "DRPGVialPurifier"
+	// Boosters
+    DropItem "DRPGVialPotency"          255 10
+    DropItem "DRPGVialPurifier"         255 10
     
     // Powerups
-    DropItem "DRPGVialIndestructible"
-    DropItem "DRPGVialShadow"
-    DropItem "DRPGVialInfinity"
-    DropItem "DRPGVialChrono"
-    DropItem "DRPGVialAdrenaline"
-    DropItem "DRPGVialGravity"
-    DropItem "DRPGVialVampire"
-    DropItem "DRPGVialRage"
-    DropItem "DRPGVialMagnetic"
+    DropItem "DRPGVialIndestructible"   255 10
+    DropItem "DRPGVialShadow"           255 10
+    DropItem "DRPGVialInfinity"         255 10
+    DropItem "DRPGVialChrono"           255 10
+    DropItem "DRPGVialAdrenaline"       255 10
+    DropItem "DRPGVialGravity"          255 10
+    DropItem "DRPGVialVampire"          255 10
+    DropItem "DRPGVialRage"             255 10
+    DropItem "DRPGVialMagnetic"         255 10
+
+    // Stims
+    DropItem "DRPGStimDropper"          255 5
 }
 
-actor DRPGTurretDropper : RandomSpawner 25015
+actor DRPGTurretDropper : RandomSpawner
 {
-    DropItem "DRPGDestroyedTurret"  255 90
-    DropItem "DRPGTurretPartCrate"  255 10
+    DropItem "DRPGTurretPart"       255 93
+    DropItem "DRPGTurretPartCrate"  255 5
+	DropItem "DRPGDestroyedTurret"  255 2
 }
 
-actor DRPGChipDropper : RandomSpawner 25016
+actor DRPGChipDropper : RandomSpawner
 {
     DropItem "DRPGChipGold"         255 32
     DropItem "DRPGChipPlatinum"     255 1
+}
+
+actor DRPGHealthMonsterDropper : RandomSpawner 20189
+{
+    DropItem "DRPGStimpack"         255 80
+    DropItem "DRPGMedikit"          255 15
+    DropItem "DRPGLargeMedikit"     255 5
+}
+
+actor DRPGEPMonsterDropper : RandomSpawner
+{
+    DropItem "DRPGLittleEPCapsule"  255 50
+    DropItem "DRPGEPCapsule"        255 40
+    DropItem "DRPGBigEPCapsule"     255 10
+}
+
+actor DRPGAmmoMonsterDropper : RandomSpawner
+{
+    DropItem "DRPGClipSpawner"          255 150
+    DropItem "DRPGShellSpawner"         255 75
+    DropItem "DRPGRocketAmmoSpawner"    255 45
+    DropItem "DRPGCellSpawner"          255 30
+}
+
+actor DRPGTurretMonsterDropper : RandomSpawner
+{
+    DropItem "DRPGTurretPart"       255 98
+    DropItem "DRPGTurretPartCrate"  255 2
 }
 
 // MARINES
@@ -396,6 +433,27 @@ actor DRPGMarineReinforcementSpawner : RandomSpawner
     DropItem "DRPGMarineBFG9000"                255 2
 }
 
+// LOOT
+// --------------------------------------------------
+
+// Generic Loot locations
+actor DRPGGenericLootRandomizer : RandomSpawner
+{
+    DropItem "DRPGLootMedicalSupplies"     255 30
+    DropItem "DRPGLootChemicals"           255 30
+    DropItem "DRPGLootHazardousMaterials"  255 30
+    DropItem "DRPGLootAnomalousMaterials"  255 30
+    DropItem "DRPGLootBriefcase"           255 30
+    DropItem "DRPGLootComputerData"        255 30
+    DropItem "DRPGLootGunParts"            255 15
+    DropItem "DRPGLootAmmoCasings"         255 15
+    DropItem "DRPGLootFuelCapsule"         255 10
+    DropItem "DRPGLootScrapMetals"         255 15
+    DropItem "DRPGLootScrapElectronics"    255 15
+    DropItem "DRPGLootExperimentalParts"   255 10
+    DropItem "DRPGLootDemonArtifact"       255 5
+}
+
 // AMMO
 // --------------------------------------------------
 
@@ -403,47 +461,40 @@ actor DRPGMarineReinforcementSpawner : RandomSpawner
 actor DRPGBackpackRandomizer : RandomSpawner Replaces Backpack
 {
     DropItem "DRPGSmallBackpack"    255 50
-    DropItem "DRPGBackpack"         255 30
-    DropItem "DRPGBigBackpack"      255 15
-    DropItem "DRPGCrate"            255 5
+    DropItem "DRPGBackpack"         255 40
+    DropItem "DRPGBigBackpack"      255 10
+//  DropItem "DRPGCrate"            255 1
 }
 
 // HEALTH ITEMS
 // --------------------------------------------------
 
 // Health Bonus Locations
-actor DRPGHealthBonusRandomizer : RandomSpawner Replaces HealthBonus
+actor DRPGHealthBonusReplacer : RandomSpawner Replaces HealthBonus
 {
-	DropItem "DRPGHealthBonus"
-    DropItem "DRPGLootMedicalSupplies"
-    DropItem "DRPGLootChemicals"
-    DropItem "DRPGLootHazardousMaterials"
-    DropItem "DRPGLootAnomalousMaterials"
-    DropItem "DRPGLootBriefcase"
-    DropItem "DRPGLootComputerData"
-    DropItem "DRPGLootGunParts"
-    DropItem "DRPGLootAmmoCasings"
-    DropItem "DRPGLootFuelCapsule"
-    DropItem "DRPGLootScrapMetals"
-    DropItem "DRPGLootScrapElectronics"
-    DropItem "DRPGLootExperimentalParts"
-    DropItem "DRPGLootDemonArtifact"
+    DropItem "DRPGHealthBonusSpawner"    255 230
+    DropItem "DRPGHealthBonus"           255 25
 }
 
 // Stimpack Locations
 actor DRPGStimpackRandomizer : RandomSpawner Replaces Stimpack
 {
-    DropItem "DRPGStimpack"     192
-    DropItem "DRPGMedikit"      192
-    DropItem "DRPGLargeMedikit" 192
+    DropItem "DRPGHealthBonus"      255 100
+    DropItem "DRPGStimpack"         255 50
+    DropItem "DRPGMedikit"          255 15
+    DropItem "DRPGLargeMedikit"     255 5
 }
 
 // Medikit Locations
 actor DRPGMedikitRandomizer : RandomSpawner Replaces Medikit
 {
-    DropItem "DRPGXLMedikit"    85
-    DropItem "DRPGMedPack"      85
-    DropItem "DRPGSurgeryKit"   85
+    DropItem "DRPGHealthBonus"      255 150
+    DropItem "DRPGStimpack"         255 50
+    DropItem "DRPGMedikit"          255 30
+    DropItem "DRPGLargeMedikit"     255 10
+    DropItem "DRPGXLMedikit"        255 6
+    DropItem "DRPGMedPack"          255 3
+    DropItem "DRPGSurgeryKit"       255 1
 }
 
 // Soulsphere Locations
@@ -451,6 +502,7 @@ actor DRPGSoulSphereRandomizer : RandomSpawner Replaces Soulsphere
 {
     DropItem "DRPGSoulsphere"   255 70
     DropItem "DRPGSoulsphere2"  255 20
+    DropItem "DRPGRegenSphere"  255 10
     DropItem "DRPGSoulsphere3"  255 9
     DropItem "DRPGLifeDropper"  255 1
 }
@@ -458,8 +510,12 @@ actor DRPGSoulSphereRandomizer : RandomSpawner Replaces Soulsphere
 // ARMOR ITEMS
 // --------------------------------------------------
 
-// Armor Bonus
-actor DRPGArmorBonusReplacer : DRPGHealthBonusRandomizer Replaces ArmorBonus {}
+// Armor Bonus Locations
+actor DRPGArmorBonusReplacer : RandomSpawner Replaces ArmorBonus
+{
+    DropItem "DRPGArmorBonusSpawner"    255 226
+    DropItem "DRPGArmorBonus"           255 30
+}
 
 // Green Armor Locations
 actor DRPGGreenArmorRandomizer : RandomSpawner Replaces GreenArmor
@@ -489,15 +545,16 @@ actor DRPGBlueArmorRandomizer : RandomSpawner Replaces BlueArmor
 // Invulnerability Sphere Locations
 actor DRPGInvulnerabilitySphereRandomizer : RandomSpawner Replaces InvulnerabilitySphere
 {
-    DropItem "DRPGInvulnerabilitySphere"    255 95
-    DropItem "DRPGCrate"                    255 5
+    DropItem "DRPGInvulnerabilitySphere"    255 100
+//  DropItem "DRPGCrate"                    255 1
 }
 
 // Blur Sphere Locations
 actor DRPGBlurSphereRandomizer : RandomSpawner Replaces BlurSphere
 {
-    DropItem "DRPGBlurSphere"               255 95
-    DropItem "DRPGCrate"                    255 5
+    DropItem "DRPGBlurSphere"               255 100
+    DropItem "DRPGTimeSphere"               255 1
+//  DropItem "DRPGCrate"                    255 1
 }
 
 // SHOP DISPLAYS
@@ -562,7 +619,7 @@ actor DRPGShopPowerupRandomizer : RandomSpawner 11005
     DropItem "DRPGRadSuit"                  255 5
     DropItem "DRPGInfrared"                 255 5
     DropItem "DRPGAllMap"                   255 5
-    DropItem "DRPGBerserk"                  255 5
+//  DropItem "DRPGBerserk"                  255 5
 }
 
 actor DRPGShopMiscRandomizer : RandomSpawner 11006
@@ -601,9 +658,243 @@ actor DRPGItemDropper
         TNT1 A -1
         Stop
     DropItem:
-        TNT1 A 1 A_SpawnItemEx("DRPGGenericDropper", 0, 0, 0, Random(-4, 4), Random(-4, 4), Random(1, 8))
+        TNT1 A 1 A_SpawnItemEx("DRPGAmmoDropper", 0, 0, 0, Random(-4, 4), Random(-4, 4), Random(1, 8))
         TNT1 A 0 A_Jump(32, "DropItem")
         TNT1 A -1
+        Stop
+    }
+}
+
+//DOOMRPG REBALANCE ACS RANDOMIZERS
+// --------------------------------------------------
+
+// Health Bonus Randomizer
+actor DRPGHealthBonusSpawner : MapSpot
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGGenericLootSpawner", false)
+        Stop
+    }
+}
+
+// Armor Bonus Randomizer
+actor DRPGArmorBonusSpawner : MapSpot
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGGenericLootSpawner", true)
+        Stop
+    }
+}
+
+// Armor Randomizer
+actor DRPGArmorSpawner : MapSpot
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGArmorSpawner", Random(1,2))
+        Stop
+    }
+}
+
+// Weapon Randomizer
+actor DRPGWeaponSpawner : MapSpot
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGWeaponSpawner", Random(0,7))
+        Stop
+    }
+}
+
+// Shield Randomizer
+actor DRPGShieldSpawner : MapSpot
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGShieldSpawner")
+        Stop
+    }
+}
+
+// Secret Randomizer
+actor DRPGSecretSpawner : MapSpot
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGSecretSpawner")
+        Stop
+    }
+}
+
+// Ammo: Clip Randomizer
+actor DRPGClipSpawner : RandomSpawner
+{
+    DropItem "DRPGClipFull"          255 32
+    DropItem "DRPGClipHalf"          255 224
+}
+
+// Ammo: Clip Box Randomizer
+actor DRPGClipBoxSpawner : RandomSpawner
+{
+    DropItem "DRPGClipBoxFull"       255 32
+    DropItem "DRPGClipBoxHalf"       255 224
+}
+
+// Ammo: Shell Randomizer
+actor DRPGShellSpawner : RandomSpawner
+{
+    DropItem "DRPGShellFull"         255 32
+    DropItem "DRPGShellHalf"         255 224
+}
+
+// Ammo: Shell Box Randomizer
+actor DRPGShellBoxSpawner : RandomSpawner
+{
+    DropItem "DRPGShellBoxFull"      255 32
+    DropItem "DRPGShellBoxHalf"      255 224
+}
+
+// Ammo: Rocket Randomizer
+actor DRPGRocketAmmoSpawner : RandomSpawner
+{
+    DropItem "DRPGRocketAmmo"        255 255
+}
+
+// Ammo: Rocket Box Randomizer
+actor DRPGRocketBoxSpawner : RandomSpawner
+{
+    DropItem "DRPGRocketBoxFull"     255 32
+    DropItem "DRPGRocketBoxHalf"     255 224
+}
+
+// Ammo: Cell Randomizer
+actor DRPGCellSpawner : RandomSpawner
+{
+    DropItem "DRPGCellFull"          255 32
+    DropItem "DRPGCellHalf"          255 224
+}
+
+// Ammo: Cell Pack Randomizer
+actor DRPGCellPackSpawner : RandomSpawner
+{
+    DropItem "DRPGCellPackFull"      255 32
+    DropItem "DRPGCellPackHalf"      255 224
+}
+
+// Weapon: Chainsaw Randomizer
+actor DRPGChainsawSpawner : MapSpot 2005
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 0)
+        Stop
+    }
+}
+
+// Weapon: Pistol Randomizer
+actor DRPGPistolSpawner : MapSpot
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 1)
+        Stop
+    }
+}
+
+// Weapon: Shotgun Randomizer
+actor DRPGShotgunSpawner : MapSpot 2001
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 2)
+        Stop
+    }
+}
+
+// Weapon: Combat Shotgun Randomizer
+actor DRPGCombatShotgunSpawner : MapSpot
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 2)
+        Stop
+    }
+}
+
+// Weapon: Super Shotgun Randomizer
+actor DRPGSuperShotgunSpawner : MapSpot 82
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 3)
+        Stop
+    }
+}
+
+// Weapon: Battle Rifle Randomizer
+actor DRPGBattleRifleSpawner : MapSpot
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 4)
+        Stop
+    }
+}
+
+// Weapon: Chaingun Randomizer
+actor DRPGChaingunSpawner : MapSpot 2002
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 4)
+        Stop
+    }
+}
+
+// Weapon: Rocket Launcher Randomizer
+actor DRPGRocketLauncherSpawner : MapSpot 2003
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 5)
+        Stop
+    }
+}
+
+// Weapon: Plasma Rifle Randomizer
+actor DRPGPlasmaRifleSpawner :  MapSpot 2004
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 6)
+        Stop
+    }
+}
+
+// Weapon: BFG9000 Randomizer
+actor DRPGBFG9000Spawner : MapSpot 2006
+{
+    States
+    {
+    Spawn:
+        TNT1 A -1 NoDelay ACS_NamedExecuteWithResult("DRPGWeaponSpawner", 7)
         Stop
     }
 }

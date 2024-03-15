@@ -1,0 +1,370 @@
+
+// NIGHTMARE SOUL
+//
+ACTOR RLNightmareLostSoul : RLLostSoulBase 16524
+{
+  Health 50
+  RenderStyle Add
+  Alpha 0.4
+  
+  DamageFactor "Bullet", 0.25
+  DamageFactor "Fire", 0.50
+  DamageFactor "Melee", 0.25
+  
+  +BRIGHT
+  -NOINFIGHTING
+  
+  AttackSound "skull/melee"
+  PainSound "nightmaresoul/pain"
+  DeathSound "nightmaresoul/death"
+  ActiveSound "nightmaresoul/active"
+  
+  Obituary "%o screamed as the Nightmare Soul struck %h."
+  Tag "Nightmare Soul"
+    //$category "MP Nightmare"
+  
+	// Guncaster compatibility
+	DropItem "Dosh1", 128
+	DropItem "Dosh1", 128
+	DropItem "Dosh1", 192
+	DropItem "Dosh25"
+  States
+  {
+  Spawn:
+    NSOL ABCD 3 Bright A_Look
+    Loop
+	
+  See:
+    TNT1 A 0 A_CheckFlag ("FRIENDLY", 2) // Friendly monsters do not use commands
+    TNT1 A 0 A_JumpIfInventory("PowerRLNightmareSoulCommand", 1, "CommandMissile")
+    NSOL A 3 Bright A_Chase ("", "Missile")
+    TNT1 A 0 A_CheckFlag ("FRIENDLY", 2) // Friendly monsters do not use commands
+    TNT1 A 0 A_JumpIfInventory("PowerRLNightmareSoulCommand", 1, "CommandMissile")
+    NSOL B 3 Bright A_Chase ("", "Missile")
+    TNT1 A 0 A_CheckFlag ("FRIENDLY", 2) // Friendly monsters do not use commands
+    TNT1 A 0 A_JumpIfInventory("PowerRLNightmareSoulCommand", 1, "CommandMissile")
+    NSOL C 3 Bright A_Chase ("", "Missile")
+    TNT1 A 0 A_CheckFlag ("FRIENDLY", 2) // Friendly monsters do not use commands
+    TNT1 A 0 A_JumpIfInventory("PowerRLNightmareSoulCommand", 1, "CommandMissile")
+    NSOL D 3 Bright A_Chase ("", "Missile")
+    Loop
+	
+  MissileProper:
+    TNT1 A 0 A_CheckFlag ("FRIENDLY", 2) // Friendly monsters do not use commands
+    TNT1 A 0 A_Jump(64, "Command")
+  MissileCharge:
+    NSOL E 10 Bright A_FaceTarget
+    NSOL F 4 Bright A_SkullAttack
+  MissileLoop:
+    NSOL EF 4 Bright
+	TNT1 A 0 A_JumpIf(CallACS("DRLA_GetMoving") == 0, "MissileFail")
+    Goto MissileLoop
+  MissileFail:
+    TNT1 A 0 A_ChangeFlag ("SKULLFLY", 0)
+    TNT1 A 0 A_Stop
+    Goto See
+	
+  Command:
+    TNT1 A 0 A_PlaySound("skull/melee", CHAN_VOICE)
+    NSOL PQ 4 Bright A_FaceTarget
+    TNT1 A 0 A_RadiusGive ("PowerRLNightmareSoulCommand", 2048, RGF_MONSTERS | RGF_GIVESELF, 1)
+    NSOL RQ 4 Bright A_FaceTarget
+    TNT1 A 0 A_PlaySound("skull/melee", CHAN_VOICE)
+    NSOL PQRQP 4 Bright A_FaceTarget
+    Goto CommandMissile
+  CommandMissile:
+    TNT1 A 0 A_JumpIfInventory("PowerRLNightmareSoulCommand", 1, 1)
+    Goto CommandMissile1
+    NSOL E 1 Bright A_FaceTarget
+    Goto CommandMissile
+  CommandMissile1:
+    TNT1 A 0 A_FaceTarget
+	TNT1 A 0 A_SkullAttack
+    NSOL FFFF 1 Bright A_FaceTarget
+    Goto MissileCharge
+	
+  PainMain:
+    NSOL G 3 Bright
+    NSOL G 3 Bright A_Pain
+    Goto See
+
+  //Fire
+  Pain.Meteorfist:
+	"####" "#" 0 A_FaceTarget
+	"####" "#" 0 A_ChangeVelocity(frandom(-13.0,-17.0),0,frandom(9.0,11.0),CVF_RELATIVE)
+	"####" "#" 0 A_Jump(256,"Pain")
+	Goto Pain
+  Pain.Fire:
+	"####" "#" 0 A_Jump(256,"Pain")
+	Goto Pain
+	
+  DeathMain:
+    TNT1 A 0 A_JumpIf(CallACS("DRPGCheck"), "ShadowAuraDeathCheck")
+  DeathCheckDone:
+    TNT1 A 0 A_GiveInventory ("RLNightmareLostSoulKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    NSOL G 3 Bright
+    NSOL H 3 Bright A_ScreamAndUnblock
+    TNT1 A 0 A_JumpIfInventory("DRPGShadowAuraToken", 1, "ShadowAuraDeath")
+    TNT1 A 0 A_JumpIfInventory("LDLegendaryMonsterTransformed", 1, "ShadowAuraDeath")
+    NSOL IJKLMNO 3 Bright
+	TNT1 A 0
+    "####" "#" 0 A_Jump(256, "DestroyedEnd")
+    Goto DestroyedEnd
+  DeathFrame:
+    TNT1 A 0
+    "####" "#" 0 A_Jump(256, "DestroyedEnd")
+    Goto DestroyedEnd
+	
+  //Fire
+  Death.Meteorfist:
+	"####" "#" 0 A_FaceTarget
+	"####" "#" 0 A_ChangeVelocity(frandom(-15.0,-20.0),0,frandom(10.0,15.0),CVF_RELATIVE)
+	"####" "#" 0 A_Jump(256,"Death")
+	Goto Death
+  Death.Lightning:
+  Death.LightningBlue:
+  Death.Fire:
+	"####" "#" 0 A_Jump(256,"Death")
+	Goto Death
+	
+	//Ice
+  GenericFreezeDeath:
+	"####" "#" 0 A_GiveInventory ("RLNightmareLostSoulKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    "####" "#" 0 A_Jump(256, "GenericFreezeMana")
+    Goto GenericFreezeMana
+//==============================================================================
+//					--	DOOMRL ARSENAL STUFF  --
+//==============================================================================
+  Pain.RigelBlast:
+    TNT1 A 0 A_PlaySound("weapons/dn2gunhit", CHAN_BODY)
+    D2F2 D 2 Bright
+    Goto See
+  Pain.NeuralStun:
+    D2F2 D 2 Bright
+    Goto See
+	
+  Death.NeuralStun:
+    TNT1 A 0
+    Goto Death
+  XDeath.RigelBlast:
+  Death.RigelBlast:
+    TNT1 A 0 A_GiveInventory ("RLNightmareLostSoulKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    TNT1 A 0 A_PlaySound("weapons/dn2gunexplosion", CHAN_BODY)
+    TNT1 A 0 A_NoBlocking
+    TNT1 A 0 A_SpawnItemEx ("RLDuke2MediumExplosion", 0,0,16, 0,0,0, 0, SXF_NOCHECKPOSITION)
+    TNT1 A 35
+    Stop
+//==============================================================================
+//					--	Special Monster Attacks  --
+//==============================================================================
+  ShadowAuraDeathCheck:
+    TNT1 A 0 ACS_NamedExecuteAlways("GetAuraTokens", 0)
+    Goto DeathCheckDone
+	
+  ShadowAuraDeath:
+    TNT1 A 0 A_SpawnItemEx ("RLNightmareSoulShadowExplosion", 0,0,16, 0,0,0, 0, SXF_NOCHECKPOSITION)
+    "####" "#" 0 A_Jump(256, "DestroyedEnd")
+    Goto DestroyedEnd
+	
+//==============================================================================
+//					--	Final Doomer Compatibility Stuff  --
+//==============================================================================
+  DeathXSparkFrame:
+    "####" "#" 0 A_JumpIfInTargetInventory("Mana",0,2)
+    "####" "#" 0 A_DropItem("MinorManaPod",-1,54)
+    NSOL G 0
+    "####" "#" 0 A_Jump(256, "DeathXSpark")
+	Goto DeathXSpark
+	
+//==============================================================================
+//					--	Guncaster Compatibility Stuff  --
+//==============================================================================
+	MidasFrame1:
+		NSOL G 0 A_SpawnItemEx("Midas_Statue_LostSoul", 0,0,0, 0,0,0, 0,SXF_TRANSFERPOINTERS|SXF_TRANSFERSPRITEFRAME)
+		TNT1 A 0 A_JumpIf(1, "DestroyedEnd")
+		Goto DestroyedEnd
+	MidasFrame2:
+		NSOL G 0 A_SpawnItemEx("Midas_Statue_LostSoul", 0,0,0, frandom(-10.0,-12.0),0,frandom(1.0,3.0), 0,SXF_TRANSFERPOINTERS|SXF_SETMASTER|SXF_TRANSFERSPRITEFRAME)
+		TNT1 A 10 A_KillChildren
+		TNT1 A 0 A_JumpIf(1, "DestroyedEnd")
+		Goto DestroyedEnd
+	MidasFrame3:
+		NSOL G 0 A_SpawnItemEx("Midas_Statue_LostSoul", 0,0,0, frandom(-15.0,-20.0),0,frandom(10.0,15.0), 0,SXF_TRANSFERPOINTERS|SXF_SETMASTER|SXF_TRANSFERSPRITEFRAME)
+		TNT1 A 10 A_KillChildren
+		TNT1 A 0 A_JumpIf(1, "DestroyedEnd")
+		Goto DestroyedEnd
+		
+	//Gumpop
+	Death.Acid:
+		NSOL G 1 Bright A_ChangeFlag("SOLID",0)
+		"####" "#" 1 Bright A_Playsound("Gumpop/Expand",5)
+		"####" "###################################" 1 Bright A_SetScale(ScaleX+frandom(0.01,0.025))
+		"####" "#" 1 Bright A_Playsound("Gumpop/Pop",5)
+		"####" "#" 0 A_Jump(256,"XDeathMain")
+		Goto XDeathMain
+		
+	//Thunderstruck
+	Pain.Lightning:
+		"####" "#" 0 A_Jump(164,1)
+		Goto Pain
+		NSOL G 0 A_ChangeFlag("NOPAIN",1)
+		"####" "#" 0 A_SetUserVar("User_LightningLock", User_LightningLock + 10)
+		"####" "#" 0 A_Jump(256,"LightningLock")
+		Goto LightningLock
+		
+	//Cauterizer
+	Pain.LightningBlue:
+		"####" "#" 0 A_Jump(48,1)
+		Goto Pain
+		NSOL G 0 A_ChangeFlag("NOPAIN",1)
+		"####" "#" 0 A_SetUserVar("User_LightningLock", User_LightningLock + 10)
+		"####" "#" 0 A_Jump(256,"BlueLightningLock")
+		Goto BlueLightningLock
+		
+		// Overwrite these for monsters that do not leave corpses behind
+	//Dreadful
+	Death.Tiberium:
+		"####" "#" 0 A_Jump(256, "Death")
+		Goto Death
+	Death.BlueTiberium:
+		"####" "#" 0 A_Jump(256, "Death")
+		Goto Death
+	//Fire and Lightning
+	Death.Fire:
+		"####" "#" 0 A_Jump(256,"Death")
+		Goto Death
+  }
+}
+
+ACTOR RLNightmareLostSoulNPE : RLNightmareLostSoul
+{
+  States
+  {
+  DestroyedEnd:  // Redefined here so that Pain Elemental spawned Lost Soul corpses do not linger
+    "####" "#" 0
+    Stop
+  }
+}
+
+ACTOR RLDRPGSummonedNightmareLostSoulNPE : RLNightmareLostSoul
+{
+  -COUNTKILL
+  +NOBLOCKMONST
+  +NOTELESTOMP
+  +NOFEAR
+  +SEEINVISIBLE
+  +DONTDRAIN
+  +ALWAYSFAST
+  +QUICKTORETALIATE
+  +MISSILEMORE
+  +THRUSPECIES
+  Species "Player"
+  States
+  {
+  Spawn:
+	TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+    TNT1 A 0 A_GiveInventory ("RLMonsterInitializerToken", 1)
+    TNT1 A 0 A_GiveInventory ("DRPGDRLASummonedMonsterToken", 1)
+	Goto Super::Spawn
+	See:
+	TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+    TNT1 A 0 A_GiveInventory ("RLMonsterInitializerToken", 1)
+    TNT1 A 0 A_GiveInventory ("DRPGDRLASummonedMonsterToken", 1)
+	Goto Super::See
+
+  DestroyedEnd:  // Redefined here so that Pain Elemental spawned Lost Soul corpses do not linger
+    "####" "#" 0
+    Stop
+  }
+}
+
+ACTOR PowerRLNightmareSoulCommand : Powerup
+{
+	Powerup.Duration 40
+   +INVENTORY.UNTOSSABLE
+}
+
+ACTOR RLNightmareSoulShadowExplosion : Rocket
+{
+   Radius 4
+   Height 4
+   +THRUGHOST
+   +NOTIMEFREEZE
+   -RANDOMIZE
+   -DEHEXPLOSION
+   -ROCKETTRAIL
+   DamageType "Mindrape"
+   Translation "4:4=0:0", "192:192=7:7", "194:194=6:6", "196:196=5:5"
+   RenderStyle Subtract
+   Scale 2.5
+   Speed 0
+   Damage 0
+   SeeSound ""
+   DeathSound ""
+   Obituary "%o's soul was blasted away by the shadow blast of a Nightmare Soul."
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_JumpIf(CallACS("DRLA_MonsterQuake") == 0, 3)
+    TNT1 A 0 A_Quake (1, 24, 0, 1024, "")
+    TNT1 A 0 A_Quake (6, 12, 0, 368, "")
+    TNT1 A 0 A_Explode (256, 192, 0, 0, 192)
+    TNT1 A 0 A_PlaySound ("nightmaresoul/soulexplosion", CHAN_WEAPON, 1, 0, 0.3)
+    TNT1 A 0 A_PlaySound ("nightmaresoul/soulexplosion", 7, 0.05, 0, 0.15)
+    PULS ABCDEFEDCBA 4 Bright
+    Stop
+  }
+}
+
+ACTOR RLDRPGSummonedNightmareLostSoul : RLNightmareLostSoul
+{
+  -COUNTKILL
+  +NOBLOCKMONST
+  +NOTELESTOMP
+  +NOFEAR
+  +SEEINVISIBLE
+  +DONTDRAIN
+  +ALWAYSFAST
+  +QUICKTORETALIATE
+  +MISSILEMORE
+  +THRUSPECIES
+  Species "Player"
+  States
+  {
+  Spawn:
+	TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+    TNT1 A 0 A_GiveInventory ("RLMonsterInitializerToken", 1)
+    TNT1 A 0 A_GiveInventory ("DRPGDRLASummonedMonsterToken", 1)
+	Goto Super::Spawn
+	See:
+	TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+    TNT1 A 0 A_GiveInventory ("RLMonsterInitializerToken", 1)
+    TNT1 A 0 A_GiveInventory ("DRPGDRLASummonedMonsterToken", 1)
+	Goto Super::See
+  }
+}
+
+ACTOR RLCCNightmareLostSoul : RLNightmareLostSoul
+{
+  +TOUCHY
+  States
+  {
+  See:
+    NSOL ABCD 3 Bright
+    Loop
+  Missile:
+    NSOL E 10 Bright
+    NSOL F 4 Bright
+    NSOL EF 4 Bright
+    Goto Missile+2
+  Melee:
+    NSOL PQRQPQRQP 4 Bright
+    Goto See
+  Death:
+    NSOL G 3 Bright
+    NSOL H 3 Bright A_ScreamAndUnblock
+    NSOL IJKLMNO 3 Bright
+    Stop
+  }
+}

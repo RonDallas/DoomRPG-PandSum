@@ -1,0 +1,291 @@
+map KSS01 "One"
+	{
+	next = "KSS02"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS01"
+	}
+	
+map KSS02 "Two"
+	{
+	next = "KSS03"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS02"
+	}
+	
+map KSS03 "Three"
+	{
+	next = "KSS04"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS03"
+	}
+	
+map KSS04 "Four"
+	{
+	next = "KSS05"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS04"
+	}
+	
+map KSS05 "Five"
+	{
+	next = "KSS06"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS05"
+	}
+	
+map KSS06 "Six"
+	{
+	next = "KSS07"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS06"
+	}
+
+map KSS07 "Seven"
+	{
+	next = "KSS08"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS07"
+	map07special
+	}
+	
+map KSS08 "Eight"
+	{
+	next = "KSS09"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS08"
+	}
+	
+map KSS09 "Nine"
+	{
+	next = "KSS10"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS09"
+	}
+	
+map KSS10 "Ten"
+	{
+	next = "KSS11"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS10"
+	}
+	
+map KSS11 "Eleven"
+	{
+	next = "KSS12"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS11"
+	}
+	
+map KSS12 "Twelve"
+	{
+	next = "KSS13"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS12"
+	}
+	
+map KSS13 "Thirteen"
+	{
+	next = "KSS14"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS13"
+	}
+	
+map KSS14 "Fourteen"
+	{
+	next = "KSS15"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS14"
+	}
+	
+map KSS15 "Fifthteen"
+	{
+	next = "KSS16"
+	secretnext = "KSS31"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS15"
+	}
+	
+map KSS16 "Sixteen"
+	{
+	next = "KSS17"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS16"
+	}
+	
+map KSS17 "Seventeen"
+	{
+	next = "KSS18"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS17"
+	}
+	
+map KSS18 "Eighteen"
+	{
+	next = "KSS19"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS18"
+	}
+	
+map KSS19 "Nineteen"
+	{
+	next = "KSS20"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS19"
+	}
+	
+map KSS20 "Twenty"
+	{
+	next = "KSS21"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS20"
+	}
+
+map KSS21 "Twenty-One"
+	{
+	next = "KSS22"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS21"
+	}
+	
+map KSS22 "Twenty-Two"
+	{
+	next = "KSS23"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS22"
+	}
+	
+map KSS23 "Twenty-Three"
+	{
+	next = "KSS24"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS23"
+	}
+	
+map KSS24 "Twenty-Four"
+	{
+	next = "KSS25"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS24"
+	}
+	
+map KSS25 "Twenty-Five"
+	{
+	next = "KSS26"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS25"
+	}
+	
+map KSS26 "Twenty-Six"
+	{
+	next = "KSS27"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS26"
+	}
+	
+map KSS27 "Twenty-Seven"
+	{
+	next = "KSS28"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS27"
+	}
+	
+map KSS28 "Twenty-Eight"
+	{
+	next = "KSS29"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS28"
+	}
+	
+map KSS29 "Twenty-Nine"
+	{
+	next = "KSS30"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS29"
+	}
+	
+map KSS30 "Thirty"
+	{
+	next = "OUTPOST"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	Sky1 = sky1
+	music = "D_KSS30"
+    SuckTime = 1337
+	}
+	
+map KSS31 "Secret One"
+	{
+	next = "KSS16"
+	secretnext = "KSS32"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	sky1 = sky1
+	music = "D_KSS31"
+	}
+	
+map KSS32 "Secret Two"
+	{
+	next = "KSS16"
+	enterpic = "KSSHT"
+	exitpic = "KSSHT"
+	sky1 = sky1
+	music = "D_KSS32"
+	}

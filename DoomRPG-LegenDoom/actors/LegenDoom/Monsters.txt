@@ -1,7 +1,9 @@
 actor LDZombiemanRPG : LDZombieman Replaces DRPGZombieman
 {
     Tag "Former Human"
-    
+
+    DropItem "DRPGClipSpawner"
+
     States
     {
     Spawn:
@@ -16,7 +18,10 @@ actor LDZombiemanRPG : LDZombieman Replaces DRPGZombieman
 actor LDShotgunguyRPG : LDShotgunguy Replaces DRPGShotgunguy
 {
     Tag "Former Sergeant"
-    
+
+    DropItem "DRPGShotgun", 48
+    DropItem "DRPGShellSpawner"
+
     States
     {
     Spawn:
@@ -31,7 +36,10 @@ actor LDShotgunguyRPG : LDShotgunguy Replaces DRPGShotgunguy
 actor LDChaingunguyRPG : LDChaingunguy Replaces DRPGChaingunguy
 {
     Tag "Former Commando"
-    
+
+    DropItem "DRPGChaingun", 48
+    DropItem "DRPGClipBoxSpawner"
+
     States
     {
     Spawn:

@@ -1,0 +1,14 @@
+// Blood Skull Health
+actor RLBloodSkullHealthRPG : CustomInventory
+{
+    -COUNTITEM
+    +INVENTORY.ALWAYSPICKUP
+    Inventory.PickupMessage ""
+    Inventory.PickupSound ""
+    States
+    {
+	Pickup:
+        TNT1 A 0 ACS_NamedExecuteWithResult("AddHealthDirect", 1, 200)
+        Stop
+    }
+}

@@ -1,0 +1,67 @@
+// Generic Craft item base
+Actor DRPGCraftParts : CustomInventory
+{
+    +INVBAR
+    -COUNTITEM
+
+    Inventory.Amount 1
+    Inventory.MaxAmount 1
+    Inventory.InterHubAmount 1000
+    Inventory.PickupSound "items/loot"
+}
+
+// Exotic Craft Parts
+Actor DRPGCraftPartsExotic : DRPGCraftParts
+{
+    Scale 0.75
+
+    Tag "Craft parts (exotic) (use for crafting exotic items)"
+
+    Inventory.PickupMessage "You picked up craft parts (exotic)."
+    Inventory.Icon "EXCRE"
+	
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+        CREX AABBCCDDEEFFGGHHIIJJKKLL 1
+		CREX M 40
+        Goto Spawn+1
+    Pickup:
+        TNT1 A 0 ACS_NamedExecuteWithResult("CheckCapacity")
+        Stop
+    Use:
+	    TNT1 A 0 A_Print("You need a special device to use it", 5)
+        TNT1 A 0 A_PlaySound("menu/error", 127)
+        TNT1 A 0
+        Fail
+    }
+}
+
+// Unique Craft Parts
+Actor DRPGCraftPartsUnique : DRPGCraftParts
+{
+    Scale 0.75
+
+    Tag "Craft parts (unique) (use for crafting unique items)"
+
+    Inventory.PickupMessage "You picked up craft parts (unique)."
+    Inventory.Icon "UNCRE"
+	
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+        CRUN AABBCCDDEEFFGGHHIIJJKKLLMM 1
+		CRUN N 40
+        Goto Spawn+1
+    Pickup:
+        TNT1 A 0 ACS_NamedExecuteWithResult("CheckCapacity")
+        Stop
+    Use:
+	    TNT1 A 0 A_Print("You need a special device to use it", 5)
+        TNT1 A 0 A_PlaySound("menu/error", 127)
+        TNT1 A 0
+        Fail
+    }
+}

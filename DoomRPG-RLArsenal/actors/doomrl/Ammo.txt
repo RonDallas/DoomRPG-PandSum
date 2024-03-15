@@ -5,9 +5,13 @@ actor DRPGShellBox2 : DRPGShellBox {}
 actor DRPGRocketBox2 : DRPGRocketBox {}
 actor DRPGCellPack2 : DRPGCellPack {}
 
-actor RLClip2 : RLClip Replaces RLClip
+// --------------------------------------------------
+// Clip Ammo
+
+actor RLClip1 : RLClip Replaces DRPGClipFull
 {
-	Inventory.PickupSound "items/clip"
+    Inventory.PickupMessage "You picked up a bullet clip."
+    Inventory.PickupSound "items/clip"
     
     States
     {
@@ -18,9 +22,48 @@ actor RLClip2 : RLClip Replaces RLClip
     }
 }
 
-actor RLClipBox2 : RLClipBox Replaces RLClipBox
+actor RLClip2 : RLClip Replaces RLClip
 {
-	Inventory.PickupSound "items/clipbox"
+    Inventory.PickupMessage "You picked up a bullet clip."
+    Inventory.PickupSound "items/clip"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		CLIP A -1
+        Stop
+    }
+}
+
+actor RLClip3 : RLClip Replaces DRPGClipHalf
+{
+    Inventory.PickupMessage "You picked up a short bullet clip."
+    Inventory.PickupSound "items/clip"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		CLP2 A -1
+        Stop
+    SpawnLoop:
+        CLP2 A -1
+        Stop
+    Pickup:
+		TNT1 A 0 A_GiveInventory("Clip",5)
+        TNT1 A 0 A_JumpIfInventory("RLDedicatedBackpackToken",1,"DedicatedBonus")
+        Stop
+    }
+}
+
+// --------------------------------------------------
+// Clip Box Ammo
+
+actor RLClipBox1 : RLClipBox Replaces DRPGClipBoxFull
+{
+    Inventory.PickupMessage "You picked up a bullet box."
+    Inventory.PickupSound "items/clipbox"
     
     States
     {
@@ -31,9 +74,121 @@ actor RLClipBox2 : RLClipBox Replaces RLClipBox
     }
 }
 
-actor RLShellBox2 : RLShellBox Replaces RLShellBox
+actor RLClipBox2 : RLClipBox Replaces RLClipBox
 {
-	Inventory.PickupSound "items/shell"
+    Inventory.PickupMessage "You picked up a bullet box."
+    Inventory.PickupSound "items/clipbox"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		AMMO A -1
+        Stop
+    }
+}
+
+actor RLClipBox3 : RLClipBox Replaces DRPGClipBoxHalf
+{
+    Inventory.PickupMessage "You picked up a small bullet box."
+    Inventory.PickupSound "items/clipbox"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		AMM2 A -1
+        Stop
+    SpawnLoop:
+        AMM2 A -1
+        Stop
+    Pickup:
+		TNT1 A 0 A_JumpIfInventory("Clip",0, "Nope")
+		TNT1 A 0 A_GiveInventory("Clip",25)
+		TNT1 A 0 A_JumpIfInventory("RLScroungerBackpackToken",1,"ScroungerBonus")
+		TNT1 A 0 A_JumpIfInventory("RLDedicatedBackpackToken",1,"DedicatedBonus")
+        Stop
+    }
+}
+
+// --------------------------------------------------
+// Shell Ammo
+
+actor RLShell1 : RLShell Replaces DRPGShellFull
+{
+    Inventory.PickupMessage "You picked up four shotgun shells."
+    Inventory.PickupSound "items/shell"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		SHEL A -1
+        Stop
+    }
+}
+
+actor RLShell2 : RLShell Replaces RLShell
+{
+    Inventory.PickupMessage "You picked up four shotgun shells."
+    Inventory.PickupSound "items/shell"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		SHEL A -1
+        Stop
+    }
+}
+
+actor RLShell3 : RLShell Replaces DRPGShellHalf
+{
+    Inventory.PickupMessage "You picked up two shotgun shells."
+    Inventory.PickupSound "items/shell"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		SHL2 A -1
+        Stop
+    SpawnLoop:
+        SHL2 A -1
+        Stop
+    Pickup:
+        TNT1 A 0 A_JumpIfInventory("Shell",0, "Nope")
+        TNT1 A 0 A_JumpIfInventory ("RLShellshockPerk", 1, 1)
+        Goto PickupAmmo
+        TNT1 A 0 A_GiveInventory ("RLRenegadeExtraShot", 1)
+    PickupAmmo:
+        TNT1 A 0 A_GiveInventory("Shell",2)
+        TNT1 A 0 A_JumpIfInventory("RLDedicatedBackpackToken",1,"DedicatedBonus")
+        Stop
+    }
+}
+
+actor RLShell4 : RLShell Replaces DRPGShell
+{
+    Inventory.PickupMessage "You picked up four shotgun shells."
+    Inventory.PickupSound "items/shell"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		SHEL A -1
+        Stop
+    }
+}
+
+// --------------------------------------------------
+// Shell Box Ammo
+
+actor RLShellBox1 : RLShellBox Replaces DRPGShellBoxFull
+{
+    Inventory.PickupMessage "You picked up a shotgun shell box."
+    Inventory.PickupSound "items/shell"
     
     States
     {
@@ -44,9 +199,85 @@ actor RLShellBox2 : RLShellBox Replaces RLShellBox
     }
 }
 
-actor RLRocketBox2 : RLRocketBox Replaces RLRocketBox
+actor RLShellBox2 : RLShellBox Replaces RLShellBox
 {
-	Inventory.PickupSound "items/rocket"
+    Inventory.PickupMessage "You picked up a shotgun shell box."
+    Inventory.PickupSound "items/shell"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		SBOX A -1
+        Stop
+    }
+}
+
+actor RLShellBox3 : RLShellBox Replaces DRPGShellBoxHalf
+{
+    Inventory.PickupMessage "You picked up a spare shotgun shell box."
+    Inventory.PickupSound "items/shell"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		SBX2 A -1
+        Stop
+    SpawnLoop:
+        SBX2 A -1
+        Stop
+    Pickup:
+        TNT1 A 0 A_JumpIfInventory("Shell",0, "Nope")
+        TNT1 A 0 A_JumpIfInventory ("RLShellshockPerk", 1, 1)
+        Goto PickupAmmo
+        TNT1 A 0 A_GiveInventory ("RLRenegadeExtraShot", 1)
+    PickupAmmo:
+        TNT1 A 0 A_GiveInventory("Shell",10)
+        TNT1 A 0 A_JumpIfInventory("RLScroungerBackpackToken",1,"ScroungerBonus")
+        TNT1 A 0 A_JumpIfInventory("RLDedicatedBackpackToken",1,"DedicatedBonus")
+        Stop
+    }
+}
+
+// --------------------------------------------------
+// Rocket Ammo
+
+actor RLRocketAmmo1 : RLRocketAmmo Replaces DRPGRocketAmmo
+{
+    Inventory.PickupMessage "You picked up a rocket."
+    Inventory.PickupSound "items/rocket"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		ROCK A -1
+        Stop
+    }
+}
+
+actor RLRocketAmmo2 : RLRocketAmmo Replaces RLRocketAmmo
+{
+    Inventory.PickupMessage "You picked up a rocket."
+    Inventory.PickupSound "items/rocket"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		ROCK A -1
+        Stop
+    }
+}
+
+// --------------------------------------------------
+// Rocket Box Ammo
+
+actor RLRocketBox1 : RLRocketBox Replaces DRPGRocketBoxFull
+{
+    Inventory.PickupMessage "You picked up a rocket crate."
+    Inventory.PickupSound "items/rocket"
     
     States
     {
@@ -57,20 +288,147 @@ actor RLRocketBox2 : RLRocketBox Replaces RLRocketBox
     }
 }
 
-actor RLCell2 : RLCell Replaces RLCell
+actor RLRocketBox2 : RLRocketBox Replaces RLRocketBox
 {
-	Inventory.PickupSound "items/cell"
+    Inventory.PickupMessage "You picked up a rocket crate."
+    Inventory.PickupSound "items/rocket"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		BROK A -1
+        Stop
+    }
 }
 
-actor RLCellPack2 : RLCellPack Replaces RLCellPack
+actor RLRocketBox3 : RLRocketBox Replaces DRPGRocketBoxHalf
 {
-	Inventory.PickupSound "items/cell"
+    Inventory.PickupMessage "You picked up a mini rocket crate."
+    Inventory.PickupSound "items/rocket"
+
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		BRK2 A -1
+        Stop
+    SpawnLoop:
+        BRK2 A -1
+        Stop
+    Pickup:
+        TNT1 A 0 A_JumpIfInventory("RocketAmmo",0, "Nope")
+        TNT1 A 0 A_GiveInventory("RocketAmmo",3)
+        TNT1 A 0 A_JumpIfInventory("RLScroungerBackpackToken",1,"ScroungerBonus")
+        TNT1 A 0 A_JumpIfInventory("RLDedicatedBackpackToken",1,"DedicatedBonus")
+        Stop
+    }
+}
+
+// --------------------------------------------------
+// Cell Ammo
+
+actor RLCell1 : RLCell Replaces DRPGCellFull
+{
+    Inventory.PickupMessage "You picked up an energy cell."
+    Inventory.PickupSound "items/cell"
+
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		CELL A -1
+        Stop
+    }
+}
+
+actor RLCell2 : RLCell Replaces RLCell
+{
+    Inventory.PickupMessage "You picked up an energy cell."
+    Inventory.PickupSound "items/cell"
+
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		CELL A -1
+        Stop
+    }
+}
+
+actor RLCell3 : RLCell Replaces DRPGCellHalf
+{
+    Inventory.PickupMessage "You picked up a weak energy cell."
+    Inventory.PickupSound "items/cell"
+
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		CEL2 A -1
+        Stop
+    SpawnLoop:
+        CEL2 A -1
+        Stop
+    Pickup:
+        TNT1 A 0 A_JumpIfInventory("Cell",0, "Nope")
+        TNT1 A 0 A_GiveInventory("Cell",10)
+        TNT1 A 0 A_JumpIfInventory("RLDedicatedBackpackToken",1,"DedicatedBonus")
+        Stop
+    }
+}
+
+// --------------------------------------------------
+// Cell Pack Ammo
+
+actor RLCellPack1 : RLCellPack Replaces DRPGCellPackFull
+{
+    Inventory.PickupMessage "You picked up an energy cell pack."
+    Inventory.PickupSound "items/cell"
     
     States
     {
     Spawn:
         TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
 		CELP A -1
+        Stop
+    }
+}
+
+actor RLCellPack2 : RLCellPack Replaces RLCellPack
+{
+    Inventory.PickupMessage "You picked up an energy cell pack."
+    Inventory.PickupSound "items/cell"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		CELP A -1
+        Stop
+    }
+}
+
+actor RLCellPack3 : RLCellPack Replaces DRPGCellPackHalf
+{
+    Inventory.PickupMessage "You picked up a half spent energy cell pack."
+    Inventory.PickupSound "items/cell"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+		CBP2 A -1
+        Stop
+    SpawnLoop:
+        CBP2 A -1
+        Stop
+    Pickup:
+//      TNT1 A 0 A_JumpIfInventory("RLScroungerBackpackToken",1,2)
+        TNT1 A 0 A_JumpIfInventory("Cell",0, "Nope")
+        TNT1 A 0 A_GiveInventory("Cell",50)
+        TNT1 A 0 A_JumpIfInventory("RLScroungerBackpackToken",1,"ScroungerBonus")
+        TNT1 A 0 A_JumpIfInventory("RLDedicatedBackpackToken",1,"DedicatedBonus")
         Stop
     }
 }

@@ -90,30 +90,27 @@ NamedScript KeyBind void UseStim(bool Force)
     }
 
     // Set Timer for Stat bonuses
-    int InitialTime = Random(0, 100); // Just a little bit...
-    int InitialTimeMultiplier = GetCVar("drpg_stim_time_multiplier");
+    fixed StimImmunity = Player.StimImmunity;
     for (int i = StimStatsStart; i < StimStatsEnd + 2; i++)
         if (Player.Stim.Current[i] > 0)
         {
-            // Apply purifier time bonus
-            if (i == STIM_PURIFIER)
-                InitialTime += 10 * (Player.Stim.Current[STIM_PURIFIER] * 5 * InitialTimeMultiplier);
-            else
-                InitialTime += 10 * InitialTimeMultiplier;
+            // Set Timer
+            int InitialTime = (35 * 600 + (35 * 120 * Player.Stim.Current[STIM_PURIFIER]));
 
             // Immunity penalty
             InitialTime -= InitialTime * Player.StimImmunity / 100;
 
             Player.Stim.Active = true;
-            Player.Stim.Timer += InitialTime;
+            Player.Stim.Timer = InitialTime;
 
             if (Player.Stim.Timer >= Player.Stim.TimerMax)
                 Player.Stim.TimerMax = Player.Stim.Timer;
         }
 
     // Apply Multiplier and Potency
+    fixed StimCurrentPotency = Player.Stim.Current[STIM_POTENCY];
     for (int i = StimStatsStart; i < StimStatsEnd; i++)
-        Player.Stim.Current[i] = (Player.Stim.Current[i] * 3) + (Player.Stim.Current[STIM_POTENCY] * 3);
+        Player.Stim.Current[i] = Player.Stim.Current[i] * (1 + (StimCurrentPotency / 10));
 
     // Apply Stat Bonuses
     Player.StrengthBonus += Player.Stim.Current[STIM_STRENGTH];
@@ -129,7 +126,9 @@ NamedScript KeyBind void UseStim(bool Force)
     for (int i = StimPowerupStart; i < StimPowerupEnd; i++)
         if (Player.Stim.Current[i] > 0)
         {
-            int InitialTime = (5 * Player.Stim.Current[i]) * 3 * InitialTimeMultiplier;
+            int InitialTime = (35 * 6 * Player.Stim.Current[i]);
+
+            // Immunity penalty
             InitialTime -= InitialTime * Player.StimImmunity / 100;
 
             Player.Stim.PowerupTimer[i] += InitialTime;
@@ -147,7 +146,7 @@ NamedScript KeyBind void UseStim(bool Force)
     Player.Toxicity += Player.Stim.Toxicity;
 
     // Add Immunity
-    Player.StimImmunity += Player.Stim.Toxicity * 5;
+    Player.StimImmunity += Player.Stim.Toxicity * 2.5;
     if (Player.StimImmunity > 100)
         Player.StimImmunity = 100;
 
@@ -166,7 +165,7 @@ NamedScript KeyBind void UseStim(bool Force)
     ActivatorSound("items/stim", 127);
     if (Random(0, 100) == 0) // DRUGS
         ActivatorSound("misc/drugs", 127);
-    FadeRange(255, 255, 255, 0.25, 255, 255, 255, 0, 1.0);
+    FadeRangeFlash(255, 255, 255, 0.25, 255, 255, 255, 0, 1.0);
 }
 
 NamedScript KeyBind void ThrowAwayStim()
@@ -381,7 +380,9 @@ void CheckStim()
     };
 
     // Toxicity multiplier for Potency and Purifier stims
-    int StimToxicityMultiplier = 1 + Player.Stim.Current[STIM_POTENCY] + Player.Stim.Current[STIM_PURIFIER];
+    fixed StimCurrentPotency = Player.Stim.Current[STIM_POTENCY];
+    fixed StimCurrentPurifier = Player.Stim.Current[STIM_PURIFIER];
+    fixed StimToxicityMultiplier = 1 + (StimCurrentPotency / 20) + (StimCurrentPurifier / 20);
 
     // Stim maximum capacities
     if (Player.Stim.Size == 1) // Small
@@ -402,19 +403,25 @@ void CheckStim()
             Player.Stim.Toxicity += StimToxicityMultiplier;
 
     // Toxicity from total amount of compounds
-    Player.Stim.Toxicity += (Player.Stim.Amount * StimToxicityMultiplier) / 5;
+    Player.Stim.Toxicity += (Player.Stim.Amount * 0.5) * StimToxicityMultiplier;
 
-    // Toxicity added Based on Skill
-    Player.Stim.Toxicity += GameSkill() * StimToxicityMultiplier;
+    // Toxicity depending from Regeneration Aug
+    if (Player.Augs.Active[AUG_REGENERATION])
+    {
+        if (Player.Augs.CurrentLevel[AUG_REGENERATION] == 5)
+            Player.Stim.Toxicity *= 0.90;
+        if (Player.Augs.CurrentLevel[AUG_REGENERATION] == 6)
+            Player.Stim.Toxicity *= 0.85;
+        if (Player.Augs.CurrentLevel[AUG_REGENERATION] == 7)
+            Player.Stim.Toxicity *= 0.80;
+        if (Player.Augs.CurrentLevel[AUG_REGENERATION] >= 8)
+            Player.Stim.Toxicity *= 0.70;
+    }
 
     // Calculate the current Stim amount
     Player.Stim.Amount = 0;
     for (int i = 0; i < STIM_MAX; i++)
         Player.Stim.Amount += Player.Stim.Current[i];
-
-    // Mugshot
-    if (Player.Stim.Timer > 0)
-        SetMugShotState("Ouch");
 
     if ((!CurrentLevel->UACBase || ArenaActive || MarinesHostile) && Timer() > 4)
     {

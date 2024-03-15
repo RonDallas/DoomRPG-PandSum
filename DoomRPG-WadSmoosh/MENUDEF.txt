@@ -1,5 +1,6 @@
 AddOptionMenu "DoomRPG"
 {
+    StaticText ""
     SubMenu "WadSmoosh Options",            "WadSmoosh"
 }
 
@@ -10,9 +11,21 @@ OptionMenu "WadSmoosh"
     StaticText "Changes require starting a new game!"
     StaticText ""
     Option "Doom 1", "drpg_ws_doom1", "OnOff"
+    Option "Sigil", "drpg_ws_sigil", "OnOff"
     Option "Doom 2", "drpg_ws_doom2", "OnOff"
-    Option "Master Levels", "drpg_ws_master", "OnOff"
     Option "No Rest For The Living", "drpg_ws_nerve", "OnOff"
-    Option "Plutonia", "drpg_ws_plut", "OnOff"
-    Option "TNT", "drpg_ws_tnt", "OnOff"
+    Option "Master Levels", "drpg_ws_master", "OnOff"
+    Option "TNT: Evilution", "drpg_ws_tnt", "OnOff"
+    Option "The Plutonia Experiment", "drpg_ws_plut", "OnOff"
+}
+
+OptionString "OutpostStartLevel"
+{
+    "E1M1",    "E1M1 (Doom)"
+    "E5M1",    "E5M1 (Sigil)"
+    "MAP01",   "MAP01 (Doom II)"
+    "NV_MAP01", "NV_MAP01 (No Rest For The Living)"
+    "ML_MAP01", "ML_MAP01 (Master Levels)"
+    "TN_MAP01", "TN_MAP01 (TNT: Evilution)"
+    "PL_MAP01", "PL_MAP01 (The Plutonia Experiment)"
 }

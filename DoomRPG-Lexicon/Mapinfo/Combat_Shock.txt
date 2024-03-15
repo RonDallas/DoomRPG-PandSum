@@ -1,0 +1,36 @@
+map CS01 "Agitator"
+	{
+	titlepatch = "CSTPX00"
+	next = "CS02"
+	intermusic = "D_CSINT"
+	sky1 = "CS2SKY5"
+	music = "d_cs01"
+	}
+	
+map CS02 "Gozu"
+	{
+	titlepatch = "CSTPX01"
+	next = "CS03"
+	intermusic = "D_CSINT"
+	sky1 = "CS2SKY5"
+	music = "d_cs02"
+	}
+	
+map CS03 "Fudoh"
+	{
+	titlepatch = "CSTPX02"
+	next = "CS04"
+	intermusic = "D_CSINT"
+	sky1 = "CS2SKY5"
+	music = "d_cs03"
+	}
+	
+map CS04 "Messatsu"
+	{
+	titlepatch = "CSTPX03"
+	next = "OUTPOST"
+	intermusic = "D_CSINT"
+	sky1 = "CS2SKY5"
+	music = "d_cs04"
+    SuckTime = 1337
+	}

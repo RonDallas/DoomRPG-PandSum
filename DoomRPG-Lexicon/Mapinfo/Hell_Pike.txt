@@ -1,0 +1,14 @@
+
+map HP101 lookup "Berth"
+{
+	titlepatch = "HP1LV01"
+	next =  "OUTPOST"
+	secretnext =  "OUTPOST"
+	sky1 = "111BLACK"
+	par = 300
+	music = "D_HP101"
+	InterMusic = "D_HP102"
+	ExitPic = "HP1LV32"
+	EnterPic = "HP1LV32"
+	sucktime = 1
+}
