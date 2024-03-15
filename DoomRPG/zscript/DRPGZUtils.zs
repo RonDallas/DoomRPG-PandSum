@@ -145,35 +145,35 @@ class DRPGZUtilities
         else
             return false;
     }
-	static bool CheckActorInLegitSector(int TID, bool monster)
+    static bool CheckActorInLegitSector(int TID, bool monster)
     {
         ActorIterator AI = ActorIterator.Create(TID);
         Actor A = AI.Next();
-		
-		if (A)
-		{
-			Actor next = A.snext;
-			while (next != NULL && next != A)
-			{
-				if (monster)
-				{
-					if (next.bISMONSTER && next.bCOUNTKILL)
-					{
-						return true;
-					}
-				}
-				else
-				{
-					if (next is 'Inventory' || next.bCOUNTITEM)
-					{
-						return true;
-					}
-				}
-				next = next.snext;
-			}
-		}
-		
-		return false;
+
+        if (A)
+        {
+            Actor next = A.snext;
+            while (next != NULL && next != A)
+            {
+                if (monster)
+                {
+                    if (next.bISMONSTER && next.bCOUNTKILL)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (next is 'Inventory' || next.bCOUNTITEM)
+                    {
+                        return true;
+                    }
+                }
+                next = next.snext;
+            }
+        }
+
+        return false;
     }
     static play void ForceRespawn(int PlayerNum)
     {

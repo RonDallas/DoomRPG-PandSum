@@ -149,9 +149,9 @@ class DRPGZEHandler : EventHandler
 
     override void WorldThingDied(WorldEvent e)
     {
-        if (e.Thing && !e.Thing.Player) 
+        if (e.Thing && !e.Thing.Player)
         {
-            if(!e.Thing.bIsMonster) 
+            if(!e.Thing.bIsMonster)
             {
                 // Kinsie Metaprops - Tech
                 static const string PropTech[] =
@@ -193,9 +193,9 @@ class DRPGZEHandler : EventHandler
                 };
 
                 // Kinsie Metaprops - Hell except MetaHeadOnAStick
-                /* 
+                /*
                  * turned off because couldn't think of item pool for this
-                 * todo: add something funny and/or cool if Player destroys MetaBigTree or MetaTorchTree with a Chainsaw 
+                 * todo: add something funny and/or cool if Player destroys MetaBigTree or MetaTorchTree with a Chainsaw
                  * (drop new item Wood Log? new associated quest? one-time perk/achievement award?)
                  */
                 /*static const string PropEtc[] =
@@ -208,35 +208,40 @@ class DRPGZEHandler : EventHandler
 
                 int propType;
 
-                for (int i = 0; i < PropTech.size(); i++) {
-                    if(propType) 
+                for (int i = 0; i < PropTech.size(); i++)
+                {
+                    if(propType)
                         break;
                     if (e.Thing.GetClassName() == PropTech[i])
                         propType = 1;
                 }
-                    
-                if(!propType) {
-                    for (int i = 0; i < PropGore.size(); i++) {
-                        if(propType) 
+
+                if(!propType)
+                {
+                    for (int i = 0; i < PropGore.size(); i++)
+                    {
+                        if(propType)
                             break;
                         if (e.Thing.GetClassName() == PropGore[i])
                             propType = 2;
                     }
                 }
 
-                if(!propType) {
-                    for (int i = 0; i < PropBarrels.size(); i++) {
-                        if(propType) 
+                if(!propType)
+                {
+                    for (int i = 0; i < PropBarrels.size(); i++)
+                    {
+                        if(propType)
                             break;
                         if (e.Thing.GetClassName() == PropBarrels[i])
                             propType = 3;
                     }
                 }
-                
+
                 /*
                 if(!propType) {
                     for (int i = 0; i < PropEtc.size(); i++) {
-                        if(propType) 
+                        if(propType)
                             break;
                         if (e.Thing.GetClassName() == PropEtc[i])
                             propType = 4;
@@ -246,8 +251,8 @@ class DRPGZEHandler : EventHandler
 
                 // drop credits only if couldn't find Actor class in arrays
 
-                e.Thing.ACS_ScriptCall("PropDeathCheck", propType);   
-            }   
+                e.Thing.ACS_ScriptCall("PropDeathCheck", propType);
+            }
             else
                 e.Thing.ACS_ScriptCall("MonsterDeathCheck");
         }

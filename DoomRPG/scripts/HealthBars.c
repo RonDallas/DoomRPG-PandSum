@@ -167,7 +167,7 @@ Start:
             Info.IsPlayer = false;
 
             Info.NameColor = DetermineBestStatColor(MonStats);
-            Info.Name = GetActorPropertyString(0, APROP_NameTag);
+            Info.Name = GetActorPropertyString(0, APROP_Nametag);
             Info.Level = MonStats->Level;
             Info.Rank = MonStats->Threat;
             Info.Flags = MonStats->Flags;
