@@ -57,7 +57,7 @@ NamedScript void ItemRoulette(bool Rare)
         if (GetActivatorCVar("drpg_menuhelp"))
         {
             SetFont("SMALLFONT");
-            if (GetCVar("use_joystick") || GetUserCVar(PlayerNumber(), "drpg_deltatouch"))
+            if (GetUserCVar(PlayerNumber(), "drpg_menu_input_axes"))
                 HudMessage("Navigate/Change: \Cd%S/%S/%S/%S\C-\nChange Max: \Cd%S + %S/%S\C-\nReady/Play: \Cd%S\C-\nExit: \Cd%S\C-",
                            "Up", "Down", "Left", "Right", "Run", "Left", "Right", "Use", "Menu");
             else
