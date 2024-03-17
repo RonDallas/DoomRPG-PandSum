@@ -494,10 +494,10 @@ class DRPGZExtraWad : StaticEventHandler
             "Sigil",
             "Sigil II",
             "Doom II: Hell on Earth",
-            "No Rest For The Living",
-            "Master Levels",
             "TNT: Evilution",
-            "Plutonia"
+            "Plutonia",
+            "No Rest For The Living",
+            "Master Levels"
         };
 
         // Lexicon Nice Names

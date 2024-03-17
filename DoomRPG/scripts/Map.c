@@ -409,6 +409,7 @@ NamedScript Type_OPEN void MapInit()
 
     if (CurrentLevel)
         MapLoop();
+
     // Jimmy's Jukebox Randomizer compatibility.
     if (GetCVar("drpg_jjirandomizer_compat"))
         if (CurrentLevel->Event == MAPEVENT_NONE)
@@ -3079,27 +3080,9 @@ NamedScript void FeedingFrenzyEvent()
     int TID, validMonsterCount;
     int Index = 1;
 
-    // Get total valid monsters
-    validMonsterCount = GetValidMonsterCount();
-
-    SetMusic("");
-
-    // Darkness
-    for (int i = 0; i < LevelSectorCount; i++)
-    {
-        Light_Stop(i);
-        Light_Glow(i, 64, 96, 35 * 30);
-        Sector_SetColor(i, 255, 64, 64, 128);
-    }
-
-    // Replace them with corpses
-    for (int i = 1; i < validMonsterCount; i++)
-        Monsters[i].ReplaceActor = "DRPGRLGibbedStuff";
-
-    WaitingForReplacements = false;
-
-    // Wait a bit..
-    Delay(35 * 10);
+    int ActiveHungry = 0;
+    int LastActiveHungry = 0;
+    int KilledHungry = 0;
 
     // Spawn the reward item
     str const RewardItems[8] =
@@ -3122,6 +3105,28 @@ NamedScript void FeedingFrenzyEvent()
         "RLUnmakerPickup"
     };
 
+    // Get total valid monsters
+    validMonsterCount = GetValidMonsterCount();
+
+    SetMusic("");
+
+    // Darkness
+    for (int i = 0; i < LevelSectorCount; i++)
+    {
+        Light_Stop(i);
+        Light_Glow(i, 64, 96, 35 * 30);
+        Sector_SetColor(i, 255, 64, 64, 128);
+    }
+
+    // Replace them with corpses
+    for (int i = 1; i < validMonsterCount; i++)
+        Monsters[i].ReplaceActor = "DRPGRLGibbedStuff";
+
+    WaitingForReplacements = false;
+
+    // Wait a bit..
+    Delay(35 * 10);
+
     if (AveragePlayerLevel() <= 45)
     {
         str RewardItem = RewardItems[Random(0, 5)];
@@ -3136,24 +3141,17 @@ NamedScript void FeedingFrenzyEvent()
     // Ambient Music
     SetMusic("FeedThem");
 
-    int ActiveHungry = 0;
-    int LastActiveHungry = 0;
-    int KilledHungry = 0;
-
+    // Event's visual effects
     for (int i = 0; i < MAX_PLAYERS; i++)
         FeedingFrenzyVisualHorror(i);
 
-    int SpotTID;
-    bool VisibleToPlayer;
-
     while (ThingCountName("RLArmageddonLostSoulRPG", 0) < 10)
     {
+        int SpotTID = UniqueTID();
         MonsterStatsPtr SpawnPosition = &Monsters[Random(1, validMonsterCount)];
+        bool VisibleToPlayer = false;
 
-        SpotTID = UniqueTID();
         Spawned = Spawn("MapSpot", SpawnPosition->spawnPos.X, SpawnPosition->spawnPos.Y, SpawnPosition->spawnPos.Z, SpotTID, SpawnPosition->spawnPos.Angle * 256);
-
-        VisibleToPlayer = false;
 
         for (int i = 0; i < MAX_PLAYERS; i++)
             if (CheckSight(SpotTID, Players(i).TID, CSF_NOBLOCKALL))
@@ -3176,21 +3174,17 @@ NamedScript void FeedingFrenzyEvent()
 
         for (int i = 1; i < validMonsterCount; i++)
         {
-            MonsterStatsPtr SpawnPosition;
-
             if (ThingCountName("RLArmageddonLostSoulRPG", 0) >= 100)
                 break;
 
             if (Random(0, 1200) > KilledHungry)
                 continue;
 
-            // Get Monster for spawnPos
-            SpawnPosition = &Monsters[i];
-            SpotTID = UniqueTID();
+            int SpotTID = UniqueTID();
+            MonsterStatsPtr SpawnPosition = &Monsters[i];
+            bool VisibleToPlayer = false;
 
             Spawn("MapSpot", SpawnPosition->spawnPos.X, SpawnPosition->spawnPos.Y, SpawnPosition->spawnPos.Z, SpotTID, SpawnPosition->spawnPos.Angle * 256);
-
-            VisibleToPlayer = false;
 
             for (int i = 0; i < MAX_PLAYERS; i++)
                 if (CheckSight(SpotTID, Players(i).TID, CSF_NOBLOCKALL))
@@ -3237,8 +3231,9 @@ NamedScript void WhispersofDarknessEvent()
 {
     Delay(1);
 
+    //int BossType;
     bool Spawned, Spotted;
-    int TID, BossType, MonsterIndex, validMonsterCount;
+    int TID, validMonsterCount;
     int Index = 1;
 
     // Get total valid monsters
@@ -3285,12 +3280,11 @@ NamedScript void WhispersofDarknessEvent()
         // Successful spawn
         if (Spawned)
         {
-            int MonsterIndex;
-
             SpawnForced("TeleportFog", ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z, 0, 0);
+
             Delay(1);
 
-            MonsterIndex = GetMonsterID(TID);
+            int MonsterIndex = GetMonsterID(TID);
 
             //Monsters[MonsterIndex].LevelAdd += ((250 / MAX_PLAYERS) * PlayerCount());
             Monsters[MonsterIndex].NeedReinit = true;
@@ -3354,7 +3348,9 @@ NamedScript void WhispersofDarknessEvent()
 NamedScript void WhispersofDarknessBackgroundCreepiness()
 {
     AmbientSound("misc/gzdoom.exe", 127);
+
     Delay(1);
+
     while (true)
     {
         if ((Timer() % 5565) == 0)

@@ -3651,8 +3651,13 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     OldButtons = GetPlayerInput(PlayerNum, InputOld);
 
     // Regulate Axes
-    if (axesMode && (Timer() % axesTic) == 0)
-        if (Key & BT_FORWARD || Key & BT_BACK || Key & BT_MOVELEFT || Key & BT_MOVERIGHT)
+    if (Key & BT_FORWARD || Key & BT_BACK || Key & BT_MOVELEFT || Key & BT_MOVERIGHT)
+    {
+        // Prevent input skipping
+        Buttons = 0;
+        OldButtons = 0;
+
+        if (axesMode && (Timer() % axesTic) == 0)
         {
             AxisY = GetPlayerInput(PlayerNum, INPUT_FORWARDMOVE);
             AxisX = GetPlayerInput(PlayerNum, INPUT_SIDEMOVE);
@@ -3666,25 +3671,26 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
             // Illegal input hacks
             if (Key & BT_FORWARD && AxisY == 1.0)
             {
-                Buttons = BT_FORWARD;
+                Buttons |= Key;
                 OldButtons = 0;
             }
             else if (Key & BT_BACK && AxisY == -1.0)
             {
-                Buttons = BT_BACK;
+                Buttons |= Key;
                 OldButtons = 0;
             }
             else if (Key & BT_MOVELEFT && AxisX == -1.0)
             {
-                Buttons = BT_MOVELEFT;
+                Buttons |= Key;
                 OldButtons = 0;
             }
             else if (Key & BT_MOVERIGHT && AxisX == 1.0)
             {
-                Buttons = BT_MOVERIGHT;
+                Buttons |= Key;
                 OldButtons = 0;
             }
         }
+    }
 
     switch (State)
     {
