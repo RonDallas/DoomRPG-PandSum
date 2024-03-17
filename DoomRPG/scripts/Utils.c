@@ -2831,40 +2831,49 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     OldButtons = GetPlayerInput(PlayerNum, InputOld);
 
     // Regulate Axes
-    if (axesMode && (Timer() % axesTic) == 0)
-        if (Key & BT_FORWARD || Key & BT_BACK || Key & BT_MOVELEFT || Key & BT_MOVERIGHT)
+    if (Key & BT_FORWARD || Key & BT_BACK || Key & BT_MOVELEFT || Key & BT_MOVERIGHT)
+    {
+        // Prevent input skipping
+        if (axesMode)
         {
-            AxisY = GetPlayerInput(PlayerNum, INPUT_FORWARDMOVE);
-            AxisX = GetPlayerInput(PlayerNum, INPUT_SIDEMOVE);
+            Buttons = 0;
+            OldButtons = 0;
 
-            // Simplify
-            if (AxisY > 1.0) AxisY = 1.0;
-            if (AxisY < -1.0) AxisY = -1.0;
-            if (AxisX > 1.0) AxisX = 1.0;
-            if (AxisX < -1.0) AxisX = -1.0;
+            if (Timer() % axesTic == 0)
+            {
+                AxisY = GetPlayerInput(PlayerNum, INPUT_FORWARDMOVE);
+                AxisX = GetPlayerInput(PlayerNum, INPUT_SIDEMOVE);
 
-            // Illegal input hacks
-            if (Key & BT_FORWARD && AxisY == 1.0)
-            {
-                Buttons = BT_FORWARD;
-                OldButtons = 0;
-            }
-            else if (Key & BT_BACK && AxisY == -1.0)
-            {
-                Buttons = BT_BACK;
-                OldButtons = 0;
-            }
-            else if (Key & BT_MOVELEFT && AxisX == -1.0)
-            {
-                Buttons = BT_MOVELEFT;
-                OldButtons = 0;
-            }
-            else if (Key & BT_MOVERIGHT && AxisX == 1.0)
-            {
-                Buttons = BT_MOVERIGHT;
-                OldButtons = 0;
+                // Simplify
+                if (AxisY > 1.0) AxisY = 1.0;
+                if (AxisY < -1.0) AxisY = -1.0;
+                if (AxisX > 1.0) AxisX = 1.0;
+                if (AxisX < -1.0) AxisX = -1.0;
+
+                // Illegal input hacks
+                if (Key & BT_FORWARD && AxisY == 1.0)
+                {
+                    Buttons |= Key;
+                    OldButtons = 0;
+                }
+                else if (Key & BT_BACK && AxisY == -1.0)
+                {
+                    Buttons |= Key;
+                    OldButtons = 0;
+                }
+                else if (Key & BT_MOVELEFT && AxisX == -1.0)
+                {
+                    Buttons |= Key;
+                    OldButtons = 0;
+                }
+                else if (Key & BT_MOVERIGHT && AxisX == 1.0)
+                {
+                    Buttons |= Key;
+                    OldButtons = 0;
+                }
             }
         }
+    }
 
     switch (State)
     {

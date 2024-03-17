@@ -364,6 +364,27 @@ NamedScript MapSpecial void LevelTransport()
         EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 1, TitleColor, X, Y + 32.1, 0.05, 0.5);
         SetFont("SMALLFONT");
 
+        /*         // Display WAD Name
+                if (ExtraWadActive)
+                    if (CurrentWAD > 0)
+                    {
+                        str NiceName;
+                        int CurrentWadMod;
+
+                        if (ExtraWadHasHub)
+                            CurrentWadMod = CurrentWAD;
+                        else
+                            CurrentWadMod = (CurrentWAD-1);
+
+                        NiceName = (str)ScriptCall("DRPGZExtraWad", "GetNiceName", CurrentWadMod);
+
+                        HudMessage("%S", NiceName);
+                        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 1, "Brick", X, Y + 32.1, 0.05, 0.025);
+
+                        Y1 = 32.0;
+                    } */
+
+        // Display Level Name
         if (TeleDest->LevelNum > 0)
         {
             HudMessage("%S, level %d - %S", TeleDest->LumpName, TeleDest->LevelNum, MapType);
