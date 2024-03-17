@@ -450,12 +450,8 @@ void DropArenaItem(str Item)
             // Set Velocity
             SetActorVelocity(TID, RandomFixed(-XSpeed, XSpeed), RandomFixed(-YSpeed, YSpeed), ZSpeed, false, false);
 
-            // Array has grown too big, resize it
-            if (Players(i).DropTID.Position == Players(i).DropTID.Size)
-                ArrayResize(&Players(i).DropTID);
-
             // Add item's TID to drop array
-            ((int *)Players(i).DropTID.Data)[Players(i).DropTID.Position++] = TID;
+            zsDynArrayUtils("PlayerDrops", 1, TID, i);
         }
     }
 }

@@ -44,6 +44,7 @@ int RPGMap ForcefieldTimer = 0;
 
 // Choices
 int RPGMap LevelChoice = 0;
+int RPGMap ExtraWadChoice = 0;
 int RPGMap SkillChoice = 0;
 int RPGMap WaveChoice = 1;
 
@@ -527,165 +528,32 @@ NamedScript MapSpecial void LevelTransport()
     SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
     Player.OutpostMenu = OMENU_LEVELTRANSPORT;
 
-    str WadNames[MAX_MAPPACKS] =
-    {
-        "Doom",                      // WadSmoosh
-        "Sigil",
-        "Doom II: Hell on Earth",
-        "No Rest For The Living",
-        "Master Levels",
-        "TNT: Evilution",
-        "Plutonia",
-        "Lexicon's Hub",             // Lexicon
-        "Ancient Aliens",
-        "A Clear Line Drawn",
-        "Hot Water Music",
-        "Alien Vendetta",
-        "Back to Saturn X",
-        "Community Chest 1",
-        "Community Chest 2",
-        "Community Chest 3",
-        "Community Chest 4",
-        "Chillax",
-        "Circle Of Caina",
-        "Combat Shock",
-        "Combat Shock 2",
-        "Chainworm",
-        "Doom Core Trilogy",
-        "Drown In Blood",
-        "Dark Encounters",
-        "Destination Unknown",
-        "Deus Vult",
-        "Deus Vult 2",
-        "Epic 1",
-        "Epic 2",
-        "Estranged",
-        "The Eye",
-        "Forest Swords",
-        "Going Down",
-        "Hellcore",
-        "Hellbound",
-        "Hell Pike",
-        "Sens",
-        "Hadephobia",
-        "Hell Revealed",
-        "Hell Revealed 2",
-        "Interception",
-        "Kamasutra",
-        "Khorus Speedy Shit",
-        "Mayhem 17",
-        "Maps Of Chaos",
-        "Monuments Of Mars",
-        "New Gothic Movement",
-        "New Gothic Movement 2",
-        "NOVA",
-        "Pizza Steve",
-        "Doom 2 Redux",
-        "Scythe 2",
-        "Stardate 20x6",
-        "Stardate 20x7",
-        "Swift Death",
-        "Slaughterfest 2012",
-        "Slaughterfest 2013",
-        "Shaitans Luck",
-        "Sunlust",
-        "Sunder",
-        "Speed Of Doom",
-        "Swim With The Whales",
-        "Dark Tartarus",
-        "The Spire",
-        "The Spire 2",
-        "Congestion",
-        "CLAUSTERPHOBIA 2",
-        "CLAUSTERPHOBIA 1",
-        "1997 Tuneup Project",
-        "UAC Ultra",
-        "Unholy Realms",
-        "Valiant",
-        "Vanguard",
-        "D2 The Way ID Did",
-        "Whispers Of Satan",
-        "Zone 300",
-        "Zones Of Fear",
-        "Compendium's Hub",          // Compendium
-        "Memento Mori",
-        "Memento Mori II",
-        "Requiem",
-        "Insertion",
-        "Obituary",
-        "Strain",
-        "Biowar",
-        "The Darkening",
-        "The Trooper's Playground",
-        "Predition's Gate",
-        "Post",
-        "Revolution",
-        "Scientist",
-        "Icarus Alien Vanguard",
-        "Hell to Pay",
-        "The Abyss",
-        "The Talosian Incident",
-        "All Hell is Breaking Loose!",
-        "Enigma",
-        "Realm of Chaos",
-        "Dystopia 3",
-        "Eternal Doom",
-        "Rebight",
-        "Scythe",
-        "Caverns of Darkness",
-        "The Darkening 2",
-        "Equinox",
-        "Marsdoom",
-        "Bloodrust",
-        "Osiris",
-        "Brotherhood of Ruin",
-        "Enjay ZDoom",
-        "Daedalus",
-        "Cleimos",
-        "Asdoom 2",
-        "Pleiades",
-        "Dark Covenant",
-        "Slayer",
-        "Hell Factory",
-        "Cyberdreams",
-        "The Final Gathering",
-        "Earth",
-        "End Game",
-        "Doom Resurrection",
-        "Enslavement",
-        "Biotech",
-        "City of Doom",
-        "Project Slipgate",
-        "Dissolution of Eternity",
-        "Suspended in Dusk",
-        "Mancubus",
-        "Last Day on Earth",
-        "Vile Flesh",
-        "The Vilecore",
-        "Twilight Zone II",
-        "Neodoom",
-        "Annie",
-        "99 Ways to Die",
-        "Back to Hell"
-    };
-
     // So the player's initial interaction is not processed as a menu action
     Delay(1);
 
     while (true)
     {
-        // Reset additional coordinates
-        Y1 = 0.0;
+        // Stop Underflow - Extra WAD(s)
+        if (CurrentWAD < 0)
+            CurrentWAD = 0;
+
+        // And Overflow - Extra WAD(s)
+        if (CurrentWAD >= KnownWadCount)
+            CurrentWAD = KnownWadCount;
 
         // Stop Underflow
         if (LevelChoice < 0)
             LevelChoice = 0;
 
         // And Overflow
-        if (LevelChoice >= KnownLevels->Position)
-            LevelChoice = KnownLevels->Position - 1;
+        if (LevelChoice >= GetKnownLevelCount(CurrentWAD))
+            LevelChoice = GetKnownLevelCount(CurrentWAD) - 1;
 
-        LevelInfo *TeleDest = &((LevelInfo *)KnownLevels->Data)[LevelChoice];
+        // Reset additional coordinates
+        Y1 = 0.0;
+
+        // Get level selection
+        LevelInfo *TeleDest = klArrayUtils(2, CurrentWAD, LevelChoice);
 
         // Set the HUD Size
         SetHudSize(GetActivatorCVar("drpg_menu_width"), GetActivatorCVar("drpg_menu_height"), true);
@@ -701,8 +569,9 @@ NamedScript MapSpecial void LevelTransport()
         EndHudMessage(HUDMSG_FADEOUT, MENU_ID, "White", X, Y, 0.05, 0.025);
 
         str TitleColor = "Gold";
+
         if (TeleDest->NeedsRealInfo || !(TeleDest->Completed))
-            TitleColor = "Red";
+            TitleColor = "Orange";
         else if (TeleDest->AllBonus)
             TitleColor = "Green";
 
@@ -713,21 +582,24 @@ NamedScript MapSpecial void LevelTransport()
             MapType = "UAC Base";
         if (TeleDest->UACArena)
             MapType = "UAC Arena";
-        if (MapPacks)
-        {
-            if (!MapPackActive[Player.SelectedMapPack])
-                Player.SelectedMapPack++;
-            else if (LevelChoice > 0)
+
+        // Display WAD Name
+        if (ExtraWadActive)
+            if (CurrentWAD > 0)
             {
-                HudMessage("%S", WadNames[Player.SelectedMapPack]);
-                EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 1, "Red", X, Y + 32.1, 0.05, 0.025);
+                str NiceName = (str)ScriptCall("DRPGZExtraWad", "GetNiceName", CurrentWAD);
+
+                HudMessage("%S", NiceName);
+                EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 1, "Brick", X, Y + 32.1, 0.05, 0.025);
+
                 Y1 = 32.0;
             }
-        }
 
+        // Display Level Name
         HudMessage("%S", TeleDest->NiceName);
         EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 2, TitleColor, X, Y + Y1 + 32.1, 0.05, 0.025);
         SetFont("SMALLFONT");
+
         if (TeleDest->LevelNum > 0)
         {
             HudMessage("%S, level %d - %S", TeleDest->LumpName, TeleDest->LevelNum, MapType);
@@ -920,11 +792,11 @@ NamedScript MapSpecial void LevelTransport()
             EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 4, "LightBlue", X, Y + Y1 + 64.1, 0.05, 0.025);
         }
 
-        // Input
+        // Level Input
         if (CheckInput(BT_FORWARD, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
             ActivatorSound("menu/move", 127);
-            if (LevelChoice < KnownLevels->Position - 1)
+            if (LevelChoice < GetKnownLevelCount(CurrentWAD) - 1)
                 LevelChoice++;
             else
                 LevelChoice = 0;
@@ -935,39 +807,16 @@ NamedScript MapSpecial void LevelTransport()
             if (LevelChoice > 0)
                 LevelChoice--;
             else
-                LevelChoice = KnownLevels->Position - 1;
+                LevelChoice = GetKnownLevelCount(CurrentWAD) - 1;
         }
 
-        // Map packs support
-        if (MapPacks)
+        // Extra WAD(s) Input
+        if (ExtraWadActive)
         {
             if ((CheckInput(BT_MOVELEFT, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
             {
-                int MapPack = Player.SelectedMapPack;
-                do
-                {
-                    MapPack--;
-                    if (MapPackActive[MapPack])
-                    {
-                        break;
-                    }
-                }
-                while (MapPack > -1);
-
-                if (MapPack != -1)
-                {
-                    Player.SelectedMapPack = MapPack;
-                    KnownLevels = &ExtraMapPacks[MapPack]; //ah, probably means no mp support this way
-                    //will have to move the KnownLevels pointer into the Player Struct
-                    //or use a new pointer for outpost text rendering and swap the knownlevels
-                    //pointer before changing the map
-                    LevelChoice = 1;
-                    ActivatorSound("menu/move", 127);
-                }
-                else
-                {
-                    ActivatorSound("menu/error", 127);
-                }
+                ActivatorSound("menu/move", 127);
+                CurrentWAD--;
             }
             else if (CheckInput(BT_MOVELEFT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice > 0)
             {
@@ -977,33 +826,10 @@ NamedScript MapSpecial void LevelTransport()
 
             if ((CheckInput(BT_MOVERIGHT, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
             {
-                int MapPack = Player.SelectedMapPack;
-                do
-                {
-                    MapPack++;
-                    if (MapPackActive[MapPack])
-                    {
-                        break;
-                    }
-                }
-                while (MapPack < MAX_MAPPACKS);
-
-                if (MapPack != MAX_MAPPACKS)
-                {
-                    Player.SelectedMapPack = MapPack;
-                    KnownLevels = &ExtraMapPacks[MapPack]; //ah, probably means no mp support this way
-                    //will have to move the KnownLevels pointer into the Player Struct
-                    //or use a new pointer for outpost text rendering and swap the knownlevels
-                    //pointer before changing the map
-                    LevelChoice = 1;
-                    ActivatorSound("menu/move", 127);
-                }
-                else
-                {
-                    ActivatorSound("menu/error", 127);
-                }
+                ActivatorSound("menu/move", 127);
+                CurrentWAD++;
             }
-            else if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice < KnownLevels->Position - 1)
+            else if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice < GetKnownLevelCount(CurrentWAD) - 1)
             {
                 ActivatorSound("menu/move", 127);
                 LevelChoice += 10;
@@ -1017,12 +843,14 @@ NamedScript MapSpecial void LevelTransport()
                 LevelChoice -= 10;
             }
 
-            if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice < KnownLevels->Position - 1)
+            if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice < GetKnownLevelCount(CurrentWAD) - 1)
             {
                 ActivatorSound("menu/move", 127);
                 LevelChoice += 10;
             }
         }
+
+        // Teleport
         if (CheckInput(BT_USE, KEY_PRESSED, false, PlayerNumber()))
         {
             if (CurrentLevel == TeleDest)

@@ -474,7 +474,7 @@ Start:
         }
 
         // Nametag
-        SetActorPropertyString(Player.Turret.TID, APROP_Nametag, StrParam("%tS\C-'s Turret", PlayerNumber() + 1));
+        SetActorPropertyString(Player.Turret.TID, APROP_NameTag, StrParam("%tS\C-'s Turret", PlayerNumber() + 1));
 
         // Battery is drained
         if ((Player.Turret.Battery <= 0 && !Player.Turret.AugBattery) || (Player.Turret.Battery <= 0 && Player.Turret.AugBattery && Player.Augs.Battery <= 0))
@@ -1101,7 +1101,7 @@ Start:
         SetActorVelocity(0, 0, 0, TurretSpeed, true, false);
 
     // Teleport detection - If the player suddenly poofs into another part of the map, we need to go with them.
-    if (GetActorProperty(PlayerTID, APROP_Reactiontime) > 0 && Distance(0, PlayerTID) > 96.0)
+    if (GetActorProperty(PlayerTID, APROP_ReactionTime) > 0 && Distance(0, PlayerTID) > 96.0)
         NeedsTeleport = true;
 
     if (GetUserVariable(0, "user_needs_teleport"))

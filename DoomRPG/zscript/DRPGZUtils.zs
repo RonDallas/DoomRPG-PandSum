@@ -1,5 +1,8 @@
 class DRPGZUtilities
 {
+    // ---------------------------
+    // -------- Map Tools --------
+    // ---------------------------
     static int GetLevelSectorCount()
     {
         return level.Sectors.Size();
@@ -43,21 +46,10 @@ class DRPGZUtilities
 
         return false;
     }
-    static play void ForceRespawn(int PlayerNum)
-    {
-        let player = Players[PlayerNum].mo.player;
-        if (player)
-        {
-            player.cls = NULL;
-            player.playerstate = PST_REBORN;
-            if (player.mo.special1 > 2)
-            {
-                player.mo.special1 = 0;
-            }
-        }
-    }
     static bool CheckForBadMap()
     {
+        bool rValue = false;
+
         // Maps that have compatibility issues with DRPG
         static const string BadMaps[] =
         {
@@ -73,10 +65,79 @@ class DRPGZUtilities
         // Check for bad map
         for (int i = 0; i < BadMaps.size(); i++)
             if (level.MapName == BadMaps[i])
-                return true;
+                rValue = true; // Detected bad map
 
         // Good map
-        return false;
+        return rValue;
+    }
+
+    // Return true if CurrentLevel is an Icon of Sin type level
+    static bool CheckForIOSMap()
+    {
+        bool rValue = false;
+
+        static const string iosMaps[] =
+        {
+            "MAP30",
+            "AV30",
+            "CC130",
+            "CC230",
+            "CC330",
+            "CC430",
+            "CHX30",
+            "DC30",
+            "EP230",
+            "EST30",
+            "GD30",
+            "HLB30",
+            "HR30",
+            "HR230",
+            "INT30",
+            "KS30",
+            "KSS30",
+            "MOC30",
+            "NG116",
+            "NG216",
+            "NV130",
+            "PIZ30",
+            "RDX30",
+            "SDE30",
+            "SL20",
+            "SOD30",
+            "TAT30",
+            "TT130",
+            "TT330",
+            "TU30",
+            "UHR30",
+            "WID30",
+            "WOS30",
+            "ZTH30",
+            "ZOF30"
+        };
+
+        // Check for IOS map
+        for (int i = 0; i < iosMaps.size(); i++)
+            if (level.MapName == iosMaps[i])
+                rValue = true; // Detected IOS map
+
+        return rValue;
+    }
+
+    // ---------------------------
+    // -------- Misc Tools -------
+    // ---------------------------
+    static play void ForceRespawn(int PlayerNum)
+    {
+        let player = Players[PlayerNum].mo.player;
+        if (player)
+        {
+            player.cls = NULL;
+            player.playerstate = PST_REBORN;
+            if (player.mo.special1 > 2)
+            {
+                player.mo.special1 = 0;
+            }
+        }
     }
     static void SetHUDPreset(int Preset)
     {
@@ -327,7 +388,8 @@ class DRPGZUtilities
             "drpg_menu_width",
             "drpg_menu_height",
             "drpg_menu_background_border",
-            "drpg_menu_repetition",
+            "drpg_menu_input_axes",
+            "drpg_menu_input_axes_tic",
             "drpg_hud_preview",
             "drpg_hud_width",
             "drpg_hud_height",
@@ -416,7 +478,6 @@ class DRPGZUtilities
             "drpg_popoffs_drawdistance",
             "drpg_virtual_credits",
             "drpg_noclip_credits",
-            "drpg_char_load_maplevel",
             "drpg_startmap",
             "drpg_addstartmap",
             "drpg_start_credits",

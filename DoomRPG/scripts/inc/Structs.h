@@ -114,10 +114,6 @@ struct CharSaveInfo_S
     // Auto-Sell
     int ItemAutoMode[ITEM_CATEGORIES][ITEM_MAX];
 
-    // Map Level Number
-    int NextLevelNum;
-    int NextPrimaryLevelNum;
-
     // ----- COMPATIBILITY EXTENSIONS -----
 
     // Compatibility Handling - DoomRL Arsenal
@@ -513,7 +509,6 @@ struct LevelInfo_S
     bool Init;
 
     // Event stuff
-    struct DynamicArray_S MonsterPositions;
     unsigned int Event;
     bool EventCompleted;
 
@@ -748,9 +743,6 @@ struct PlayerData_S
     int ShopIndex;
     int ShopPage;
 
-    // Map Packs (WadSmoosh, Lexicon and etc.)
-    int SelectedMapPack;
-
     // Skill Info
     struct SkillLevelInfo_S SkillLevel[MAX_CATEGORIES][MAX_SKILLS];
     struct AuraInfo_S Aura;
@@ -815,8 +807,6 @@ struct PlayerData_S
     // Auto-Sell/Auto-Store
     int ItemAutoMode[ITEM_CATEGORIES][ITEM_MAX];
     bool ItemKeep[ITEM_CATEGORIES][ITEM_MAX];
-    struct DynamicArray_S AutoSellList;
-    struct DynamicArray_S AutoStoreList;
 
     // Toxicity Meter
     int ToxicTimer;
@@ -1063,7 +1053,7 @@ struct PlayerData_S
     struct MissionInfo_S Mission;
 };
 
-//LegenDoom
+// LegenDoom
 struct LegendaryDef_S
 {
     str Effect;

@@ -27,7 +27,6 @@ int CompatMode;
 int CompatModeEx;
 int CompatModeLite;
 int CompatMonMode;
-bool MapPacks;
 
 // Arrays
 str PlayerWeapon[MAX_PLAYERS];
@@ -323,9 +322,6 @@ NamedScript Type_ENTER void Init()
     for (int i = 0; i < MAX_SUMMONS; i++)
         Player.SummonTID[i] = 0;
     Player.Summons = 0;
-
-    // Initialize DropTID Array
-    ArrayCreate(&Player.DropTID, "Drops", 64, sizeof(int));
 
     // Mission Initialization
     InitMission();
@@ -1305,7 +1301,7 @@ NamedScript void ItemHandler()
             }
         }
 
-        for (int i = 0; i < MAX_PLAYERS; i++)
+        /* for (int i = 0; i < MAX_PLAYERS; i++)
         {
             // Skip this player if they aren't in the game
             if (!PlayerInGame(i)) continue;
@@ -1315,7 +1311,6 @@ NamedScript void ItemHandler()
 
             // Skip this player if they are dead
             if (GetActorProperty(Players(i).TID, APROP_Health) <= 0) continue;
-
 
             int *ItemTID = (int *)Player.DropTID.Data;
 
@@ -1361,7 +1356,7 @@ NamedScript void ItemHandler()
                     SetActorFlag(ItemTID[j], "BRIGHT", false);
                 }
             }
-        }
+        } */
 
         Delay(4);
     }
@@ -2509,42 +2504,6 @@ void CheckCompatibility()
     MegaBosses = MegaBossesDF;
     MegaBossesAmount = MAX_MEGABOSSES_DF;
 
-    MapPacks = false;
-
-    // Starting Map
-    if (!InTitle && CurrentLevel->UACBase && GetCVar("drpg_addstartmap"))
-        MapPacks = true;
-
-    // WadSmoosh
-    Success = SpawnForced("DRPGWadSmooshActive", 0, 0, 0, TID, 0);
-    if (Success)
-    {
-        if (DebugLog)
-            Log("\CdDEBUG: \CaWadSmoosh\C- detected");
-        MapPacks = true;
-        Thing_Remove(TID);
-    }
-
-    // Lexicon
-    Success = SpawnForced("DRPGLexiconActive", 0, 0, 0, TID, 0);
-    if (Success)
-    {
-        if (DebugLog)
-            Log("\CdDEBUG: \CaLexicon\C- detected");
-        MapPacks = true;
-        Thing_Remove(TID);
-    }
-
-    // Compendium
-    Success = SpawnForced("DRPGCompendiumActive", 0, 0, 0, TID, 0);
-    if (Success)
-    {
-        if (DebugLog)
-            Log("\CdDEBUG: \CaCompendium\C- detected");
-        MapPacks = true;
-        Thing_Remove(TID);
-    }
-
     // Extras
     Success = SpawnForced("DRPGExtrasIsLoaded", 0, 0, 0, TID, 0);
     if (Success)
@@ -2669,7 +2628,7 @@ void CheckCompatibility()
         Thing_Remove(TID);
     }
 
-    if (DebugLog && CompatMode == COMPAT_NONE && CompatMonMode == COMPAT_NONE && !MapPacks)
+    if (DebugLog && CompatMode == COMPAT_NONE && CompatMonMode == COMPAT_NONE && !ExtraWadActive)
         Log("\CdDEBUG: \C-No compatible mods found");
 }
 

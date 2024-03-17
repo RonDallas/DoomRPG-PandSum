@@ -658,12 +658,6 @@ NamedScript MenuEntry void LoadCharacter()
         for (int j = 0; j < ITEM_MAX; j++)
             Player.ItemAutoMode[i][j] = Info.ItemAutoMode[i][j];
 
-    // Map Level Number
-    if (GetActivatorCVar("drpg_char_load_maplevel"))
-        NextLevelNum = Info.NextLevelNum;
-    if (GetActivatorCVar("drpg_char_load_maplevel"))
-        NextPrimaryLevelNum = Info.NextPrimaryLevelNum;
-
     // ----- COMPATIBILITY EXTENSIONS -----
 
     // Compatibility Handling - DoomRL Arsenal
@@ -934,10 +928,6 @@ NamedScript void PopulateCharData(CharSaveInfo *Info)
         for (int j = 0; j < ITEM_MAX; j++)
             Info->ItemAutoMode[i][j] = Player.ItemAutoMode[i][j];
 
-    // Map Level Number
-    Info->NextLevelNum = NextLevelNum;
-    Info->NextPrimaryLevelNum = NextPrimaryLevelNum;
-
     // ----- COMPATIBILITY EXTENSIONS -----
 
     // Compatibility Handling - DoomRL Arsenal
@@ -1124,12 +1114,6 @@ NamedScript void LoadCharDataFromString(CharSaveInfo *Info, char const *String)
             }
             StringPos += 1;
         }
-
-    // Map Level Number
-    Info->NextLevelNum = HexToInteger(String + StringPos, 4);
-    StringPos += 4;
-    Info->NextPrimaryLevelNum = HexToInteger(String + StringPos, 4);
-    StringPos += 4;
 
     // ----- COMPATIBILITY EXTENSIONS -----
 
@@ -1410,18 +1394,6 @@ NamedScript char const *MakeSaveString(CharSaveInfo *Info)
             SaveString[pos + 0] = ToHexChar(Info->ItemAutoMode[i][j]);
             pos += 1;
         }
-
-    // Map Level Number
-    SaveString[pos + 3] = ToHexChar(Info->NextLevelNum);
-    SaveString[pos + 2] = ToHexChar(Info->NextLevelNum >> 4);
-    SaveString[pos + 1] = ToHexChar(Info->NextLevelNum >> 8);
-    SaveString[pos + 0] = ToHexChar(Info->NextLevelNum >> 12);
-    pos += 4;
-    SaveString[pos + 3] = ToHexChar(Info->NextPrimaryLevelNum);
-    SaveString[pos + 2] = ToHexChar(Info->NextPrimaryLevelNum >> 4);
-    SaveString[pos + 1] = ToHexChar(Info->NextPrimaryLevelNum >> 8);
-    SaveString[pos + 0] = ToHexChar(Info->NextPrimaryLevelNum >> 12);
-    pos += 4;
 
     // ----- COMPATIBILITY EXTENSIONS -----
 

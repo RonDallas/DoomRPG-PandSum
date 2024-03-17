@@ -61,6 +61,7 @@ void RemoveMonsterAura(MonsterStatsPtr);
 str DetermineBestStatColor(MonsterStatsPtr);
 int BestStat(MonsterStatsPtr);
 int FindMonster(int);
+int GetValidMonsterCount();
 
 NamedScript void MonsterRedAuraCheck(bool);
 NamedScript void MonsterGreenAuraCheck(bool);

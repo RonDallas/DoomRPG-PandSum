@@ -190,9 +190,10 @@ NamedScript DECORATE void UseCrate(int ID)
         SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
 
         DrawCrate();
-        CrateInput();
 
         Delay(1);
+
+        CrateInput();
     }
 
     SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);

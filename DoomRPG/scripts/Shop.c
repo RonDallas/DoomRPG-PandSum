@@ -65,37 +65,57 @@ NamedScript KeyBind void OpenShop(bool OpenLocker)
     }
 }
 
+// Auto-Sell & Auto-Store
 NamedScript void UpdateShopAutoList()
 {
-    ArrayCreate(&Player.AutoSellList,  "Auto-Sell", 128, sizeof(ItemInfoPtr));
-    ArrayCreate(&Player.AutoStoreList, "Auto-Store", 128, sizeof(ItemInfoPtr));
-
     for (int i = 0; i < ItemCategories; i++)
     {
         for (int j = 0; j < ItemMax[i]; j++)
         {
-            if (Player.AutoSellList.Position == Player.AutoSellList.Size)
-                ArrayResize(&Player.AutoSellList);
-            if (Player.AutoStoreList.Position == Player.AutoStoreList.Size)
-                ArrayResize(&Player.AutoStoreList);
+            // Remove AT_NONE items that exist in the Auto-Sell or Auto-Store arrays
+            if (Player.ItemAutoMode[i][j] == AT_NONE)
+            {
+                ItemInfoPtr Item = &ItemData[i][j];
 
+                zsDynArrayUtils("Auto-Sell", 4, (int)Item, PlayerNumber());
+                zsDynArrayUtils("Auto-Store", 4, (int)Item, PlayerNumber());
+            }
+
+            // Auto-Sell
             if (Player.ItemAutoMode[i][j] == AT_SELL)
             {
                 ItemInfoPtr Item = &ItemData[i][j];
-                LogMessage(StrParam("Sell List Position: %i Sell List Size: %i", Player.AutoSellList.Position, Player.AutoSellList.Size), LOG_DEBUG);
+
+                // Get array size
+                int arraySize = zsDynArrayUtils("Auto-Sell", 3, NULL, PlayerNumber());
+
+                LogMessage(StrParam("Sell List Population: %i", arraySize), LOG_DEBUG);
                 LogMessage(StrParam("Adding %S to auto-sell @ %p", ItemData[i][j].Name, Item), LOG_DEBUG);
-                ((ItemInfoPtr *)Player.AutoSellList.Data)[Player.AutoSellList.Position++] = Item;
+
+                // Add item to array
+                zsDynArrayUtils("Auto-Sell", 1, (int)Item, PlayerNumber());
             }
+
+            // Auto-Store
             else if (Player.ItemAutoMode[i][j] == AT_STORE)
             {
                 ItemInfoPtr Item = &ItemData[i][j];
-                LogMessage(StrParam("Store List Position: %i Store List Size: %i", Player.AutoStoreList.Position, Player.AutoStoreList.Size), LOG_DEBUG);
+
+                // Get array size
+                int arraySize = zsDynArrayUtils("Auto-Store", 3, NULL, PlayerNumber());
+
+                LogMessage(StrParam("Store List Population: %i", arraySize), LOG_DEBUG);
                 LogMessage(StrParam("Adding %S to auto-store @ %p", ItemData[i][j].Name, Item), LOG_DEBUG);
-                ((ItemInfoPtr *)Player.AutoStoreList.Data)[Player.AutoStoreList.Position++] = Item;
+
+                // Add item to array
+                zsDynArrayUtils("Auto-Store", 1, (int)Item, PlayerNumber());
             }
-            // LogMessage(StrParam("Completed Item #%i, %S", j, ItemData[i][j].Name), LOG_DEBUG);
+
+            // Commented out for console spam
+            //LogMessage(StrParam("Completed Item #%i, %S", j, ItemData[i][j].Name), LOG_DEBUG);
         }
     }
+
     LogMessage("Completed AutoUpdateShopList", LOG_DEBUG);
 }
 
@@ -137,10 +157,14 @@ NamedScript void ShopItemAutoHandler()
         // Auto-Sell
         bool CanSellItems = Player.RankLevel > 0 || CurrentLevel->UACBase;
         bool UseAutoDepositFallback = GetActivatorCVar("drpg_autosell_lockerfallback");
+        int sellArraySize = zsDynArrayUtils("Auto-Sell", 3, NULL, PlayerNumber());
+        int storeArraySize = zsDynArrayUtils("Auto-Store", 3, NULL, PlayerNumber());
+
+        // Auto-Sell
         if (CanSellItems || UseAutoDepositFallback)
-            for (int i = 0; i < Player.AutoSellList.Position; i++)
+            for (int i = 0; i < sellArraySize; i++) // Process each item in Auto-Sell array for selling
             {
-                ItemInfoPtr Item = ((ItemInfoPtr *)Player.AutoSellList.Data)[i];
+                ItemInfoPtr Item = (ItemInfoPtr)zsDynArrayUtils("Auto-Sell", 2, i, PlayerNumber()); // Get Item from array, where i is the array position
                 int Quantity = CheckInventory(Item->Actor);
 
                 // Keep
@@ -158,9 +182,9 @@ NamedScript void ShopItemAutoHandler()
 
         // Auto-Store
         if (Player.EP >= LOCKER_EPRATE || CurrentLevel->UACBase)
-            for (int i = 0; i < Player.AutoStoreList.Position; i++)
+            for (int i = 0; i < storeArraySize; i++)
             {
-                ItemInfoPtr Item = ((ItemInfoPtr *)Player.AutoStoreList.Data)[i];
+                ItemInfoPtr Item = (ItemInfoPtr)zsDynArrayUtils("Auto-Store", 2, i, PlayerNumber()); // Get Item from array
 
                 if (CheckInventory(Item->Actor) > 0)
                     ShopItemTryAutoDeposit(Item);
@@ -775,6 +799,7 @@ int WithdrawItem(int Page, int Index)
         (*LockerAmount)--;
         if (!CurrentLevel->UACBase)
             Player.EP -= LOCKER_EPRATE;
+
         ActivatorSound("menu/move", 127);
     }
     else
@@ -783,6 +808,7 @@ int WithdrawItem(int Page, int Index)
             PrintError("Not enough EP to withdraw this item");
         else
             PrintError("Locker does not contain any of the specified item");
+
         ActivatorSound("menu/error", 127);
     }
 

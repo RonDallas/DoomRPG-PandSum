@@ -15,29 +15,70 @@
 #include "Utils.h"
 
 // Level Info
-DynamicArray ExtraMapPacks[MAX_MAPPACKS];
-DynamicArray *KnownLevels = &ExtraMapPacks[0];
+LevelInfo KnownLevels[MAX_WAD_LEVELS][MAX_WADS];
 LevelInfo *CurrentLevel;
 LevelInfo *PreviousLevel;
 LevelInfo *TransporterLevel;
 LevelInfo *DefaultOutpost;
-int NextLevelNum;
-int NextPrimaryLevelNum;
+
+int KnownLevelCount[MAX_WADS];
+
+// 0 = Default IWAD or Replacement WAD, or Hub
+// 1 = Extra Wad #1 (E1M1 with WadSmoosh, for example)
+int CurrentWAD;
+
+int PreviousLevelNum[MAX_WADS];
+int PreviousPrimaryLevelNum[MAX_WADS];
+
 bool UsedSecretExit;
 bool WaitingForReplacements;
+
+// Extra WAD(s)
+bool ExtraWadInit, ExtraWadActive, ExtraWadHasHub;
+int KnownWadCount;
+
 int AllBonusMaps; // For the OCD Shield
 int CurrentSkill; // Keeps track of skill changes based on events
-
-// MapPacks
-bool MapPackActive[MAX_MAPPACKS];
 
 // Local
 static int PassingEventTimer;
 static bool DisableEvent;
 static int LevelSectorCount;
 
-//MapPacks Local
-static bool MapPacksInitialized;
+// ------------------------
+// KnownLevels Array Tools
+// ------------------------
+LevelInfo *klArrayUtils(int Function, int WAD, int Level)
+{
+    LevelInfo* Map = NULL;
+
+    switch(Function)
+    {
+    // Return next empty entry
+    case 1:
+    {
+        Map = &((LevelInfo *)KnownLevels[KnownLevelCount[WAD]++])[WAD];
+    }
+    break;
+    // Get entry
+    case 2:
+    {
+        Map = &((LevelInfo *)KnownLevels[Level])[WAD];
+    }
+    break;
+    }
+
+    return Map;
+}
+
+int GetKnownLevelCount(int WAD)
+{
+    return KnownLevelCount[WAD];
+}
+
+// ------------------------
+// Map
+// ------------------------
 
 // Map Init Script
 NamedScript Type_OPEN void MapInit()
@@ -53,37 +94,32 @@ NamedScript Type_OPEN void MapInit()
         StartZ = GetActorZ(Players(i).TID);
         break;
     }
+
     SpawnForced("MapSpot", StartX, StartY, StartZ, MAP_START_TID, 0);
 
     // Running the game for the first time
-    if (KnownLevels->Data == NULL)
+    if (GetKnownLevelCount(0) == 0)
     {
         if (GetCVar("drpg_monster_mapweight") < 1)
             SetCVar("drpg_monster_mapweight", 1);
         if (GetCVar("drpg_monster_mapweight") > 1000)
             SetCVar("drpg_monster_mapweight", 1000);
+
         int StartMapNum = GetCVar("drpg_monster_mapweight");
         CurrentSkill = GameSkill() - 1;
         UsedSecretExit = false;
         PreviousLevelSecret = false;
-        NextLevelNum = StartMapNum;
-        NextPrimaryLevelNum = StartMapNum;
-        ArrayCreate(KnownLevels, "Levels", 32, sizeof(LevelInfo));
+        PreviousLevelNum[CurrentWAD] = StartMapNum - 1;
+        PreviousPrimaryLevelNum[CurrentWAD] = StartMapNum - 1;
         CurrentLevel = NULL;
         PreviousLevel = NULL;
         PassingEventTimer = GetCVar("drpg_mapevent_eventtime") * 35 * 60;
         DisableEvent = true;
 
-        if (KnownLevels->Data == NULL)
-        {
-            Log("\CgWARNING: \CaCould not allocate level info!");
-            return;
-        }
-
         // Quick check to add the standard Outpost if we didn't start on it
         if (ThingCountName("DRPGOutpostMarker", 0) == 0 && ThingCountName("DRPGArenaMarker", 0) == 0)
         {
-            LevelInfo *OutpostMap = &((LevelInfo *)KnownLevels->Data)[KnownLevels->Position++];
+            LevelInfo *OutpostMap = klArrayUtils(1, 0, NULL);
             OutpostMap->LevelNum = 0;
             OutpostMap->LumpName = "OUTPOST";
             OutpostMap->NiceName = "UAC Outpost";
@@ -94,7 +130,7 @@ NamedScript Type_OPEN void MapInit()
 
             DefaultOutpost = OutpostMap;
 
-            LevelInfo *ArenaMap = &((LevelInfo *)KnownLevels->Data)[KnownLevels->Position++];
+            LevelInfo *ArenaMap = klArrayUtils(1, 0, NULL);
             ArenaMap->LevelNum = 0;
             ArenaMap->LumpName = "DAM01";
             ArenaMap->NiceName = "Arena! Oblige Edition.";
@@ -104,20 +140,18 @@ NamedScript Type_OPEN void MapInit()
         }
     }
 
+    // Hub compatibility: Maintain CurrentWAD so levels accumulate on their respective WAD
+    // Don't switch for Outpost or Arena so Teleport selection is maintained
+    if (ExtraWadHasHub)
+        if (ThingCountName("DRPGOutpostMarker", 0) == 0 && ThingCountName("DRPGArenaMarker", 0) == 0)
+            SetCurrentWadWithString(StrParam("%tS", PRINTNAME_LEVEL));
+
     CurrentLevel = FindLevelInfo();
 
-    if (CurrentLevel == NULL) // New map - We need to create new info for it
+    // New map - We need to create new info for it
+    if (CurrentLevel == NULL)
     {
-        if (KnownLevels->Position == KnownLevels->Size)
-            ArrayResize(KnownLevels);
-
-        CurrentLevel = &((LevelInfo *)KnownLevels->Data)[KnownLevels->Position++];
-
-        if (KnownLevels->Data == NULL)
-        {
-            Log("\CgWARNING: \CaCould not allocate level info!");
-            return;
-        }
+        CurrentLevel = klArrayUtils(1, CurrentWAD, NULL);
 
         CurrentLevel->LevelNum = 0;
         CurrentLevel->NeedsRealInfo = true;
@@ -177,7 +211,16 @@ NamedScript Type_OPEN void MapInit()
 
             if (CurrentLevel->LevelNum == 0)
             {
-                CurrentLevel->LevelNum = NextLevelNum;
+                PreviousLevelNum[CurrentWAD]++;
+                if (!UsedSecretExit)
+                    PreviousLevelNum[CurrentWAD] = ++PreviousPrimaryLevelNum[CurrentWAD];
+
+                if (PreviousLevelNum[CurrentWAD] > 1000)
+                    PreviousLevelNum[CurrentWAD] = 1000;
+                if (PreviousPrimaryLevelNum[CurrentWAD] > 1000)
+                    PreviousPrimaryLevelNum[CurrentWAD] = 1000;
+
+                CurrentLevel->LevelNum = PreviousLevelNum[CurrentWAD];
                 CurrentLevel->SecretMap = UsedSecretExit;
             }
 
@@ -228,13 +271,11 @@ NamedScript Type_OPEN void MapInit()
                 CurrentLevel->AllBonus = true;
             if (CurrentLevel->Par == 0)
                 CurrentLevel->ParBonus = true;
+
             CalculateBonusMaps();
 
             CurrentLevel->AdditionalMonsters = 0;
             CurrentLevel->Event = MAPEVENT_NONE;
-
-            // Allocate the Monster Positions dynamic array
-            ArrayCreate(&(CurrentLevel->MonsterPositions), "MPOS", 64, sizeof(Position));
 
             // Decide the map's event, if any
             DecideMapEvent(CurrentLevel);
@@ -251,12 +292,13 @@ NamedScript Type_OPEN void MapInit()
                 SetActivator(0, AAPTR_PLAYER1 << i);
                 if (CheckInventory("DRPGDisallowTransport"))
                     AllowTransport = false;
+
                 SetActivator(0, AAPTR_NULL);
             }
 
             if (GetCVar("drpg_transport_on_new_map") && AllowTransport && DefaultOutpost)
             {
-                qsort(KnownLevels->Data, KnownLevels->Position, sizeof(LevelInfo), LevelSort);
+                //qsort(KnownLevels->Data, KnownLevels->Position, sizeof(LevelInfo), LevelSort);
                 CurrentLevel = FindLevelInfo();
                 CurrentLevel->NeedsRealInfo = false;
                 CurrentLevel->Init = true; // Probably don't need this but just to be safe
@@ -267,32 +309,34 @@ NamedScript Type_OPEN void MapInit()
 
                 return;
             }
+
             CurrentLevel->NeedsRealInfo = false;
         }
 
         // We need to make sure the maps stay sorted whenever we add one
-        qsort(KnownLevels->Data, KnownLevels->Position, sizeof(LevelInfo), LevelSort);
+        //qsort(KnownLevels->Data, KnownLevels->Position, sizeof(LevelInfo), LevelSort);
         Delay(2);
     }
 
     // We need to do this again because qsort invalidated all our pointers
-    CurrentLevel = FindLevelInfo();
+    //CurrentLevel = FindLevelInfo();
 
     // Transport will take us to the last base we were in.
     if (CurrentLevel->UACBase)
         DefaultOutpost = CurrentLevel;
 
-    // Initialization map packs (WadSmoosh, Lexicon and etc.)
-    InitMapPacks();
+    // Extra WAD(s) Loader
+    InitExtraWad();
 
     // Compatibility Handling - DoomRL Arsenal Extended
     if (CompatModeEx == COMPAT_DRLAX)
         NomadModPacksLoad();
 
-    if (CurrentLevel->UACBase || CurrentLevel->UACArena || CurrentLevel->LumpName == "HUBMAP" || CurrentLevel->LumpName == "VR")
+    // [KS] These maps set themselves up, so nothing more to do.
+    if (CurrentLevel->UACBase || CurrentLevel->UACArena || ExtraWadHasHub)
     {
         CurrentLevel->Init = true;
-        return; // [KS] These maps set themselves up, so nothing more to do.
+        return;
     }
 
     // Flag to run monster replacements
@@ -300,26 +344,6 @@ NamedScript Type_OPEN void MapInit()
 
     // Modify monster population based on difficulty settings
     MonsterCountModifier();
-
-    // Populate the positions array
-    for (int i = 1; i < MonsterID; i++)
-    {
-        if (!Monsters[i].Init)
-            continue;
-
-        // Array has grown too big, resize it
-        if (CurrentLevel->MonsterPositions.Position == CurrentLevel->MonsterPositions.Size)
-        {
-            ArrayResize(&CurrentLevel->MonsterPositions);
-        }
-
-        // Store position
-        ((Position *)CurrentLevel->MonsterPositions.Data)[CurrentLevel->MonsterPositions.Position++] = Monsters[i].spawnPos;
-
-        // Prevent running away on gigantic maps (see holyhell.wad MAP05)
-        if ((i % 4096) == 0)
-            Delay(1);
-    }
 
     // Set up the currently in-effect map event
     SetupMapEvent();
@@ -764,9 +788,13 @@ NamedScript void CalculateBonusMaps()
 {
     int Count = 0;
 
-    for (int i = 0; i < KnownLevels->Position; i++)
-        if (((LevelInfo *)KnownLevels->Data)[i].AllBonus)
+    for (int i = 0; i < GetKnownLevelCount(CurrentWAD); i++)
+    {
+        LevelInfo *Map = klArrayUtils(2, CurrentWAD, i);
+
+        if (Map->AllBonus)
             Count++;
+    }
 
     AllBonusMaps = Count;
 }
@@ -800,9 +828,15 @@ LevelInfo *FindLevelInfo(str MapName)
     if (MapName == NULL)
         MapName = StrParam("%tS", PRINTNAME_LEVEL);
 
-    for (int i = 0; i < KnownLevels->Position; i++)
-        if (!StrICmp(((LevelInfo *)KnownLevels->Data)[i].LumpName, MapName))
-            return &((LevelInfo *)KnownLevels->Data)[i];
+    for (int i = 0; i < GetKnownLevelCount(CurrentWAD); i++)
+    {
+        LevelInfo *Map = klArrayUtils(2, CurrentWAD, i);
+
+        if (!StrICmp(Map->LumpName, MapName))
+        {
+            return Map;
+        }
+    }
 
     return NULL;
 }
@@ -812,25 +846,34 @@ int FindLevelInfoIndex(str MapName)
     if (MapName == NULL)
         MapName = StrParam("%tS", PRINTNAME_LEVEL);
 
-    for (int i = 0; i < KnownLevels->Position; i++)
-        if (!StrICmp(((LevelInfo *)KnownLevels->Data)[i].LumpName, MapName))
+    for (int i = 0; i < GetKnownLevelCount(CurrentWAD); i++)
+    {
+        LevelInfo *Map = klArrayUtils(2, CurrentWAD, i);
+
+        if (!StrICmp(Map->LumpName, MapName))
             return i;
+    }
 
     return 0; // Default to the Outpost because we don't actually know where we are
 }
 
+// Used by Outpost ACS when loading (adds Starting Map)
 NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNumber, int Secret)
 {
-    while (KnownLevels->Data == NULL)
+    while (GetKnownLevelCount(CurrentWAD) == 0)
         Delay(1);
 
-    if (MapPacks)
-        return; // this messes up map packs too much, running every time we go to the outpost
+    // Give a chance for data to load
+    Delay(15);
+
+    // These WADs are already set up
+    if (ExtraWadActive)
+        return;
 
     if (FindLevelInfo(Name) != NULL)
         return; // This map was already unlocked, so ignore it
 
-    LevelInfo *NewMap = &((LevelInfo *)KnownLevels->Data)[KnownLevels->Position++];
+    LevelInfo *NewMap = klArrayUtils(1, CurrentWAD, NULL);
     NewMap->LumpName = Name;
     NewMap->NiceName = DisplayName;
     NewMap->LevelNum = LevelNumber;
@@ -960,15 +1003,9 @@ NumberedScript(MAP_EXIT_SCRIPTNUM) MapSpecial void MapExit(bool Secret, bool Tel
 
     UsedSecretExit = Secret;
     PreviousLevel = CurrentLevel;
-
-    NextLevelNum++;
-    if (!UsedSecretExit)
-        NextLevelNum = ++NextPrimaryLevelNum;
-
-    if (NextLevelNum > 1000)
-        NextLevelNum = 1000;
-    if (NextPrimaryLevelNum > 1000)
-        NextPrimaryLevelNum = 1000;
+    PreviousLevelNum[CurrentWAD] = CurrentLevel->LevelNum;
+    if (!CurrentLevel->SecretMap)
+        PreviousPrimaryLevelNum[CurrentWAD] = CurrentLevel->LevelNum;
 
     // Compatibility Handling - DoomRL Arsenal Extended
     // Nomad - Increased Luck Stat for every Level completed
@@ -1309,9 +1346,6 @@ void MapEventReward()
 
 NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
 {
-    if (DebugLog)
-        Log("\CdDEBUG: \ChDeciding event for \Cd%S", TargetLevel->LumpName);
-
     str const EventNames[MAPEVENT_MAX] =
     {
         "None",
@@ -1386,68 +1420,18 @@ NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
     if (CurrentLevel->BadMap)
         return;
 
+    if (DebugLog)
+        Log("\CdDEBUG: \ChDeciding event for \Cd%S", TargetLevel->LumpName);
+
     // [KS] Super-special events for super-special levels (and by "special" I of course mean retarded)
     // [KS] PS: I hate you already.
-    if (MapPacks)
-    {
-        str MapsIconOfSin[35] =
-        {
-            "MAP30",
-            "AV30",
-            "CC130",
-            "CC230",
-            "CC330",
-            "CC430",
-            "CHX30",
-            "DC30",
-            "EP230",
-            "EST30",
-            "GD30",
-            "HLB30",
-            "HR30",
-            "HR230",
-            "INT30",
-            "KS30",
-            "KSS30",
-            "MOC30",
-            "NG116",
-            "NG216",
-            "NV130",
-            "PIZ30",
-            "RDX30",
-            "SDE30",
-            "SL20",
-            "SOD30",
-            "TAT30",
-            "TT130",
-            "TT330",
-            "TU30",
-            "UHR30",
-            "WID30",
-            "WOS30",
-            "ZTH30",
-            "ZOF30"
-        };
-
-        for (int i = 0; i < 35; i++)
-        {
-            str MapNumber = MapsIconOfSin[i];
-            if (!StrICmp(TargetLevel->LumpName, MapNumber))
-            {
-                // Icon of Sin
-                // Blurb about a demon spitter and the game ending finale here.
-                if (GetCVar("drpg_mapevent_sinstorm"))
-                    TargetLevel->Event = MAPEVENT_SPECIAL_SINSTORM;
-                return;
-            }
-        }
-    }
-    else if (!StrICmp(TargetLevel->LumpName, "MAP30"))
+    if (ScriptCall("DRPGZUtilities", "CheckForIOSMap"))
     {
         // Icon of Sin
-        // Blurb about a demon spitter and the game ending finale here.
+        // Blurb about a demon spitter and the game ending finale here
         if (GetCVar("drpg_mapevent_sinstorm"))
             TargetLevel->Event = MAPEVENT_SPECIAL_SINSTORM;
+
         return;
     }
 
@@ -1459,6 +1443,16 @@ NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
             TargetLevel->Event = MAPEVENT_NONE;
             return;
         }
+
+        // No events on level 1 (first level when using an Extra WAD)
+        if (ExtraWadActive)
+            if (TargetLevel->LevelNum == 1)
+            {
+                if (DebugLog)
+                    Log("\CdDEBUG: \ChExtra WAD(s): No event for level 1\Cd");
+
+                DisableEvent = true;
+            }
 
         if (RandomFixed(0.0, 99.9) > GetCVarFixed("drpg_mapevent_chance") || DisableEvent)
         {
@@ -1566,9 +1560,9 @@ NamedScript Type_OPEN void PassingEvents()
             if (DebugLog)
                 Log("\CdDEBUG: \CfRe-rolling events for all inactive levels");
 
-            for (int i = 0; i < KnownLevels->Position; i++)
+            for (int i = 0; i < GetKnownLevelCount(CurrentWAD); i++)
             {
-                LevelInfo *ThisLevel = &((LevelInfo *)KnownLevels->Data)[i];
+                LevelInfo *ThisLevel = klArrayUtils(2, CurrentWAD, i);
 
                 if (!ThisLevel->Completed)
                 {
@@ -1773,10 +1767,10 @@ NamedScript Console void SetMapEvent(int Level, int ID)
 
     if (Level == 0)
         MapToChange = CurrentLevel;
-    else if (Level < 0 || Level >= KnownLevels->Position)
+    else if (Level < 0 || Level >= GetKnownLevelCount(CurrentWAD))
         MapToChange = NULL;
     else
-        MapToChange = &((LevelInfo *)KnownLevels->Data)[Level];
+        MapToChange = klArrayUtils(2, CurrentWAD, Level);
 
     if (MapToChange == NULL)
     {
@@ -1802,12 +1796,11 @@ NamedScript void MegaBossEvent()
 {
     Delay(1);
 
-    bool Spawned;
-    bool Spotted;
-    int TID;
-    int BossType;
-    int Index;
-    Position *ChosenPosition;
+    // Variables
+    //int BossType;
+    int TID, validMonsterCount;
+    int Index = 1;
+    bool Spawned = false, Spotted = false;
 
     // Ambient Music
     SetMusic(StrParam("MBossA%d", Random(1, 2)));
@@ -1815,43 +1808,41 @@ NamedScript void MegaBossEvent()
     // Pick Boss
     CurrentLevel->MegabossActor = &MegaBosses[Random(0, MegaBossesAmount - 1)];
 
-    // Replace them with nothing
-    for (int i = 1; i < MonsterID; i++)
-    {
-        if (!Monsters[i].Init)
-            continue;
+    // Get total valid monsters
+    validMonsterCount = GetValidMonsterCount();
 
+    // Replace them with nothing
+    for (int i = 1; i < validMonsterCount; i++)
         Monsters[i].ReplaceActor = "None";
-    }
 
     WaitingForReplacements = false;
     Delay(1); // Monsters disappear!
 
     // Shuffle positions
-    for (int i = 0; i < CurrentLevel->MonsterPositions.Position; i++)
+    for (int i = 1; i < validMonsterCount; i++)
     {
-        int X = Random(0, CurrentLevel->MonsterPositions.Position - 1);
+        int X = Random(1, validMonsterCount);
         Position TempPosition;
 
-        TempPosition = ((Position *)CurrentLevel->MonsterPositions.Data)[i];
-        ((Position *)CurrentLevel->MonsterPositions.Data)[i] = ((Position *)CurrentLevel->MonsterPositions.Data)[X];
-        ((Position *)CurrentLevel->MonsterPositions.Data)[X] = TempPosition;
+        TempPosition = (&Monsters[i])->spawnPos;
+        (&Monsters[i])->spawnPos = (&Monsters[X])->spawnPos;
+        (&Monsters[X])->spawnPos = TempPosition;
     }
 
     // Spawning
     while (!Spawned)
     {
         TID = UniqueTID();
-        ChosenPosition = &((Position *)CurrentLevel->MonsterPositions.Data)[Index];
-        Spawned = Spawn(CurrentLevel->MegabossActor->Actor, ChosenPosition->X, ChosenPosition->Y, ChosenPosition->Z, TID, ChosenPosition->Angle * 256);
+        MonsterStatsPtr ChosenPosition = &Monsters[Index];
+        Spawned = Spawn(CurrentLevel->MegabossActor->Actor, ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z, TID, ChosenPosition->spawnPos.Angle * 256);
 
         if (DebugLog)
-            Log("\CdDEBUG: Iterating for Spawn Point... (Class %S, Index %d, Position %.2k/%.2k/%.2k", CurrentLevel->MegabossActor->Actor, Index, ChosenPosition->X, ChosenPosition->Y, ChosenPosition->Z);
+            Log("\CdDEBUG: Iterating for Spawn Point... (Class %S, Index %d, Position %.2k/%.2k/%.2k", CurrentLevel->MegabossActor->Actor, Index, ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z);
 
         // Successful spawn
         if (Spawned)
         {
-            SpawnForced("TeleportFog", ChosenPosition->X, ChosenPosition->Y, ChosenPosition->Z, 0, 0);
+            SpawnForced("TeleportFog", ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z, 0, 0);
             // former WhiteAuraGiver
             SetActorFlag(TID, "LOOKALLAROUND", GetCVar("drpg_monster_lookallaround"));
             SetActorFlag(TID, "NOTARGETSWITCH", GetCVar("drpg_monster_notargetswitch"));
@@ -1863,8 +1854,9 @@ NamedScript void MegaBossEvent()
         }
 
         Index++;
-        if (Index >= CurrentLevel->MonsterPositions.Position)
-            Index = 0;
+
+        if (Index >= validMonsterCount)
+            Index = 1;
 
         Delay(1);
     }
@@ -2526,28 +2518,31 @@ NamedScript void HellUnleashedSpawnMonsters()
 
     Delay(1); // Maximize our instructions
 
-    int TID;
-    MonsterStatsPtr Stats;
-    bool Success;
+    // Get total valid monsters
+    int validMonsterCount = GetValidMonsterCount();
 
-    for (int i = 0; i < CurrentLevel->MonsterPositions.Position; i++)
+    for (int i = 1; i < validMonsterCount; i++)
     {
-        TID = UniqueTID();
-        Success = false;
-        Position *CurrentPosition = &((Position *)CurrentLevel->MonsterPositions.Data)[i];; // Totally leaving this typo here because IT'S CRYING OKAY, I AM TOO
+        int TID = UniqueTID();
+        bool Success;
+        MonsterStatsPtr CurrentPosition = &Monsters[i];
+        MonsterStatsPtr Data1;
+        MonsterInfoPtr Data2;
 
         // Determine a monster
-        MonsterInfoPtr Monster = &MonsterData[Random(0, MonsterDataAmount - 1)];
+        Data2 = &MonsterData[Random(0, MonsterDataAmount - 1)];
 
-        Success = Spawn(Monster->Actor, CurrentPosition->X, CurrentPosition->Y, CurrentPosition->Z, TID, CurrentPosition->Angle);
+        Success = Spawn(Data2->Actor, CurrentPosition->spawnPos.X, CurrentPosition->spawnPos.Y, CurrentPosition->spawnPos.Z, TID, CurrentPosition->spawnPos.Angle);
+
         if (Success)
         {
-            Spawn("TeleportFog", CurrentPosition->X, CurrentPosition->Y, CurrentPosition->Z, 0, CurrentPosition->Angle);
+            Spawn("TeleportFog", CurrentPosition->spawnPos.X, CurrentPosition->spawnPos.Y, CurrentPosition->spawnPos.Z, 0, CurrentPosition->spawnPos.Angle);
             // Setup Stats
-            Stats = &Monsters[GetMonsterID(TID)];
-            Stats->LevelAdd += (int)CurrentLevel->LevelAdd;
-            Stats->NeedReinit = true;
+            Data1 = &Monsters[GetMonsterID(TID)];
+            Data1->LevelAdd += (int)CurrentLevel->LevelAdd;
+            Data1->NeedReinit = true;
         }
+
         // Stagger the loop here so that we can make monsters appear to spawn in semi-randomly
         Delay(Random(1, 10));
     }
@@ -2605,20 +2600,20 @@ NamedScript void HarmonizedDestructionEvent()
 
 NamedScript void TeleportCracksEvent()
 {
-    Delay(1);
-
     SetMusic("Cracks");
 
-    int X, InPortalTID, OutPortalTID;
+    // Get total valid monsters
+    int validMonsterCount = GetValidMonsterCount();
+
     // Shuffle positions
-    for (int i = 0; i < CurrentLevel->MonsterPositions.Position; i++)
+    for (int i = 1; i < validMonsterCount; i++)
     {
-        X = Random(0, CurrentLevel->MonsterPositions.Position - 1);
+        int X = Random(1, validMonsterCount);
         Position TempPosition;
 
-        TempPosition = ((Position *)CurrentLevel->MonsterPositions.Data)[i];
-        ((Position *)CurrentLevel->MonsterPositions.Data)[i] = ((Position *)CurrentLevel->MonsterPositions.Data)[X];
-        ((Position *)CurrentLevel->MonsterPositions.Data)[X] = TempPosition;
+        TempPosition = (&Monsters[i])->spawnPos;
+        (&Monsters[i])->spawnPos = (&Monsters[X])->spawnPos;
+        (&Monsters[X])->spawnPos = TempPosition;
     }
 
     // Spawn the cracks
@@ -2626,19 +2621,20 @@ NamedScript void TeleportCracksEvent()
 
     while (!SpawnedCracks)
     {
-        for (int i = 0; i < CurrentLevel->MonsterPositions.Position - 1; i += 2)
+        for (int i = 1; i < validMonsterCount; i += 2)
         {
             if (Random(0, 3))
                 continue;
 
-            Position Source = ((Position *)CurrentLevel->MonsterPositions.Data)[i];
-            Position Destination = ((Position *)CurrentLevel->MonsterPositions.Data)[i + 1];
-            InPortalTID = UniqueTID();
-            if (!Spawn("DRPGTeleportCrackIn", Source.X, Source.Y, Source.Z, InPortalTID, Source.Angle * 256))
+            MonsterStatsPtr Source = &Monsters[i];
+            MonsterStatsPtr Destination = &Monsters[i + 1];
+
+            int InPortalTID = UniqueTID();
+            if (!Spawn("DRPGTeleportCrackIn", Source->spawnPos.X, Source->spawnPos.Y, Source->spawnPos.Z, InPortalTID, Source->spawnPos.Angle * 256))
                 continue;
 
-            OutPortalTID = UniqueTID();
-            if (!Spawn("DRPGTeleportCrackOut", Destination.X, Destination.Y, Destination.Z, OutPortalTID, Destination.Angle * 256))
+            int OutPortalTID = UniqueTID();
+            if (!Spawn("DRPGTeleportCrackOut", Destination->spawnPos.X, Destination->spawnPos.Y, Destination->spawnPos.Z, OutPortalTID, Destination->spawnPos.Angle * 256))
             {
                 Thing_Remove(InPortalTID);
                 continue;
@@ -3078,15 +3074,17 @@ NamedScript void FeedingFrenzyEvent()
 {
     Delay(1);
 
-    bool Spawned;
-    bool Spotted;
-    int TID;
-    int BossType;
-    int Index;
-    Position *ChosenPosition;
+    //int BossType;
+    bool Spawned, Spotted;
+    int TID, validMonsterCount;
+    int Index = 1;
+
+    // Get total valid monsters
+    validMonsterCount = GetValidMonsterCount();
 
     SetMusic("");
 
+    // Darkness
     for (int i = 0; i < LevelSectorCount; i++)
     {
         Light_Stop(i);
@@ -3095,16 +3093,12 @@ NamedScript void FeedingFrenzyEvent()
     }
 
     // Replace them with corpses
-    for (int i = 1; i < MonsterID; i++)
-    {
-        if (!Monsters[i].Init)
-            continue;
-
+    for (int i = 1; i < validMonsterCount; i++)
         Monsters[i].ReplaceActor = "DRPGRLGibbedStuff";
-    }
 
     WaitingForReplacements = false;
 
+    // Wait a bit..
     Delay(35 * 10);
 
     // Spawn the reward item
@@ -3154,11 +3148,10 @@ NamedScript void FeedingFrenzyEvent()
 
     while (ThingCountName("RLArmageddonLostSoulRPG", 0) < 10)
     {
-        Position SpawnPosition = ((Position *)CurrentLevel->MonsterPositions.Data)[Random(0, CurrentLevel->MonsterPositions.Position)];
+        MonsterStatsPtr SpawnPosition = &Monsters[Random(1, validMonsterCount)];
 
         SpotTID = UniqueTID();
-
-        Spawn("MapSpot", SpawnPosition.X, SpawnPosition.Y, SpawnPosition.Z, SpotTID, SpawnPosition.Angle * 256);
+        Spawned = Spawn("MapSpot", SpawnPosition->spawnPos.X, SpawnPosition->spawnPos.Y, SpawnPosition->spawnPos.Z, SpotTID, SpawnPosition->spawnPos.Angle * 256);
 
         VisibleToPlayer = false;
 
@@ -3171,7 +3164,7 @@ NamedScript void FeedingFrenzyEvent()
         if (VisibleToPlayer)
             continue;
 
-        Spawn("RLArmageddonLostSoulRPG", SpawnPosition.X, SpawnPosition.Y, SpawnPosition.Z, 0, SpawnPosition.Angle * 256);
+        Spawn("RLArmageddonLostSoulRPG", SpawnPosition->spawnPos.X, SpawnPosition->spawnPos.Y, SpawnPosition->spawnPos.Z, 0, SpawnPosition->spawnPos.Angle * 256);
     }
 
     while (true)
@@ -3181,19 +3174,21 @@ NamedScript void FeedingFrenzyEvent()
         if (ActiveHungry < LastActiveHungry)
             KilledHungry += (LastActiveHungry - ActiveHungry) * GameSkill();
 
-        for (int i = 0; i < CurrentLevel->MonsterPositions.Position; i++)
+        for (int i = 1; i < validMonsterCount; i++)
         {
+            MonsterStatsPtr SpawnPosition;
+
             if (ThingCountName("RLArmageddonLostSoulRPG", 0) >= 100)
                 break;
 
             if (Random(0, 1200) > KilledHungry)
                 continue;
 
-            Position SpawnPosition = ((Position *)CurrentLevel->MonsterPositions.Data)[i];
-
+            // Get Monster for spawnPos
+            SpawnPosition = &Monsters[i];
             SpotTID = UniqueTID();
 
-            Spawn("MapSpot", SpawnPosition.X, SpawnPosition.Y, SpawnPosition.Z, SpotTID, SpawnPosition.Angle * 256);
+            Spawn("MapSpot", SpawnPosition->spawnPos.X, SpawnPosition->spawnPos.Y, SpawnPosition->spawnPos.Z, SpotTID, SpawnPosition->spawnPos.Angle * 256);
 
             VisibleToPlayer = false;
 
@@ -3206,7 +3201,7 @@ NamedScript void FeedingFrenzyEvent()
             if (VisibleToPlayer)
                 continue;
 
-            Spawn("RLArmageddonLostSoulRPG", SpawnPosition.X, SpawnPosition.Y, SpawnPosition.Z, 0, SpawnPosition.Angle * 256);
+            Spawn("RLArmageddonLostSoulRPG", SpawnPosition->spawnPos.X, SpawnPosition->spawnPos.Y, SpawnPosition->spawnPos.Z, 0, SpawnPosition->spawnPos.Angle * 256);
         }
 
         Delay(35 * 5);
@@ -3242,13 +3237,12 @@ NamedScript void WhispersofDarknessEvent()
 {
     Delay(1);
 
-    bool Spawned;
-    bool Spotted;
-    int TID;
-    int BossType;
-    int Index;
-    int MonsterIndex;
-    Position *ChosenPosition;
+    bool Spawned, Spotted;
+    int TID, BossType, MonsterIndex, validMonsterCount;
+    int Index = 1;
+
+    // Get total valid monsters
+    validMonsterCount = GetValidMonsterCount();
 
     // Ambient Music
     SetMusic("Overmind", 0);
@@ -3261,46 +3255,44 @@ NamedScript void WhispersofDarknessEvent()
     }
 
     // Replace them with nothing
-    for (int i = 1; i < MonsterID; i++)
-    {
-        if (!Monsters[i].Init)
-            continue;
-
+    for (int i = 1; i < validMonsterCount; i++)
         Monsters[i].ReplaceActor = "None";
-    }
 
     WaitingForReplacements = false;
     Delay(1); // Monsters disappear!
 
     // Shuffle positions
-    for (int i = 0; i < CurrentLevel->MonsterPositions.Position; i++)
+    for (int i = 1; i < validMonsterCount; i++)
     {
-        int X = Random(0, CurrentLevel->MonsterPositions.Position - 1);
+        int X = Random(1, validMonsterCount);
         Position TempPosition;
 
-        TempPosition = ((Position *)CurrentLevel->MonsterPositions.Data)[i];
-        ((Position *)CurrentLevel->MonsterPositions.Data)[i] = ((Position *)CurrentLevel->MonsterPositions.Data)[X];
-        ((Position *)CurrentLevel->MonsterPositions.Data)[X] = TempPosition;
+        TempPosition = (&Monsters[i])->spawnPos;
+        (&Monsters[i])->spawnPos = (&Monsters[X])->spawnPos;
+        (&Monsters[X])->spawnPos = TempPosition;
     }
 
     // Spawning
     while (!Spawned)
     {
         TID = UniqueTID();
-        ChosenPosition = &((Position *)CurrentLevel->MonsterPositions.Data)[Index];
-        Spawned = Spawn("RLCyberneticSpiderMastermindRPG", ChosenPosition->X, ChosenPosition->Y, ChosenPosition->Z, TID, ChosenPosition->Angle * 256);
+        MonsterStatsPtr ChosenPosition = &Monsters[Index];
+        Spawned = Spawn("RLCyberneticSpiderMastermindRPG", ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z, TID, ChosenPosition->spawnPos.Angle * 256);
 
         if (DebugLog)
-            Log("\CdDEBUG: Iterating for Spawn Point... (Class %S, Index %d, Position %.2k/%.2k/%.2k", CurrentLevel->MegabossActor->Actor, Index, ChosenPosition->X, ChosenPosition->Y, ChosenPosition->Z);
+            Log("\CdDEBUG: Iterating for Spawn Point... (Class %S, Index %d, Position %.2k/%.2k/%.2k", CurrentLevel->MegabossActor->Actor, Index, ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z);
 
         // Successful spawn
         if (Spawned)
         {
-            SpawnForced("TeleportFog", ChosenPosition->X, ChosenPosition->Y, ChosenPosition->Z, 0, 0);
+            int MonsterIndex;
+
+            SpawnForced("TeleportFog", ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z, 0, 0);
             Delay(1);
+
             MonsterIndex = GetMonsterID(TID);
 
-//          Monsters[MonsterIndex].LevelAdd += ((250 / 8) * PlayerCount());
+            //Monsters[MonsterIndex].LevelAdd += ((250 / MAX_PLAYERS) * PlayerCount());
             Monsters[MonsterIndex].NeedReinit = true;
 
             // Shadow Aura
@@ -3312,8 +3304,8 @@ NamedScript void WhispersofDarknessEvent()
         }
 
         Index++;
-        if (Index >= CurrentLevel->MonsterPositions.Position)
-            Index = 0;
+        if (Index >= validMonsterCount)
+            Index = 1;
 
         Delay(1);
     }
@@ -3403,6 +3395,7 @@ Start:
 
 NamedScript void WhispersofDarknessVisionIntensifier(int PlayerID)
 {
+    int validMonsterCount;
     int MindblastTime = 1;
     int MindblastTimeMax = 1;
     bool ShowOvermind = false;
@@ -3411,6 +3404,9 @@ NamedScript void WhispersofDarknessVisionIntensifier(int PlayerID)
     bool VisibleToPlayer;
 
 Start:
+
+    // Get total valid monsters
+    validMonsterCount = GetValidMonsterCount();
 
     SetActivator(0, AAPTR_PLAYER1 << PlayerID);
 
@@ -3441,27 +3437,26 @@ Start:
 
         if (!Random(0, 3))
         {
-            for (int i = 0; i < CurrentLevel->MonsterPositions.Position; i++)
+            for (int i = 1; i < validMonsterCount; i++)
             {
-                SpawnPosition = ((Position *)CurrentLevel->MonsterPositions.Data)[i];
+                MonsterStatsPtr SpawnPosition = &Monsters[i];
 
-                if (!Random(0, 7))
+                if (!Random(1, 8))
                     continue;
 
-                Spawn("RLFakeShadowCredits", SpawnPosition.X, SpawnPosition.Y, SpawnPosition.Z, 0, SpawnPosition.Angle * 256);
+                Spawn("RLFakeShadowCredits", SpawnPosition->spawnPos.X, SpawnPosition->spawnPos.Y, SpawnPosition->spawnPos.Z, 0, SpawnPosition->spawnPos.Angle * 256);
             }
         }
 
         if (!Random(0, 3))
         {
             ShowOvermind = true;
-            for (int i = 0; i < CurrentLevel->MonsterPositions.Position; i++)
+            for (int i = 1; i < validMonsterCount; i++)
             {
-                SpawnPosition = ((Position *)CurrentLevel->MonsterPositions.Data)[i];
+                MonsterStatsPtr SpawnPosition = &Monsters[i];
+                int SpotTID = UniqueTID();
 
-                SpotTID = UniqueTID();
-
-                Spawn("MapSpot", SpawnPosition.X, SpawnPosition.Y, SpawnPosition.Z, SpotTID, SpawnPosition.Angle * 256);
+                Spawn("MapSpot", SpawnPosition->spawnPos.X, SpawnPosition->spawnPos.Y, SpawnPosition->spawnPos.Z, SpotTID, SpawnPosition->spawnPos.Angle * 256);
 
                 VisibleToPlayer = false;
 
@@ -3477,13 +3472,13 @@ Start:
                 if (!Random(0, 7))
                 {
                     if (!Random(0, 3))
-                        Spawn("RLFakeShadowOvermind", SpawnPosition.X, SpawnPosition.Y, SpawnPosition.Z, 0, SpawnPosition.Angle * 256);
+                        Spawn("RLFakeShadowOvermind", SpawnPosition->spawnPos.X, SpawnPosition->spawnPos.Y, SpawnPosition->spawnPos.Z, 0, SpawnPosition->spawnPos.Angle * 256);
 
                     continue;
                 }
 
-                if (!Spawn("RLCyberneticArachnotronRPG", SpawnPosition.X, SpawnPosition.Y, SpawnPosition.Z, 0, SpawnPosition.Angle * 256))
-                    Spawn("RLCyberneticImpRPG", SpawnPosition.X, SpawnPosition.Y, SpawnPosition.Z, 0, SpawnPosition.Angle * 256);
+                if (!Spawn("RLCyberneticArachnotronRPG", SpawnPosition->spawnPos.X, SpawnPosition->spawnPos.Y, SpawnPosition->spawnPos.Z, 0, SpawnPosition->spawnPos.Angle * 256))
+                    Spawn("RLCyberneticImpRPG", SpawnPosition->spawnPos.X, SpawnPosition->spawnPos.Y, SpawnPosition->spawnPos.Z, 0, SpawnPosition->spawnPos.Angle * 256);
             }
         }
 
@@ -3562,411 +3557,102 @@ Start:
     goto Start;
 }
 
-// Initialization map packs --------------------------------------------------
-NamedScript void InitMapPacks()
+void SetCurrentWadWithString(str TargetWAD)
 {
-    str CvarNames[MAX_MAPPACKS] =
+    for (int i = 0; i < MAX_WAD_LEVELS; i++)
     {
-        "drpg_ws_doom1",      // WadSmoosh
-        "drpg_ws_sigil",
-        "drpg_ws_doom2",
-        "drpg_ws_nerve",
-        "drpg_ws_master",
-        "drpg_ws_tnt",
-        "drpg_ws_plut",
-        "drpg_lex_vr",        // Lexicon
-        "drpg_lex_aa1",
-        "drpg_lex_aaa1",
-        "drpg_lex_aaa2",
-        "drpg_lex_av",
-        "drpg_lex_bx1",
-        "drpg_lex_cc1",
-        "drpg_lex_cc2",
-        "drpg_lex_cc3",
-        "drpg_lex_cc4",
-        "drpg_lex_chx",
-        "drpg_lex_coc",
-        "drpg_lex_cs",
-        "drpg_lex_cs2",
-        "drpg_lex_cw",
-        "drpg_lex_dc",
-        "drpg_lex_dib",
-        "drpg_lex_dke",
-        "drpg_lex_du1",
-        "drpg_lex_dv",
-        "drpg_lex_dv2",
-        "drpg_lex_ep1",
-        "drpg_lex_ep2",
-        "drpg_lex_est",
-        "drpg_lex_eye",
-        "drpg_lex_fsw",
-        "drpg_lex_gd",
-        "drpg_lex_hc",
-        "drpg_lex_hlb",
-        "drpg_lex_hp1",
-        "drpg_lex_hp3",
-        "drpg_lex_hph",
-        "drpg_lex_hr",
-        "drpg_lex_hr2",
-        "drpg_lex_int",
-        "drpg_lex_ks",
-        "drpg_lex_kss",
-        "drpg_lex_may",
-        "drpg_lex_moc",
-        "drpg_lex_mom",
-        "drpg_lex_ng1",
-        "drpg_lex_ng2",
-        "drpg_lex_nv1",
-        "drpg_lex_piz",
-        "drpg_lex_rdx",
-        "drpg_lex_sc2",
-        "drpg_lex_sd6",
-        "drpg_lex_sd7",
-        "drpg_lex_sde",
-        "drpg_lex_sf2",
-        "drpg_lex_sf3",
-        "drpg_lex_sl",
-        "drpg_lex_slu",
-        "drpg_lex_snd",
-        "drpg_lex_sod",
-        "drpg_lex_sw1",
-        "drpg_lex_tat",
-        "drpg_lex_tsp",
-        "drpg_lex_tsp2",
-        "drpg_lex_tt1",
-        "drpg_lex_tt2",
-        "drpg_lex_tt3",
-        "drpg_lex_tu",
-        "drpg_lex_uac",
-        "drpg_lex_uhr",
-        "drpg_lex_val",
-        "drpg_lex_van",
-        "drpg_lex_wid",
-        "drpg_lex_wos",
-        "drpg_lex_zth",
-        "drpg_lex_zof",
-        "drpg_comp_hubmap",   // Compendium
-        "drpg_comp_mm101",
-        "drpg_comp_mm201",
-        "drpg_comp_req01",
-        "drpg_comp_ins01",
-        "drpg_comp_obt01",
-        "drpg_comp_str01",
-        "drpg_comp_bio01",
-        "drpg_comp_drk01",
-        "drpg_comp_ttp01",
-        "drpg_comp_pgr01",
-        "drpg_comp_pst01",
-        "drpg_comp_tvr01",
-        "drpg_comp_sci01",
-        "drpg_comp_ica01",
-        "drpg_comp_htp01",
-        "drpg_comp_aby01",
-        "drpg_comp_tal01",
-        "drpg_comp_alh01",
-        "drpg_comp_eni01",
-        "drpg_comp_rlm01",
-        "drpg_comp_dys01",
-        "drpg_comp_ete01",
-        "drpg_comp_reb01",
-        "drpg_comp_scy01",
-        "drpg_comp_cod01",
-        "drpg_comp_dk201",
-        "drpg_comp_equ01",
-        "drpg_comp_mrs01",
-        "drpg_comp_blr01",
-        "drpg_comp_osi01",
-        "drpg_comp_rui01",
-        "drpg_comp_njs01",
-        "drpg_comp_dae01",
-        "drpg_comp_cle01",
-        "drpg_comp_asd01",
-        "drpg_comp_ple01",
-        "drpg_comp_dcv01",
-        "drpg_comp_sla01",
-        "drpg_comp_hfa01",
-        "drpg_comp_cdr01",
-        "drpg_comp_gat01",
-        "drpg_comp_ert01",
-        "drpg_comp_end01",
-        "drpg_comp_res01",
-        "drpg_comp_ens01",
-        "drpg_comp_btk01",
-        "drpg_comp_cit01",
-        "drpg_comp_slp01",
-        "drpg_comp_dis01",
-        "drpg_comp_sid01",
-        "drpg_comp_man01",
-        "drpg_comp_lep01",
-        "drpg_comp_vfl01",
-        "drpg_comp_vco01",
-        "drpg_comp_tw201",
-        "drpg_comp_neo01",
-        "drpg_comp_ann01",
-        "drpg_comp_99w01",
-        "drpg_comp_bth01"
-    };
+        LevelInfo *TempMap = klArrayUtils(2, i, 0);
 
-    str LumpNames[MAX_MAPPACKS] =
-    {
-        "E1M1",      // WadSmoosh
-        "E5M1",
-        "MAP01",
-        "NV_MAP01",
-        "ML_MAP01",
-        "TN_MAP01",
-        "PL_MAP01",
-        "VR",        // Lexicon
-        "AA101",
-        "AAA01",
-        "AAA02",
-        "AV01",
-        "BX101",
-        "CC101",
-        "CC201",
-        "CC301",
-        "CC401",
-        "CHX01",
-        "COC01",
-        "CS01",
-        "CS201",
-        "CW101",
-        "DC01",
-        "DIB01",
-        "DKE01",
-        "DU101",
-        "DV01",
-        "DV201",
-        "EP101",
-        "EP201",
-        "EST01",
-        "EYE01",
-        "FSW01",
-        "GD01",
-        "HC01",
-        "HLB01",
-        "HP101",
-        "HP103",
-        "HPH",
-        "HR01",
-        "HR201",
-        "INT01",
-        "KS01",
-        "KSS01",
-        "MAY01",
-        "MOC01",
-        "MOM01",
-        "NG101",
-        "NG201",
-        "NV101",
-        "PIZ01",
-        "RDX01",
-        "SC201",
-        "SD601",
-        "SD701",
-        "SDE01",
-        "SF201",
-        "SF301",
-        "SL20",
-        "SLU01",
-        "SND01",
-        "SOD01",
-        "SW101",
-        "TAT01",
-        "TSP01",
-        "TSP201",
-        "TT101",
-        "TT201",
-        "TT301",
-        "TU01",
-        "USC01",
-        "UHR01",
-        "VAL01",
-        "VAN01",
-        "WID01",
-        "WOS01",
-        "ZTH01",
-        "ZOF01",
-        "HUBMAP",    // Compendium
-        "MM101",
-        "MM201",
-        "REQ01",
-        "INS01",
-        "OBT01",
-        "STR01",
-        "BIO01",
-        "DRK01",
-        "TTP01",
-        "PGR01",
-        "PST01",
-        "TVR01",
-        "SCI01",
-        "ICA01",
-        "HTP01",
-        "ABY01",
-        "TAL01",
-        "ALH01",
-        "ENI01",
-        "RLM01",
-        "DYS01",
-        "ETE01",
-        "REB01",
-        "SCY01",
-        "COD01",
-        "DK201",
-        "EQU01",
-        "MRS01",
-        "BLR01",
-        "OSI01",
-        "RUI01",
-        "NJZ01",
-        "DAE01",
-        "CLE01",
-        "ASD01",
-        "PLE01",
-        "DCV01",
-        "SLA01",
-        "HFA01",
-        "CDR01",
-        "GAT01",
-        "ERT01",
-        "END01",
-        "RES01",
-        "ENS01",
-        "BTK01",
-        "CIT01",
-        "SLP01",
-        "DIS01",
-        "SID01",
-        "MAN01",
-        "LEP01",
-        "VFL01",
-        "VCO01",
-        "TW201",
-        "NEO01",
-        "ANN01",
-        "99W01",
-        "BTH01"
-    };
-    int i;
-    bool BlankStart;
-
-    Delay(10); //Give a chance for data to load
-
-    if (CurrentLevel->LumpName == "TITLEMAP") //don't need to run on title screen
-        return;
-
-    if (!MapPacks || MapPacksInitialized) return; //let's be safe
-    LogMessage("\CdStarting Map Packs Initialization", LOG_DEBUG);
-
-    for (i = 0; i < MAX_MAPPACKS; i++)
-    {
-        MapPackActive[i] = GetCVar(CvarNames[i]); //find which iwads user says they have
-
-        if (GetCVar("drpg_addstartmap") && LumpNames[i] == GetCVarString("drpg_startmap"))
-            MapPackActive[i] = true; //activate the iwad if it is a starter map
-    };
-
-    bool StartedOnMap = KnownLevels->Position > 1;
-
-    if (!StartedOnMap) //we started in the outpost and map arrays are empty - lets add one
-    {
-        for (i = 0; i < MAX_MAPPACKS; i++)
+        if (TempMap->LumpName == TargetWAD)
         {
-            if (MapPackActive[i])
-            {
-                LevelInfo *NewMap = &((LevelInfo *)KnownLevels->Data)[KnownLevels->Position++];
-                NewMap->LumpName = LumpNames[i];
-                NewMap->NiceName = "Unknown Area";
-                NewMap->LevelNum = 0;
-                NewMap->SecretMap = 0;
-                NewMap->UACBase = false;
-                NewMap->UACArena = false;
-                NewMap->SecretMap = false;
-                NewMap->Completed = false;
-                NewMap->NeedsRealInfo = true;
-                LogMessage(StrParam("Loaded on Outpost! - Added Lump %S", ((LevelInfo *)KnownLevels->Data)[1].LumpName, KnownLevels), LOG_DEBUG);
-                break;
-            }
+            CurrentWAD = i;
+
+            LogMessage(StrParam("Extra WAD(s) - CurrentWAD: %i", CurrentWAD), LOG_DEBUG);
+            break;
         }
-        if (i == MAX_MAPPACKS)
-        {
-            LogMessage(StrParam("\CdERROR: \C-Map packs loaded with no IWADS enabled!"), LOG_ERROR);
-            return;
-        }
-    }
-    str Lump = ((LevelInfo *)ExtraMapPacks[WS_DOOM1].Data)[1].LumpName;
-
-
-    if (Lump != "E1M1") //we didn't start with doom 1 or started on outpost with add unknown map not set to doom 1
-    {
-        LogMessage(StrParam("\Cgnot E1M1!!!\C- - Lump is: %S", Lump), LOG_DEBUG);
-
-        DynamicArray Temp;
-
-        for (i = 1; i < MAX_MAPPACKS; i++)
-        {
-            if (Lump == LumpNames[i])    //get which iwad was loaded
-                break;
-        }
-
-        LogMessage("Swapping Array positions", LOG_DEBUG);
-        Temp = ExtraMapPacks[i];   //store current data of correct location
-        LogMessage(StrParam("Swapping %p with %p",&ExtraMapPacks[i], &ExtraMapPacks[WS_DOOM1]), LOG_DEBUG);
-        ExtraMapPacks[i] = ExtraMapPacks[WS_DOOM1]; //move map data to correct position
-        ExtraMapPacks[WS_DOOM1] = Temp; //place replaced data in the outdated doom 1 slot
-
-        KnownLevels = &ExtraMapPacks[i];   //update pointer to the new location
-    }
-
-    //we need to do this again to update i, just in case
-    //it's possible to get here if data is already initialised and this would
-    //mess up the current map pack pointer if we didn't recheck
-    Lump = ((LevelInfo *)KnownLevels->Data)[1].LumpName;
-    for (i = 0; i < MAX_MAPPACKS; i++)
-    {
-        if (Lump == LumpNames[i])    //get which iwad was loaded
+        else if (TempMap->LumpName == "") // End of Extra WAD(s)
             break;
     }
+}
 
-    for (int j = 0; j < MAX_MAPPACKS; j++) //loop through all map packs
+// Extra WAD(s) --------------------------------------------------
+NamedScript void InitExtraWad()
+{
+    str Lump;
+    LevelInfo *TempMap;
+
+    // Give a chance for data to load
+    Delay(10);
+
+    // Don't need to run on title screen
+    if (CurrentLevel->LumpName == "TITLEMAP")
+        return;
+
+    // Only need one run
+    if (ExtraWadInit || ExtraWadActive)
+        return;
+
+    LogMessage("\CdExtra WAD(s): Started Initialization", LOG_DEBUG);
+
+    // Get first lump
+    Lump = (str)ScriptCall("DRPGZExtraWad", "WadTools", 1, 0);
+
+    // No compatible Extra WAD(s) detected
+    if (Lump == "-2")
     {
-        if (j != i && MapPackActive[j]) //the "current" pack already has data so ignore it, also make sure the iwad is marked active
-        {
-            KnownLevels = &ExtraMapPacks[j]; //move pointer for this operation
-            if (KnownLevels->Data == NULL)
-                ArrayCreate(KnownLevels, "Levels", 32, sizeof(LevelInfo)); //allocate memory
-
-            //we need to add the outpost to each array
-            LevelInfo *OutpostMap = &((LevelInfo *)KnownLevels->Data)[KnownLevels->Position++];
-            OutpostMap->LevelNum = 0;
-            OutpostMap->LumpName = "OUTPOST";
-            OutpostMap->NiceName = "UAC Outpost";
-            OutpostMap->Completed = true;
-            OutpostMap->UACBase = true;
-            OutpostMap->UACArena = false;
-            OutpostMap->NeedsRealInfo = false;
-
-            //we add our maps manually because AddUnknownMap is expected to run on outpost load
-            LevelInfo *NewMap = &((LevelInfo *)KnownLevels->Data)[KnownLevels->Position++];
-            NewMap->LumpName = LumpNames[j];
-            NewMap->NiceName = "Unknown Area";
-            NewMap->LevelNum = 0;
-            NewMap->SecretMap = 0;
-            NewMap->UACBase = false;
-            NewMap->UACArena = false;
-            NewMap->SecretMap = false;
-            NewMap->Completed = false;
-            NewMap->NeedsRealInfo = true;
-            LogMessage(StrParam("Added Lump %S to Array %p", ((LevelInfo *)KnownLevels->Data)[1].LumpName, KnownLevels), LOG_DEBUG);
-
-            if(j > 80) Delay(1);
-        }
+        ExtraWadInit = true;
+        LogMessage("\CdExtra WAD(s): None detected", LOG_DEBUG);
+        return;
     }
 
-    KnownLevels = &ExtraMapPacks[i]; //move pointer back to current mappack
-    CurrentLevel = FindLevelInfo(); //the CurrentLevel pointer is invalidated and needs to be reset
-    Player.SelectedMapPack = i;
+    // Add all compatible Extra WAD(s) first lumps into the levels array
+    for (int i = 0; i < MAX_WADS; i++)
+    {
+        Lump = (str)ScriptCall("DRPGZExtraWad", "WadTools", 1, i);
 
-    MapPacksInitialized = true;
+        // ACS relies on -1 and -2 to stop
+        // -1 = WAD not detected
+        // -2 = No more WADs
+        if      (Lump == "-1")
+            continue;
+        else if (Lump == "-2")
+            break;
+
+        // Hub detection
+        if (!ExtraWadHasHub && Contains(Lump, ":HUB"))
+        {
+            // Hub level stored alongside WAD 0 for quick selection
+            TempMap = klArrayUtils(1, 0, NULL);
+            // Get Wad's nice name
+            TempMap->NiceName = (str)ScriptCall("DRPGZExtraWad", "GetNiceName", 0);
+            // Exclude ":HUB" from Lump
+            Lump = StrLeft(Lump, (StrLen(Lump)-4));
+
+            ExtraWadHasHub = true;
+        }
+        else
+        {
+            // Keeps track of how many Extra WAD(s) are loaded
+            KnownWadCount++;
+            TempMap = klArrayUtils(1, KnownWadCount, NULL);
+            TempMap->NiceName = "Unknown Area";
+        }
+
+        TempMap->LumpName = Lump;
+        TempMap->LevelNum = 0;
+        TempMap->SecretMap = 0;
+        TempMap->UACBase = false;
+        TempMap->UACArena = false;
+        TempMap->SecretMap = false;
+        TempMap->Completed = false;
+        TempMap->NeedsRealInfo = true;
+
+        LogMessage(StrParam("Extra WAD(s): Added Lump: %S", TempMap->LumpName), LOG_DEBUG);
+    }
+
+    // All done, clear array
+    ScriptCall("DRPGZExtraWad", "WadTools", 99, NULL);
+
+    ExtraWadInit = true;
+    ExtraWadActive = true;
 }

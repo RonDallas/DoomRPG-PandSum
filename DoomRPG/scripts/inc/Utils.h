@@ -199,17 +199,15 @@ NamedScript Console void GiveCompounds(int);
 void CreateTranslations();
 NamedScript DECORATE void UpdateInput(int, bool, bool);
 bool CheckInput(int, int /* = KEY_PRESSED */, bool, int);
+bool CheckInputHelper(int, int, int /* = KEY_PRESSED */, int);
 OptionalArgs(1) void LogMessage(str, int /* = LOG_NORMAL */);
 void ClearInfo(CharSaveInfo *);
 
 // Dynamic Arrays
-void ArrayCreate(DynamicArray *, str, int, int);
-void ArrayResize(DynamicArray *);
-void ArrayDestroy(DynamicArray *);
-//void ArrayDump(DynamicArray *);
+int zsDynArrayUtils(str, int, int, int);
 
 NamedScript DECORATE void SetDebugMode();
 
-NamedScript Console void Test();
+NamedScript Console void DumpDrops();
 
 #endif

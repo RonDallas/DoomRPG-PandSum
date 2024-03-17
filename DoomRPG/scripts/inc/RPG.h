@@ -13,7 +13,6 @@ extern int CompatMode;
 extern int CompatModeEx;
 extern int CompatModeLite;
 extern int CompatMonMode;
-extern bool MapPacks;
 
 // Arrays
 extern str PlayerWeapon[MAX_PLAYERS];

@@ -624,21 +624,22 @@ NamedScript DECORATE void TeleportMonster()
     str Type = GetActorClass(0);
     int TID = UniqueTID();
     bool Success = false;
-    Position *ChosenPosition = NULL;
+    MonsterStatsPtr ChosenPosition;
+    int validMonsterCount = GetValidMonsterCount();
 
     // Check the position
     while (!Success)
     {
-        ChosenPosition = &((Position *)CurrentLevel->MonsterPositions.Data)[Random(0, CurrentLevel->MonsterPositions.Position)];
-        Success = Spawn(Type, ChosenPosition->X, ChosenPosition->Y, ChosenPosition->Z, TID, ChosenPosition->Angle);
+        ChosenPosition = &Monsters[Random(1, validMonsterCount)];
+        Success = Spawn(Type, ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z, TID, ChosenPosition->spawnPos.Angle);
         Thing_Remove(TID);
         Delay(1);
     }
 
     // Teleport to this position
-    SetActorPosition(0, ChosenPosition->X, ChosenPosition->Y, ChosenPosition->Z, true);
-    SetActorAngle(0, ChosenPosition->Angle);
-    SetActorPitch(0, ChosenPosition->Pitch);
+    SetActorPosition(0, ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z, true);
+    SetActorAngle(0, ChosenPosition->spawnPos.Angle);
+    SetActorPitch(0, ChosenPosition->spawnPos.Pitch);
 }
 
 void DropMoney(int Killer, int TID, int Amount)
@@ -709,12 +710,10 @@ int DropMonsterItem(int Killer, int TID, str Item, int Chance, fixed XAdd, fixed
         if (Players(Killer).Stim.PowerupTimer[STIM_MAGNETIC] <= 0) // Don't toss the item if we're Magnetic, it'll just confuse things
             SetActorVelocity(ItemTID, RandomFixed(-XSpeed, XSpeed), RandomFixed(-YSpeed, YSpeed), ZSpeed, false, false);
 
-        // Array has grown too big, resize it
-        if (Players(Killer).DropTID.Position == Players(Killer).DropTID.Size)
-            ArrayResize(&Players(Killer).DropTID);
+        //LogMessage(StrParam("Adding %S to Player %i's Drop array", Item, Players(Killer).TID));
 
         // Add item's TID to drop array
-        ((int *)Players(Killer).DropTID.Data)[Players(Killer).DropTID.Position++] = ItemTID;
+        zsDynArrayUtils("PlayerDrops", 1, ItemTID, Killer);
     }
 
     return ItemTID;
@@ -1085,17 +1084,21 @@ NamedScript DECORATE void ClearBurnout()
 
 NamedScript KeyBind void PurgeDrops()
 {
-    int *TID = (int *)Player.DropTID.Data;
-    for (int i = 0; i < Player.DropTID.Position; i++)
+    int pArraySize = zsDynArrayUtils("PlayerDrops", 3, NULL, PlayerNumber());
+
+    for (int i = 0; i < pArraySize; i++)
     {
-        if (ClassifyActor(TID[i]) == ACTOR_NONE)
+        int TID = zsDynArrayUtils("PlayerDrops", 2, i, PlayerNumber());
+
+        if (ClassifyActor(TID) == ACTOR_NONE)
             continue;
 
-        SpawnSpot("TeleportFog", TID[i], 0, 0);
-        Thing_Remove(TID[i]);
+        SpawnSpot("TeleportFog", TID, 0, 0);
+        Thing_Remove(TID);
     }
 
     CleanDropTIDArray();
+
     Print("\CdRemoved \Cgall\Cd monster-dropped items");
 }
 
@@ -3497,6 +3500,127 @@ void CreateTranslations()
     CreateTranslationEnd();
 }
 
+bool CheckInputHelper(int Buttons, int OldButtons, int Key, int Function)
+{
+    bool rValue = false;
+
+    static int const acsKeys[25] =
+    {
+        BT_FORWARD,
+        BT_BACK,
+        BT_LEFT,
+        BT_RIGHT,
+        BT_MOVELEFT,
+        BT_MOVERIGHT,
+        BT_ATTACK,
+        BT_ALTATTACK,
+        BT_USE,
+        BT_JUMP,
+        BT_CROUCH,
+        BT_TURN180,
+        BT_RELOAD,
+        BT_ZOOM,
+        BT_SPEED,
+        //BT_RUN,
+        BT_STRAFE,
+        BT_LOOKUP,
+        BT_LOOKDOWN,
+        BT_MOVEUP,
+        BT_MOVEDOWN,
+        BT_SHOWSCORES,
+        BT_USER1,
+        BT_USER2,
+        BT_USER3,
+        BT_USER4
+    };
+
+    switch(Function)
+    {
+    case KEY_ONLYPRESSED:
+    {
+        int keyActiveCount = 0;
+
+        // If more than one key is active, break
+        for (int i = 0; i < sizeof (acsKeys); i++)
+        {
+            if (Buttons & acsKeys[i])
+                keyActiveCount++;
+
+            // Save ACS time
+            if (keyActiveCount == 2)
+                break;
+        }
+
+        // Only one key active, check it
+        if (keyActiveCount == 1 && Buttons & Key && !(OldButtons & Key))
+            rValue = true;
+    }
+    break;
+    case KEY_ONLYHELD:
+    {
+        int keyActiveCount = 0;
+
+        // If more than one key is active, break
+        for (int i = 0; i < sizeof (acsKeys); i++)
+        {
+            if (Buttons & acsKeys[i])
+                keyActiveCount++;
+
+            // Save ACS time
+            if (keyActiveCount == 2)
+                break;
+        }
+
+        // Only one key active, check it
+        if (keyActiveCount == 1 && Buttons & Key)
+            rValue = true;
+    }
+    break;
+    case KEY_ANYIDLE:
+    {
+        int keyActiveCount = 0;
+
+        // If any key is active, break
+        for (int i = 0; i < sizeof (acsKeys); i++)
+        {
+            if (Buttons & acsKeys[i])
+                keyActiveCount++;
+
+            // Save ACS time
+            if (keyActiveCount > 0)
+                break;
+        }
+
+        // If no keys are active, set return value
+        if (keyActiveCount < 1)
+            rValue = true;
+    }
+    break;
+    case KEY_ANYNOTIDLE:
+    {
+        int keyActiveCount = 0;
+
+        // If any key is active, break
+        for (int i = 0; i < sizeof (acsKeys); i++)
+        {
+            if (Buttons & acsKeys[i])
+                keyActiveCount++;
+
+            // Save ACS time
+            if (keyActiveCount > 0)
+                break;
+        }
+
+        // If any key is active, set return value
+        if (keyActiveCount > 1)
+            rValue = true;
+    }
+    break;
+    }
+
+    return rValue;
+}
+
 bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
 {
     bool rValue = false;
@@ -3539,6 +3663,7 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
             if (AxisX > 1.0) AxisX = 1.0;
             if (AxisX < -1.0) AxisX = -1.0;
 
+            // Illegal input hacks
             if (Key & BT_FORWARD && AxisY == 1.0)
             {
                 Buttons = BT_FORWARD;
@@ -3564,6 +3689,7 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     switch (State)
     {
     case KEY_PRESSED:
+    case KEY_REPEAT:
     {
         if (Buttons & Key && !(OldButtons & Key))
             rValue = true;
@@ -3571,8 +3697,7 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     break;
     case KEY_ONLYPRESSED:
     {
-        if (Buttons == Key && OldButtons != Key)
-            rValue = true;
+        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ONLYPRESSED);
     }
     break;
     case KEY_HELD:
@@ -3583,26 +3708,17 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     break;
     case KEY_ONLYHELD:
     {
-        if (Buttons == Key)
-            rValue = true;
+        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ONLYHELD);
     }
     break;
     case KEY_ANYIDLE:
     {
-        if (Buttons == 0 && OldButtons == 0)
-            rValue = true;
+        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ANYIDLE);
     }
     break;
     case KEY_ANYNOTIDLE:
     {
-        if (Buttons > 0)
-            rValue = true;
-    }
-    break;
-    case KEY_REPEAT:
-    {
-        if (Buttons & Key && !(OldButtons & Key))
-            rValue = true;
+        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ANYNOTIDLE);
     }
     break;
     }
@@ -3722,130 +3838,13 @@ void ClearInfo(CharSaveInfo *Info)
 // Dynamic Arrays
 //
 
-void ArrayCreate(DynamicArray *Array, str Name, int InitSize, int ItemSize)
+int zsDynArrayUtils(str arrayName, int Function, int Data, int OwnerID)
 {
-    if (DebugLog)
-    {
-        Log("acArgName: %S", Name);
-        Log("acArgInitSize: %i", InitSize);
-        Log("acArgItemSize: %i", ItemSize);
-
-        Log("Array: %i", Array);
-        Log("Array->Name: %S", Array->Name);
-        Log("Array->Position: %i", Array->Position);
-        Log("Array->Size: %i", Array->Size);
-        Log("Array->ItemSize: %i", Array->ItemSize);
-        Log("Array->Data: %i", Array->Data);
-    }
-
-    bool Recreate = false;
-    if (Array && Array->Data != NULL)
-        Recreate = true;
-
-    Array->Name = Name;
-    Array->Position = 0;
-
-    if (DebugLog)
-        Log("\CdDynamicArray: Allocating \Cj%S", Array->Name);
-
-    if (Recreate)
-    {
-        if(Array->Size != InitSize || Array->ItemSize != ItemSize)
-        {
-            LogMessage("Reallocating Array",LOG_DEBUG);
-            LogMessage(StrParam("Previously: @ %p Size: %i", Array->Data, Array->Size),LOG_DEBUG);
-            LogMessage(StrParam("To size: %i",Array->Size * Array->ItemSize),LOG_DEBUG);
-            Array->Size = InitSize;
-            Array->ItemSize = ItemSize;
-            Array->Data = realloc(Array->Data, Array->Size * Array->ItemSize);
-        }
-
-        LogMessage("Erasing Leftover data",LOG_DEBUG);
-        memset(Array->Data, NULL, Array->Size * Array->ItemSize);
-    }
+    if (OwnerID == -1)
+        return ScriptCall("DRPGZDataSt", "DynArrayUtils", arrayName, Function, Data);
     else
-    {
-        Array->Size = InitSize;
-        Array->ItemSize = ItemSize;
-        LogMessage("Creating Array",LOG_DEBUG);
-        Array->Data = calloc(Array->Size, Array->ItemSize);
-    }
-
-    if (Array->Data == NULL)
-    {
-        Log("\CgERROR: \C-Could not allocate space for array \Cj%S", Array->Name);
-        return;
-    }
-
-    if (DebugLog)
-        Log("\CdDynamicArray: \Cj%S\Cd @ %p", Array->Name, Array->Data);
-
-    //memset(Array->Data, 0xAAAAAAAA, Array->Size * Array->ItemSize);
+        return ScriptCall("DRPGZData", "DynArrayUtils", arrayName, Function, Data, OwnerID);
 }
-
-void ArrayResize(DynamicArray *Array)
-{
-    if (Array->Data == NULL)
-    {
-        Log("\CgERROR: \C-Tried to resize destroyed array \Cj%S", Array->Name);
-        return;
-    }
-
-    int OldSize = Array->Size;
-    Array->Size *= 2;
-
-    if (DebugLog)
-        Log("\CdAttempting to resize DynamicArray: \Cj%S\Cd @ %p", Array->Name, Array->Data);
-
-    void *tmp = realloc(Array->Data, Array->ItemSize * Array->Size);
-
-    if (tmp == NULL)
-    {
-        free(Array->Data);
-        Log("\CgERROR: \C-Cannot resize dynamic array \Cj%S", Array->Name);
-        return;
-    }
-
-    if (DebugLog)
-        Log("\CdDynamicArray: Resizing array \Cj%S\Cd @ %p to \Cj%d\Cd elements", Array->Name, Array->Data, Array->Size);
-
-    Array->Data = tmp;
-
-    memset((char *)Array->Data + (Array->ItemSize * OldSize), 0x00000000, (Array->Size * Array->ItemSize) - (Array->ItemSize * OldSize));
-}
-
-void ArrayDestroy(DynamicArray *Array)
-{
-    if (DebugLog)
-        Log("\CdDynamicArray: Destroying array \Cj%S\Cd @ %p", Array->Name, Array->Data);
-
-    free(Array->Data);
-
-    Array->Name = "";
-    Array->Position = 0;
-    Array->Size = 0;
-    Array->ItemSize = 0;
-    Array->Data = NULL;
-}
-
-/*void ArrayDump(DynamicArray *Array)
-{
-    Log("\CiDynamicArray \Cj%S\C- @ %p", Array->Name, Array->Data);
-    Log("\Cd* Array size: \Cj%d", Array->Size);
-    Log("\Cd* Item bytesize: \Cj%d", Array->ItemSize);
-    Log("\Cd* End Position: \Cj%d", Array->Position);
-    Log("");
-    Log("\CiItem data:");
-    for (int i = 0; i < Array->Size; i++)
-    {
-        str DataString = StrParam("  %X: ", i);
-        for (int b = 0; b < Array->ItemSize; b++)
-            DataString = StrParam("%S%X ", DataString, (char)((char *)Array->Data)[Array->ItemSize * i + b]);
-        if (i >= Array->Position)
-            DataString = StrParam("%s\Cj(\CgUnused\Cj)", DataString);
-        Log("%s", DataString);
-    }
-}*/
 
 NamedScript DECORATE void SetDebugMode()
 {
@@ -3855,6 +3854,20 @@ NamedScript DECORATE void SetDebugMode()
 NamedScript void Silly()
 {
     SetMusic("Credits2");
+}
+
+NamedScript Console void DumpDrops()
+{
+    int pArraySize = zsDynArrayUtils("PlayerDrops", 3, NULL, PlayerNumber());
+
+    for (int i = 0; i < pArraySize; i++)
+    {
+        int TID = zsDynArrayUtils("PlayerDrops", 2, i, PlayerNumber());
+
+        Log("%d: ID:%d, %S", i, TID, GetActorClass(TID));
+    }
+
+    return;
 }
 
 /*

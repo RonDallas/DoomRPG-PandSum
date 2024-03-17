@@ -117,7 +117,6 @@
 // Macro functions
 #define MAKE_ID(a, b, c, d) ((int)((a) | ((b) << 8) | ((c) << 16) | ((d) << 24)))
 #define NOP
-#define BLANKDYNAMICARRAY(arr) { arr.Name = ""; arr.Position = 0; arr.Size = 0; arr.ItemSize = 0; arr.Data = NULL; }
 
 // Aliases
 #define CallACS(script)         ACS_NamedExecuteWithResult((script))
@@ -310,6 +309,8 @@ typedef enum
 
 #define MAP_EXIT_SCRIPTNUM          30000
 #define MAP_EXIT_TELEPORT_SCRIPTNUM 30001
+#define MAX_WADS                    100
+#define MAX_WAD_LEVELS              50
 
 #define MAP_START_TID           (MAKE_ID('S', 'T', 'R', 'T'))
 
@@ -999,7 +1000,6 @@ AddressSpace extern GlobalArraySpace    ShieldHealthArray;
 #include "Structs.h"
 
 // Generic
-typedef struct DynamicArray_S       DynamicArray;
 typedef struct InterpData_S         InterpData;
 typedef struct Position_S           Position;
 typedef struct DroppedItem_S        DroppedItem;
@@ -1052,169 +1052,6 @@ typedef struct PlayerData_S         PlayerData;
 
 //LegenDoom
 typedef struct LegendaryDef_S       LegendaryDef;
-
-//------------------------------------------------
-// Map Packs Compatibility
-//
-
-// WadSmoosh Map Packs
-#define MAX_WSMAPPACKS  7
-typedef enum
-{
-    WS_DOOM1,
-    WS_SIGIL,
-    WS_DOOM2,
-    WS_NERVE,
-    WS_MASTER,
-    WS_TNT,
-    WS_PLUT
-} EnumWSMapSets;
-
-// Lexicon Map Packs
-#define MAX_LEXMAPPACKS 71
-typedef enum
-{
-    LEX_VR,
-    LEX_AA1,
-    LEX_AAA1,
-    LEX_AAA2,
-    LEX_AV,
-    LEX_BX1,
-    LEX_CC1,
-    LEX_CC2,
-    LEX_CC3,
-    LEX_CC4,
-    LEX_CHX,
-    LEX_COC,
-    LEX_CS,
-    LEX_CS2,
-    LEX_CW,
-    LEX_DC,
-    LEX_DIB,
-    LEX_DKE,
-    LEX_DU1,
-    LEX_DV,
-    LEX_DV2,
-    LEX_EP1,
-    LEX_EP2,
-    LEX_EST,
-    LEX_EYE,
-    LEX_FSW,
-    LEX_GD,
-    LEX_HC,
-    LEX_HLB,
-    LEX_HP1,
-    LEX_HP103,
-    LEX_HPH,
-    LEX_HR,
-    LEX_HR2,
-    LEX_INT,
-    LEX_KS,
-    LEX_KSS,
-    LEX_MAY,
-    LEX_MOC,
-    LEX_MOM,
-    LEX_NG1,
-    LEX_NG2,
-    LEX_NV1,
-    LEX_PIZ,
-    LEX_RDX,
-    LEX_SC2,
-    LEX_SD6,
-    LEX_SD7,
-    LEX_SDE,
-    LEX_SF2,
-    LEX_SF3,
-    LEX_SL,
-    LEX_SLU,
-    LEX_SND,
-    LEX_SOD,
-    LEX_SW1,
-    LEX_TAT,
-    LEX_TSP,
-    LEX_TSP2,
-    LEX_TT1,
-    LEX_TT2,
-    LEX_TT3,
-    LEX_TU,
-    LEX_UAC,
-    LEX_UHR,
-    LEX_VAL,
-    LEX_VAN,
-    LEX_WID,
-    LEX_WOS,
-    LEX_ZTH,
-    LEX_ZOF
-} EnumLEXMapSets;
-
-// Compendium Map Packs
-#define MAX_COMPMAPPACKS 60
-typedef enum
-{
-    COMP_HUBMAP,
-    COMP_MM101,
-    COMP_MM201,
-    COMP_REQ01,
-    COMP_INS01,
-    COMP_OBT01,
-    COMP_STR01,
-    COMP_BIO01,
-    COMP_DRK01,
-    COMP_TTP01,
-    COMP_PGR01,
-    COMP_PST01,
-    COMP_TVR01,
-    COMP_SCI01,
-    COMP_ICA01,
-    COMP_HTP01,
-    COMP_ABY01,
-    COMP_TAL01,
-    COMP_ALH01,
-    COMP_ENI01,
-    COMP_RLM01,
-    COMP_DYS01,
-    COMP_ETE01,
-    COMP_REB01,
-    COMP_SCY01,
-    COMP_COD01,
-    COMP_DK201,
-    COMP_EQU01,
-    COMP_MRS01,
-    COMP_BLR01,
-    COMP_OSI01,
-    COMP_RUI01,
-    COMP_NJZ01,
-    COMP_DAE01,
-    COMP_CLE01,
-    COMP_ASD01,
-    COMP_PLE01,
-    COMP_DCV01,
-    COMP_SLA01,
-    COMP_HFA01,
-    COMP_CDR01,
-    COMP_GAT01,
-    COMP_ERT01,
-    COMP_END01,
-    COMP_RES01,
-    COMP_ENS01,
-    COMP_BTK01,
-    COMP_CIT01,
-    COMP_SLP01,
-    COMP_DIS01,
-    COMP_SID01,
-    COMP_MAN01,
-    COMP_LEP01,
-    COMP_VFL01,
-    COMP_VCO01,
-    COMP_TW201,
-    COMP_NEO01,
-    COMP_ANN01,
-    COMP_99W01,
-    COMP_BTH01
-} EnumCOMPMapSets;
-
-// Max Map Packs
-#define MAX_MAPPACKS  (MAX_WSMAPPACKS + MAX_LEXMAPPACKS + MAX_COMPMAPPACKS)
 
 // --------------------------------------------------
 // Pointer Types

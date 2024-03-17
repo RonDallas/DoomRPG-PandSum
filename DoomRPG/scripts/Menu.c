@@ -1222,11 +1222,13 @@ ItemInfoPtr GetIncreaseAugAddItem(int AugIndex, int AugLevel)
 
 int GetIncreaseAugAddCost(int AugIndex, int AugLevel)
 {
-    // Get ammount additional items for Enhanced Battery Augmentation
+    // Get amount additional items for Enhanced Battery Augmentation
     if (AugIndex == 8)
     {
-        if (AugLevel <= 3) return 1 + AugLevel;
-        if (AugLevel > 3) return AugLevel - 3;
+        if (AugLevel <= 3)
+            return (1 + AugLevel);
+        if (AugLevel > 3)
+            return (AugLevel - 3);
     }
 }
 
@@ -1244,9 +1246,11 @@ void DrawAugsMenu()
     str UpgradeComponentAmount = "";
     ItemInfoPtr  AdditionalItem;
     int AdditionalItemAmount;
+
     if (Player.Augs.Level[SelectedIndex] == 0)
     {
         UpgradeCanisterAmount = " \Cg(-1)";
+
         AdditionalItem = GetIncreaseAugAddItem(SelectedIndex, Player.Augs.Level[SelectedIndex]);
         AdditionalItemAmount = GetIncreaseAugAddCost(SelectedIndex, Player.Augs.Level[SelectedIndex]);
     }
@@ -1254,6 +1258,7 @@ void DrawAugsMenu()
     {
         UpgradeCanisterAmount = " \Cg(-1)";
         UpgradeComponentAmount = StrParam(" \Cg(%d)", -(Player.Augs.Level[SelectedIndex] + 1));
+
         AdditionalItem = GetIncreaseAugAddItem(SelectedIndex, Player.Augs.Level[SelectedIndex]);
         AdditionalItemAmount = GetIncreaseAugAddCost(SelectedIndex, Player.Augs.Level[SelectedIndex]);
     };
@@ -2489,6 +2494,7 @@ void MenuInput()
         }
         if (CheckInput(BT_USE, KEY_PRESSED, false, PlayerNumber()))
             IncreaseSkill(Player.SkillPage, Player.MenuIndex, false);
+
         if (CheckInput(BT_ATTACK, KEY_ONLYPRESSED, false, PlayerNumber()))
             UseSkill(0);
     }
@@ -3067,7 +3073,7 @@ void MenuHelp()
         switch (Player.OutpostMenu)
         {
         case OMENU_LEVELTRANSPORT:
-            if (MapPacks)
+            if (ExtraWadActive)
             {
                 if (GetActivatorCVar("drpg_menu_input_axes"))
                     HudMessage("Select Level: \Cd%S/%S/%S/%S\C-\nSelect IWAD: \Cd%S + %S/%S\C-\nTeleport to Level: \Cd%S\C-\nExit: \Cd%S\C-",

@@ -888,7 +888,7 @@ NamedScript Console void MonsterDump()
     Log(" Replacement Actor: %S", Stats->ReplaceActor);
     Log(" Species: %S", GetActorPropertyString(0, APROP_Species));
     Log(" Position: %.2k, %.2k, %.2k", Stats->spawnPos.X, Stats->spawnPos.Y, Stats->spawnPos.Z);
-    Log(" Tag: %S", GetActorPropertyString(0, APROP_Nametag));
+    Log(" Tag: %S", GetActorPropertyString(0, APROP_NameTag));
     Log(" Height: %.2k", GetActorPropertyFixed(0, APROP_Height));
     Log(" Radius: %.2k", GetActorPropertyFixed(0, APROP_Radius));
     Log(" Speed: %.2k", GetActorPropertyFixed(0, APROP_Speed));
@@ -1397,7 +1397,7 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
     // Generate Name
     if (!Stats->Named && (Stats->Flags & MF_MEGABOSS || Stats->Flags & MF_NAMEGEN || Stats->HasShadowAura))
     {
-        SetActorPropertyString(0, APROP_Nametag, GenerateName(GetActorClass(0), GetActorPropertyString(0, APROP_Nametag)));
+        SetActorPropertyString(0, APROP_NameTag, GenerateName(GetActorClass(0), GetActorPropertyString(0, APROP_NameTag)));
         Stats->Named = true;
     }
 
@@ -3859,6 +3859,22 @@ int FindMonster(int TID)
     }
 
     return -1;
+}
+
+// Get total valid monsters
+int GetValidMonsterCount()
+{
+    int validMonsterCount = 0;
+
+    for (int i = 1; i < MonsterID; i++)
+    {
+        if (!Monsters[i].Init)
+            continue;
+        else
+            validMonsterCount++;
+    }
+
+    return validMonsterCount;
 }
 
 // For Debugging
