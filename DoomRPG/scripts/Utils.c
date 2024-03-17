@@ -2680,6 +2680,127 @@ void CreateTranslations()
     CreateTranslationEnd();
 }
 
+bool CheckInputHelper(int Buttons, int OldButtons, int Key, int Function)
+{
+    bool rValue = false;
+
+    static int const acsKeys[25] =
+    {
+        BT_FORWARD,
+        BT_BACK,
+        BT_LEFT,
+        BT_RIGHT,
+        BT_MOVELEFT,
+        BT_MOVERIGHT,
+        BT_ATTACK,
+        BT_ALTATTACK,
+        BT_USE,
+        BT_JUMP,
+        BT_CROUCH,
+        BT_TURN180,
+        BT_RELOAD,
+        BT_ZOOM,
+        BT_SPEED,
+        //BT_RUN,
+        BT_STRAFE,
+        BT_LOOKUP,
+        BT_LOOKDOWN,
+        BT_MOVEUP,
+        BT_MOVEDOWN,
+        BT_SHOWSCORES,
+        BT_USER1,
+        BT_USER2,
+        BT_USER3,
+        BT_USER4
+    };
+
+    switch(Function)
+    {
+    case KEY_ONLYPRESSED:
+    {
+        int keyActiveCount = 0;
+
+        // If more than one key is active, break
+        for (int i = 0; i < sizeof (acsKeys); i++)
+        {
+            if (Buttons & acsKeys[i])
+                keyActiveCount++;
+
+            // Save ACS time
+            if (keyActiveCount == 2)
+                break;
+        }
+
+        // Only one key active, check it
+        if (keyActiveCount == 1 && Buttons & Key && !(OldButtons & Key))
+            rValue = true;
+    }
+    break;
+    case KEY_ONLYHELD:
+    {
+        int keyActiveCount = 0;
+
+        // If more than one key is active, break
+        for (int i = 0; i < sizeof (acsKeys); i++)
+        {
+            if (Buttons & acsKeys[i])
+                keyActiveCount++;
+
+            // Save ACS time
+            if (keyActiveCount == 2)
+                break;
+        }
+
+        // Only one key active, check it
+        if (keyActiveCount == 1 && Buttons & Key)
+            rValue = true;
+    }
+    break;
+    case KEY_ANYIDLE:
+    {
+        int keyActiveCount = 0;
+
+        // If any key is active, break
+        for (int i = 0; i < sizeof (acsKeys); i++)
+        {
+            if (Buttons & acsKeys[i])
+                keyActiveCount++;
+
+            // Save ACS time
+            if (keyActiveCount > 0)
+                break;
+        }
+
+        // If no keys are active, set return value
+        if (keyActiveCount < 1)
+            rValue = true;
+    }
+    break;
+    case KEY_ANYNOTIDLE:
+    {
+        int keyActiveCount = 0;
+
+        // If any key is active, break
+        for (int i = 0; i < sizeof (acsKeys); i++)
+        {
+            if (Buttons & acsKeys[i])
+                keyActiveCount++;
+
+            // Save ACS time
+            if (keyActiveCount > 0)
+                break;
+        }
+
+        // If any key is active, set return value
+        if (keyActiveCount > 1)
+            rValue = true;
+    }
+    break;
+    }
+
+    return rValue;
+}
+
 bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
 {
     bool rValue = false;
@@ -2722,6 +2843,7 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
             if (AxisX > 1.0) AxisX = 1.0;
             if (AxisX < -1.0) AxisX = -1.0;
 
+            // Illegal input hacks
             if (Key & BT_FORWARD && AxisY == 1.0)
             {
                 Buttons = BT_FORWARD;
@@ -2747,6 +2869,7 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     switch (State)
     {
     case KEY_PRESSED:
+    case KEY_REPEAT:
     {
         if (Buttons & Key && !(OldButtons & Key))
             rValue = true;
@@ -2754,8 +2877,7 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     break;
     case KEY_ONLYPRESSED:
     {
-        if (Buttons == Key && OldButtons != Key)
-            rValue = true;
+        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ONLYPRESSED);
     }
     break;
     case KEY_HELD:
@@ -2766,26 +2888,17 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     break;
     case KEY_ONLYHELD:
     {
-        if (Buttons == Key)
-            rValue = true;
+        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ONLYHELD);
     }
     break;
     case KEY_ANYIDLE:
     {
-        if (Buttons == 0 && OldButtons == 0)
-            rValue = true;
+        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ANYIDLE);
     }
     break;
     case KEY_ANYNOTIDLE:
     {
-        if (Buttons > 0)
-            rValue = true;
-    }
-    break;
-    case KEY_REPEAT:
-    {
-        if (Buttons & Key && !(OldButtons & Key))
-            rValue = true;
+        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ANYNOTIDLE);
     }
     break;
     }

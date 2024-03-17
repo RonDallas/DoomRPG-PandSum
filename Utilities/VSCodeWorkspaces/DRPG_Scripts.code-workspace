@@ -5,6 +5,25 @@
 		},
 		{
 			"path": "../../DoomRPG/zscript"
+		},
+		{
+			"path": "../../DoomRPG/actors"
 		}
-	]
+	],
+	"settings": {
+		"files.associations": {
+			"itemdata.h": "c",
+			"skills.h": "c",
+			"mission.h": "c",
+			"arena.h": "c",
+			"outpost.h": "c",
+			"healthbars.h": "c",
+			"defs.h": "c",
+			"map.h": "c",
+			"utils.h": "c",
+			"stats.h": "c",
+			"rpg.h": "c",
+			"monsters.h": "c"
+		}
+	}
 }
