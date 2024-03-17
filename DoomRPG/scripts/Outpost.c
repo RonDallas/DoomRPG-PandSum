@@ -44,7 +44,6 @@ int RPGMap ForcefieldTimer = 0;
 
 // Choices
 int RPGMap LevelChoice = 0;
-int RPGMap ExtraWadChoice = 0;
 int RPGMap SkillChoice = 0;
 int RPGMap WaveChoice = 1;
 
