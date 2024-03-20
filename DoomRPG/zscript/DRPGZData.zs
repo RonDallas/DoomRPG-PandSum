@@ -197,10 +197,10 @@ class DRPGZExtraWad : StaticEventHandler
             "/MAPS/E5M1.WAD",
             "/MAPS/E6M1.WAD",
             "/MAPS/MAP01.WAD",
-            "/MAPS/PL_MAP01.WAD",
-            "/MAPS/TN_MAP01.WAD",
             "/MAPS/NV_MAP01.WAD",
-            "/MAPS/ML_MAP01.WAD"
+            "/MAPS/ML_MAP01.WAD",
+            "/MAPS/TN_MAP01.WAD",
+            "/MAPS/PL_MAP01.WAD"
         };
 
         // Lexicon WAD Lumps
@@ -494,10 +494,10 @@ class DRPGZExtraWad : StaticEventHandler
             "Sigil",
             "Sigil II",
             "Doom II: Hell on Earth",
-            "TNT: Evilution",
-            "Plutonia",
             "No Rest For The Living",
-            "Master Levels"
+            "The Master Levels",
+            "TNT: Evilution",
+            "The Plutonia Experiment"
         };
 
         // Lexicon Nice Names

@@ -51,11 +51,13 @@ script "LDWorldInit" open
 {
     Delay(1); // Give the world a chance to spawn
 	if (ACS_NamedExecuteWithResult("SoDCheck") == 1) { delay(4); }
+	if (ACS_NamedExecuteWithResult("SamsaraMonsterCheck") == 1) { delay(4); }
+	Delay(ACS_NamedExecuteWithResult("LD_ExtraDelay"));
 
     int skill = GameSkill();
 	
-	Log(s:"LD_diemode");
-	Log(i:GetCvar("LD_diemode"));
+//	Log(s:"LD_diemode");
+//	Log(i:GetCvar("LD_diemode"));
 
 	if (GetCVar("DRLA_is_monsters_loaded") && skill == 7)
 		skill = SKILL_HARD;
@@ -87,6 +89,9 @@ script "LDMonsterInit" (void)
         terminate;
 
     GiveInventory("LDLegendaryMonsterToken", 1);
+	
+	if (spawnHealth == 0x7FFFFFFF) // check for Samsara Monster Mixer spawners
+        terminate;
 
     if (GetCVar("LD_legendarydebug"))
         Log(s:"\cdLD DEBUG\c-: \ca", s:GetActorClass(0), s:"\c- has been \cdLEGENDARIFIED\c-");
@@ -304,6 +309,27 @@ script "SoDCheck" (void)
     SetResultValue(isSoD);
 }
 
+// Samsara Monster Mixer check
+int isSamMon = 2;
+script "SamsaraMonsterCheck" (void)
+{
+    if (isSamMon == 2)
+    {
+        int TID = UniqueTID();
+        int spawned = SpawnForced("SamsaraMixerCompendiumToken", 0, 0, 0, TID, 0);
+
+        if (spawned)
+        {
+            Thing_Remove(TID);
+            isSamMon = true;
+        }
+        else
+            isSamMon = false;
+    }
+
+    SetResultValue(isSamMon);
+}
+
 // Guncaster check
 int IsThePillowCompletelyBlasted = 2;
 script "GuncasterLDLiteCheck" (void)
@@ -426,4 +452,9 @@ script "LD_LegendaryMarkers" (void)
 script "LD_LegendaryDebug" (void)
 {
     SetResultValue(GetCVar("LD_legendarydebug"));
+}
+
+script "LD_ExtraDelay" (void)
+{
+    SetResultValue(GetCVar("LD_extradelay"));
 }

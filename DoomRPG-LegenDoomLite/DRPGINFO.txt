@@ -1,2 +1,2 @@
 Name=LegenDoomLite
-Mods=LegenDoomLite_4.1.pk3
+Mods=LegenDoomLite_4.2.pk3
