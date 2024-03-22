@@ -3624,24 +3624,29 @@ bool CheckInputHelper(int Buttons, int OldButtons, int Key, int Function)
 bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
 {
     bool rValue = false;
+
     int Input = INPUT_BUTTONS;
     int InputOld = INPUT_OLDBUTTONS;
+
     int Buttons, OldButtons;
 
+    static bool keyHeld = false; // CVar
+    static int keyHeldTic = 7;
+
+    // Axes Stuff
+    static bool axesMode = false; // CVar
+
     double AxisY, AxisX;
-    // OldButtons mimic
-    static double OldAxisY, OldAxisX;
+    static double OldAxisY, OldAxisX; // OldButtons mimic
 
     bool axesActive = false;
-    // Static, so values aren't lost at function exit
-    static bool axesMode = false;
-    static int axesTic = 7;
 
     // These don't need updated constantly
     if ((Timer() % 35) == 0)
     {
         axesMode = GetUserCVar(PlayerNum, "drpg_menu_input_axes");
-        axesTic = GetUserCVar(PlayerNum, "drpg_menu_input_axes_tic");
+        keyHeld = GetUserCVar(PlayerNum, "drpg_menu_input_keyheld");
+        keyHeldTic = GetUserCVar(PlayerNum, "drpg_menu_input_keyheld_tic");
     }
 
     if (ModInput)
@@ -3710,28 +3715,44 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     break;
     case KEY_REPEAT:
     {
-        if (axesActive || Buttons & Key)
+        if (keyHeld)
         {
-            static bool keyRepeat;
-            static int repeatTimer;
-            int currentTime = Timer();
-
-            if (currentTime + axesTic + 1 < repeatTimer)
-                keyRepeat = false;
-
-            if (!keyRepeat)
+            if (axesActive || Buttons & Key)
             {
-                repeatTimer = (currentTime + axesTic);
-                keyRepeat = true;
+                static bool keyRepeat;
+                static int repeatTimer;
+                int currentTime = Timer();
+
+                if (currentTime + keyHeldTic + 1 < repeatTimer)
+                    keyRepeat = false;
+
+                if (!keyRepeat)
+                {
+                    repeatTimer = (currentTime + keyHeldTic);
+                    keyRepeat = true;
+                    rValue = true;
+                }
+                else
+                {
+                    if (currentTime >= repeatTimer)
+                        keyRepeat = false;
+                    else
+                        rValue = false;
+                }
+            }
+        }
+        // Becomes KEY_PRESSED when disabled
+        else
+        {
+            if (axesActive)
+            {
+                OldAxisY = AxisY;
+                OldAxisX = AxisX;
+
                 rValue = true;
             }
-            else
-            {
-                if (currentTime >= repeatTimer)
-                    keyRepeat = false;
-                else
-                    rValue = false;
-            }
+            else if (Buttons & Key && !(OldButtons & Key))
+                rValue = true;
         }
     }
     break;

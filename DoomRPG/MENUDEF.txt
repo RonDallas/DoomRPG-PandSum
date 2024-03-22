@@ -642,10 +642,12 @@ OptionMenu "DoomRPGMenus"
     Option "Menu background border", "drpg_menu_background_border", "OnOff"
     StaticText ""
 
-    StaticText "Menu navigation will read by movement (axes), and not their respective key binds. This allows an analog stick to work, and also holding down keys.", "Orange"
+    StaticText "The rate (in tics) that a held key is processed. Applies to movement keys only. Works with axes.", "grey"
+    Option "Enable Held Key", "drpg_menu_input_keyheld", "OnOff"
+    Slider "Held Key Process Rate", "drpg_menu_input_keyheld_tic", 2, 35, 1
+
+    StaticText "Menu navigation will read by movement (axes), and not their respective key binds. This allows an analog stick to work.", "grey"
     Option "Enable Axes Mode", "drpg_menu_input_axes", "OnOff"
-    StaticText "The rate (in tics) that the axes are processed.", "Orange"
-    Slider "Axes Process Tic", "drpg_menu_input_axes_tic", 2, 35, 1
 }
 
 OptionMenu "DoomRPGHUD"

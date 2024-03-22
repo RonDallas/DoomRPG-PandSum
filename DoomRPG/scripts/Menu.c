@@ -1215,9 +1215,13 @@ ItemInfoPtr GetIncreaseAugAddItem(int AugIndex, int AugLevel)
     // Get additional item for Enhanced Battery Augmentation
     if (AugIndex == 8)
     {
-        if (AugLevel <= 3) return FindItem("DRPGBatterySmall");
-        if (AugLevel > 3) return FindItem("DRPGBatteryLarge");
+        if (AugLevel <= 3)
+            return FindItem("DRPGBatterySmall");
+        if (AugLevel > 3)
+            return FindItem("DRPGBatteryLarge");
     }
+
+    return NULL;
 }
 
 int GetIncreaseAugAddCost(int AugIndex, int AugLevel)
@@ -1230,6 +1234,8 @@ int GetIncreaseAugAddCost(int AugIndex, int AugLevel)
         if (AugLevel > 3)
             return (AugLevel - 3);
     }
+
+    return 0;
 }
 
 void DrawAugsMenu()
@@ -1244,7 +1250,7 @@ void DrawAugsMenu()
     AugInfoPtr SelectedAug = &AugData[SelectedIndex];
     str UpgradeCanisterAmount = "";
     str UpgradeComponentAmount = "";
-    ItemInfoPtr  AdditionalItem;
+    ItemInfoPtr AdditionalItem;
     int AdditionalItemAmount;
 
     if (Player.Augs.Level[SelectedIndex] == 0)
@@ -2748,7 +2754,7 @@ void IncreaseAug(int AugIndex)
         bool CanLevel = true;
 
         // Get information about additional items
-        ItemInfoPtr  AdditionalItem = GetIncreaseAugAddItem(AugIndex, Player.Augs.Level[AugIndex]);
+        ItemInfoPtr AdditionalItem = GetIncreaseAugAddItem(AugIndex, Player.Augs.Level[AugIndex]);
         int AdditionalItemAmount = GetIncreaseAugAddCost(AugIndex, Player.Augs.Level[AugIndex]);
 
         if (AdditionalItemAmount > 0 && CheckInventory(AdditionalItem->Actor) < AdditionalItemAmount)
