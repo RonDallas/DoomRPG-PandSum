@@ -3591,7 +3591,7 @@ bool CheckInputHelper(int Buttons, int OldButtons, int Key, int Function)
                 break;
         }
 
-        // If no keys are active, set return value
+        // If any key is idle, set return value
         if (keyActiveCount < 1)
             rValue = true;
     }
@@ -3611,7 +3611,7 @@ bool CheckInputHelper(int Buttons, int OldButtons, int Key, int Function)
                 break;
         }
 
-        // If any key is active, set return value
+        // If any key is not idle, set return value
         if (keyActiveCount > 1)
             rValue = true;
     }
@@ -3629,16 +3629,19 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     int Buttons, OldButtons;
 
     double AxisY, AxisX;
+    // OldButtons mimic
+    static double OldAxisY, OldAxisX;
 
+    bool axesActive = false;
     // Static, so values aren't lost at function exit
     static bool axesMode = false;
-    static fixed axesTic = 7.0;
+    static int axesTic = 7;
 
     // These don't need updated constantly
     if ((Timer() % 35) == 0)
     {
         axesMode = GetUserCVar(PlayerNum, "drpg_menu_input_axes");
-        axesTic = GetUserCVarFixed(PlayerNum, "drpg_menu_input_axes_tic");
+        axesTic = GetUserCVar(PlayerNum, "drpg_menu_input_axes_tic");
     }
 
     if (ModInput)
@@ -3653,44 +3656,39 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     // Regulate Axes
     if (Key & BT_FORWARD || Key & BT_BACK || Key & BT_MOVELEFT || Key & BT_MOVERIGHT)
     {
-        // Prevent input skipping
         if (axesMode)
         {
-            Buttons = 0;
-            OldButtons = 0;
+            AxisY = GetPlayerInput(PlayerNum, INPUT_FORWARDMOVE);
+            AxisX = GetPlayerInput(PlayerNum, INPUT_SIDEMOVE);
 
-            if (Timer() % axesTic == 0)
+            // Simplify
+            // Walk detection
+            if (AxisY > (12800/2)) AxisY = 1.0;
+            if (AxisY < -(12800/2)) AxisY = -1.0;
+            if (AxisX < -(10240/2)) AxisX = -1.0;
+            if (AxisX > (10240/2)) AxisX = 1.0;
+            /*             // Run detection
+                        if (AxisY == (12800)) AxisY = 2.0;
+                        if (AxisY == -(12800)) AxisY = -2.0;
+                        if (AxisX == -(10240)) AxisX = -2.0;
+                        if (AxisX == (10240) AxisX = 2.0; */
+
+            // Decide if the axises are old and moldy
+            if (AxisY < OldAxisY || AxisY > OldAxisY)
+                OldAxisY = 0.0;
+            if (AxisX > OldAxisX || AxisX < OldAxisX)
+                OldAxisX = 0.0;
+
+            if (OldAxisY == 0.0 && OldAxisX == 0.0)
             {
-                AxisY = GetPlayerInput(PlayerNum, INPUT_FORWARDMOVE);
-                AxisX = GetPlayerInput(PlayerNum, INPUT_SIDEMOVE);
-
-                // Simplify
-                if (AxisY > 1.0) AxisY = 1.0;
-                if (AxisY < -1.0) AxisY = -1.0;
-                if (AxisX > 1.0) AxisX = 1.0;
-                if (AxisX < -1.0) AxisX = -1.0;
-
-                // Illegal input hacks
                 if (Key & BT_FORWARD && AxisY == 1.0)
-                {
-                    Buttons |= Key;
-                    OldButtons = 0;
-                }
+                    axesActive = true;
                 else if (Key & BT_BACK && AxisY == -1.0)
-                {
-                    Buttons |= Key;
-                    OldButtons = 0;
-                }
+                    axesActive = true;
                 else if (Key & BT_MOVELEFT && AxisX == -1.0)
-                {
-                    Buttons |= Key;
-                    OldButtons = 0;
-                }
+                    axesActive = true;
                 else if (Key & BT_MOVERIGHT && AxisX == 1.0)
-                {
-                    Buttons |= Key;
-                    OldButtons = 0;
-                }
+                    axesActive = true;
             }
         }
     }
@@ -3698,20 +3696,62 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     switch (State)
     {
     case KEY_PRESSED:
+    {
+        if (axesActive)
+        {
+            OldAxisY = AxisY;
+            OldAxisX = AxisX;
+
+            rValue = true;
+        }
+        else if (Buttons & Key && !(OldButtons & Key))
+            rValue = true;
+    }
+    break;
     case KEY_REPEAT:
     {
-        if (Buttons & Key && !(OldButtons & Key))
-            rValue = true;
+        if (axesActive || Buttons & Key)
+        {
+            static bool keyRepeat;
+            static int repeatTimer;
+            int currentTime = Timer();
+
+            if (currentTime + axesTic + 1 < repeatTimer)
+                keyRepeat = false;
+
+            if (!keyRepeat)
+            {
+                repeatTimer = (currentTime + axesTic);
+                keyRepeat = true;
+                rValue = true;
+            }
+            else
+            {
+                if (currentTime >= repeatTimer)
+                    keyRepeat = false;
+                else
+                    rValue = false;
+            }
+        }
     }
     break;
     case KEY_ONLYPRESSED:
     {
-        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ONLYPRESSED);
+        if (axesActive)
+        {
+            OldAxisY = AxisY;
+            OldAxisX = AxisX;
+            return true;
+        }
+        else
+            rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ONLYPRESSED);
     }
     break;
     case KEY_HELD:
     {
-        if (Buttons & Key)
+        if (axesActive)
+            rValue = true;
+        else if (Buttons & Key)
             rValue = true;
     }
     break;
@@ -3722,12 +3762,20 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     break;
     case KEY_ANYIDLE:
     {
-        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ANYIDLE);
+        if (CheckInputHelper(Buttons, OldButtons, Key, KEY_ANYIDLE))
+            rValue = true;
+
+        if (!axesActive)
+            rValue = true;
     }
     break;
     case KEY_ANYNOTIDLE:
     {
-        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ANYNOTIDLE);
+        if (CheckInputHelper(Buttons, OldButtons, Key, KEY_ANYNOTIDLE))
+            rValue = true;
+
+        if (axesActive)
+            rValue = true;
     }
     break;
     }
