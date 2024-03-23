@@ -252,7 +252,6 @@ NamedScript MapSpecial void ArenaChooseBonus()
 {
     int BonusChoice = 1;
     bool CanChooseKey = false;
-    fixed X, Y;
 
     // There's a 1/4 chance you can use Drop Key
     if (Random(1, 4) == 1) CanChooseKey = true;
@@ -261,9 +260,6 @@ NamedScript MapSpecial void ArenaChooseBonus()
 
     while (true)
     {
-        X = 150.1;
-        Y = 100.0;
-
         SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
 
         // Prevent the menus from being opened
@@ -273,15 +269,19 @@ NamedScript MapSpecial void ArenaChooseBonus()
         // Set the HUD Size
         SetHudSize(GetActivatorCVar("drpg_menu_width"), GetActivatorCVar("drpg_menu_height"), true);
 
+        // Draw cords
+        fixed X = GetActivatorCVar("drpg_menu_x");
+        fixed Y = GetActivatorCVar("drpg_menu_y");
+
         // Draw Border
         // These are pushed back a bit so the border doesn't overlap anything
         if (GetActivatorCVar("drpg_menu_background_border"))
-            DrawBorder("Bor", -1, 8, -5.0, -3.0, 470, 470);
+            DrawBorder("Bor", -1, 8, X + (-5.0), Y + (-3.0), 470, 470);
 
         // Title
         SetFont("BIGFONT");
-        HudMessage("Choose a Bonus");
-        EndHudMessage(HUDMSG_PLAIN, 0, "Green", 150.1, 50.0, 0.05);
+        HudMessage("- Choose a Bonus -");
+        EndHudMessage(HUDMSG_PLAIN, 0, "Teal", X + (470/2), Y + 50.0, 0.05);
 
         // Input
         if (CheckInput(BT_FORWARD, KEY_ONLYPRESSED, false, PlayerNumber()))
@@ -314,16 +314,16 @@ NamedScript MapSpecial void ArenaChooseBonus()
             // Cursor
             if (i == BonusChoice)
             {
+                int aBonusLen = StrLen(ArenaBonus[i]);
+                aBonusLen += aBonusLen * 6;
+
                 HudMessage("-->");
-                EndHudMessage(HUDMSG_PLAIN, 0, MenuCursorColor, X - 25.0, Y, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, MenuCursorColor, X + (470/2) -(aBonusLen), Y + 125.0 + (20.0 * i), 0.05);
             }
 
             // Bonus String
             HudMessage("%S", ArenaBonus[i]);
-            EndHudMessage(HUDMSG_PLAIN, 0, "White", X, Y, 0.05);
-
-            // Move down Y
-            Y += 16.0;
+            EndHudMessage(HUDMSG_PLAIN, 0, "White", X + (470/2), Y + 125.0 + (20.0 * i), 0.05);
         }
 
         Delay(1);

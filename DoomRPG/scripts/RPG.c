@@ -1301,6 +1301,7 @@ NamedScript void ItemHandler()
             }
         }
 
+        // Still haven't seen this trigger
         /* for (int i = 0; i < MAX_PLAYERS; i++)
         {
             // Skip this player if they aren't in the game

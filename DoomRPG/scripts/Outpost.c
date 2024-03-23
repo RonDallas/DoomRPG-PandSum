@@ -4775,8 +4775,8 @@ NamedScript MapSpecial void DemonAssemblingSanctuary()
     Player.OutpostMenu = OMENU_DEMONSANCTUARY;
 
     // Main coordinates
-    fixed X = 0.1;
-    fixed Y = 0.1;
+    fixed dX = 0.1;
+    fixed dY = 0.1;
 
     // Additional coordinates
     fixed X1, Y1, Y2;
@@ -4995,37 +4995,41 @@ NamedScript MapSpecial void DemonAssemblingSanctuary()
         // Set the HUD Size
         SetHudSize(GetActivatorCVar("drpg_menu_width"), GetActivatorCVar("drpg_menu_height"), true);
 
+        // Draw cords
+        fixed X = GetActivatorCVar("drpg_menu_x");
+        fixed Y = GetActivatorCVar("drpg_menu_y");
+
         // Draw Border
         // These are pushed back a bit so the border doesn't overlap anything
         if (GetActivatorCVar("drpg_menu_background_border"))
-            DrawBorder("Bor", -1, 8, -5.0, -3.0, 470, 470);
+            DrawBorder("Bor", -1, 8, X + (-5.0), Y + (-3.0), 470, 470);
 
         // Text
         SetFont("BIGFONT");
-        HudMessage("\CgDemon Sanctuary\C-");
-        EndHudMessage(HUDMSG_FADEOUT, MENU_ID, "White", X + 132.0, Y + 16.0, 0.05, 0.05);
+        HudMessage("\Cg- Demon Sanctuary -\C-");
+        EndHudMessage(HUDMSG_FADEOUT, MENU_ID, "White", X + (470/2), Y + dY + 16.0, 0.05, 0.05);
 
         SetFont("BIGFONT");
         HudMessage("Select item to summon:");
-        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 1, "White", X + 88.0, Y + 56.0, 0.05, 0.05);
+        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 1, "White", X + dX + 88.0, Y + dY + 56.0, 0.05, 0.05);
 
         SetFont("BIGFONT");
         HudMessage("Category: %S", CategoriesNames[CurrentCategory]);
-        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 2, "White", X + 124.0, Y + 96.0, 0.05, 0.05);
+        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 2, "White", X + dX + 124.0, Y + dY + 96.0, 0.05, 0.05);
 
         SetFont("BIGFONT");
         HudMessage("Rarity: %S", RareNames[CurrentRare]);
-        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 3, "White", X + 164.0, Y + 132.0, 0.05, 0.05);
+        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 3, "White", X + dX + 164.0, Y + dY + 132.0, 0.05, 0.05);
 
-        PrintSprite(ItemData[CategoriesData[CurrentCategory]][CurrentItem].Sprite.Name, 0, X + 240.0,  Y + 212.0, 0.05);
+        PrintSprite(ItemData[CategoriesData[CurrentCategory]][CurrentItem].Sprite.Name, 0, X + dX + 240.0,  Y + dY + 212.0, 0.05);
 
         SetFont("BIGFONT");
         HudMessage("Item: %S", ItemData[CategoriesData[CurrentCategory]][CurrentItem].Name);
-        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 4, "White", X + 32.0, Y + 240.0, 0.05, 0.05);
+        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 4, "White", X + dX + 32.0, Y + dY + 240.0, 0.05, 0.05);
 
         SetFont("SMALLFONT");
         HudMessage("Required \Cddetails\C-:");
-        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 5, "White", X + 32.0, Y + 268.0, 0.05, 0.05);
+        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 5, "White", X + dX + 32.0, Y + dY + 268.0, 0.05, 0.05);
 
         // Required Details
         // For Details #1
@@ -5033,28 +5037,28 @@ NamedScript MapSpecial void DemonAssemblingSanctuary()
         {
             SetFont("SMALLFONT");
             HudMessage("%S: %d", ItemData[7][CurrentTypeDetails1].Name, CurrentAmountDetails1);
-            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 6, "White", X + 32.0, Y + 276.0, 0.05, 0.05);
+            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 6, "White", X + dX + 32.0, Y + dY + 276.0, 0.05, 0.05);
         }
         // For Details #2
         if (CurrentAmountDetails2 > 0)
         {
             SetFont("SMALLFONT");
             HudMessage("%S: %d", ItemData[7][CurrentTypeDetails2].Name, CurrentAmountDetails2);
-            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 7, "White", X + 32.0, Y + 284.0, 0.05, 0.05);
+            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 7, "White", X + dX + 32.0, Y + dY + 284.0, 0.05, 0.05);
         }
         // For Details #3
         if (CurrentAmountDetails3 > 0)
         {
             SetFont("SMALLFONT");
             HudMessage("%S: %d", ItemData[7][CurrentTypeDetails3].Name, CurrentAmountDetails3);
-            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 8, "White", X + 32.0, Y + (CurrentAmountDetails2 > 0 ? 292.0 : 284.0), 0.05, 0.05);
+            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 8, "White", X + dX + 32.0, Y + dY + (CurrentAmountDetails2 > 0 ? 292.0 : 284.0), 0.05, 0.05);
         }
         // For Additional Details
         if (CurrentAmountDetails4 > 0 || CurrentAmountDetails5 > 0 || CurrentAmountDetails6 > 0)
         {
             SetFont("SMALLFONT");
             HudMessage("Required \Cqadditional details\C-:");
-            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 9, "White", X + 32.0, Y + 308.0, 0.05, 0.05);
+            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 9, "White", X + dX + 32.0, Y + dY + 308.0, 0.05, 0.05);
 
             // Set additional coordinates
             if (CurrentAmountDetails5 > 0 && CurrentAmountDetails4 + CurrentAmountDetails6 > 0)
@@ -5067,9 +5071,9 @@ NamedScript MapSpecial void DemonAssemblingSanctuary()
         {
             SetFont("SMALLFONT");
             HudMessage("%S: %d", ItemData[8][CurrentTypeDetails4].Name, CurrentAmountDetails4);
-            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 10, "White", X + 32.0, Y + Y1 + 316.0, 0.05, 0.05);
+            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 10, "White", X + dX + 32.0, Y + dY + Y1 + 316.0, 0.05, 0.05);
 
-            PrintSprite(ItemData[8][CurrentTypeDetails4].Sprite.Name, 0, X + X1 + (CurrentTypeDetails4 == 9 ? 52.0 : 32.0),  Y + Y2 + (CurrentTypeDetails4 == 9 ? 392.0 : 315.0), 0.05);
+            PrintSprite(ItemData[8][CurrentTypeDetails4].Sprite.Name, 0, X + dX + X1 + (CurrentTypeDetails4 == 9 ? 52.0 : 32.0),  Y + dY + Y2 + (CurrentTypeDetails4 == 9 ? 392.0 : 315.0), 0.05);
 
             X1 += 44.0;
             Y1 += 8.0;
@@ -5079,9 +5083,9 @@ NamedScript MapSpecial void DemonAssemblingSanctuary()
         {
             SetFont("SMALLFONT");
             HudMessage("%S: %d", ItemData[4][CurrentTypeDetails5].Name, CurrentAmountDetails5);
-            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 11, "White", X + 32.0, Y + Y1 + 316.0, 0.05, 0.05);
+            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 11, "White", X + dX + 32.0, Y + dY + Y1 + 316.0, 0.05, 0.05);
 
-            PrintSprite(ItemData[4][CurrentTypeDetails5].Sprite.Name, 0, X + X1 + 48.0,  Y + Y2 + 376.0, 0.05);
+            PrintSprite(ItemData[4][CurrentTypeDetails5].Sprite.Name, 0, X + dX + X1 + 48.0,  Y + dY + Y2 + 376.0, 0.05);
 
             X1 += 32.0;
             Y1 += 8.0;
@@ -5091,9 +5095,9 @@ NamedScript MapSpecial void DemonAssemblingSanctuary()
         {
             SetFont("SMALLFONT");
             HudMessage("%S: %d", ItemData[6][CurrentTypeDetails6].Name, CurrentAmountDetails6);
-            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 12, "White", X + 32.0, Y + Y1 + 316.0, 0.05, 0.05);
+            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 12, "White", X + dX + 32.0, Y + dY + Y1 + 316.0, 0.05, 0.05);
 
-            PrintSprite(ItemData[6][CurrentTypeDetails6].Sprite.Name, 0, X + X1 + 48.0,  Y + Y2 + 348.0, 0.05);
+            PrintSprite(ItemData[6][CurrentTypeDetails6].Sprite.Name, 0, X + dX + X1 + 48.0,  Y + dY + Y2 + 348.0, 0.05);
 
             X1 += 32.0;
             Y1 += 8.0;
@@ -5101,13 +5105,13 @@ NamedScript MapSpecial void DemonAssemblingSanctuary()
 
         SetFont("SMALLFONT");
         HudMessage("Required \Cfcredits\C-:\n%d \CfC\C-", CurrentCost);
-        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 13, "White", X + 272.0, Y + 268.0, 0.05, 0.05);
+        EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 13, "White", X + dX + 272.0, Y + dY + 268.0, 0.05, 0.05);
 
         if (CurrentRank > 0)
         {
             SetFont("SMALLFONT");
             HudMessage("Required \CkRank\C-:\n%d \Ck(%S)\C-", CurrentRank, LongRanks[CurrentRank]);
-            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 14, "White", X + 272.0, Y + 290.0, 0.05, 0.05);
+            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 14, "White", X + dX + 272.0, Y + dY + 290.0, 0.05, 0.05);
         }
 
         // Required basic Item
@@ -5115,9 +5119,9 @@ NamedScript MapSpecial void DemonAssemblingSanctuary()
         {
             SetFont("SMALLFONT");
             HudMessage("Required \Cabasic item\C-:\n%S", StrLeft(ItemData[CategoriesData[CurrentCategory]][CurrentIndexBasic].Name, 26));
-            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 15, "White", X + 272.0, Y + 314.0, 0.05, 0.05);
+            EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 15, "White", X + dX + 272.0, Y + dY + 314.0, 0.05, 0.05);
 
-            PrintSprite(ItemData[CategoriesData[CurrentCategory]][CurrentIndexBasic].Sprite.Name, 0, X + 336.0,  Y + 372.0, 0.05);
+            PrintSprite(ItemData[CategoriesData[CurrentCategory]][CurrentIndexBasic].Sprite.Name, 0, X + dX + 336.0,  Y + dY + 372.0, 0.05);
         }
 
         // Input
@@ -5233,7 +5237,7 @@ NamedScript MapSpecial void DemonAssemblingSanctuary()
 
                     SetFont("BIGFONT");
                     HudMessage("Item summon completed");
-                    EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 4, "Green", X + 72.0, Y + 240.0, 3.0, 2.0);
+                    EndHudMessage(HUDMSG_FADEOUT, MENU_ID + 4, "Green", X + dX + 72.0, Y + dY + 240.0, 3.0, 2.0);
                     ActivatorSound("mission/complete", 127);
                     FadeRange(0, 0, 0, 1.0, 0, 0, 0, 0.0, 2.0);
 
