@@ -254,10 +254,14 @@ void ShopLoop()
     // Set the HUD Size
     SetHudSize(GetActivatorCVar("drpg_menu_width"), GetActivatorCVar("drpg_menu_height"), true);
 
+    // Draw cords
+    fixed X = GetActivatorCVar("drpg_menu_x");
+    fixed Y = GetActivatorCVar("drpg_menu_y");
+
     // Draw Border
     // These are pushed back a bit so the border doesn't overlap anything
     if (GetActivatorCVar("drpg_menu_background_border"))
-        DrawBorder("Bor", -1, 8, -5.0, 0.0, 470, 470);
+        DrawBorder("Bor", -1, 8, X + (-5.0), Y + (-3.0), 470, 470);
 
     // Switch to Locker mode if Shop Anywhere CVAR is set to Locker
     if (GetCVar("drpg_shoptype") == 1 && !CurrentLevel->UACBase)
@@ -287,51 +291,51 @@ void ShopLoop()
     {
         // Title and Page
         HudMessage("\ChLocker \C-- %S\C- \Cd(%d/%d)", ItemCategoryNames[Player.ShopPage], Player.ShopPage + 1, ItemCategories);
-        EndHudMessage(HUDMSG_PLAIN, 0, "White", 24.1, 24.0, 0.05);
+        EndHudMessage(HUDMSG_PLAIN, 0, "White", X + 24.1, Y + 24.0, 0.05);
 
         // EP Cost/Inventory Count
         if (GetCVar("drpg_inv_capacity"))
         {
             HudMessage("%S%d EP \C-(Inventory: %d/%d)", (CurrentLevel->UACBase ? "\Cc" : "\Cn"), LOCKER_EPRATE, Player.InvItems, CheckInventoryMax());
-            EndHudMessage(HUDMSG_PLAIN, 0, "White", 24.1, 38.0, 0.05);
+            EndHudMessage(HUDMSG_PLAIN, 0, "White", X + 24.1, Y + 38.0, 0.05);
         }
         else
         {
             HudMessage("%S%d EP", (CurrentLevel->UACBase ? "\Cc" : "\Cn"), LOCKER_EPRATE);
-            EndHudMessage(HUDMSG_PLAIN, 0, "Gold", 24.1, 38.0, 0.05);
+            EndHudMessage(HUDMSG_PLAIN, 0, "Gold", X + 24.1, Y + 38.0, 0.05);
         }
     }
     else
     {
         // Title and Page
         HudMessage("\CfShop \C-- %S\C- \Cd(%d/%d)", ItemCategoryNames[Player.ShopPage], Player.ShopPage + 1, ItemCategories);
-        EndHudMessage(HUDMSG_PLAIN, 0, "White", 24.1, 24.0, 0.05);
+        EndHudMessage(HUDMSG_PLAIN, 0, "White", X + 24.1, Y + 24.0, 0.05);
 
         // Price
         if (ItemCategoryFlags[Player.ShopPage] & CF_NOBUY && ItemCategoryFlags[Player.ShopPage] & CF_NOSELL) // No Buying or Selling
         {
             HudMessage("(Discount: %d%%)", Player.ShopDiscount);
-            EndHudMessage(HUDMSG_PLAIN, 0, "Gold", 24.1, 38.0, 0.05);
+            EndHudMessage(HUDMSG_PLAIN, 0, "Gold", X + 24.1, Y + 38.0, 0.05);
         }
         else if (ItemCategoryFlags[Player.ShopPage] & CF_NOBUY || Rank == -1) // No Buying
         {
             HudMessage("\Ci%d C \Ck(Discount: %d%%)", SellPrice, Player.ShopDiscount);
-            EndHudMessage(HUDMSG_PLAIN, 0, "Gold", 24.1, 38.0, 0.05);
+            EndHudMessage(HUDMSG_PLAIN, 0, "Gold", X + 24.1, Y + 38.0, 0.05);
         }
         else if (ItemCategoryFlags[Player.ShopPage] & CF_NOSELL) // No Selling
         {
             HudMessage("\Cj%d C \Ck(Discount: %d%%)", Cost, Player.ShopDiscount);
-            EndHudMessage(HUDMSG_PLAIN, 0, "Gold", 24.1, 38.0, 0.05);
+            EndHudMessage(HUDMSG_PLAIN, 0, "Gold", X + 24.1, Y + 38.0, 0.05);
         }
         else // Normal
         {
             HudMessage("\Cj%d C \Ci(%d C) \Ck(Discount: %d%%)", Cost, SellPrice, Player.ShopDiscount);
-            EndHudMessage(HUDMSG_PLAIN, 0, "Gold", 24.1, 38.0, 0.05);
+            EndHudMessage(HUDMSG_PLAIN, 0, "Gold", X + 24.1, Y + 38.0, 0.05);
         }
     }
 
     // Item Grid
-    DrawItemGrid();
+    DrawItemGrid(X, Y);
 
     // Draw Shop Card
     if (Player.ShopCard > 0)
@@ -340,12 +344,12 @@ void ShopLoop()
 
         SetFont("BIGFONT");
         HudMessage("+%d%%", Player.ShopCard * 5);
-        EndHudMessage(HUDMSG_PLAIN, 0, (CurrentLevel->UACBase ? "Yellow" : "Gray"), 436.4, 364.0, 0.05);
+        EndHudMessage(HUDMSG_PLAIN, 0, (CurrentLevel->UACBase ? "Yellow" : "Gray"), X + 436.4, Y + 364.0, 0.05);
         if (ItemRanksRemoved)
         {
             SetFont("SMALLFONT");
             HudMessage("No Rank\nLimits");
-            EndHudMessage(HUDMSG_PLAIN, 0, "Cyan", 433.4, 382.0, 0.05);
+            EndHudMessage(HUDMSG_PLAIN, 0, "Cyan", X + 433.4, Y + 382.0, 0.05);
         }
 
         switch(Player.ShopCard)
@@ -368,9 +372,9 @@ void ShopLoop()
         }
 
         if (CurrentLevel->UACBase)
-            PrintSprite(CardSprite, 0, 458.0, 384.0, 0.05);
+            PrintSprite(CardSprite, 0, X + 458.0, Y + 384.0, 0.05);
         else
-            PrintSpritePulse(CardSprite, 0, 458.0, 384.0, 0.5, 64.0, 0.5);
+            PrintSpritePulse(CardSprite, 0, X + 458.0, Y + 384.0, 0.5, 64.0, 0.5);
     }
 
     // Check Input
@@ -815,7 +819,7 @@ int WithdrawItem(int Page, int Index)
     return 1;
 }
 
-void DrawItemGrid()
+void DrawItemGrid(fixed X, fixed Y)
 {
     // Width/Height
     int Width = 9;
@@ -823,18 +827,21 @@ void DrawItemGrid()
 
     // Coordinates
     fixed BaseX;
-    fixed BaseY;
+    fixed BaseY = Y;
     fixed BoxX;
     fixed BoxY;
-    fixed X;
-    fixed Y;
+    fixed X1;
+    fixed Y1;
     fixed IconX;
     fixed IconY;
 
+    // Centre-ish
+    X -= 10.0;
+
     for (int i = 0; i < Height; i++)
     {
-        // Reset base X
-        BaseX = 0.0;
+        // Apply base cords
+        BaseX = X;
 
         for (int j = 0; j < Width; j++)
         {
@@ -865,8 +872,8 @@ void DrawItemGrid()
                 Icon = "SprNone";
 
             // Setup X and Y
-            X = 26.0 + BaseX;
-            Y = 50.0 + BaseY;
+            X1 = 26.0 + BaseX;
+            Y1 = 50.0 + BaseY;
             BoxX = 48.0 + BaseX;
             BoxY = 72.0 + BaseY;
             IconX = 48.0 + BaseX;
@@ -879,49 +886,49 @@ void DrawItemGrid()
             {
                 SetFont("BIGFONT");
                 HudMessage("%d", Held);
-                EndHudMessage(HUDMSG_PLAIN, 0, "Green", X + 44.2, Y + 44.2, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, "Green", X1 + 44.2, Y1 + 44.2, 0.05);
             }
             if (Stored > 0)
             {
                 SetFont("BIGFONT");
                 HudMessage("%d", Stored);
-                EndHudMessage(HUDMSG_PLAIN, 0, "Yellow", X + 44.2, Y + 12.2, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, "Yellow", X1 + 44.2, Y1 + 12.2, 0.05);
             }
 
             // Auto-Sell/Auto-Store Icon
             if (Player.ItemAutoMode[Player.ShopPage][Index] == AT_SELL)
-                PrintSpritePulse("SELLICN", 0, X - 2.0 + 0.1, Y + 0.1, 0.75, 128.0, 0.25, false);
+                PrintSpritePulse("SELLICN", 0, X1 - 2.0 + 0.1, Y1 + 0.1, 0.75, 128.0, 0.25, false);
             else if (Player.ItemAutoMode[Player.ShopPage][Index] == AT_STORE)
-                PrintSpritePulse("STORICN", 0, X - 2.0 + 0.1, Y + 0.1, 0.75, 128.0, 0.25, false);
+                PrintSpritePulse("STORICN", 0, X1 - 2.0 + 0.1, Y1 + 0.1, 0.75, 128.0, 0.25, false);
 
             // Keep Icon
             if (Player.ItemKeep[Player.ShopPage][Index])
-                PrintSpritePulse("KEEPICN", 0, X + 12.0 + 0.1, Y + 0.1, 0.75, 128.0, 0.25, false);
+                PrintSpritePulse("KEEPICN", 0, X1 + 12.0 + 0.1, Y1 + 0.1, 0.75, 128.0, 0.25, false);
 
             // Mod Info
             if (CompatMode == COMPAT_DRLA && Player.LockerMode && Player.ShopPage == 0 && Player.Locker[Player.ShopPage][Index] > 0)
             {
                 SetFont("SMALLFONT");
                 HudMessage("%d", Player.WeaponMods[Index].Power);
-                EndHudMessage(HUDMSG_PLAIN, 0, "Red", X + 4.0, Y + 38.2, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, "Red", X1 + 4.0, Y1 + 38.2, 0.05);
                 HudMessage("%d", Player.WeaponMods[Index].Bulk);
-                EndHudMessage(HUDMSG_PLAIN, 0, "Blue", X + 12.0, Y + 38.2, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, "Blue", X1 + 12.0, Y1 + 38.2, 0.05);
                 HudMessage("%d", Player.WeaponMods[Index].Agility);
-                EndHudMessage(HUDMSG_PLAIN, 0, "Green", X + 20.0, Y + 38.2, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, "Green", X1 + 20.0, Y1 + 38.2, 0.05);
                 HudMessage("%d", Player.WeaponMods[Index].Technical);
-                EndHudMessage(HUDMSG_PLAIN, 0, "Yellow", X + 28.0, Y + 38.2, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, "Yellow", X1 + 28.0, Y1 + 38.2, 0.05);
                 HudMessage("%d", Player.WeaponMods[Index].Sniper);
-                EndHudMessage(HUDMSG_PLAIN, 0, "Purple", X + 4.0, Y + 46.2, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, "Purple", X1 + 4.0, Y1 + 46.2, 0.05);
                 HudMessage("%d", Player.WeaponMods[Index].Firestorm);
-                EndHudMessage(HUDMSG_PLAIN, 0, "Orange", X + 12.0, Y + 46.2, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, "Orange", X1 + 12.0, Y1 + 46.2, 0.05);
                 HudMessage("%d", Player.WeaponMods[Index].Nano);
-                EndHudMessage(HUDMSG_PLAIN, 0, "White", X + 20.0, Y + 46.2, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, "White", X1 + 20.0, Y1 + 46.2, 0.05);
                 HudMessage("%d", Player.WeaponMods[Index].Artifacts);
-                EndHudMessage(HUDMSG_PLAIN, 0, "DarkRed", X + 28.0, Y + 46.2, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, "DarkRed", X1 + 28.0, Y1 + 46.2, 0.05);
             }
 
             // Icon
-            SetHudClipRect(X, Y, 44, 44);
+            SetHudClipRect(X1, Y1, 44, 44);
             if (Player.ShopIndex == Index)
             {
                 if (Unlocked || Player.LockerMode)
@@ -953,7 +960,7 @@ void DrawItemGrid()
             {
                 SetFont("BIGFONT");
                 HudMessage("%S", Name);
-                EndHudMessage(HUDMSG_PLAIN, 0, ((!Player.LockerMode && (CanAfford || !CanBuy)) || Player.LockerMode ? "White" : "Red"), 24.1, 344.1, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, ((!Player.LockerMode && (CanAfford || !CanBuy)) || Player.LockerMode ? "White" : "Red"), X + 24.1, Y + 344.1, 0.05);
             }
 
             // Set Description For Shield Parts
@@ -1040,7 +1047,7 @@ void DrawItemGrid()
                 // View Description
                 SetFont("SMALLFONT");
                 HudMessage("%S", Description);
-                EndHudMessage(HUDMSG_PLAIN, 0, "White", 24.1, 363.1, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, "White", X + 24.1, Y + 363.1, 0.05);
             }
 
             // Increment X

@@ -276,7 +276,7 @@ NamedScript MapSpecial void ArenaChooseBonus()
         // Draw Border
         // These are pushed back a bit so the border doesn't overlap anything
         if (GetActivatorCVar("drpg_menu_background_border"))
-            DrawBorder("Bor", -1, 8, -5.0, 0.0, 470, 470);
+            DrawBorder("Bor", -1, 8, -5.0, -3.0, 470, 470);
 
         // Title
         SetFont("BIGFONT");
@@ -458,13 +458,14 @@ void DropArenaItem(str Item)
 
 void ArenaDrawHUD()
 {
-    fixed X = GetActivatorCVar("drpg_event_x") + 0.1;
-    fixed Y = GetActivatorCVar("drpg_event_y") + 0.1;
-
     // Don't draw the HUD if you're in a menu
     if (Player.InMenu || Player.InShop || Player.OutpostMenu > 0) return;
 
     SetHudSize(GetActivatorCVar("drpg_hud_width"), GetActivatorCVar("drpg_hud_height"), false);
+
+    fixed X = GetActivatorCVar("drpg_event_x") + 0.1;
+    fixed Y = GetActivatorCVar("drpg_event_y") + 0.1;
+
     SetFont("SMALLFONT");
 
     // Wave

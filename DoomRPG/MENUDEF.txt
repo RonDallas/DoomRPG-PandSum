@@ -639,6 +639,10 @@ OptionMenu "DoomRPGMenus"
     Slider "Menu Height", "drpg_menu_height", 460, 1080, 5
     StaticText ""
 
+    Slider "Menu X Position", "drpg_menu_x", -320, 1920, 1
+    Slider "Menu Y Position", "drpg_menu_y", -320, 1920, 1
+    StaticText ""
+
     Option "Menu background border", "drpg_menu_background_border", "OnOff"
     StaticText ""
 

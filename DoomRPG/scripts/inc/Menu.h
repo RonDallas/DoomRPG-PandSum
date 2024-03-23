@@ -13,13 +13,13 @@ NamedScript KeyBind void OpenMenu();
 
 void MenuLoop();
 
-void DrawMainMenu();
-void DrawStatsMenu();
-void DrawAugsMenu();
-void DrawSkillMenu();
-void DrawShieldMenu();
-void DrawStimsMenu();
-void DrawTurretMenu();
+void DrawMainMenu(fixed, fixed);
+void DrawStatsMenu(fixed, fixed);
+void DrawAugsMenu(fixed, fixed);
+void DrawSkillMenu(fixed, fixed);
+void DrawShieldMenu(fixed, fixed);
+void DrawStimsMenu(fixed, fixed);
+void DrawTurretMenu(fixed, fixed);
 void DrawTurretInfo(fixed, fixed, int);
 void DrawTurretTimers(fixed, fixed);
 

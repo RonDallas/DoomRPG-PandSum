@@ -25,7 +25,7 @@ int GetSellPrice(str, int);
 int SellItem(str, int, bool);
 void DepositItem(int, int, bool, bool);
 int WithdrawItem(int, int);
-void DrawItemGrid();
+void DrawItemGrid(fixed, fixed);
 void CheckShopCard();
 
 #endif

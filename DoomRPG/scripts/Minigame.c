@@ -50,7 +50,7 @@ NamedScript void ItemRoulette(bool Rare)
 
         // Header.
         SetFont("BIGFONT");
-        HudMessage("ITEM ROULETTE");
+        HudMessage("- ITEM ROULETTE -");
         EndHudMessage(HUDMSG_PLAIN, 0, "Gold", 235.1, 25.0, 0.05);
 
         // Help

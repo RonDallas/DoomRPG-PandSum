@@ -1,3 +1,3 @@
-startuptitle = "Doom RPG SE Rebalance (2024-03-21)"
+startuptitle = "Doom RPG SE Rebalance (2024-03-23)"
 startupcolors = "0092FF", "000000"
 startuptype = "Hexen"
