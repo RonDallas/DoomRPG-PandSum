@@ -233,7 +233,7 @@ void DrawMainMenu(fixed X, fixed Y)
     // Show mission info when holding specific input keys
     if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()) && Player.Mission.Active)
     {
-        DrawMissionInfo(&Player.Mission, X + 16, Y + 188, true);
+        DrawMissionInfo(&Player.Mission, X - 20.0, Y + 188, true);
         return;
     }
 

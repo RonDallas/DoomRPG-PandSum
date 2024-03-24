@@ -187,9 +187,18 @@ NamedScript DECORATE void UseCrate(int ID)
     {
         SetHudSize(GetActivatorCVar("drpg_menu_width"), GetActivatorCVar("drpg_menu_height"), true);
 
+        // Draw cords
+        fixed X = GetActivatorCVar("drpg_menu_x");
+        fixed Y = GetActivatorCVar("drpg_menu_y");
+
+        // Draw Border
+        // These are pushed back a bit so the border doesn't overlap anything
+        if (GetActivatorCVar("drpg_menu_background_border"))
+            DrawBorder("Bor", -1, 8, X + (-5.0), Y + (-3.0), 470, 470);
+
         SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
 
-        DrawCrate();
+        DrawCrate(X, Y);
 
         Delay(1);
 
@@ -1246,7 +1255,7 @@ bool CrateEmptyTID(int TID)
     return false;
 }
 
-void DrawCrate()
+void DrawCrate(fixed X, fixed Y)
 {
     // Width/Height
     int Width = 9;
@@ -1254,23 +1263,26 @@ void DrawCrate()
 
     // Coordinates
     fixed BaseX;
-    fixed BaseY;
+    fixed BaseY = Y;
     fixed BoxX;
     fixed BoxY;
-    fixed X;
-    fixed Y;
+    fixed X1;
+    fixed Y1;
     fixed IconX;
     fixed IconY;
+
+    // Centre-ish
+    X -= 10.0;
 
     // Title
     SetFont("BIGFONT");
     HudMessage("UAC Supply Crate (%S\C-)", CrateRarityNames[Crates[Player.CrateID].Rarity]);
-    EndHudMessage(HUDMSG_PLAIN, 0, "Green", 24.1, 24.0, 0.05);
+    EndHudMessage(HUDMSG_PLAIN, 0, "Green", X + (470/2), Y + 24.0, 0.05);
 
     for (int i = 0; i < Height; i++)
     {
         // Reset base X
-        BaseX = 0.0;
+        BaseX = X;
 
         for (int j = 0; j < Width; j++)
         {
@@ -1284,8 +1296,8 @@ void DrawCrate()
             int IconYOff = Item->Sprite.YOff;
 
             // Setup X and Y
-            X = 26.0 + BaseX;
-            Y = 50.0 + BaseY;
+            X1 = 26.0 + BaseX;
+            Y1 = 50.0 + BaseY;
             BoxX = 48.0 + BaseX;
             BoxY = 72.0 + BaseY;
             IconX = 48.0 + BaseX;
@@ -1294,7 +1306,7 @@ void DrawCrate()
             IconY += IconYOff;
 
             // Icon
-            SetHudClipRect(X, Y, 44, 44);
+            SetHudClipRect(X1, Y1, 44, 44);
             if (Active)
                 if (Player.CrateIndex == Index)
                     PrintSpritePulse(Icon, 0, IconX, IconY, 0.75, 32.0, 0.25);
@@ -1317,7 +1329,7 @@ void DrawCrate()
             {
                 SetFont("BIGFONT");
                 HudMessage("%S", Name);
-                EndHudMessage(HUDMSG_PLAIN, 0, "White", 24.1, 344.1, 0.05);
+                EndHudMessage(HUDMSG_PLAIN, 0, "White", X + 24.1, Y + 350.1, 0.05);
             }
 
             // Increment X

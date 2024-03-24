@@ -15,7 +15,7 @@ void GenerateCrate(int, int);
 void CrateTakeItem();
 bool CrateEmpty(int);
 bool CrateEmptyTID(int);
-void DrawCrate();
+void DrawCrate(fixed, fixed);
 void CrateInput();
 
 #endif
