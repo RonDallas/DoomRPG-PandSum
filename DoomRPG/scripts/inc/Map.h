@@ -11,8 +11,8 @@ extern LevelInfo *DefaultOutpost;
 
 extern int CurrentWAD;
 
-extern int PreviousLevelNum[MAX_WADS];
-extern int PreviousPrimaryLevelNum[MAX_WADS];
+extern int NextLevelNum[MAX_WADS];
+extern int NextPrimaryLevelNum[MAX_WADS];
 
 extern bool UsedSecretExit;
 extern bool PreviousLevelSecret;
@@ -112,6 +112,7 @@ NamedScript void SinstormSpawner(int);
 NumberedScript(MAP_EXIT_SCRIPTNUM) MapSpecial void MapExit(bool, bool, int, int, int);
 NumberedScript(MAP_EXIT_SCRIPTNUM) MapSpecial void MapExitTeleport(int, int, int);
 NamedScript MapSpecial void AddUnknownMap(str, str, int, int);
+void fAddUnknownMap(str, str, int, int, int);
 
 int LevelSort(void const *, void const *);
 void AddAdditionalMonsters();

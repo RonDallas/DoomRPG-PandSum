@@ -114,6 +114,10 @@ struct CharSaveInfo_S
     // Auto-Sell
     int ItemAutoMode[ITEM_CATEGORIES][ITEM_MAX];
 
+    // Map Level Number
+    int NextLevelNum;
+    int NextPrimaryLevelNum;
+
     // ----- COMPATIBILITY EXTENSIONS -----
 
     // Compatibility Handling - DoomRL Arsenal

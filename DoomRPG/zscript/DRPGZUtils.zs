@@ -481,6 +481,7 @@ class DRPGZUtilities
             "drpg_popoffs_drawdistance",
             "drpg_virtual_credits",
             "drpg_noclip_credits",
+            //"drpg_char_load_maplevel",
             "drpg_startmap",
             "drpg_addstartmap",
             "drpg_start_credits",

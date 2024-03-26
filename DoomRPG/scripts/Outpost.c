@@ -521,7 +521,7 @@ NamedScript MapSpecial void LevelTransport()
     // Draw cords
     fixed mX = GetActivatorCVar("drpg_menu_x");
     fixed mY = GetActivatorCVar("drpg_menu_y");
-    X += mX;
+    X += mX - 20.0;
     Y += mY + 30.0;
 
     // if you're already in a menu, terminate
@@ -573,10 +573,10 @@ NamedScript MapSpecial void LevelTransport()
         HudMessage("- Level Transporter -");
         EndHudMessage(HUDMSG_FADEOUT, MENU_ID, "Teal", mX + (470/2), mY + 20.1, 0.05, 0.025);
 
-        str TitleColor = "Gold";
+        str TitleColor = "Dark Grey";
 
         if (TeleDest->NeedsRealInfo || !(TeleDest->Completed))
-            TitleColor = "Orange";
+            TitleColor = "Grey";
         else if (TeleDest->AllBonus)
             TitleColor = "Green";
 

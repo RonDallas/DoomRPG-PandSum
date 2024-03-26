@@ -27,9 +27,10 @@ int KnownLevelCount[MAX_WADS];
 // 1 = Extra Wad #1 (E1M1 with WadSmoosh, for example)
 int CurrentWAD;
 
-int PreviousLevelNum[MAX_WADS];
-int PreviousPrimaryLevelNum[MAX_WADS];
+int NextLevelNum[MAX_WADS];
+int NextPrimaryLevelNum[MAX_WADS];
 
+bool OutpostAdded;
 bool UsedSecretExit;
 bool WaitingForReplacements;
 
@@ -109,8 +110,8 @@ NamedScript Type_OPEN void MapInit()
         CurrentSkill = GameSkill() - 1;
         UsedSecretExit = false;
         PreviousLevelSecret = false;
-        PreviousLevelNum[CurrentWAD] = StartMapNum - 1;
-        PreviousPrimaryLevelNum[CurrentWAD] = StartMapNum - 1;
+        NextLevelNum[CurrentWAD] = StartMapNum;
+        NextPrimaryLevelNum[CurrentWAD] = StartMapNum;
         CurrentLevel = NULL;
         PreviousLevel = NULL;
         PassingEventTimer = GetCVar("drpg_mapevent_eventtime") * 35 * 60;
@@ -130,6 +131,8 @@ NamedScript Type_OPEN void MapInit()
 
             DefaultOutpost = OutpostMap;
 
+            OutpostAdded = true;
+
             LevelInfo *ArenaMap = klArrayUtils(1, 0, NULL);
             ArenaMap->LevelNum = 0;
             ArenaMap->LumpName = "DAM01";
@@ -146,7 +149,11 @@ NamedScript Type_OPEN void MapInit()
         if (ThingCountName("DRPGOutpostMarker", 0) == 0 && ThingCountName("DRPGArenaMarker", 0) == 0)
             SetCurrentWadWithString(StrParam("%tS", PRINTNAME_LEVEL));
 
-    CurrentLevel = FindLevelInfo();
+    // Don't add Outpost on every WAD since it already exists on WAD 0
+    if (OutpostAdded && ThingCountName("DRPGOutpostMarker", 0) > 0)
+        CurrentLevel = DefaultOutpost;
+    else
+        CurrentLevel = FindLevelInfo();
 
     // New map - We need to create new info for it
     if (CurrentLevel == NULL)
@@ -179,6 +186,8 @@ NamedScript Type_OPEN void MapInit()
 
             CurrentLevel->Event = UACEVENT_NONE;
             CurrentLevel->NeedsRealInfo = false;
+
+            OutpostAdded = true;
         }
         else if (ThingCountName("DRPGArenaMarker", 0) > 0)
         {
@@ -211,16 +220,7 @@ NamedScript Type_OPEN void MapInit()
 
             if (CurrentLevel->LevelNum == 0)
             {
-                PreviousLevelNum[CurrentWAD]++;
-                if (!UsedSecretExit)
-                    PreviousLevelNum[CurrentWAD] = ++PreviousPrimaryLevelNum[CurrentWAD];
-
-                if (PreviousLevelNum[CurrentWAD] > 1000)
-                    PreviousLevelNum[CurrentWAD] = 1000;
-                if (PreviousPrimaryLevelNum[CurrentWAD] > 1000)
-                    PreviousPrimaryLevelNum[CurrentWAD] = 1000;
-
-                CurrentLevel->LevelNum = PreviousLevelNum[CurrentWAD];
+                CurrentLevel->LevelNum = NextLevelNum[CurrentWAD];
                 CurrentLevel->SecretMap = UsedSecretExit;
             }
 
@@ -858,6 +858,20 @@ int FindLevelInfoIndex(str MapName)
     return 0; // Default to the Outpost because we don't actually know where we are
 }
 
+void fAddUnknownMap(str Name, str DisplayName, int WAD, int LevelNumber, int Secret)
+{
+    LevelInfo *NewMap = klArrayUtils(1, WAD, NULL);
+    NewMap->LumpName = Name;
+    NewMap->NiceName = DisplayName;
+    NewMap->LevelNum = LevelNumber;
+    NewMap->SecretMap = Secret;
+    NewMap->UACBase = false;
+    NewMap->UACArena = false;
+    NewMap->SecretMap = false;
+    NewMap->Completed = false;
+    NewMap->NeedsRealInfo = true;
+}
+
 // Used by Outpost ACS when loading (adds Starting Map)
 NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNumber, int Secret)
 {
@@ -1004,9 +1018,15 @@ NumberedScript(MAP_EXIT_SCRIPTNUM) MapSpecial void MapExit(bool Secret, bool Tel
 
     UsedSecretExit = Secret;
     PreviousLevel = CurrentLevel;
-    PreviousLevelNum[CurrentWAD] = CurrentLevel->LevelNum;
-    if (!CurrentLevel->SecretMap)
-        PreviousPrimaryLevelNum[CurrentWAD] = CurrentLevel->LevelNum;
+
+    NextLevelNum[CurrentWAD]++;
+    if (!UsedSecretExit)
+        NextLevelNum[CurrentWAD] = ++NextPrimaryLevelNum[CurrentWAD];
+
+    if (NextLevelNum[CurrentWAD] > 1000)
+        NextLevelNum[CurrentWAD] = 1000;
+    if (NextPrimaryLevelNum[CurrentWAD] > 1000)
+        NextPrimaryLevelNum[CurrentWAD] = 1000;
 
     // Compatibility Handling - DoomRL Arsenal Extended
     // Nomad - Increased Luck Stat for every Level completed
@@ -3574,9 +3594,6 @@ void SetCurrentWadWithString(str TargetWAD)
 // Extra WAD(s) --------------------------------------------------
 NamedScript void InitExtraWad()
 {
-    str Lump;
-    LevelInfo *TempMap;
-
     // Give a chance for data to load
     Delay(10);
 
@@ -3590,11 +3607,8 @@ NamedScript void InitExtraWad()
 
     LogMessage("\CdExtra WAD(s): Started Initialization", LOG_DEBUG);
 
-    // Get first lump
-    Lump = (str)ScriptCall("DRPGZExtraWad", "WadTools", 1, 0);
-
     // No compatible Extra WAD(s) detected
-    if (Lump == "-2")
+    if ((str)ScriptCall("DRPGZExtraWad", "WadTools", 1, 0) == "-2")
     {
         ExtraWadInit = true;
         LogMessage("\CdExtra WAD(s): None detected", LOG_DEBUG);
@@ -3604,6 +3618,9 @@ NamedScript void InitExtraWad()
     // Add all compatible Extra WAD(s) first lumps into the levels array
     for (int i = 0; i < MAX_WADS; i++)
     {
+        str Lump;
+        str HubLump;
+        str HubNiceName;
         Lump = (str)ScriptCall("DRPGZExtraWad", "WadTools", 1, i);
 
         // ACS relies on -1 and -2 to stop
@@ -3614,36 +3631,34 @@ NamedScript void InitExtraWad()
         else if (Lump == "-2")
             break;
 
-        // Hub detection
+        // Initial Hub detection
         if (!ExtraWadHasHub && Contains(Lump, ":HUB"))
         {
-            // Hub level stored alongside WAD 0 for quick selection
-            TempMap = klArrayUtils(1, 0, NULL);
-            // Get Wad's nice name
-            TempMap->NiceName = (str)ScriptCall("DRPGZExtraWad", "GetNiceName", 0);
             // Exclude ":HUB" from Lump
-            Lump = StrLeft(Lump, (StrLen(Lump)-4));
+            HubLump = StrLeft(Lump, (StrLen(Lump)-4));
+            // Get WAD's nice name
+            HubNiceName = (str)ScriptCall("DRPGZExtraWad", "GetNiceName", 0);
+            // Add Hub to WAD 0
+            fAddUnknownMap(HubLump, HubNiceName, 0, 0, 0);
+
+            LogMessage(StrParam("Extra WAD(s): Added Hub: %S", HubLump), LOG_DEBUG);
 
             ExtraWadHasHub = true;
         }
+        // Add levels
         else
         {
             // Keeps track of how many Extra WAD(s) are loaded
             KnownWadCount++;
-            TempMap = klArrayUtils(1, KnownWadCount, NULL);
-            TempMap->NiceName = "Unknown Area";
+
+            // Need +1 for correct level number tracking
+            NextLevelNum[KnownWadCount]++;
+            NextPrimaryLevelNum[KnownWadCount]++;
+
+            fAddUnknownMap(Lump, "Unknown Area", KnownWadCount, 0, 0);
         }
 
-        TempMap->LumpName = Lump;
-        TempMap->LevelNum = 0;
-        TempMap->SecretMap = 0;
-        TempMap->UACBase = false;
-        TempMap->UACArena = false;
-        TempMap->SecretMap = false;
-        TempMap->Completed = false;
-        TempMap->NeedsRealInfo = true;
-
-        LogMessage(StrParam("Extra WAD(s): Added Lump: %S", TempMap->LumpName), LOG_DEBUG);
+        LogMessage(StrParam("Extra WAD(s): Added Lump: %S", Lump), LOG_DEBUG);
     }
 
     // All done, clear array

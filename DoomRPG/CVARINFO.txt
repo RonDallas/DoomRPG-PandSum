@@ -296,6 +296,9 @@ server  int     drpg_popoffs_drawdistance = 1650;
 server  bool    drpg_virtual_credits = false;
 server  bool    drpg_noclip_credits = false;
 
+// Load Character
+user    bool    drpg_char_load_maplevel = true;
+
 // Stored Character
 user    int     drpg_char_data_len = 0;
 user    string  drpg_char_data_0 = "";

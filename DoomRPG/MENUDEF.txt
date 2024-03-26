@@ -854,6 +854,10 @@ OptionMenu "DoomRPGCharacter"
     SafeCommand "Load Character", "pukename LoadCharacter", "Are you sure?"
     SafeCommand "Clear Character", "pukename ClearCharacter", "Are you sure?"
     StaticText ""
+
+    StaticText "Options", 1
+    Option "Load Map Level", "drpg_char_load_maplevel", "OnOff"
+    StaticText ""
 }
 
 OptionMenu "DoomRPGStart"
