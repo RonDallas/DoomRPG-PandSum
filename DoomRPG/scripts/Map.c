@@ -3658,9 +3658,9 @@ NamedScript void InitExtraWad()
             NextPrimaryLevelNum[KnownWadCount]++;
 
             fAddUnknownMap(Lump, "Unknown Area", KnownWadCount, 0, 0);
-        }
 
-        LogMessage(StrParam("Extra WAD(s): Added Lump: %S", Lump), LOG_DEBUG);
+            LogMessage(StrParam("Extra WAD(s): Added Lump: %S", Lump), LOG_DEBUG);
+        }
     }
 
     // All done, clear array
