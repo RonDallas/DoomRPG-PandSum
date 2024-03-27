@@ -847,6 +847,18 @@ NamedScript MapSpecial void LevelTransport()
                 ActivatorSound("menu/move", 127);
                 LevelChoice += 10;
             }
+
+            // -+3 Selection
+            if ((CheckInput(BT_FORWARD, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
+            {
+                ActivatorSound("menu/move", 127);
+                CurrentWAD += 3;
+            }
+            else if ((CheckInput(BT_BACK, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
+            {
+                ActivatorSound("menu/move", 127);
+                CurrentWAD -= 3;
+            }
         }
         else
         {

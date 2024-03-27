@@ -239,7 +239,7 @@ class DRPGZExtraWad : StaticEventHandler
             "/MAPS/HLB01.WAD",
             "/MAPS/HP101.WAD",
             "/MAPS/HP103.WAD",
-            "/MAPS/HPH.WAD",
+            "/MAPS/HPH01.WAD",
             "/MAPS/HR01.WAD",
             "/MAPS/HR201.WAD",
             "/MAPS/INT01.WAD",
@@ -271,7 +271,7 @@ class DRPGZExtraWad : StaticEventHandler
             "/MAPS/TT201.WAD",
             "/MAPS/TT301.WAD",
             "/MAPS/TU01.WAD",
-            "/MAPS/USC01.WAD",
+            "/MAPS/UAC01.WAD",
             "/MAPS/UHR01.WAD",
             "/MAPS/VAL01.WAD",
             "/MAPS/VAN01.WAD",
@@ -457,7 +457,10 @@ class DRPGZExtraWad : StaticEventHandler
                 // Check if lump exists (mainly for WadSmoosh but good to have)
                 // Hub gets through so ACS can detect it
                 if (WADS.CheckNumForFullName((Lump)) == -1 && Lump.RightIndexOf(":HUB") == -1)
+                {
+                    //console.printf("DEBUG: Extra WAD(s): Invalid Lump %s", Lump);
                     rValue = "-1";
+                }
                 else
                 {
                     // Snip path

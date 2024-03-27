@@ -3621,6 +3621,7 @@ NamedScript void InitExtraWad()
         str Lump;
         str HubLump;
         str HubNiceName;
+
         Lump = (str)ScriptCall("DRPGZExtraWad", "WadTools", 1, i);
 
         // ACS relies on -1 and -2 to stop
@@ -3638,6 +3639,7 @@ NamedScript void InitExtraWad()
             HubLump = StrLeft(Lump, (StrLen(Lump)-4));
             // Get WAD's nice name
             HubNiceName = (str)ScriptCall("DRPGZExtraWad", "GetNiceName", 0);
+
             // Add Hub to WAD 0
             fAddUnknownMap(HubLump, HubNiceName, 0, 0, 0);
 
