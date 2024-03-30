@@ -1,2 +1,4 @@
 Name=WadSmoosh
+Conflicts=Compendium
+Conflicts=Lexicon
 Mods=doom_complete.pk3

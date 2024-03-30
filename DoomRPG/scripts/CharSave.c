@@ -1195,6 +1195,7 @@ NamedScript void LoadCharDataFromString(CharSaveInfo *Info, char const *String)
 
     if (DebugLog)
         Log("\CdDEBUG: \C-CRC for recalled character is %d (%X)", Checksum, Checksum);
+
     LogMessage(StrParam("Version:%d",Version),LOG_DEBUG);
     Info->Version = Version;
 

@@ -3122,20 +3122,20 @@ void MenuHelp()
             if (ExtraWadActive)
             {
                 if (GetActivatorCVar("drpg_menu_input_axes"))
-                    HudMessage("Select Level: \Cd%S/%S/%S/%S\C-\nSelect IWAD: \Cd%S + %S/%S\C-\nTeleport to Level: \Cd%S\C-\nExit: \Cd%S\C-",
-                               "Up", "Down", "Left", "Right", "Run", "Left", "Right", "Use", "Menu");
+                    HudMessage("Select Level: \Cd%S/%S\C-\nSelect Level (+-3): \Cd%S/%S\C-\nSelect IWAD: \Cd%S + %S/%S\C-\nSelect IWAD (+-3): \Cd%S + %S/%S\C-\nTeleport to Level: \Cd%S\C-\nExit: \Cd%S\C-",
+                               "Left", "Right", "Up", "Down", "Run", "Left", "Right", "Run", "Up", "Down", "Use", "Menu");
                 else
-                    HudMessage("Select Level: \Cd%jS/%jS/%jS/%jS\C-\nSelect IWAD: \Cd%jS + %jS/%jS\C-\nSelect IWAD (-+3): \Cd%jS + %jS/%jS\C-\nTeleport to Level: \Cd%jS\C-\nExit: \Cd%jS\C-",
-                               "+forward", "+back", "+moveleft", "+moveright", "+speed", "+moveleft", "+moveright", "+speed", "+forward", "+back", "+use", "drpg_menu");
+                    HudMessage("Select Level: \Cd%jS/%jS\C-\nSelect Level (+-3): \Cd%jS/%jS\C-\nSelect IWAD: \Cd%jS + %jS/%jS\C-\nSelect IWAD (+-3): \Cd%jS + %jS/%jS\C-\nTeleport to Level: \Cd%jS\C-\nExit: \Cd%jS\C-",
+                               "+moveleft", "+moveright", "+forward", "+back", "+speed", "+moveleft", "+moveright", "+speed", "+forward", "+back", "+use", "drpg_menu");
             }
             else
             {
                 if (GetActivatorCVar("drpg_menu_input_axes"))
-                    HudMessage("Select Level: \Cd%S/%S/%S/%S\C-\nTeleport to Level: \Cd%S\C-\nExit: \Cd%S\C-",
-                               "Up", "Down", "Left", "Right", "Use", "Menu");
+                    HudMessage("Select Level: \Cd%S/%S\C-\nSelect Level (+-3): \Cd%S/%S\C-\nTeleport to Level: \Cd%S\C-\nExit: \Cd%S\C-",
+                               "Left", "Right", "Up", "Down", "Use", "Menu");
                 else
-                    HudMessage("Select Level: \Cd%jS/%jS/%jS/%jS\C-\nTeleport to Level: \Cd%jS\C-\nExit: \Cd%jS\C-",
-                               "+forward", "+back", "+moveleft", "+moveright", "+use", "drpg_menu");
+                    HudMessage("Select Level: \Cd%jS/%jS\C-\nSelect Level (+-3): \Cd%jS/%jS\C-\nTeleport to Level: \Cd%jS\C-\nExit: \Cd%jS\C-",
+                               "+moveleft", "+moveright", "+forward", "+back", "+use", "drpg_menu");
             }
             EndHudMessage(HUDMSG_PLAIN, 0, "White", X, Y, 0.05);
             break;

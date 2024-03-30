@@ -806,21 +806,27 @@ NamedScript MapSpecial void LevelTransport()
         }
 
         // Level Input
+        if ((CheckInput(BT_MOVELEFT, KEY_ONLYPRESSED, false, PlayerNumber())))
+        {
+            ActivatorSound("menu/move", 127);
+            LevelChoice--;
+        }
+        else if ((CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber())))
+        {
+            ActivatorSound("menu/move", 127);
+            LevelChoice++;
+        }
+
+        // +-3 Selection
         if (CheckInput(BT_FORWARD, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
             ActivatorSound("menu/move", 127);
-            if (LevelChoice < GetKnownLevelCount(CurrentWAD) - 1)
-                LevelChoice++;
-            else
-                LevelChoice = 0;
+            LevelChoice += 3;
         }
-        if (CheckInput(BT_BACK, KEY_ONLYPRESSED, false, PlayerNumber()))
+        else if (CheckInput(BT_BACK, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
             ActivatorSound("menu/move", 127);
-            if (LevelChoice > 0)
-                LevelChoice--;
-            else
-                LevelChoice = GetKnownLevelCount(CurrentWAD) - 1;
+            LevelChoice -= 3;
         }
 
         // Extra WAD(s) Input
@@ -831,24 +837,13 @@ NamedScript MapSpecial void LevelTransport()
                 ActivatorSound("menu/move", 127);
                 CurrentWAD--;
             }
-            else if (CheckInput(BT_MOVELEFT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice > 0)
-            {
-                ActivatorSound("menu/move", 127);
-                LevelChoice -= 10;
-            }
-
-            if ((CheckInput(BT_MOVERIGHT, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
+            else if ((CheckInput(BT_MOVERIGHT, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
             {
                 ActivatorSound("menu/move", 127);
                 CurrentWAD++;
             }
-            else if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice < GetKnownLevelCount(CurrentWAD) - 1)
-            {
-                ActivatorSound("menu/move", 127);
-                LevelChoice += 10;
-            }
 
-            // -+3 Selection
+            // +-3 Selection
             if ((CheckInput(BT_FORWARD, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
             {
                 ActivatorSound("menu/move", 127);
@@ -858,20 +853,6 @@ NamedScript MapSpecial void LevelTransport()
             {
                 ActivatorSound("menu/move", 127);
                 CurrentWAD -= 3;
-            }
-        }
-        else
-        {
-            if (CheckInput(BT_MOVELEFT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice > 0)
-            {
-                ActivatorSound("menu/move", 127);
-                LevelChoice -= 10;
-            }
-
-            if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice < GetKnownLevelCount(CurrentWAD) - 1)
-            {
-                ActivatorSound("menu/move", 127);
-                LevelChoice += 10;
             }
         }
 
