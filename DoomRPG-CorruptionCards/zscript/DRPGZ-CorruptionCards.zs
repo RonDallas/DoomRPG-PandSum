@@ -17,6 +17,7 @@ class CCards_MonsterInit : EventHandler
                 "CCards_Actor_PilotedMech",
                 "CCards_Actor_AllyMarine",
                 "CCards_Actor_PossessedMarine",
+                "CCards_Actor_Werewolf",
                 "CCards_SpookySkeleton"
             };
 

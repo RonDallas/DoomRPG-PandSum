@@ -67,7 +67,7 @@ Class CCards_Global : Thinker
 		vc.Init();		
 		rules = new ("CCards_Rules");
 		rules.global = self;
-		ccversion = "5.1c";
+		ccversion = "5.5";
 		scoreneeded = random(4, 8);
 		return self;
 	}
@@ -245,16 +245,57 @@ Class CCards_Game : EventHandler
 			//Console.Printf("wild card score: " .. g.global.wildscore);
 		}
 
+		if(e.name == "showmonsterinfo")
+		{
+			for(int i; i<global.foundMonsters.Size(); i++)
+			{
+				String s = global.foundmonsters[i].monsterclass.GetClassName() .. ", projectile: ";
+				if(global.foundmonsters[i].projectile)
+				{
+					s = s .. global.foundmonsters[i].projectile.GetClassName();
+				}
+				Console.Printf(s .. " - " .. GetDefaultByType(global.foundMonsters[i].monsterClass).bBOSS);
+			}
+		}
+
+		if(e.name == "spawnallmonsters")
+		{
+			for(int i; i<global.foundMonsters.Size(); i++)
+			{
+
+				Actor.Spawn(global.foundmonsters[i].monsterclass, players[e.player].mo.pos);
+			}
+		}
+
 		if(e.name == "cardtags")
 		{
+			Array<String> tags;
+
 			for(int i; i<global.vc.allcards.Size(); i++)
 			{
 				String s = global.vc.allcards[i].GetClassName() .. " - ";
+
 				for(int t = 0; t < global.vc.allcards[i].tags.Size(); t++)
 				{
+					if(global.vc.allcards[i].tags.Size() == 0)
+					{
+						continue;
+					}
+
+					if(tags.Find(global.vc.allcards[i].tags[t]) == tags.Size())
+					{
+						tags.Push(global.vc.allcards[i].tags[t]);
+					}
+
 					s = s .. global.vc.allcards[i].tags[t] .. "|";
+
 				}
-				Console.Printf(s);
+				Console.Printf(s .. "");
+			}
+
+			for(int i = 0; i<tags.Size(); i++)
+			{
+				Console.Printf(tags[i] .. "");
 			}
 
 		}
@@ -266,6 +307,26 @@ Class CCards_Game : EventHandler
 			Console.Printf(p.chosencard.GetClassName());
 
 			g.global.preloadedcards.Push(p);
+		}
+
+		if(e.name == "dumpprojectileusers")
+		{
+			for(int i; i<g.global.foundmonsters.Size();i++)
+			{
+				String s = global.foundmonsters[i].monsterClass.GetClassName();
+
+				if(global.foundmonsters[i].projectile)
+				{
+					s = s .. " - " .. global.foundmonsters[i].projectile.GetClassName();
+				}
+
+				if(global.foundmonsters[i].unsafeProjectile)
+				{
+					s = s .. " is UNSAFE!";
+				}
+
+				Console.Printf(s .. "");
+			}
 		}
 	}
 
@@ -478,6 +539,9 @@ Class CCards_Game : EventHandler
 				CCards_Functions.Log("* " .. publicdeck.Size() .. " cards currently active.");
 			}
 		}
+
+		CCards_MapTransitioner.RunThinkers();
+		CCards_StatueHandler.Init();
 		
 		isStarted = true;
 		//CallACS("CC_ACS_CardScrollerStart", deck.Size());
@@ -665,6 +729,7 @@ Class CCards_Game : EventHandler
 			{
 				if(players[i].mo)
 				{
+					// pistol starter breaks this
 					CCards_Actor_BodySwap bs = CCards_Actor_BodySwap(players[i].mo.FindInventory("CCards_Actor_BodySwap"));
 					if(bs)
 					{
@@ -821,7 +886,49 @@ Class CCards_Game : EventHandler
 				permanentChoice = true;
 				global.permacount = global.rules.permaprogression + 1; 
 			}
+		}
 
+		if(publicdeck.Size() == 10 && global.rules.cvarname == "ccards_dailybest")
+		{
+			int d = CCards_Functions.GetDailyNo(global.rules.forcedseed);
+			if(!CCards_CardList.HasUnlockedDaily(d))
+			{
+				Console.Printf("\cvDaily Deck \c-" .. Ccards_Functions.GetDeckInfo(global.chosendeck, 0) .. " \cvhas been unlocked!");
+				S_Sound("corruptioncards/unlockdeck", CHAN_UI);
+
+				let c = Cvar.GetCvar("ccards_dailyunlocks");
+				String s;
+
+				if(c)
+				{
+					s = c.GetString();
+				}
+				
+				string newstring;
+
+				for(int i; i<global.vc.dailydecks.Size(); i++)
+				{
+					if(i == d)
+					{
+						newstring = newstring .. "1";
+						continue;
+					}
+
+					if(s.CharAt(i) == "" || s.CharAt(i) == "0")
+					{
+						newstring = newstring .. "0";
+						continue;
+					}
+
+					if(s.CharAt(i) == "1")
+					{
+						newstring = newstring .. "1";
+					}
+				}
+
+				//Console.PrintF("" .. newstring);
+				c.SetString(newstring);
+			}
 		}
 
 		/*
@@ -843,7 +950,7 @@ Class CCards_Game : EventHandler
 		gen.global = global;
 		gen.game = self;
 
-		//global.collection.Clear()
+		//global.collection.Clear()z
 		gen.GenerateHand();
 		gen.PreloadCards();
 
@@ -887,6 +994,13 @@ Class CCards_Game : EventHandler
 		if(e.Thing)
 		{
 			e.Thing.GiveInventory("CCards_Token_Crushed", 1);
+
+			CCard_CrushGhosts c = CCard_CrushGhosts(CCards_Functions.FindCardByName("CCard_CrushGhosts"));
+
+			if(c)
+			{
+				c.OnSpawn(e.Thing);
+			}
 		}
 	}
 	
@@ -971,6 +1085,7 @@ Class CCards_Game : EventHandler
     }
 
 	static const int teleportspecials[] = {70, 71, 154, 215};
+	static const int exitspecials[] = {74, 75, 243, 244};
 
 	override void WorldLineActivated (WorldEvent e) 
 	{
@@ -1045,6 +1160,35 @@ Class CCards_Game : EventHandler
 				w.wildline = wildcardLine;
 				wildcardLine = null;
 				w.angle = e.Thing.angle;
+			}
+
+			return;
+		}
+
+		if(e.Thing && e.Thing.player && e.ActivationType == SPAC_Use)
+		{
+			CCards_Actor_AnnoyingDevil d = CCards_Actor_AnnoyingDevil(CCards_Actor_AnnoyingDevil.Find(e.Thing));
+			if(d)
+			{
+				e.ShouldActivate = d.DenySwitch(e.ActivatedLine);
+				return;
+			}
+		}
+
+		if(e.Thing && e.Thing.player)
+		{
+			for(int i; i<exitspecials.Size(); i++)
+			{
+				if(e.ActivatedLine.special == exitspecials[i])
+				{
+					CCard_Lap2 l2 = CCard_Lap2(CCards_Functions.FindCardByName("CCard_Lap2"));
+
+					if(l2)
+					{
+						e.ShouldActivate = !l2.Trigger(e.Thing);
+						return;
+					}
+				}
 			}
 		}
 	}
