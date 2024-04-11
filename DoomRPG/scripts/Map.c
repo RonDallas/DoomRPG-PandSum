@@ -127,6 +127,7 @@ NamedScript Type_OPEN void MapInit()
             OutpostMap->Completed = true;
             OutpostMap->UACBase = true;
             OutpostMap->UACArena = false;
+            OutpostMap->EWHub = false;
             OutpostMap->NeedsRealInfo = false;
 
             DefaultOutpost = OutpostMap;
@@ -138,7 +139,9 @@ NamedScript Type_OPEN void MapInit()
             ArenaMap->LumpName = "DAM01";
             ArenaMap->NiceName = "Arena! Oblige Edition.";
             ArenaMap->Completed = true;
+            ArenaMap->UACBase = false;
             ArenaMap->UACArena = true;
+            ArenaMap->EWHub = false;
             ArenaMap->NeedsRealInfo = false;
         }
     }
@@ -183,6 +186,7 @@ NamedScript Type_OPEN void MapInit()
             CurrentLevel->Completed = true;
             CurrentLevel->UACBase = true;
             CurrentLevel->UACArena = false;
+            CurrentLevel->EWHub = false;
 
             CurrentLevel->Event = UACEVENT_NONE;
             CurrentLevel->NeedsRealInfo = false;
@@ -200,6 +204,7 @@ NamedScript Type_OPEN void MapInit()
             CurrentLevel->Completed = true;
             CurrentLevel->UACBase = false;
             CurrentLevel->UACArena = true;
+            CurrentLevel->EWHub = false;
 
             CurrentLevel->Event = UACEVENT_NONE;
             CurrentLevel->NeedsRealInfo = false;
@@ -232,6 +237,7 @@ NamedScript Type_OPEN void MapInit()
 
             CurrentLevel->UACBase = false;
             CurrentLevel->UACArena = false;
+            CurrentLevel->EWHub = false;
 
             CurrentLevel->Completed = false;
 
@@ -333,7 +339,7 @@ NamedScript Type_OPEN void MapInit()
         NomadModPacksLoad();
 
     // [KS] These maps set themselves up, so nothing more to do.
-    if (CurrentLevel->UACBase || CurrentLevel->UACArena || ExtraWadHasHub)
+    if (CurrentLevel->UACBase || CurrentLevel->UACArena || CurrentLevel->EWHub)
     {
         CurrentLevel->Init = true;
         return;
@@ -858,20 +864,6 @@ int FindLevelInfoIndex(str MapName)
     return 0; // Default to the Outpost because we don't actually know where we are
 }
 
-void fAddUnknownMap(str Name, str DisplayName, int WAD, int LevelNumber, int Secret)
-{
-    LevelInfo *NewMap = klArrayUtils(1, WAD, NULL);
-    NewMap->LumpName = Name;
-    NewMap->NiceName = DisplayName;
-    NewMap->LevelNum = LevelNumber;
-    NewMap->SecretMap = Secret;
-    NewMap->UACBase = false;
-    NewMap->UACArena = false;
-    NewMap->SecretMap = false;
-    NewMap->Completed = false;
-    NewMap->NeedsRealInfo = true;
-}
-
 // Used by Outpost ACS when loading (adds Starting Map)
 NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNumber, int Secret)
 {
@@ -885,8 +877,9 @@ NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNu
     if (ExtraWadActive)
         return;
 
+    // This map was already unlocked, so ignore it
     if (FindLevelInfo(Name) != NULL)
-        return; // This map was already unlocked, so ignore it
+        return;
 
     LevelInfo *NewMap = klArrayUtils(1, CurrentWAD, NULL);
     NewMap->LumpName = Name;
@@ -895,6 +888,7 @@ NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNu
     NewMap->SecretMap = Secret;
     NewMap->UACBase = false;
     NewMap->UACArena = false;
+    NewMap->EWHub = false;
     NewMap->SecretMap = false;
     NewMap->Completed = false;
     NewMap->NeedsRealInfo = true;
@@ -3641,7 +3635,17 @@ NamedScript void InitExtraWad()
             HubNiceName = (str)ScriptCall("DRPGZExtraWad", "GetNiceName", 0);
 
             // Add Hub to WAD 0
-            fAddUnknownMap(HubLump, HubNiceName, 0, 0, 0);
+            LevelInfo *NewMap = klArrayUtils(1, 0, NULL);
+            NewMap->LumpName = HubLump;
+            NewMap->NiceName = HubNiceName;
+            NewMap->LevelNum = 0;
+            NewMap->SecretMap = false;
+            NewMap->UACBase = false;
+            NewMap->UACArena = false;
+            NewMap->EWHub = true;
+            NewMap->SecretMap = false;
+            NewMap->Completed = false;
+            NewMap->NeedsRealInfo = true;
 
             LogMessage(StrParam("Extra WAD(s): Added Hub: %S", HubLump), LOG_DEBUG);
 
@@ -3657,7 +3661,17 @@ NamedScript void InitExtraWad()
             NextLevelNum[KnownWadCount]++;
             NextPrimaryLevelNum[KnownWadCount]++;
 
-            fAddUnknownMap(Lump, "Unknown Area", KnownWadCount, 0, 0);
+            LevelInfo *NewMap = klArrayUtils(1, KnownWadCount, NULL);
+            NewMap->LumpName = Lump;
+            NewMap->NiceName = "Unknown Area";
+            NewMap->LevelNum = 0;
+            NewMap->SecretMap = false;
+            NewMap->UACBase = false;
+            NewMap->UACArena = false;
+            NewMap->EWHub = false;
+            NewMap->SecretMap = false;
+            NewMap->Completed = false;
+            NewMap->NeedsRealInfo = true;
 
             LogMessage(StrParam("Extra WAD(s): Added Lump: %S", Lump), LOG_DEBUG);
         }

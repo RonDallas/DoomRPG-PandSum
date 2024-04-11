@@ -472,9 +472,10 @@ struct LevelInfo_S
     // we need to replace the placeholder info with real info.
     bool NeedsRealInfo;
 
-    // Map is an Outpost or an Arena
+    // Map Type
     bool UACBase;
     bool UACArena;
+    bool EWHub;
 
     // Name data
     str LumpName;
