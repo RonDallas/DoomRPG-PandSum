@@ -1,0 +1,209 @@
+AddOptionMenu "OptionsMenu" {
+	Submenu "Relighting Settings", "relighting_Settings"
+}
+
+OptionMenu "relighting_Settings"
+{
+	Class "relighting_OptionMenu"
+	Title "Relighting Settings"
+	StaticText "*Requires Restart"
+	StaticText "(Others Affect New Spawns)"
+	StaticText ""
+	StaticText "S u b m e n u s", "GOLD"
+	StaticText ""
+	SubMenu "  Dynamic Lights Added to Spawns", "relighting_dynamic_lights"
+	SubMenu "*Sector Light Placement and Size", "relighting_sector_lights"
+	SubMenu "    How Light Interacts with Map", "relighting_sector_light_options"
+	SubMenu "  Sprite Shadows Added to Spawns", "relighting_shadows"
+	SubMenu "                  Shadow Options", "relighting_shadow_options"
+	SubMenu "   *Adding/Reading Color Options", "relighting_color"
+	SubMenu "               GL Shader Options", "relighting_shader"
+	SubMenu "                   *Misc Options", "relighting_misc"
+	Option "   Reset All Settings To Defaults", "rl_reset", "OnOff"
+}
+OptionMenu "relighting_dynamic_lights"
+{
+	Class "relighting_dynamic_lights_Menu"
+	Option "       Missile Lights", "rl_missile_lights", "OnOff"
+	Slider "                 Size", "rl_missile_light_size", 0, 25, 1, 0, "rl_missile_lights"
+	Slider "                Scale", "rl_missile_light_scale", 0, 4.0, 0.1, 1, "rl_missile_lights"
+	Slider "         Sector Limit", "rl_missile_light_limit", 1, 10, 1, 1, "rl_missile_lights"
+	Option "       Monster Lights", "rl_monster_lights", "OnOff"
+	Slider "                 Size", "rl_monster_light_size", 0, 25, 1, 0, "rl_monster_lights"
+	Slider "                Scale", "rl_monster_light_scale", 0, 4.0, 0.1, 1, "rl_monster_lights"
+	Option "         Other Lights", "rl_other_lights", "OnOff"
+	Slider "                 Size", "rl_other_light_size", 0, 25, 1, 0, "rl_other_lights"
+	Slider "                Scale", "rl_other_light_scale", 0, 4.0, 0.1, 1, "rl_other_lights"
+	Option "               Preset", "rl_dynamic_lights_preset", "rl_dynamic_lights_preset_Options"
+}
+OptionValue "rl_dynamic_lights_preset_Options"
+{
+	0, "None"
+	1, "Reset to Defaults"
+	2, "Performance"
+	3, "More light"
+	4, "Less light"
+}
+OptionMenu "relighting_sector_lights"
+{
+	Class "relighting_sector_lights_Menu"
+	Option "       *Sector Lights", "rl_sector_lights", "OnOff"
+	Option "   *Decorative Lights", "rl_decorative_lights", "OnOff"
+	Slider "            *Area Min", "rl_sector_area_min", 0, 512, 1, 0
+	Slider "    *Area Max (0 inf)", "rl_sector_area_max", 0, 14366, 512, 0
+	Slider "                 *Min", "rl_sector_light_min", 0, 255, 1, 0
+	Slider "                *Size", "rl_sector_light_size", 0, 25, 0, 1
+	Slider "               *Scale", "rl_sector_light_scale", 0, 4.0, 0.1, 1
+	Option "               Preset", "rl_sector_lights_preset", "rl_sector_lights_preset_Options"
+}
+OptionValue "rl_sector_lights_preset_Options"
+{
+	0, "None"
+	1, "Reset to Defaults"
+	2, "Performance"
+	3, "More light"
+	4, "Less light"
+}
+OptionMenu "relighting_sector_light_options"
+{
+	Class "relighting_sector_light_options_Menu"
+	Slider "   Sidedef Add Lights", "rl_sidedef_add", 0, 255, 1, 0
+	Slider "   Sidedef Sub Lights", "rl_sidedef_subtract", 0, 255, 1, 0
+	Option "*Subtractive Lighting", "rl_subtractive_lighting", "OnOff"
+	Option "     *Dynamic Sectors", "rl_sectors", "OnOff"
+	Option "      *Smart Lighting", "rl_smart_lighting", "OnOff"
+	Option "       *Window Lights", "rl_window_lights", "OnOff"
+	Option "         Death Lights", "rl_death_lights", "OnOff"
+	Option "      *Texture Lights", "rl_texture_lights", "OnOff"
+	Slider "*Texture Light Factor", "rl_texture_light_factor", 0.75, 1.25, .001, 3, "rl_texture_lights"
+	Option "   *Volume Adjustment", "rl_vol_adj_sectors", "OnOff"
+	Option "         *Dim Sectors", "rl_dim_sectors", "OnOff"
+	Slider "                 *Min", "rl_dim_min", 0.2, 1.0, .01, 2, "rl_dim_sectors"
+	Option "               Preset", "rl_sector_light_options_preset", "rl_sector_light_options_preset_Options"
+}
+OptionValue "rl_sector_light_options_preset_Options"
+{
+	0, "None"
+	1, "Reset to Defaults"
+	2, "Performance"
+	3, "More light"
+	4, "Less light"
+}
+OptionMenu "relighting_shadows"
+{
+	Class "relighting_shadows_Menu"
+	Option "       Player Shadows", "rl_player_shadows", "OnOff"
+	Option "      Shadows -> Self", "rl_player_shadows_on_self", "OnOff", "rl_player_shadows"
+	Option "   Shadows -> Sprites", "rl_player_shadows_on_sprites", "OnOff", "rl_player_shadows"
+	Option "      Missile Shadows", "rl_missile_shadows", "OnOff"
+	Slider "          Max (0 inf)", "rl_missile_max_shadows", 0, 2048, 1, 0, "rl_missile_shadows"
+	Option "      Monster Shadows", "rl_monster_shadows", "OnOff"
+	Option "   Shadows -> Sprites", "rl_monster_shadows_on_sprites", "OnOff", "rl_monster_shadows"
+	Slider "          Max (0 inf)", "rl_monster_max_shadows", 0, 2048, 1, 0, "rl_monster_shadows"
+	Option "       GLDEFS Shadows", "rl_gldefs_shadows", "OnOff"
+	Option "       Pickup Shadows", "rl_pickup_shadows", "OnOff"
+	Option "        Solid Shadows", "rl_solid_shadows", "OnOff"
+	Option "        Other Shadows", "rl_other_shadows", "OnOff"
+	Slider "          Max (0 inf)", "rl_other_max_shadows", 0, 2048, 1, 0
+	Option "               Preset", "rl_shadows_preset", "rl_shadows_preset_Options"
+}
+OptionValue "rl_shadows_preset_Options"
+{
+	0, "None"
+	1, "Reset to Defaults"
+	2, "Performance"
+}
+OptionMenu "relighting_shadow_options"
+{
+	Class "relighting_shadow_options_Menu"
+	Slider "      Shadow Distance", "rl_shadow_distance", 64, 4096, 64, 0
+	Slider "         Shadow Scale", "rl_shadow_scale", 3.0, 6.0, 0.1, 1
+	Option "Most Accurate Shadows", "rl_distance3D", "OnOff"
+	Slider "      Shadow Lifespan", "rl_lifespan", 1, 12, 1, 0
+	Option "   Interpolate Angles", "rl_interpolate", "OnOff"
+	Option "  Actors Hide Shadows", "rl_blocking_actors", "OnOff"
+	Option "        Pitch Shadows", "rl_pitch_shadows", "OnOff"
+	Option "         Dual Shadows", "rl_dual_shadows", "OnOff"
+	Option " Long Casting Shadows", "rl_long_shadows", "OnOff"
+	Option "         Blur Shadows", "rl_blur_shadows", "OnOff"
+	Option "   Wall Shadows Alert", "rl_wall_shadows_alert", "OnOff"
+	StaticText ""
+	Slider "      Min Sprite Size", "rl_sprite_min", 1, 10, 1
+	Slider "      Max Sprite Size", "rl_sprite_max", 10, 255, 1
+	Slider "   Floor Shadow Alpha", "rl_shadow_alpha", 0.1, 1.0, .01, 2
+	Slider "    Wall Shadow Alpha", "rl_shadow_walpha", 0.1, 1.0, .01, 2
+	Option "               Preset", "rl_shadow_options_preset", "rl_shadow_options_preset_Options"
+}
+OptionValue "rl_shadow_options_preset_Options"
+{
+	0, "None"
+	1, "Reset to Defaults"
+	2, "Performance"
+	3, "More shadow"
+	4, "Less shadow"
+}
+OptionMenu "relighting_color"
+{
+	Class "relighting_color_menu"
+	Option "     *Colored Sectors", "rl_colored_sectors", "OnOff"
+	Slider "     *Perceived Light", "rl_colored_perceived", 0, 255, 1, 0, "rl_colored_sectors"
+	Slider "             *How Red", "rl_colored_howred", 0, 255, 1, 0, "rl_colored_sectors"
+	Slider "           *How Green", "rl_colored_howgreen", 0, 255, 1, 0, "rl_colored_sectors"
+	Slider "            *How Blue", "rl_colored_howblue", 0, 255, 1, 0, "rl_colored_sectors"
+	Option "      *Color Bleeding", "rl_color_bleeding", "OnOff", "rl_colored_sectors"
+	Option "               Preset", "rl_color_preset", "rl_color_preset_Options"
+}
+OptionValue "rl_color_preset_Options"
+{
+	0, "None"
+	1, "Reset to Defaults"
+	2, "More color"
+	3, "Less color"
+}
+OptionMenu "relighting_shader"
+{
+	Class "relighting_shader_menu"
+	Option "              *Shader", "rl_shader", "OnOff"
+	StaticText ""
+	StaticText "Gamma not compatible with DRPG's Shadow Aura effect", "orange"
+	// Slider "                Gamma", "rl_gamma", 0, 2.2, 0.01, 2, "rl_shader"
+	Slider "           Saturation", "rl_saturation", 0, 2.0, 0.01, 2, "rl_shader"
+	Slider "     Bleeding (0 dis)", "rl_bleeding", 0, 1.0, 0.01, 2, "rl_shader"
+	Option "     RG only Bleeding", "rl_rg_bleeding", "OnOff", "rl_shader"
+	Option "               Preset", "rl_shader_preset", "rl_shader_preset_Options"
+}
+OptionValue "rl_shader_preset_Options"
+{
+	0, "None"
+	1, "Reset to Defaults"
+	2, "Colorful"
+	3, "Bleak"
+	4, "Stark"
+	5, "Noir"
+}
+OptionMenu "relighting_misc"
+{
+	Class "relighting_misc_menu"
+	Option "       *Light Sources", "rl_center_algorithm", "rl_center_algorithm_Options"
+	Option "             *Foggers", "rl_sector_fog", "OnOff"
+	Option "        *Ghost Lights", "rl_ghost_lights", "OnOff"
+	ColorPicker "    *Ghost Color", "rl_ghost_color"
+	Option "*Animated Reflections", "rl_anim_reflections", "OnOff"
+	Option "   *Floor Reflections", "rl_floor_reflections", "OnOff"
+	Slider "    *Reflection Value", "rl_floor_value", 0, 100, 1, 0, "rl_floor_reflections"
+	Option "               Preset", "rl_misc_preset", "rl_misc_preset_Options"
+}
+OptionValue "rl_misc_preset_Options"
+{
+	0, "None"
+	1, "Reset to Defaults"
+	2, "Performance"
+	3, "More reflections"
+	4, "Less reflections"
+}
+OptionValue "rl_center_algorithm_Options"
+{
+	0, "CenterSpot (fast load, least accurate)"
+	1, "Centroid (slow load, more accurate)"
+	2, "Polylabel (slowest load, most accurate)"
+}

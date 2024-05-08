@@ -1,0 +1,2 @@
+Name=Relighting v4
+Mods=relighting v4.0165b.pk3
