@@ -3,6 +3,15 @@ class DRPGZUtilities
     // ---------------------------
     // -------- Map Tools --------
     // ---------------------------
+    static bool CheckForLevelLump(string Lump)
+    {
+        bool rValue = false;
+
+        if (LevelInfo.MapExists(Lump))
+            rValue = true;
+
+        return rValue;
+    }
     static int GetLevelSectorCount()
     {
         return level.Sectors.Size();

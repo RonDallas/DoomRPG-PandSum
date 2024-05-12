@@ -301,6 +301,7 @@ user    bool    drpg_char_load_maplevel = true;
 
 // Stored Character
 user    int     drpg_char_data_len = 0;
+user    string  drpg_char_data_level = "";
 user    string  drpg_char_data_0 = "";
 user    string  drpg_char_data_1 = "";
 user    string  drpg_char_data_2 = "";

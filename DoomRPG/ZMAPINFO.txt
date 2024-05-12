@@ -24,7 +24,7 @@ gameinfo
     menufontcolor_selection = "green"
     
     // ZScript
-    AddEventHandlers = "DRPGZHandler", "DRPGZData", "DRPGZDataSt", "DRPGZExtraWad", "DRPGZHUD"
+    AddEventHandlers = "DRPGZHandler", "DRPGZData", "DRPGZChar", "DRPGZDataSt", "DRPGZExtraWad", "DRPGZHUD"
 }
 
 DoomEdNums

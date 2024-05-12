@@ -856,7 +856,8 @@ OptionMenu "DoomRPGCharacter"
     StaticText ""
 
     StaticText "Options", 1
-    Option "Load Map Level", "drpg_char_load_maplevel", "OnOff"
+    StaticText "Retains current level number, for ease of updating DRPG", "grey"
+    Option "Save/Load Map Level", "drpg_char_load_maplevel", "OnOff"
     StaticText ""
 }
 

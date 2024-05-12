@@ -111,7 +111,7 @@ NamedScript void SinstormSpawner(int);
 
 NumberedScript(MAP_EXIT_SCRIPTNUM) MapSpecial void MapExit(bool, bool, int, int, int);
 NumberedScript(MAP_EXIT_SCRIPTNUM) MapSpecial void MapExitTeleport(int, int, int);
-NamedScript MapSpecial void AddUnknownMap(str, str, int, int);
+NamedScript MapSpecial void AddUnknownMap(str, str, int);
 
 int LevelSort(void const *, void const *);
 void AddAdditionalMonsters();

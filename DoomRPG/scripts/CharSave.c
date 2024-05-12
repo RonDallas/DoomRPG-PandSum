@@ -392,6 +392,8 @@ NamedScript MenuEntry void SaveCharacter()
         Success = false;
     if (Success && !SetActivatorCVar("drpg_char_data_len", PartialStringsNeeded))
         Success = false;
+
+    // Save data
     for (int i = 0; Success && i < PartialStringsNeeded; i++)
     {
         strncpy(PartialSaveString, EncodedSaveString + (CHARSAVE_MAXSIZE * i), CHARSAVE_MAXSIZE - 1);
@@ -406,6 +408,20 @@ NamedScript MenuEntry void SaveCharacter()
     free((void *)SaveString);
     free((void *)EncodedSaveString);
     free((void *)PartialSaveString);
+
+    // Save Level Data
+    if (Success && GetActivatorCVar("drpg_char_load_maplevel"))
+    {
+        LevelInfo *LastLevelData = klArrayUtils(2, CurrentWAD, GetKnownLevelCount(CurrentWAD) - 1);
+
+        int CW = CurrentWAD;
+        str LL = LastLevelData->LumpName;
+        int LN = LastLevelData->LevelNum;
+
+        SetUserCVarString(PlayerNumber(), "drpg_char_data_level", StrParam("!CW%i!LL%S!LN%i", CW, LL, LN));
+
+        LogMessage(StrParam("Saved Char Level Data; CW: %i, LL: %S, LN: %i", CW, LL, LN), LOG_DEBUG);
+    }
 
     if (Success)
     {
@@ -658,11 +674,39 @@ NamedScript MenuEntry void LoadCharacter()
         for (int j = 0; j < ITEM_MAX; j++)
             Player.ItemAutoMode[i][j] = Info.ItemAutoMode[i][j];
 
-    // Map Level Number
+    // Load Level Data
     if (GetActivatorCVar("drpg_char_load_maplevel"))
-        NextLevelNum[CurrentWAD] = Info.NextLevelNum;
-    if (GetActivatorCVar("drpg_char_load_maplevel"))
-        NextPrimaryLevelNum[CurrentWAD] = Info.NextPrimaryLevelNum;
+    {
+        if (ScriptCall("DRPGZChar", "LoadLevelData", PlayerNumber()))
+        {
+            int CW = ScriptCall("DRPGZChar", "GetSavedCurrentWAD");
+            str LL = (str)ScriptCall("DRPGZChar", "GetSavedLevelLump");
+            int LN = ScriptCall("DRPGZChar", "GetSavedLevelNum");
+
+            if (CW <= KnownWadCount && ScriptCall("DRPGZUtilities", "CheckForLevelLump", LL))
+            {
+                LevelInfo *NewMap = klArrayUtils(1, CW, NULL);
+                NewMap->LumpName = LL;
+                NewMap->NiceName = "Unknown Area";
+                NewMap->LevelNum = LN;
+                NewMap->SecretMap = false;
+                NewMap->UACBase = false;
+                NewMap->UACArena = false;
+                NewMap->EWHub = false;
+                NewMap->Completed = false;
+                NewMap->NeedsRealInfo = true;
+
+                LogMessage(StrParam("Loaded Char Level Data; CW: %i, LL: %S, LN: %i", CW, LL, LN), LOG_DEBUG);
+            }
+            else
+            {
+                PrintError("\CgERROR: \CjInvalid Saved Level Data! Different WAD loaded?");
+                ActivatorSound("menu/error", 127);
+            }
+
+            ScriptCall("DRPGZChar", "ClearRetrievedLevelData");
+        }
+    }
 
     // ----- COMPATIBILITY EXTENSIONS -----
 
@@ -724,10 +768,16 @@ NamedScript MenuEntry void LoadCharacter()
 
 NamedScript MenuEntry void ClearCharacter()
 {
-    SetActivatorCVar("drpg_char_data_len", 0);
+    // Character Data
     for (int i = 0; i < CHARSAVE_MAXCVARS; i++)
-        SetUserCVarString(PlayerNumber(), StrParam("drpg_char_data_%d", i), "");
+        SetActivatorCVarString(StrParam("drpg_char_data_%d", i), "");
 
+    SetActivatorCVar("drpg_char_data_len", 0);
+
+    // Level Data
+    SetActivatorCVarString("drpg_char_data_level", "");
+
+    // Notification
     ActivatorSound("charsave/accept", 127);
     SetFont("BIGFONT");
     HudMessage("===== Character Cleared =====");
@@ -738,7 +788,7 @@ NamedScript Console void DumpCharacter()
 {
     for (int i = 0; i < GetActivatorCVar("drpg_char_data_len"); i++)
     {
-        str Data = GetUserCVarString(PlayerNumber(), StrParam("drpg_char_data_%d", i));
+        str Data = GetActivatorCVarString(StrParam("drpg_char_data_%d", i));
         Log("\CdData %d \C-- \Ca%S", i, Data);
     }
 }
@@ -934,10 +984,6 @@ NamedScript void PopulateCharData(CharSaveInfo *Info)
         for (int j = 0; j < ITEM_MAX; j++)
             Info->ItemAutoMode[i][j] = Player.ItemAutoMode[i][j];
 
-    // Map Level Number
-    Info->NextLevelNum = NextLevelNum[CurrentWAD];
-    Info->NextPrimaryLevelNum = NextPrimaryLevelNum[CurrentWAD];
-
     // ----- COMPATIBILITY EXTENSIONS -----
 
     // Compatibility Handling - DoomRL Arsenal
@@ -1125,12 +1171,6 @@ NamedScript void LoadCharDataFromString(CharSaveInfo *Info, char const *String)
             StringPos += 1;
         }
 
-    // Map Level Number
-    Info->NextLevelNum = HexToInteger(String + StringPos, 4);
-    StringPos += 4;
-    Info->NextPrimaryLevelNum = HexToInteger(String + StringPos, 4);
-    StringPos += 4;
-
     // ----- COMPATIBILITY EXTENSIONS -----
 
     // Compatibility Handling - DoomRL Arsenal
@@ -1195,7 +1235,6 @@ NamedScript void LoadCharDataFromString(CharSaveInfo *Info, char const *String)
 
     if (DebugLog)
         Log("\CdDEBUG: \C-CRC for recalled character is %d (%X)", Checksum, Checksum);
-
     LogMessage(StrParam("Version:%d",Version),LOG_DEBUG);
     Info->Version = Version;
 
@@ -1411,18 +1450,6 @@ NamedScript char const *MakeSaveString(CharSaveInfo *Info)
             SaveString[pos + 0] = ToHexChar(Info->ItemAutoMode[i][j]);
             pos += 1;
         }
-
-    // Map Level Number
-    SaveString[pos + 3] = ToHexChar(Info->NextLevelNum);
-    SaveString[pos + 2] = ToHexChar(Info->NextLevelNum >> 4);
-    SaveString[pos + 1] = ToHexChar(Info->NextLevelNum >> 8);
-    SaveString[pos + 0] = ToHexChar(Info->NextLevelNum >> 12);
-    pos += 4;
-    SaveString[pos + 3] = ToHexChar(Info->NextPrimaryLevelNum);
-    SaveString[pos + 2] = ToHexChar(Info->NextPrimaryLevelNum >> 4);
-    SaveString[pos + 1] = ToHexChar(Info->NextPrimaryLevelNum >> 8);
-    SaveString[pos + 0] = ToHexChar(Info->NextPrimaryLevelNum >> 12);
-    pos += 4;
 
     // ----- COMPATIBILITY EXTENSIONS -----
 

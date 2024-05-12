@@ -23,7 +23,7 @@ LevelInfo *DefaultOutpost;
 
 int KnownLevelCount[MAX_WADS];
 
-// 0 = Default IWAD or Replacement WAD, or Hub
+// 0 = Default IWAD, Replacement WAD, or Hub
 // 1 = Extra Wad #1 (E1M1 with WadSmoosh, for example)
 int CurrentWAD;
 
@@ -864,8 +864,8 @@ int FindLevelInfoIndex(str MapName)
     return 0; // Default to the Outpost because we don't actually know where we are
 }
 
-// Used by Outpost ACS when loading (adds Starting Map)
-NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNumber, int Secret)
+// Used by Outpost ACS upon loading (adds Starting Map)
+NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNumber)
 {
     while (GetKnownLevelCount(CurrentWAD) == 0)
         Delay(1);
@@ -885,11 +885,10 @@ NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNu
     NewMap->LumpName = Name;
     NewMap->NiceName = DisplayName;
     NewMap->LevelNum = LevelNumber;
-    NewMap->SecretMap = Secret;
+    NewMap->SecretMap = false;
     NewMap->UACBase = false;
     NewMap->UACArena = false;
     NewMap->EWHub = false;
-    NewMap->SecretMap = false;
     NewMap->Completed = false;
     NewMap->NeedsRealInfo = true;
 }

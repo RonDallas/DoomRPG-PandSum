@@ -179,7 +179,6 @@ OptionalArgs(1) bool StartsWith(str, str, bool);
 OptionalArgs(1) bool EndsWith(str, str, bool);
 OptionalArgs(1) bool Contains(str, str, bool);
 str FormatTime(int);
-
 str ColorCodeFromName(str);
 
 // Debugging/Cheats
