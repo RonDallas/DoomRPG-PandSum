@@ -1,3 +1,20 @@
+# Sumwunn Rebalance-Sync
+
+This is WNC12k's rebalance fork + my latest fixes and improvements (see commits). Text past the dashed line is original.
+
+- Current Rebalance-Sync: v1.34 (Mar 8, 2024)
+
+## New compatible mods
+- [Relighting v4.0165b](https://forum.zdoom.org/viewtopic.php?t=76706)
+-- Place between mods 5 & 6 (see load order below)
+
+## Updated compatible mods
+
+- [Corruption Cards v5.5](https://forum.zdoom.org/viewtopic.php?t=67939)
+- [Colourful Hell v1.01](https://forum.zdoom.org/viewtopic.php?t=47980)
+
+## --------------------------------------------------------------------------------------------------------
+
 ## Fork overview
 
 DoomRPG and DoomRLA contain a lot of content which can be enough for the passage of several WADs in a row. However, the original versions of these modifications give players most of the content in a short period of time, which is why the player does not have time to feel the depth of the possibilities of DoomRPG and DoomRLA.
