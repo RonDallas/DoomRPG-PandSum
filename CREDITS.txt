@@ -42,14 +42,15 @@ Skill Icons from GameIcons.net (http://game-icons.net)
 Github for ocktokit.net (https://github.com/octokit/octokit.net)
 ICSharpCode for SharpZipLib (http://www.icsharpcode.net/opensource/sharpziplib)
 
-////////////////////////////////////////////
+--------------------------------
 NEW CREDITS SINCE SUMWUNN'S FORK
-///////////////////////////////////////////
+--------------------------------
 
 Contributors
-worldendDominator
-itsmedoggo (thank you for your work on colourful hell compat (that I nicked :D).)
-Forevener
+https://github.com/Sumwunn/DoomRPG/graphs/contributors
+
+Contributors (Rebalance)
+https://github.com/WNC12k/DoomRPG-Rebalance/graphs/contributors
 
 Graphics
 https://opengameart.org/content/pong-graphics. Used for the mission bbs boxes.
