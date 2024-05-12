@@ -13,7 +13,7 @@ This is WNC12k's rebalance fork + my latest fixes and improvements (see commits)
 - [Corruption Cards v5.5](https://forum.zdoom.org/viewtopic.php?t=67939)
 - [Colourful Hell v1.01](https://forum.zdoom.org/viewtopic.php?t=47980)
 
-## --------------------------------------------------------------------------------------------------------
+## --------------------------------------------------------------------------------------
 
 ## Fork overview
 
