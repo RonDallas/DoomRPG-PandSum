@@ -1,4 +1,4 @@
-# Sumwunn Rebalance-Sync *[WIP!]*
+# Sumwunn Rebalance-Sync *[WIP!]* - Rebalance saves not compatible!
 
 This is WNC12k's rebalance fork + my latest fixes and improvements (see commits). Text past the dashed line is original (except for updated mod versions and links).
 
