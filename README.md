@@ -1,17 +1,10 @@
-# Sumwunn Rebalance-Sync
+# Sumwunn Rebalance-Sync *[WIP!]*
 
-This is WNC12k's rebalance fork + my latest fixes and improvements (see commits). Text past the dashed line is original (with updated versions and links).
+This is WNC12k's rebalance fork + my latest fixes and improvements (see commits). Text past the dashed line is original (except for updated mod versions and links).
+
+*Also, this build is considered WIP so please be aware that stuff may break. I don't recommend for normal playthroughs. Overtime, this build will probably be merged into Rebalance itself.*
 
 - Current Rebalance-Sync: v1.34 (Mar 8, 2024)
-
-## New compatible mods
-- [Relighting v4.0165b](https://forum.zdoom.org/viewtopic.php?t=76706)
--- Place between mods 5 & 6 (see load order below)
-
-## Updated compatible mods
-
-- [Corruption Cards v5.5](https://forum.zdoom.org/viewtopic.php?t=67939)
-- [Colourful Hell v1.01](https://forum.zdoom.org/viewtopic.php?t=47980)
 
 ## --------------------------------------------------------------------------------------
 
@@ -30,7 +23,7 @@ Enjoy!
 ## Installing (build)
 
 Below is the download link:
-1. [DoomRPG SE Rebalance Last Build (for GZDoom 4.12.2)](https://github.com/Sumwunn/DoomRPG/archive/refs/heads/rebalance-sync.zip)
+1. [DoomRPG SE Rebalance WIP Last Commit Build (for GZDoom v4.11.3)](https://github.com/Sumwunn/DoomRPG/archive/refs/heads/rebalance-sync.zip)
 
 Installation Instructions:
 
@@ -41,9 +34,9 @@ Installation Instructions:
 
 ## Manual Installing
 
-- [GZDoom v4.12.2](https://github.com/ZDoom/gzdoom/releases/download/g4.12.2/gzdoom-4-12-2-Windows.zip) is required to play this mod.
-- LZDoom v3.83a or higher.
-- Delta Touch (Android) v4.6 or higher (includes the above versions or higher).
+- [GZDoom v4.11.3](https://forum.zdoom.org/viewtopic.php?t=78393) is required to play this mod.
+- LZDoom v3.88b or higher.
+- Delta Touch (Android) v5.1 or higher (includes the above versions or higher).
 
 To run the mod I recommend using [Doom RPG SE Launcher 1.3.1](https://github.com/Forevener/DRPGSEL/releases/tag/1.3.1).
 
@@ -52,12 +45,14 @@ After installation be sure to DoomRPG settings reset (Options -> DoomRPG Otions 
 Use the following load order:
 
 1. [WadSmoosh](https://forum.zdoom.org/viewtopic.php?f=19&t=52757) or [The Sentinel's Lexicon - PvE mapset Compilaition](https://github.com/WNC12k/DoomRPG-Lexicon/releases) or another mapset;
-2. [DoomRL Arsenal 1.1.5](https://forum.zdoom.org/viewtopic.php?f=43&t=37044) or [LegenDoom v2.8.3](https://forum.zdoom.org/viewtopic.php?t=51035);
-3. [DoomRL Monsters Beta 7.3](https://forum.zdoom.org/viewtopic.php?f=43&t=37044) or [Colourful Hell v1.01](https://forum.zdoom.org/viewtopic.php?t=47980) or [Rampancy v2.0](https://forum.zdoom.org/viewtopic.php?f=43&t=67193) or [Dehacked Attack v4.0](https://forum.zdoom.org/viewtopic.php?f=43&t=72362) or [Pandemonia Monsters v2.2](https://forum.zdoom.org/viewtopic.php?t=60984);
-4. [DoomRL Arsenal Extended 1.1c](https://forum.zdoom.org/viewtopic.php?f=43&t=70549);
-5. [Corruption Cards 5.1c](https://forum.zdoom.org/viewtopic.php?t=67939);
-6. DoomRPG;
-7. DoomRPG compatibility patches (as per modifications).
+2. [Relighting v4.0165b](https://forum.zdoom.org/viewtopic.php?t=76706);
+3. [DoomRL Arsenal 1.1.5](https://forum.zdoom.org/viewtopic.php?f=43&t=37044) or [LegenDoom v2.8.3](https://forum.zdoom.org/viewtopic.php?t=51035);
+4. [DoomRL Monsters Beta 7.3](https://forum.zdoom.org/viewtopic.php?f=43&t=37044) or [Colourful Hell v1.01](https://forum.zdoom.org/viewtopic.php?t=47980) or [Rampancy v2.0](https://forum.zdoom.org/viewtopic.php?f=43&t=67193) or [Dehacked Attack v4.0](https://forum.zdoom.org/viewtopic.php?f=43&t=72362) or [Pandemonia Monsters v2.2](https://forum.zdoom.org/viewtopic.php?t=60984);
+5. [DoomRL Arsenal Extended 1.1c](https://forum.zdoom.org/viewtopic.php?f=43&t=70549);
+6. [LegenDoomLite v4.2](https://forum.zdoom.org/viewtopic.php?t=51035);
+7. [Corruption Cards 5.5](https://cutstuff.net/public/CorruptionCards-v5.5.pk3);
+8. DoomRPG;
+9. DoomRPG compatibility patches (as per modifications).
 
 ## Compatible mods
 
@@ -67,10 +62,13 @@ Use the following load order:
 - [Corruption Cards 5.5](https://forum.zdoom.org/viewtopic.php?t=67939);
 - [Rampancy v2.0](https://forum.zdoom.org/viewtopic.php?f=43&t=67193);
 - [LegenDoom v2.8.3](https://forum.zdoom.org/viewtopic.php?t=51035);
+- [LegenDoomLite v4.2](https://forum.zdoom.org/viewtopic.php?t=51035);
 - [Colourful Hell v1.01](https://forum.zdoom.org/viewtopic.php?t=47980);
 - [Dehacked Attack v4.0](https://forum.zdoom.org/viewtopic.php?f=43&t=72362);
 - [Pandemonia Monsters v2.2](https://forum.zdoom.org/viewtopic.php?t=60984);
-- Custom version of Jimmy's Jukebox Instant Randomizer has been included which allows DRPG's map events and Outpost music to play.
+- [Relighting v4.0165b](https://forum.zdoom.org/viewtopic.php?t=76706);
+- Custom version of Jimmy's Jukebox Instant Randomizer has been included that allows DRPG's map events and Outpost music to play.
+- Champions doesn't play well with a number of mods, it seems. Be aware that numerous will break when using it.
 
 ## Donate
 
