@@ -384,7 +384,7 @@ NamedScript MenuEntry void SaveCharacter()
     PartialSaveString[CHARSAVE_MAXSIZE] = 0;
 
     for (int i = 0; i < CHARSAVE_MAXCVARS; i++)
-        SetUserCVarString(PlayerNumber(), StrParam("drpg_char_data_%d", i), "");
+        SetActivatorCVarString(StrParam("drpg_char_data_%d", i), "");
 
     bool Success = true;
 
@@ -401,7 +401,7 @@ NamedScript MenuEntry void SaveCharacter()
         Delay(1);
         //if (DebugLog)
         //  Log("Writing Save Data: %s", PartialSaveString);
-        if (!SetUserCVarString(PlayerNumber(), StrParam("drpg_char_data_%d", i), StrParam("%s", PartialSaveString)))
+        if (!SetActivatorCVarString(StrParam("drpg_char_data_%d", i), StrParam("%s", PartialSaveString)))
             Success = false;
     }
 
@@ -409,7 +409,18 @@ NamedScript MenuEntry void SaveCharacter()
     free((void *)EncodedSaveString);
     free((void *)PartialSaveString);
 
-    // Save Level Data
+    // Compatibility Handling - DoomRL Arsenal
+    // ------ Danger Level ------
+    if (Success && CompatMonMode == COMPAT_DRLA && GetActivatorCVar("drpg_char_load_rl_dangerlevel"))
+    {
+        int rlDL = CheckInventory("RLDangerLevel");
+
+        SetActivatorCVar("drpg_char_data_rl_dangerlevel", rlDL);
+
+        LogMessage(StrParam("Saved Char RL Danger Level: %i", rlDL), LOG_DEBUG);
+    }
+
+    // ------ Save Level Data ------
     if (Success && GetActivatorCVar("drpg_char_load_maplevel"))
     {
         LevelInfo *LastLevelData = klArrayUtils(2, CurrentWAD, GetKnownLevelCount(CurrentWAD) - 1);
@@ -418,7 +429,7 @@ NamedScript MenuEntry void SaveCharacter()
         str LL = LastLevelData->LumpName;
         int LN = LastLevelData->LevelNum;
 
-        SetUserCVarString(PlayerNumber(), "drpg_char_data_level", StrParam("!CW%i!LL%S!LN%i", CW, LL, LN));
+        SetActivatorCVarString("drpg_char_data_level", StrParam("!CW%i!LL%S!LN%i", CW, LL, LN));
 
         LogMessage(StrParam("Saved Char Level Data; CW: %i, LL: %S, LN: %i", CW, LL, LN), LOG_DEBUG);
     }
@@ -478,7 +489,7 @@ NamedScript MenuEntry void LoadCharacter()
 
     for (int i = 0; i < NumCVars; i++)
     {
-        char *tmp = StringToCharP(GetUserCVarString(PlayerNumber(), StrParam("drpg_char_data_%d", i)));
+        char *tmp = StringToCharP(GetActivatorCVarString(StrParam("drpg_char_data_%d", i)));
         strcat(EncodedSaveString, tmp);
         free((void *)tmp);
     }
@@ -718,10 +729,15 @@ NamedScript MenuEntry void LoadCharacter()
                 SetInventory(DRLATokens[i], 1);
 
     // Compatibility Handling - DoomRL Arsenal
-    // Danger Level
-    if (CompatMonMode == COMPAT_DRLA)
-        if (GetActivatorCVar("drpg_char_load_rl_dangerlevel"))
-            SetInventory("RLDangerLevel", Info.DangerLevel);
+    // ------ Danger Level ------
+    if (CompatMonMode == COMPAT_DRLA && GetActivatorCVar("drpg_char_load_rl_dangerlevel"))
+    {
+        int rlDL = GetActivatorCVar("drpg_char_data_rl_dangerlevel");
+
+        SetInventory("RLDangerLevel", rlDL);
+
+        LogMessage(StrParam("Loaded Char RL Danger Level: %i", rlDL), LOG_DEBUG);
+    }
 
     // Compatibility Handling - DoomRL Arsenal
     // Chances for Assembled/Exotic/Superior/Unique/Demonic/Legendary armor and boots
@@ -776,6 +792,10 @@ NamedScript MenuEntry void ClearCharacter()
 
     // Level Data
     SetActivatorCVarString("drpg_char_data_level", "");
+
+    // Danger Level
+    if (CompatMonMode == COMPAT_DRLA)
+        SetActivatorCVar("drpg_char_data_rl_dangerlevel", 0);
 
     // Notification
     ActivatorSound("charsave/accept", 127);
@@ -994,11 +1014,6 @@ NamedScript void PopulateCharData(CharSaveInfo *Info)
                 Info->DRLATokens[i] = true;
 
     // Compatibility Handling - DoomRL Arsenal
-    // Danger Level
-    if (CompatMonMode == COMPAT_DRLA)
-        Info->DangerLevel = CheckInventory("RLDangerLevel");;
-
-    // Compatibility Handling - DoomRL Arsenal
     // Chances for Assembled/Exotic/Superior/Unique/Demonic/Legendary armor and boots
     Info->ArmorChances[0] = Player.ArmorAssembledChance;
     Info->ArmorChances[1] = Player.ArmorExoticChance;
@@ -1180,11 +1195,6 @@ NamedScript void LoadCharDataFromString(CharSaveInfo *Info, char const *String)
         Info->DRLATokens[i] = HexToInteger(String + StringPos, 1);
         StringPos += 1;
     }
-
-    // Compatibility Handling - DoomRL Arsenal
-    // Danger Level
-    Info->DangerLevel = HexToInteger(String + StringPos, 4);
-    StringPos += 4;
 
     // Compatibility Handling - DoomRL Arsenal
     // Chances for Assembled/Exotic/Superior/Unique/Demonic/Legendary armor and boots
@@ -1460,14 +1470,6 @@ NamedScript char const *MakeSaveString(CharSaveInfo *Info)
         SaveString[pos + 0] = ToHexChar(Info->DRLATokens[i]);
         pos += 1;
     }
-
-    // Compatibility Handling - DoomRL Arsenal
-    // Danger Level
-    SaveString[pos + 3] = ToHexChar(Info->DangerLevel);
-    SaveString[pos + 2] = ToHexChar(Info->DangerLevel >> 4);
-    SaveString[pos + 1] = ToHexChar(Info->DangerLevel >> 8);
-    SaveString[pos + 0] = ToHexChar(Info->DangerLevel >> 12);
-    pos += 4;
 
     // Compatibility Handling - DoomRL Arsenal
     // Chances for Assembled/Exotic/Superior/Unique/Demonic/Legendary armor and boots

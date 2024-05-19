@@ -2883,7 +2883,7 @@ NamedScript Console bool Transport(SkillLevelInfo *SkillLevel, void *Data)
 
             // Drawing
             SetFont("BIGFONT");
-            if (GetUserCVar(PlayerNumber(), "drpg_menu_input_axes"))
+            if (GetActivatorCVar("drpg_menu_input_axes"))
                 HudMessage("\Cd%tS\C- has requested Transport\n\C-Players: %d (\Cd%d\C-/\Cg%d\C-)\n\n\Cd%S\C- to Approve\n\Cd%S\C- to Deny",
                            PlayerNumber() + 1, Players, PlayersApprove, PlayersDeny, "Use", "Run");
             else

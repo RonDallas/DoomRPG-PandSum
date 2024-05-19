@@ -98,7 +98,7 @@ NamedScript MapSpecial void ArenaLoop()
             {
                 if (!Player.InMenu && !Player.InShop && !Player.OutpostMenu)
                 {
-                    if (GetUserCVar(PlayerNumber(), "drpg_menu_input_axes"))
+                    if (GetActivatorCVar("drpg_menu_input_axes"))
                         HudMessage("Hold \Cd%S\C- to start the next wave\nHold \Cd%S\C- to end the Arena", "Use", "Jump");
                     else
                         HudMessage("Hold \Cd%jS\C- to start the next wave\nHold \Cd%jS\C- to end the Arena", "+use", "+jump");

@@ -229,7 +229,7 @@ typedef enum
 // CharSave
 //
 
-#define CHARSAVE_VERSION        18
+#define CHARSAVE_VERSION        19
 #define CHARSAVE_MAXSIZE        224
 #define CHARSAVE_MAXCVARS       16
 #define DRLA_MODPACK_SIZE       9

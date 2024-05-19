@@ -1,5 +1,8 @@
 // Doom RLA Monsters Options
 server    int     DRLA_weapondroptype = 0;
 
-// Load Character
+// Save/Load Character Options
 user    bool    drpg_char_load_rl_dangerlevel = true;
+
+// Stored Character
+user    int  drpg_char_data_rl_dangerlevel = 0;

@@ -62,12 +62,13 @@ OptionMenu "DoomRPGCharacter"
     StaticText "Save/Load", 1
     SafeCommand "Save Character", "pukename SaveCharacter", "Are you sure? Put your armor, boots and shoulder weapon into your inventory before continuing!"
     SafeCommand "Load Character", "pukename LoadCharacter", "Are you sure?"
-    SafeCommand "Clear Character", "pukename ClearCharacter", "Are you sure?"
+    SafeCommand "Clear Character", "pukename ClearCharacter", "Are you sure? Below options are also cleared."
     StaticText ""
 
     StaticText "Options", 1
-    StaticText "Retains current level number, for ease of updating DRPG", "grey"
+    StaticText "Retains current Level Number, for ease of updating DRPG", "grey"
     Option "Save/Load Map Level", "drpg_char_load_maplevel", "OnOff"
+    StaticText "Retains Danger Level for RLMonsters, for ease of updating DRPG", "grey"
     Option "Save/Load Danger Level", "drpg_char_load_rl_dangerlevel", "OnOff"
     StaticText ""
 }

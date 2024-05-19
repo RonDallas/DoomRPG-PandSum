@@ -1524,7 +1524,7 @@ NamedScript bool TurretWantsToSwitchToPlayerTarget()
 
 void BuildTurretData()
 {
-    if (GetUserCVar(PlayerNumber(), "drpg_menu_input_axes"))
+    if (GetActivatorCVar("drpg_menu_input_axes"))
     {
         TurretUpgradeData[TU_BUILD].CommandInfo = StrParam("Issuing this command will enable or disable the turret\n\Ck(\Cd%S\C- + \Cd%S\Ck for quick use)", "Run", "Turret Wheel");
         TurretUpgradeData[TU_COMMAND_DRAW_FIRE].CommandInfo = StrParam("When issued, use \Cd%S\C- + \Cd%S\Ck to force a target switch", "Run", "Attack");
