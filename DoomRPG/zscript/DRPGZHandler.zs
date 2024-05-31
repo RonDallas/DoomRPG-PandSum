@@ -85,27 +85,27 @@ class DRPGZHandler : EventHandler
         if (e.Thing.Player)
         {
             int DamageSourceTID = 0;
+
             if (e.DamageSource)
                 DamageSourceTID = e.DamageSource.TID;
 
             e.Thing.ACS_ScriptCall("PlayerDamage", DamageSourceTID, e.Damage);
         }
-
-        if (e.Thing && e.DamageSource && e.Thing.bIsMonster)
+        else if (e.Thing && e.DamageSource && e.Thing.bIsMonster && e.Thing.CheckInventory("DRPGMonsterInit", 1))
         {
             int Damage = e.Damage;
+
             if (e.Thing.Health < 0)
-            {
                 Damage += e.Thing.Health;
-            }
+
             e.Thing.ACS_ScriptCall("MonsterDamaged", e.DamageSource.TID, Damage);
         }
     }
 
     override void WorldThingRevived(WorldEvent e)
     {
-        if (e.Thing && e.Thing.bIsMonster)
-            e.Thing.ACS_ScriptCall("MonsterRevive");
+        if (e.Thing && e.Thing.bIsMonster && e.Thing.CheckInventory("DRPGMonsterInit", 1))
+            e.Thing.ACS_ScriptCall("MonsterRevive", e.Thing.TID);
     }
 
     override void WorldThingSpawned(WorldEvent e)
@@ -253,8 +253,8 @@ class DRPGZHandler : EventHandler
 
                 e.Thing.ACS_ScriptCall("PropDeathCheck", propType);
             }
-            else
-                e.Thing.ACS_ScriptCall("MonsterDeathCheck");
+            else if (e.Thing.CheckInventory("DRPGMonsterInit", 1))
+                e.Thing.ACS_ScriptCall("MonsterDeathCheck", e.Thing.TID);
         }
     }
 }

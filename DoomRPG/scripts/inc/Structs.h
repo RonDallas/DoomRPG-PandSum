@@ -363,7 +363,6 @@ struct MegabossInfo_S
 };
 
 // Health Bars
-
 struct HUDBarInfo_S
 {
     int TID;

@@ -5,12 +5,10 @@ class DRPGZUtilities
     // ---------------------------
     static bool CheckForLevelLump(string Lump)
     {
-        bool rValue = false;
-
         if (LevelInfo.MapExists(Lump))
-            rValue = true;
+            return true;
 
-        return rValue;
+        return false;
     }
     static int GetLevelSectorCount()
     {

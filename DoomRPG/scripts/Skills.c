@@ -2196,7 +2196,15 @@ NamedScript Console bool Summon(SkillLevelInfo *SkillLevel, void *Data)
     // Stop if you're in the Outpost
     if (CurrentLevel->UACBase)
     {
-        PrintError("You cannot summon friendlies here");
+        PrintError("You cannot summon friendlies in the Outpost");
+        ActivatorSound("menu/error", 127);
+        return false;
+    }
+
+    // Stop if summoning an Arch-vile in the Arena (until Arena spawner overhaul)
+    if (CurrentLevel->UACArena && Index == 14)
+    {
+        PrintError("You cannot summon an Arch-vile in the Arena");
         ActivatorSound("menu/error", 127);
         return false;
     }
@@ -2318,6 +2326,7 @@ NamedScript Console bool Summon(SkillLevelInfo *SkillLevel, void *Data)
         SetActorProperty(NewID, APROP_MasterTID, Player.TID);
         SetActorPropertyString(NewID, APROP_Species, "Player");
         GiveActorInventory(NewID, "DRPGFriendlyBooster", 1);
+
         if (Index != 0) // Marines need to run their Spawn state
             SetActorState(NewID, "See");
 

@@ -2813,8 +2813,10 @@ Start:
     goto Start;
 }
 
-NamedScript DECORATE void MonsterRevive()
+NamedScript DECORATE void MonsterRevive(int aTID)
 {
+    SetActivator(aTID);
+
     Delay(1);
 
     MonsterStatsPtr Stats = &Monsters[GetMonsterID(0)];
@@ -2985,8 +2987,10 @@ OptionalArgs(1) NamedScript void CalculateMonsterCredits(MonsterStatsPtr Stats, 
     }
 }
 
-NamedScript DECORATE void MonsterDeathCheck()
+NamedScript DECORATE void MonsterDeathCheck(int aTID)
 {
+    SetActivator(aTID);
+
     Delay(1);
 
     MonsterStatsPtr Stats = &Monsters[GetMonsterID(0)];
