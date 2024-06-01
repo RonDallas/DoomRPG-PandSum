@@ -16,8 +16,9 @@ class DRPGZUtilities
     }
     static bool CheckActorInMap(int TID)
     {
-        ActorIterator AI = ActorIterator.Create(TID);
+        ActorIterator AI = level.CreateActorIterator(TID);
         Actor A = AI.Next();
+
         if (A)
             return level.IsPointInMap(A.Pos);
         else
@@ -25,7 +26,7 @@ class DRPGZUtilities
     }
     static bool CheckActorInLegitSector(int TID, bool monster)
     {
-        ActorIterator AI = ActorIterator.Create(TID);
+        ActorIterator AI = level.CreateActorIterator(TID);
         Actor A = AI.Next();
 
         if (A)
@@ -55,8 +56,6 @@ class DRPGZUtilities
     }
     static bool CheckForBadMap()
     {
-        bool rValue = false;
-
         // Maps that have compatibility issues with DRPG
         static const string BadMaps[] =
         {
@@ -72,17 +71,15 @@ class DRPGZUtilities
         // Check for bad map
         for (int i = 0; i < BadMaps.size(); i++)
             if (level.MapName == BadMaps[i])
-                rValue = true; // Detected bad map
+                return true; // Detected bad map
 
         // Good map
-        return rValue;
+        return false;
     }
 
     // Return true if CurrentLevel is an Icon of Sin type level
     static bool CheckForIOSMap()
     {
-        bool rValue = false;
-
         static const string iosMaps[] =
         {
             "MAP30",
@@ -125,9 +122,9 @@ class DRPGZUtilities
         // Check for IOS map
         for (int i = 0; i < iosMaps.size(); i++)
             if (level.MapName == iosMaps[i])
-                rValue = true; // Detected IOS map
+                return true; // Detected IOS map
 
-        return rValue;
+        return false;
     }
 
     // ---------------------------
@@ -136,6 +133,7 @@ class DRPGZUtilities
     static play void ForceRespawn(int PlayerNum)
     {
         let player = Players[PlayerNum].mo.player;
+
         if (player)
         {
             player.cls = NULL;

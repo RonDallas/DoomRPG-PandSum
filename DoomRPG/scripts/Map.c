@@ -118,7 +118,7 @@ NamedScript Type_OPEN void MapInit()
         DisableEvent = true;
 
         // Quick check to add the standard Outpost if we didn't start on it
-        if (ThingCountName("DRPGOutpostMarker", 0) == 0 && ThingCountName("DRPGArenaMarker", 0) == 0)
+        if (ThingCountName("DRPGOutpostMarker", 0) == 0)
         {
             LevelInfo *OutpostMap = klArrayUtils(1, 0, NULL);
             OutpostMap->LevelNum = 0;
@@ -133,16 +133,6 @@ NamedScript Type_OPEN void MapInit()
             DefaultOutpost = OutpostMap;
 
             OutpostAdded = true;
-
-            LevelInfo *ArenaMap = klArrayUtils(1, 0, NULL);
-            ArenaMap->LevelNum = 0;
-            ArenaMap->LumpName = "DAM01";
-            ArenaMap->NiceName = "Arena! Oblige Edition.";
-            ArenaMap->Completed = true;
-            ArenaMap->UACBase = false;
-            ArenaMap->UACArena = true;
-            ArenaMap->EWHub = false;
-            ArenaMap->NeedsRealInfo = false;
         }
     }
 

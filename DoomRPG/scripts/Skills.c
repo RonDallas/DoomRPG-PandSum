@@ -2201,14 +2201,6 @@ NamedScript Console bool Summon(SkillLevelInfo *SkillLevel, void *Data)
         return false;
     }
 
-    // Stop if summoning an Arch-vile in the Arena (until Arena spawner overhaul)
-    if (CurrentLevel->UACArena && Index == 14)
-    {
-        PrintError("You cannot summon an Arch-vile in the Arena");
-        ActivatorSound("menu/error", 127);
-        return false;
-    }
-
     // Stop if you already have the maximum amount of summons
     if (Player.Summons >= MAX_SUMMONS)
     {

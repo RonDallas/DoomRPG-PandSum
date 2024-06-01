@@ -9,7 +9,6 @@ extern bool RPGMap ArenaActive;
 extern bool RPGMap ArenaTimerActive;
 extern int RPGMap ArenaState;
 extern int RPGMap ArenaPlayerNumber;
-extern int RPGMap ArenaMonstersTID;
 extern int RPGMap ArenaSpotSpawns;
 extern int RPGMap ArenaSectorTag;
 extern int RPGMap ArenaWave;

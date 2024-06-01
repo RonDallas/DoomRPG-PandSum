@@ -14,7 +14,6 @@ bool RPGMap ArenaActive = false;
 bool RPGMap ArenaTimerActive = false;
 int RPGMap ArenaState = ARENA_READY;
 int RPGMap ArenaPlayerNumber = -1;
-int RPGMap ArenaMonstersTID = 1099;
 int RPGMap ArenaSpotSpawns = 1100;
 int RPGMap ArenaSectorTag = 100;
 int RPGMap ArenaWave;
@@ -177,9 +176,9 @@ NamedScript MapSpecial void ArenaLoop()
         break;
         case ARENA_READY:
         {
-            // Clean corpses every couple of waves
-            if (ArenaWave > 1 && (ArenaWave % 5) == 0)
-                Thing_Remove(ArenaMonstersTID);
+            // Remove corpses every couple of waves
+            if (ArenaWave > 1 && (ArenaWave % 3) == 0)
+                ScriptCall("DRPGZArena", "RemoveMonsterTIDs");
 
             // Change up the music
             if (ArenaWave > 1 && (ArenaWave % 10) == 0)
@@ -190,15 +189,18 @@ NamedScript MapSpecial void ArenaLoop()
                 ArenaMaxWave = ArenaWave;
 
             ArenaMod = Random(-10, AMOD_MAX - 1);
+
             ArenaSetEnvironment(AEVENT_RANDOM);
             ArenaSpawnMobs();
+
             ArenaState = ARENA_ACTIVE;
         }
         break;
         case ARENA_ACTIVE:
         {
             ArenaCheckMod();
-            ArenaCount = ThingCount(0, ArenaMonstersTID);
+            ArenaCount = ScriptCall("DRPGZArena", "GetAliveHostileCount");
+
             if (ArenaCount <= 0)
                 ArenaState = ARENA_INTERMISSION;
             if (ArenaTimerActive && ArenaTimer > 0)
@@ -227,12 +229,14 @@ NamedScript MapSpecial void ArenaStop()
     ArenaPlayerNumber = -1;
     ArenaCount = 0;
     ArenaMod = -1;
+
     ArenaSetEnvironment(AEVENT_NONE);
 
     SetOutpostMusic((PowerOut ? OUTPOST_MUSIC_LOWPOWER : OUTPOST_MUSIC_NORMAL));
 
     Ceiling_RaiseByValue(ArenaSectorTag - 1, 64, 128);
-    Thing_Remove(ArenaMonstersTID);
+
+    ScriptCall("DRPGZArena", "RemoveMonsterTIDs");
 }
 
 // Arena Test Script
@@ -543,7 +547,7 @@ void ArenaSpawnMobs()
     int SpawnChanceModifier;
     bool Boss = false;
 
-    // [SW] Not enough monsters spawn in the Oblige Arena however it could get crowded in the UAC arena so lets have separate values for both.
+    // [Sumwunn] : The Outpost's Arena is much smaller than an Arena, so Arenas need a higher value
     if (CurrentLevel->UACArena)
         SpawnChanceModifier = 1;
     else
@@ -552,6 +556,7 @@ void ArenaSpawnMobs()
     // Slots 0 - 2 are for normal monsters. Slot 3 is for boss. Slot 4 is NULL.
     MonsterInfoPtr MonsterList[3];
     MonsterInfoPtr TempMonster;
+
     // Store 3 monster actors.
     for (int i = 0; i < (2 + 1); i++)
     {
@@ -565,8 +570,10 @@ void ArenaSpawnMobs()
         else
             i--;
     }
+
     // Decide if boss should spawn.
     Boss = (ArenaWave >= 50) && !Random(0, 8);
+
     // Store 1 boss actor.
     // This was a part of the above loop but was separated because it could complete before a boss was found.
     if (Boss)
@@ -594,8 +601,12 @@ void ArenaSpawnMobs()
                 break;
         }
 
+        // TID for tracking
+        int arenaMonsterTID = UniqueTID();
+        ScriptCall("DRPGZArena", "StoreMonsterTID", arenaMonsterTID);
+
         // Spawn the monster
-        if (!Random(0, SpawnChanceModifier) > 0 && SpawnSpotFacing(MonsterList[Random(0, 2)]->Actor, i, ArenaMonstersTID))
+        if (!Random(0, SpawnChanceModifier) > 0 && SpawnSpotFacing(MonsterList[Random(0, 2)]->Actor, i, arenaMonsterTID))
         {
             SpawnSpotForced("TeleportFog", i, 0, 0);
             Spawned++;
@@ -611,7 +622,11 @@ void ArenaSpawnMobs()
         {
             SpotTID = ArenaSpotSpawns + Random(0, 30);
 
-            if (SpawnSpotFacing(MonsterList[3]->Actor, SpotTID, ArenaMonstersTID))
+            // TID for tracking
+            int arenaMonsterTID = UniqueTID();
+            ScriptCall("DRPGZArena", "StoreMonsterTID", arenaMonsterTID);
+
+            if (SpawnSpotFacing(MonsterList[3]->Actor, SpotTID, arenaMonsterTID))
             {
                 SpawnSpot("TeleportFog", SpotTID, 0, 0);
                 break;

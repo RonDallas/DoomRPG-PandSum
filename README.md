@@ -23,7 +23,7 @@ Enjoy!
 ## Installing (build)
 
 Below is the download link:
-1. [DoomRPG SE Rebalance WIP Last Commit Build (for GZDoom v4.11.3)](https://github.com/Sumwunn/DoomRPG/archive/refs/heads/rebalance-sync.zip)
+1. [DoomRPG SE Rebalance WIP Last Commit Build (for GZDoom v4.10.0)](https://github.com/Sumwunn/DoomRPG/archive/refs/heads/rebalance-sync.zip)
 
 Installation Instructions:
 
@@ -34,8 +34,9 @@ Installation Instructions:
 
 ## Manual Installing
 
-- GZDoom versions 4.6.0 - 4.11.3 can be used to play this mod.
+- GZDoom versions 4.6.0 - 4.10.0 can be used to play this mod.
   - **DoomRL Arsenal Extended requires GZDoom v4.8.2 or higher.**
+    - **GZDoom v4.11.0 or higher may cause odd issues with compatible mods.**
 
 - LZDoom v3.88b or higher.
 - Delta Touch (Android) v5.1 or higher (includes the above versions or higher).
@@ -57,6 +58,7 @@ Use the following load order:
 9. DoomRPG compatibility patches (as per modifications).
 
 ## Compatible mods
+- Compatibility is strict; using unlisted mods may break DRPG.
 
 - [DoomRL Arsenal - v1.1.5](https://forum.zdoom.org/viewtopic.php?f=43&t=37044);
 - [DoomRL Monsters Beta 7.3](https://forum.zdoom.org/viewtopic.php?f=43&t=37044);

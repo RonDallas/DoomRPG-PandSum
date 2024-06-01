@@ -19,6 +19,7 @@ class DRPGZHandler : EventHandler
                 l.special = 80;
                 l.args[0] = 30000;
                 l.args[1] = 0;
+                // ACS Args
                 l.args[2] = 0;
                 l.args[3] = 0;
                 l.args[4] = 0;
@@ -33,6 +34,7 @@ class DRPGZHandler : EventHandler
                 l.special = 80;
                 l.args[0] = 30000;
                 l.args[1] = 0;
+                // ACS Args
                 l.args[2] = 1;
                 l.args[3] = 0;
                 l.args[4] = 0;
@@ -51,6 +53,7 @@ class DRPGZHandler : EventHandler
                 l.special = 80;
                 l.args[0] = 30001;
                 l.args[1] = 0;
+                // ACS Args
                 l.args[2] = map;
                 l.args[3] = pos;
                 l.args[4] = face;
@@ -74,9 +77,7 @@ class DRPGZHandler : EventHandler
 
             // Spawn Crate in a secret with a certain chance, only if secret's sector is not a door (looking at you, Doom 1)
             if (CurrSec.IsSecret() && CenterHeight > 0)
-            {
                 Actor.Spawn("DRPGSecretSpawner", SpawnPos);
-            }
         }
     }
 
