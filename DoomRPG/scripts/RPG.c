@@ -1446,7 +1446,9 @@ NamedScript OptionalArgs(1) void DynamicLootGenerator(str Actor, int MaxItems)
     // Delay while the map is being initialized
     while (!CurrentLevel->Init) Delay(1);
 
-    LogMessage(StrParam("Running DynamicLootGenerator to create %d items of %S", MaxItems, Actor), LOG_DEBUG);
+    if (DebugLog)
+        Log("\CdDEBUG: \C-Running DynamicLootGenerator to create %d items of %S", MaxItems, Actor);
+
     fixed LowerX = GetActorX(0);
     fixed UpperX = GetActorX(0);
     fixed LowerY = GetActorY(0);

@@ -710,7 +710,8 @@ int DropMonsterItem(int Killer, int TID, str Item, int Chance, fixed XAdd, fixed
         if (Players(Killer).Stim.PowerupTimer[STIM_MAGNETIC] <= 0) // Don't toss the item if we're Magnetic, it'll just confuse things
             SetActorVelocity(ItemTID, RandomFixed(-XSpeed, XSpeed), RandomFixed(-YSpeed, YSpeed), ZSpeed, false, false);
 
-        //LogMessage(StrParam("Adding %S to Player %i's Drop array", Item, Players(Killer).TID));
+        if (DebugLog)
+            Log("\CdDEBUG: \C-Adding %S to Player %i's Drop array", Item, Players(Killer).TID);
 
         // Add item's TID to drop array
         zsDynArrayUtils("PlayerDrops", 1, ItemTID, Killer);
@@ -3839,24 +3840,6 @@ NamedScript MenuEntry void ResetToDefaults()
     }
 
     ScriptCall("DRPGZUtilities", "ResetToDefaults");
-}
-
-OptionalArgs(1) void LogMessage(str Message, int Level)
-{
-    bool DebugMode = (ActivatorTID() == Player.TID ? DebugLog : GetActivatorCVar("drpg_debug"));
-
-    if (Level == LOG_DEBUG)
-        Message = StrParam("\CdDEBUG: \C-%S", Message);
-    if (Level == LOG_WARNING)
-        Message = StrParam("\CiWARNING: \C-%S", Message);
-    if (Level == LOG_ERROR)
-        Message = StrParam("\CgERROR: \C-%S", Message);
-
-    // Don't log the message if the caller isn't in Debug Mode
-    if (Level == LOG_DEBUG && !DebugMode)
-        return;
-
-    Log("%S", Message);
 }
 
 void ClearInfo(CharSaveInfo *Info)

@@ -89,8 +89,11 @@ NamedScript void UpdateShopAutoList()
                 // Get array size
                 int arraySize = zsDynArrayUtils("Auto-Sell", 3, NULL, PlayerNumber());
 
-                LogMessage(StrParam("Sell List Population: %i", arraySize), LOG_DEBUG);
-                LogMessage(StrParam("Adding %S to auto-sell @ %p", ItemData[i][j].Name, Item), LOG_DEBUG);
+                if (DebugLog)
+                {
+                    Log("\CdDEBUG: \C-Sell List Population: %i", arraySize);
+                    Log("\CdDEBUG: \C-Adding %S to auto-sell @ %p", ItemData[i][j].Name, Item);
+                }
 
                 // Add item to array
                 zsDynArrayUtils("Auto-Sell", 1, (int)Item, PlayerNumber());
@@ -104,19 +107,24 @@ NamedScript void UpdateShopAutoList()
                 // Get array size
                 int arraySize = zsDynArrayUtils("Auto-Store", 3, NULL, PlayerNumber());
 
-                LogMessage(StrParam("Store List Population: %i", arraySize), LOG_DEBUG);
-                LogMessage(StrParam("Adding %S to auto-store @ %p", ItemData[i][j].Name, Item), LOG_DEBUG);
+                if (DebugLog)
+                {
+                    Log("\CdDEBUG: \C-Store List Population: %i", arraySize);
+                    Log("\CdDEBUG: \C-Adding %S to auto-store @ %p", ItemData[i][j].Name, Item);
+                }
 
                 // Add item to array
                 zsDynArrayUtils("Auto-Store", 1, (int)Item, PlayerNumber());
             }
 
             // Commented out for console spam
-            //LogMessage(StrParam("Completed Item #%i, %S", j, ItemData[i][j].Name), LOG_DEBUG);
+            //if (DebugLog)
+            //    Log("\CdDEBUG: \C-Completed Item #%i, %S", ItemData[i][j].Name);
         }
     }
 
-    LogMessage("Completed AutoUpdateShopList", LOG_DEBUG);
+    if (DebugLog)
+        Log("\CdDEBUG: \C-Completed AutoUpdateShopList");
 }
 
 void ShopItemTryAutoDeposit(ItemInfoPtr Item)

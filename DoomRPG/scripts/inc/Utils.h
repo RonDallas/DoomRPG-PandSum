@@ -199,7 +199,6 @@ void CreateTranslations();
 NamedScript DECORATE void UpdateInput(int, bool, bool);
 bool CheckInput(int, int /* = KEY_PRESSED */, bool, int);
 bool CheckInputHelper(int, int, int /* = KEY_PRESSED */, int);
-OptionalArgs(1) void LogMessage(str, int /* = LOG_NORMAL */);
 void ClearInfo(CharSaveInfo *);
 
 // Dynamic Arrays

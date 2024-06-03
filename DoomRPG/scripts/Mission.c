@@ -95,7 +95,8 @@ NamedScript void InitMission()
             // Valid monster
             str ActorToCheck = GetMissionMonsterActor(Player.Mission.Monster->Actor);
 
-            LogMessage(StrParam("Checking: %S - Looking For: %S", Monsters[i].Actor, ActorToCheck), LOG_DEBUG);
+            if (DebugLog)
+                Log("\CdDEBUG: \C-Checking: %S - Looking For: %S", Monsters[i].Actor, ActorToCheck);
 
             // Check for valid monster
             if (StartsWith(Monsters[i].Actor, ActorToCheck, true))

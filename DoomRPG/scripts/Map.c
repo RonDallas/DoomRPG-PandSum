@@ -3566,7 +3566,9 @@ void SetCurrentWadWithString(str TargetWAD)
         {
             CurrentWAD = i;
 
-            LogMessage(StrParam("Extra WAD(s) - CurrentWAD: %i", CurrentWAD), LOG_DEBUG);
+            if (DebugLog)
+                Log("\CdDEBUG: \C-Extra WAD(s) - CurrentWAD: %i", CurrentWAD);
+
             break;
         }
         else if (TempMap->LumpName == "") // End of Extra WAD(s)
@@ -3588,13 +3590,17 @@ NamedScript void InitExtraWad()
     if (ExtraWadInit || ExtraWadActive)
         return;
 
-    LogMessage("\CdExtra WAD(s): Started Initialization", LOG_DEBUG);
+    if (DebugLog)
+        Log("\CdDEBUG: \C-\CdExtra WAD(s): Started Initialization");
 
     // No compatible Extra WAD(s) detected
     if ((str)ScriptCall("DRPGZExtraWad", "WadTools", 1, 0) == "-2")
     {
         ExtraWadInit = true;
-        LogMessage("\CdExtra WAD(s): None detected", LOG_DEBUG);
+
+        if (DebugLog)
+            Log("\CdDEBUG: \C-\CdExtra WAD(s): None detected");
+
         return;
     }
 
@@ -3636,7 +3642,8 @@ NamedScript void InitExtraWad()
             NewMap->Completed = false;
             NewMap->NeedsRealInfo = true;
 
-            LogMessage(StrParam("Extra WAD(s): Added Hub: %S", HubLump), LOG_DEBUG);
+            if (DebugLog)
+                Log("\CdDEBUG: \C-Extra WAD(s): Added Hub: %S", HubLump);
 
             ExtraWadHasHub = true;
         }
@@ -3662,7 +3669,8 @@ NamedScript void InitExtraWad()
             NewMap->Completed = false;
             NewMap->NeedsRealInfo = true;
 
-            LogMessage(StrParam("Extra WAD(s): Added Lump: %S", Lump), LOG_DEBUG);
+            if (DebugLog)
+                Log("\CdDEBUG: \C-Extra WAD(s): Added Lump: %S", Lump);
         }
     }
 

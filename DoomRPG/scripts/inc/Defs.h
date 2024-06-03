@@ -58,6 +58,11 @@
         HudMessage(""), \
         EndHudMessage(HUDMSG_PLAIN, id, "Untranslated", 0.0, 0.0, 0.05) \
     )
+
+// Prefixes
+// Debug: \CdDEBUG: \C-
+// Warning: \CiWARNING: \C-
+// Error: \CgERROR: \C-
 #define Log(...) \
     ( \
         BeginLog(), \
@@ -970,14 +975,6 @@ typedef enum
     KEY_ANYMOVEMENT,
     KEY_REPEAT
 } EKeyStates;
-
-typedef enum
-{
-    LOG_NORMAL,
-    LOG_DEBUG,
-    LOG_WARNING,
-    LOG_ERROR
-} ELogLevels;
 
 // --------------------------------------------------
 // Address Spaces

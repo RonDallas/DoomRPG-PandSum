@@ -3547,12 +3547,11 @@ NamedScript DECORATE void MonsterTransport(int Difficulty, int Time, int Radius)
 
             Thing_Hate(TID, Player.TID);
             Stats->Reinforcement = true;
-            Thing_ChangeTID(TID, 0); // Get rid of the ID
 
             Spawn("TeleportFog", X + SpawnX, Y + SpawnY, Z, 0, 0);
 
             if (DebugLog)
-                Log("\CdDEBUG: \C-Reinforcements Spawning Index %d (\Ca%S\C-)", MonsterIndex, MonsterList[MonsterIndex]->Name);
+                Log("\CdDEBUG: \C-Reinforcements Spawning Index %d (\Ca%S\C-), TID: %i", MonsterIndex, MonsterList[MonsterIndex]->Name, Stats->TID);
         }
     }
 }

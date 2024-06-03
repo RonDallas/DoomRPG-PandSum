@@ -373,8 +373,8 @@ NamedScript MenuEntry void SaveCharacter()
     EncodeRLE(SaveString, EncodedSaveString);
 
     //EncodedSaveString = realloc(EncodedSaveString, strlen(EncodedSaveString) + 1);
-    //LogMessage(StrParam("Save Data: %s", SaveString),LOG_DEBUG);
-    LogMessage(StrParam("Encoded Save Data: %s", EncodedSaveString),LOG_DEBUG);
+    if (DebugLog)
+        Log("\CdDEBUG: \C-Encoded Save Data: %s", EncodedSaveString);
 
     int EncStrSize = strlen(EncodedSaveString);
     int PartialStringsNeeded = EncStrSize / CHARSAVE_MAXSIZE;
@@ -409,15 +409,16 @@ NamedScript MenuEntry void SaveCharacter()
     free((void *)EncodedSaveString);
     free((void *)PartialSaveString);
 
-    // Compatibility Handling - DoomRL Arsenal
+    // Compatibility Handling - DoomRL Arsenal Monsters
     // ------ Danger Level ------
     if (Success && CompatMonMode == COMPAT_DRLA && GetActivatorCVar("drpg_char_load_rl_dangerlevel"))
     {
-        int rlDL = CheckInventory("RLDangerLevel");
+        int rlmDL = CheckInventory("RLDangerLevel");
 
-        SetActivatorCVar("drpg_char_data_rl_dangerlevel", rlDL);
+        SetActivatorCVar("drpg_char_data_rl_dangerlevel", rlmDL);
 
-        LogMessage(StrParam("Saved Char RL Danger Level: %i", rlDL), LOG_DEBUG);
+        if (DebugLog)
+            Log("\CdDEBUG: \C-Saved Char RL Danger Level: %i", rlmDL);
     }
 
     // ------ Save Level Data ------
@@ -431,7 +432,8 @@ NamedScript MenuEntry void SaveCharacter()
 
         SetActivatorCVarString("drpg_char_data_level", StrParam("!CW%i!LL%S!LN%i", CW, LL, LN));
 
-        LogMessage(StrParam("Saved Char Level Data; CW: %i, LL: %S, LN: %i", CW, LL, LN), LOG_DEBUG);
+        if (DebugLog)
+            Log("\CdDEBUG: \C-Saved Char Level Data; CW: %i, LL: %S, LN: %i", CW, LL, LN);
     }
 
     if (Success)
@@ -495,7 +497,8 @@ NamedScript MenuEntry void LoadCharacter()
     }
 
     //EncodedSaveString = realloc(EncodedSaveString, strlen(EncodedSaveString) + 1);
-    LogMessage(StrParam("Load Data (Encoded): %s", EncodedSaveString), LOG_DEBUG);
+    if (DebugLog)
+        Log("\CdDEBUG: \C-Load Data (Encoded): %S", EncodedSaveString);
 
     SaveString = calloc(25000, sizeof(char));
 
@@ -515,7 +518,9 @@ NamedScript MenuEntry void LoadCharacter()
     free((void *)SaveString);
 
     // Version / Compatibility Flag
-    LogMessage(StrParam("Version:%d",Info.Version),LOG_DEBUG);
+    if (DebugLog)
+        Log("\CdDEBUG: \C-Version: %d", Info.Version);
+
     if (Info.Version < 0)
     {
         str const ReasonStrings[3] =
@@ -707,7 +712,8 @@ NamedScript MenuEntry void LoadCharacter()
                 NewMap->Completed = false;
                 NewMap->NeedsRealInfo = true;
 
-                LogMessage(StrParam("Loaded Char Level Data; CW: %i, LL: %S, LN: %i", CW, LL, LN), LOG_DEBUG);
+                if (DebugLog)
+                    Log("\CdDEBUG: \C-Loaded Char Level Data; CW: %i, LL: %S, LN: %i", CW, LL, LN);
             }
             else
             {
@@ -728,15 +734,16 @@ NamedScript MenuEntry void LoadCharacter()
             if (Info.DRLATokens[i])
                 SetInventory(DRLATokens[i], 1);
 
-    // Compatibility Handling - DoomRL Arsenal
+    // Compatibility Handling - DoomRL Arsenal Monsters
     // ------ Danger Level ------
     if (CompatMonMode == COMPAT_DRLA && GetActivatorCVar("drpg_char_load_rl_dangerlevel"))
     {
-        int rlDL = GetActivatorCVar("drpg_char_data_rl_dangerlevel");
+        int rlmDL = GetActivatorCVar("drpg_char_data_rl_dangerlevel");
 
-        SetInventory("RLDangerLevel", rlDL);
+        SetInventory("RLDangerLevel", rlmDL);
 
-        LogMessage(StrParam("Loaded Char RL Danger Level: %i", rlDL), LOG_DEBUG);
+        if (DebugLog)
+            Log("\CdDEBUG: \C-Loaded Char RL Danger Level: %i", rlmDL);
     }
 
     // Compatibility Handling - DoomRL Arsenal
@@ -1238,14 +1245,18 @@ NamedScript void LoadCharDataFromString(CharSaveInfo *Info, char const *String)
     // Verify Checksum
     Info->Checksum = HexToInteger(String + StringPos, 8);
     //StringPos += 8;
+
     if (DebugLog)
         Log("\CdDEBUG: \C-Saved CRC is %d (%X)", Info->Checksum, Info->Checksum);
 
     unsigned int Checksum = (unsigned int)(crc(String, StringPos));
 
     if (DebugLog)
+    {
         Log("\CdDEBUG: \C-CRC for recalled character is %d (%X)", Checksum, Checksum);
-    LogMessage(StrParam("Version:%d",Version),LOG_DEBUG);
+        Log("\CdDEBUG: \C-Version:%d", Version);
+    }
+
     Info->Version = Version;
 
     if (Checksum != Info->Checksum)
