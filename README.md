@@ -1,10 +1,14 @@
-# Sumwunn Rebalance-Sync *[WIP!]* - Rebalance saves not compatible!
+# Sumwunn Rebalance-Dev *[WIP!]* - Rebalance saves not compatible!
 
-This is WNC12k's rebalance fork + my latest fixes and improvements (see commits). Text past the dashed line is original (except for updated mod versions and links).
+### Use the branch "Rebalance-Master" for normal playthroughs as it has changes that should be safe.
+
+--------------------------
+
+This is WNC12k's Rebalance + my WIP changes. Text past the dashed line is original (except for updated mod versions and links).
 
 *Also, this build is considered WIP so please be aware that stuff may break. I don't recommend for normal playthroughs. Overtime, this build will probably be merged into Rebalance itself.*
 
-- Current Rebalance-Sync: v1.34 (Mar 8, 2024)
+- Current Merged Rebalance: v1.34 (Mar 8, 2024)
 
 ## --------------------------------------------------------------------------------------
 
