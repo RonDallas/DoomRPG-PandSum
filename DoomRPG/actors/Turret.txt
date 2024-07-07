@@ -34,7 +34,7 @@ actor DRPGPortableTurret
     var int user_command;
     var int user_goal_tid;
     
-    Health 1000
+    Health 100
     Radius 16
     Height 10
     Speed 1.0
@@ -95,7 +95,7 @@ actor DRPGPortableTurret
     Missile.Bullet:
         PTUR A 0 A_SetUserVar("user_firing", 1)
         PTUR A 0 A_PlaySound("turret/fire", CHAN_WEAPON, 1.0, 0, 0.6)
-        PTUR B 0 Bright A_CustomBulletAttack(8, 0, 1, Random(5, 10) * (user_bullet_damage + 1), "BulletPuff", 0, CBAF_NORANDOM)
+        PTUR B 0 Bright A_CustomBulletAttack(8, 0, 1, Random(5, 10) * (1 + user_bullet_damage) * (1.0 + user_bullet_damage / 40.0), "BulletPuff", 0, CBAF_NORANDOM)
         PTUR A 0 ACS_NamedExecuteAlways("TurretUseAmmo", 0, TW_BULLET)
         PTUR B 2 Bright
         PTUR A 0 A_SetTics(6 - user_bullet_rof)
@@ -104,7 +104,7 @@ actor DRPGPortableTurret
     Missile.Pellet:
         PTUR A 0 A_SetUserVar("user_firing", 1)
         PTUR A 0 A_PlaySound("weapons/sshotf", CHAN_WEAPON, 1.0, 0, 0.6)
-        PTUR B 0 Bright A_CustomBulletAttack(16 - (user_pellet_spread * 3), 16 - (user_pellet_spread * 3), 3 * (user_pellet_amount + 1), Random(5, 10) * (user_pellet_damage + 1), "BulletPuff", 0, CBAF_NORANDOM)
+        PTUR B 0 Bright A_CustomBulletAttack(15 - user_pellet_spread, 15 - (user_pellet_spread * 2), 5 + (user_pellet_amount * 2), ((Random(2, 6) * 3) + Random(2, 6) * user_pellet_damage) * (1.0 + user_pellet_damage / 40.0), "BulletPuff", 0, CBAF_NORANDOM)
         PTUR A 0 ACS_NamedExecuteAlways("TurretUseAmmo", 0, TW_PELLET)
         PTUR B 10 Bright
         PTUR A 0 A_SetTics(35 - (user_pellet_rof * 5))
@@ -128,7 +128,7 @@ actor DRPGPortableTurret
         Goto Spawn
     Missile.Railgun:
         PTUR A 0 A_SetUserVar("user_firing", 1)
-        PTUR E 0 Bright A_CustomRailgun(Random(50, 100) * (user_railgun_damage + 1), 0, "LightGreen", "Green", RGF_FULLBRIGHT | user_railgun_ripping, true, 0, "DRPGTurretRailgunPuff", 0, 0, 16384, 35 + (user_railgun_damage * 3), 1.0 - (user_railgun_damage / 20), 1.0 + (user_railgun_damage / 5), "None", -5)
+        PTUR E 0 Bright A_CustomRailgun(Random(50, 100) * (user_railgun_damage + 1) * (1.0 + user_railgun_damage / 40.0), 0, "LightGreen", "Green", RGF_FULLBRIGHT | user_railgun_ripping, true, 0, "DRPGTurretRailgunPuff", 0, 0, 16384, 35 + user_railgun_damage, 1.0 - (user_railgun_damage / 40.0), 1.0 + (user_railgun_damage / 10.0), "None", -5)
         PTUR A 0 ACS_NamedExecuteAlways("TurretUseAmmo", 0, TW_RAILGUN)
         PTUR E 10 Bright
         PTUR A 0 A_SetTics(35 - (user_plasma_rof * 5))
@@ -168,7 +168,7 @@ actor DRPGPortableTurret
 actor DRPGTurretPart : Inventory
 {
     Inventory.MaxAmount 10000
-    Inventory.PickupMessage "You got a Turret Part."
+    Inventory.PickupMessage "You picked up a turret part."
     Inventory.PickupSound "items/turret"
     
     Scale 0.5
@@ -184,7 +184,7 @@ actor DRPGTurretPart : Inventory
 
 actor DRPGTurretPartCrate : CustomInventory
 {
-    Inventory.PickupMessage "You got a crate of Turret Parts."
+    Inventory.PickupMessage "You picked up a turret part crate."
     Inventory.PickupSound "items/turretcrate"
     
     Scale 0.75
@@ -196,7 +196,7 @@ actor DRPGTurretPartCrate : CustomInventory
         TCRT ABCD 6 Bright
         Goto Spawn+1
     Pickup:
-        TNT1 A 0 A_GiveInventory("DRPGTurretPart", 50)
+        TNT1 A 0 A_GiveInventory("DRPGTurretPart", 5)
         Stop
     }
 }
@@ -391,6 +391,66 @@ actor DRPGTurretProtectionMelee10 : PowerProtection
     Powerup.Duration 5
 }
 
+actor DRPGTurretProtectionMelee11 : PowerProtection
+{
+    DamageFactor "Melee", 0.475
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionMelee12 : PowerProtection
+{
+    DamageFactor "Melee", 0.45
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionMelee13 : PowerProtection
+{
+    DamageFactor "Melee", 0.425
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionMelee14 : PowerProtection
+{
+    DamageFactor "Melee", 0.4
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionMelee15 : PowerProtection
+{
+    DamageFactor "Melee", 0.375
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionMelee16 : PowerProtection
+{
+    DamageFactor "Melee", 0.35
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionMelee17 : PowerProtection
+{
+    DamageFactor "Melee", 0.325
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionMelee18 : PowerProtection
+{
+    DamageFactor "Melee", 0.3
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionMelee19 : PowerProtection
+{
+    DamageFactor "Melee", 0.275
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionMelee20 : PowerProtection
+{
+    DamageFactor "Melee", 0.25
+    Powerup.Duration 5
+}
+
 actor DRPGTurretProtectionBullet1 : PowerProtection
 {
     DamageFactor "Bullet", 0.95
@@ -448,6 +508,66 @@ actor DRPGTurretProtectionBullet9 : PowerProtection
 actor DRPGTurretProtectionBullet10 : PowerProtection
 {
     DamageFactor "Bullet", 0.5
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionBullet11 : PowerProtection
+{
+    DamageFactor "Bullet", 0.475
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionBullet12 : PowerProtection
+{
+    DamageFactor "Bullet", 0.45
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionBullet13 : PowerProtection
+{
+    DamageFactor "Bullet", 0.425
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionBullet14 : PowerProtection
+{
+    DamageFactor "Bullet", 0.4
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionBullet15 : PowerProtection
+{
+    DamageFactor "Bullet", 0.375
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionBullet16 : PowerProtection
+{
+    DamageFactor "Bullet", 0.35
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionBullet17 : PowerProtection
+{
+    DamageFactor "Bullet", 0.325
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionBullet18 : PowerProtection
+{
+    DamageFactor "Bullet", 0.3
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionBullet19 : PowerProtection
+{
+    DamageFactor "Bullet", 0.275
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionBullet20 : PowerProtection
+{
+    DamageFactor "Bullet", 0.25
     Powerup.Duration 5
 }
 
@@ -511,6 +631,66 @@ actor DRPGTurretProtectionFire10 : PowerProtection
     Powerup.Duration 5
 }
 
+actor DRPGTurretProtectionFire11 : PowerProtection
+{
+    DamageFactor "Fire", 0.475
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionFire12 : PowerProtection
+{
+    DamageFactor "Fire", 0.45
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionFire13 : PowerProtection
+{
+    DamageFactor "Fire", 0.425
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionFire14 : PowerProtection
+{
+    DamageFactor "Fire", 0.4
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionFire15 : PowerProtection
+{
+    DamageFactor "Fire", 0.375
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionFire16 : PowerProtection
+{
+    DamageFactor "Fire", 0.35
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionFire17 : PowerProtection
+{
+    DamageFactor "Fire", 0.325
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionFire18 : PowerProtection
+{
+    DamageFactor "Fire", 0.3
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionFire19 : PowerProtection
+{
+    DamageFactor "Fire", 0.275
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionFire20 : PowerProtection
+{
+    DamageFactor "Fire", 0.25
+    Powerup.Duration 5
+}
+
 actor DRPGTurretProtectionPlasma1 : PowerProtection
 {
     DamageFactor "Plasma", 0.95
@@ -568,6 +748,66 @@ actor DRPGTurretProtectionPlasma9 : PowerProtection
 actor DRPGTurretProtectionPlasma10 : PowerProtection
 {
     DamageFactor "Plasma", 0.5
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionPlasma11 : PowerProtection
+{
+    DamageFactor "Plasma", 0.475
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionPlasma12 : PowerProtection
+{
+    DamageFactor "Plasma", 0.45
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionPlasma13 : PowerProtection
+{
+    DamageFactor "Plasma", 0.425
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionPlasma14 : PowerProtection
+{
+    DamageFactor "Plasma", 0.4
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionPlasma15 : PowerProtection
+{
+    DamageFactor "Plasma", 0.375
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionPlasma16 : PowerProtection
+{
+    DamageFactor "Plasma", 0.35
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionPlasma17 : PowerProtection
+{
+    DamageFactor "Plasma", 0.325
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionPlasma18 : PowerProtection
+{
+    DamageFactor "Plasma", 0.3
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionPlasma19 : PowerProtection
+{
+    DamageFactor "Plasma", 0.275
+    Powerup.Duration 5
+}
+
+actor DRPGTurretProtectionPlasma20 : PowerProtection
+{
+    DamageFactor "Plasma", 0.25
     Powerup.Duration 5
 }
 
@@ -737,16 +977,16 @@ actor DRPGDestroyedTurret : SwitchableDecoration
         TNT1 A 0 A_JumpIf(user_damage == 3, "Setup3")
         Stop
     Setup1:
-        TNT1 A 0 A_SetUserVar("user_loop", 20)
-        TNT1 A 0 A_SetUserVar("user_angleoff", 360 / 20)
+        TNT1 A 0 A_SetUserVar("user_loop", 7)
+        TNT1 A 0 A_SetUserVar("user_angleoff", 360 / 7)
         Goto Destroyed1
     Setup2:
-        TNT1 A 0 A_SetUserVar("user_loop", 10)
-        TNT1 A 0 A_SetUserVar("user_angleoff", 360 / 10)
-        Goto Destroyed2
-    Setup3:
         TNT1 A 0 A_SetUserVar("user_loop", 5)
         TNT1 A 0 A_SetUserVar("user_angleoff", 360 / 5)
+        Goto Destroyed2
+    Setup3:
+        TNT1 A 0 A_SetUserVar("user_loop", 3)
+        TNT1 A 0 A_SetUserVar("user_angleoff", 360 / 3)
         Goto Destroyed3
     Destroyed1:
         PTRD A Random(35, 105)

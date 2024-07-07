@@ -15,33 +15,46 @@
 #include "Utils.h"
 
 // Level Info
-DynamicArray WSMapPacks[MAX_WSMAPPACKS];
-DynamicArray *KnownLevels = &WSMapPacks[0];
+DynamicArray ExtraMapPacks[MAX_MAPPACKS];
+DynamicArray *KnownLevels = &ExtraMapPacks[0];
 LevelInfo *CurrentLevel;
 LevelInfo *PreviousLevel;
 LevelInfo *TransporterLevel;
 LevelInfo *DefaultOutpost;
-int PreviousLevelNum;
-int PreviousPrimaryLevelNum;
+int NextLevelNum;
+int NextPrimaryLevelNum;
 bool UsedSecretExit;
 bool WaitingForReplacements;
 int AllBonusMaps; // For the OCD Shield
 int CurrentSkill; // Keeps track of skill changes based on events
 
-// WadSmoosh
-bool MapPackActive[MAX_WSMAPPACKS];
+// MapPacks
+bool MapPackActive[MAX_MAPPACKS];
 
 // Local
 static int PassingEventTimer;
 static bool DisableEvent;
 static int LevelSectorCount;
 
-//WadSmoosh Local
-static bool WadSmooshInitialized;
+//MapPacks Local
+static bool MapPacksInitialized;
 
 // Map Init Script
 NamedScript Type_OPEN void MapInit()
 {
+    // Set starting Map Spot
+    fixed StartX, StartY, StartZ;
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (!PlayerInGame(i)) continue;
+
+        StartX = GetActorX(Players(i).TID);
+        StartY = GetActorY(Players(i).TID);
+        StartZ = GetActorZ(Players(i).TID);
+        break;
+    }
+    SpawnForced("MapSpot", StartX, StartY, StartZ, MAP_START_TID, 0);
+
     // Running the game for the first time
     if (KnownLevels->Data == NULL)
     {
@@ -53,8 +66,8 @@ NamedScript Type_OPEN void MapInit()
         CurrentSkill = GameSkill() - 1;
         UsedSecretExit = false;
         PreviousLevelSecret = false;
-        PreviousLevelNum = StartMapNum - 1;
-        PreviousPrimaryLevelNum = StartMapNum - 1;
+        NextLevelNum = StartMapNum;
+        NextPrimaryLevelNum = StartMapNum;
         ArrayCreate(KnownLevels, "Levels", 32, sizeof(LevelInfo));
         CurrentLevel = NULL;
         PreviousLevel = NULL;
@@ -164,16 +177,7 @@ NamedScript Type_OPEN void MapInit()
 
             if (CurrentLevel->LevelNum == 0)
             {
-                PreviousLevelNum++;
-                if (!UsedSecretExit)
-                    PreviousLevelNum = ++PreviousPrimaryLevelNum;
-
-                if (PreviousLevelNum > 1000)
-                    PreviousLevelNum = 1000;
-                if (PreviousPrimaryLevelNum > 1000)
-                    PreviousPrimaryLevelNum = 1000;
-
-                CurrentLevel->LevelNum = PreviousLevelNum;
+                CurrentLevel->LevelNum = NextLevelNum;
                 CurrentLevel->SecretMap = UsedSecretExit;
             }
 
@@ -278,10 +282,14 @@ NamedScript Type_OPEN void MapInit()
     if (CurrentLevel->UACBase)
         DefaultOutpost = CurrentLevel;
 
-    // WadSmoosh
-    InitWadSmoosh();
+    // Initialization map packs (WadSmoosh, Lexicon and etc.)
+    InitMapPacks();
 
-    if (CurrentLevel->UACBase || CurrentLevel->UACArena)
+    // Compatibility Handling - DoomRL Arsenal Extended
+    if (CompatModeEx == COMPAT_DRLAX)
+        NomadModPacksLoad();
+
+    if (CurrentLevel->UACBase || CurrentLevel->UACArena || CurrentLevel->LumpName == "HUBMAP" || CurrentLevel->LumpName == "VR")
     {
         CurrentLevel->Init = true;
         return; // [KS] These maps set themselves up, so nothing more to do.
@@ -367,10 +375,10 @@ NamedScript Type_OPEN void MapInit()
         break;
     }
 
-    // Hell Skill has some additional challenges
-    if (GetCVar("drpg_minibosses") == 1 && GameSkill() >= 5 || GetCVar("drpg_minibosses") == 2)
+    // Hard Skill has some additional challenges
+    if (GetCVar("drpg_minibosses") == 1 && GameSkill() >= (CompatMonMode == COMPAT_DRLA ? 5 : 3) && CurrentLevel->Event != MAPEVENT_MEGABOSS || GetCVar("drpg_minibosses") == 2 && CurrentLevel->Event != MAPEVENT_MEGABOSS)
         AddMiniboss();
-    if (GetCVar("drpg_reinforcements") == 1 && GameSkill() >= 5 || GetCVar("drpg_reinforcements") == 2)
+    if (GetCVar("drpg_reinforcements") == 1 && GameSkill() >= (CompatMonMode == COMPAT_DRLA ? 5 : 3) && CurrentLevel->Event != MAPEVENT_MEGABOSS || GetCVar("drpg_reinforcements") == 2 && CurrentLevel->Event != MAPEVENT_MEGABOSS)
         for (int i = 0; i < MAX_PLAYERS; i++)
             if (PlayerInGame(i))
                 HellSkillTransport(i);
@@ -468,14 +476,14 @@ NamedScript void SetupMapMissions()
         if (!PlayerInGame(i)) continue;
 
         // Kill
-        if (Players(i).Mission.Active && Players(i).Mission.Type == MT_KILL && !CurrentLevel->BadMap)
+        if (Players(i).Mission.Active && Players(i).Mission.Type == MT_KILL && !CurrentLevel->BadMap && CurrentLevel->Event != MAPEVENT_MEGABOSS)
         {
             int Amount = Players(i).Mission.Amount - Players(i).Mission.Current;
             DynamicLootGenerator(GetMissionMonsterActor(Players(i).Mission.Monster->Actor), Amount);
         }
 
         // Assassination
-        if (Players(i).Mission.Active && Players(i).Mission.Type == MT_ASSASSINATION)
+        if (Players(i).Mission.Active && Players(i).Mission.Type == MT_ASSASSINATION && CurrentLevel->Event != MAPEVENT_MEGABOSS)
             DynamicLootGenerator(GetMissionMonsterActor(Players(i).Mission.Monster->Actor), 1);
     }
 }
@@ -518,9 +526,9 @@ Start:
             if (!PlayerInGame(i))
                 continue;
 
-            FadeRange(255, 255, 0, 0.25, 255, 255, 0, 0, 1.0);
+            FadeRangeFlash(255, 255, 0, 0.25, 255, 255, 0, 0, 1.0);
 
-            RankBonus = (long int)(RankTable[Players(i).RankLevel]) / 100l;
+            RankBonus = (((long int)(RankTable[Players(i).RankLevel]) / (long)(100 + RoundInt(100.0 * (Player.RankLevel / 24.0)))) + 250l) / 250l * 250l;
             Players(i).Rank += RankBonus;
 
             if (Players(i).Mission.Type != MT_SECRETS)
@@ -561,12 +569,23 @@ Start:
 
             SetActivator(Players(i).TID);
 
-            FadeRange(255, 0, 0, 0.25, 255, 0, 0, 0, 1.0);
+            FadeRangeFlash(255, 0, 0, 0.25, 255, 0, 0, 0, 1.0);
 
-            XPBonus = XPTable[Players(i).Level] / 100l;
-            Player.XP += XPBonus;
+            if (Players(i).Level < MAX_LEVEL)
+            {
+                XPBonus = ((XPTable[Players(i).Level] / (long)(5 + RoundInt(5.0 * (Player.Level / 100.0)))) + 50l) / 50l * 50l;
+                Player.XP += XPBonus;
 
-            HudMessage("Monsters Killed Bonus!\n%ld XP Bonus", XPBonus);
+                HudMessage("Monsters Killed Bonus!\n%ld XP Bonus", XPBonus);
+            }
+
+            if (Players(i).Level == MAX_LEVEL)
+            {
+                GiveActorInventory(Players(i).TID, "DRPGCredits", 1000);
+
+                HudMessage("Monsters Killed Bonus!\n%d Credits Bonus", 1000);
+            }
+
             EndHudMessage(HUDMSG_FADEOUT, 0, "Brick", 1.5, 0.4, 3.0, 3.0);
         }
 
@@ -584,10 +603,20 @@ Start:
 
             SetActivator(Players(i).TID);
 
-            FadeRange(0, 255, 255, 0.25, 0, 255, 255, 0, 1.0);
+            FadeRangeFlash(0, 255, 255, 0.25, 0, 255, 255, 0, 1.0);
 
             HealThing(MAX_HEALTH);
             Players(i).EP = Players(i).EPMax;
+
+            // Compatibility Handling - DoomRL Extended
+            // Restore Health/EP for Phase Sisters
+            if (CompatModeEx == COMPAT_DRLAX && PlayerClass(PlayerNumber()) == 9) // Phase Sisters
+            {
+                Player.Portia.ActualHealth = Player.HealthMax;
+                Player.Portia.EP = Player.EPMax;
+                Player.Terri.ActualHealth = Player.HealthMax;
+                Player.Terri.EP = Player.EPMax;
+            }
 
             HudMessage("Items Found Bonus!\nFull HP/EP Restore");
             EndHudMessage(HUDMSG_FADEOUT, 0, "LightBlue", 1.5, 0.6, 3.0, 3.0);
@@ -607,12 +636,23 @@ Start:
 
             SetActivator(Players(i).TID);
 
-            FadeRange(255, 255, 0, 0.25, 255, 255, 0, 0, 1.0);
+            FadeRangeFlash(255, 255, 0, 0.25, 255, 255, 0, 0, 1.0);
 
-            RankBonus = RankTable[Players(i).RankLevel] / 20l;
-            Players(i).Rank += RankBonus;
+            if (Players(i).RankLevel < MAX_RANK)
+            {
+                RankBonus = ((RankTable[Players(i).RankLevel] / (long)(20 + RoundInt(20.0 * (Player.RankLevel / 24.0)))) + 250l) / 250l * 250l;
+                Players(i).Rank += RankBonus;
 
-            HudMessage("Secrets Found Bonus!\n%ld Rank Bonus", RankBonus);
+                HudMessage("Secrets Found Bonus!\n%ld Rank Bonus", RankBonus);
+            }
+
+            if (Players(i).RankLevel == MAX_RANK)
+            {
+                GiveActorInventory(Players(i).TID, "DRPGCredits", 1000);
+
+                HudMessage("Secrets Found Bonus!\n%d Credits Bonus", 1000);
+            }
+
             EndHudMessage(HUDMSG_FADEOUT, 0, "Yellow", 1.5, 0.8, 3.0, 3.0);
         }
 
@@ -630,19 +670,63 @@ Start:
 
             SetActivator(Players(i).TID);
 
-            FadeRange(255, 255, 255, 0.25, 255, 255, 255, 0, 1.0);
-
-            XPBonus = XPTable[Players(i).Level] / 100l;
-            RankBonus = RankTable[Players(i).RankLevel] / 20l;
-
-            Players(i).XP += XPBonus;
-            Players(i).Rank += RankBonus;
+            FadeRangeFlash(255, 255, 255, 0.25, 255, 255, 255, 0, 1.0);
 
             HealThing(MAX_HEALTH);
             Players(i).EP = Players(i).EPMax;
 
-            HudMessage("\CaMonsters Killed Bonus!\n\CnItems Found Bonus!\n\CkSecrets Found Bonus!\n\n\Cj%ld XP Bonus\n\Ck%ld Rank Bonus\n\CnFull HP/EP Restore",
-                       XPBonus, RankBonus);
+            // Compatibility Handling - DoomRL Extended
+            // Restore Health/EP for Phase Sisters
+            if (CompatModeEx == COMPAT_DRLAX && PlayerClass(PlayerNumber()) == 9) // Phase Sisters
+            {
+                Player.Portia.ActualHealth = Player.HealthMax;
+                Player.Portia.EP = Player.EPMax;
+                Player.Terri.ActualHealth = Player.HealthMax;
+                Player.Terri.EP = Player.EPMax;
+            }
+
+            if (Players(i).Level < MAX_LEVEL && Players(i).RankLevel < MAX_RANK)
+            {
+                XPBonus = ((XPTable[Players(i).Level] / (long)(5 + RoundInt(5.0 * (Player.Level / 100.0)))) + 50l) / 50l * 50l;
+                RankBonus = ((RankTable[Players(i).RankLevel] / (long)(20 + RoundInt(20.0 * (Player.RankLevel / 24.0)))) + 250l) / 250l * 250l;
+
+                Players(i).XP += XPBonus;
+                Players(i).Rank += RankBonus;
+
+                HudMessage("\CaMonsters Killed Bonus!\n\CnItems Found Bonus!\n\CkSecrets Found Bonus!\n\n\Cj%ld XP Bonus\n\Ck%ld Rank Bonus\n\CnFull HP/EP Restore",
+                           XPBonus, RankBonus);
+            }
+
+            if (Players(i).Level == MAX_LEVEL && Players(i).RankLevel == MAX_RANK)
+            {
+                GiveActorInventory(Players(i).TID, "DRPGCredits", 2000);
+
+                HudMessage("\CaMonsters Killed Bonus!\n\CnItems Found Bonus!\n\CkSecrets Found Bonus!\n\n\Cj%d Credits Bonus\n\Ck%d Credits Bonus\n\CnFull HP/EP Restore",
+                           1000, 1000);
+            }
+
+            if (Players(i).Level == MAX_LEVEL && Players(i).RankLevel < MAX_RANK)
+            {
+                RankBonus = ((RankTable[Players(i).RankLevel] / (long)(20 + RoundInt(20.0 * (Player.RankLevel / 24.0)))) + 250l) / 250l * 250l;
+
+                Players(i).Rank += RankBonus;
+                GiveActorInventory(Players(i).TID, "DRPGCredits", 1000);
+
+                HudMessage("\CaMonsters Killed Bonus!\n\CnItems Found Bonus!\n\CkSecrets Found Bonus!\n\n\Cj%d Credits Bonus\n\Ck%ld Rank Bonus\n\CnFull HP/EP Restore",
+                           1000, RankBonus);
+            }
+
+            if (Players(i).Level < MAX_LEVEL && Players(i).RankLevel == MAX_RANK)
+            {
+                XPBonus = ((XPTable[Players(i).Level] / (long)(5 + RoundInt(5.0 * (Player.Level / 100.0)))) + 50l) / 50l * 50l;
+
+                Players(i).XP += XPBonus;
+                GiveActorInventory(Players(i).TID, "DRPGCredits", 1000);
+
+                HudMessage("\CaMonsters Killed Bonus!\n\CnItems Found Bonus!\n\CkSecrets Found Bonus!\n\n\Cj%ld XP Bonus\n\Ck%d Credits Bonus\n\CnFull HP/EP Restore",
+                           XPBonus, 1000);
+            }
+
             EndHudMessage(HUDMSG_FADEOUT, 0, "White", 0.5, 0.2, 5.0, 5.0);
         }
 
@@ -740,8 +824,8 @@ NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNu
     while (KnownLevels->Data == NULL)
         Delay(1);
 
-    if (WadSmoosh)
-        return; // this messes up WadSmoosh too much, running every time we go to the outpost
+    if (MapPacks)
+        return; // this messes up map packs too much, running every time we go to the outpost
 
     if (FindLevelInfo(Name) != NULL)
         return; // This map was already unlocked, so ignore it
@@ -772,7 +856,7 @@ NumberedScript(MAP_EXIT_SCRIPTNUM) MapSpecial void MapExit(bool Secret, bool Tel
 
     // Megabosses prevent you from leaving until they are killed
     // Hell Unleashed prevents you from leaving until you have opened the box
-    if ((CurrentLevel->Event == MAPEVENT_MEGABOSS && !CurrentLevel->EventCompleted) || (CurrentLevel->Event == MAPEVENT_DRLA_OVERMIND && !CurrentLevel->EventCompleted) || (CurrentLevel->Event == MAPEVENT_HELLUNLEASHED && !CurrentLevel->HellUnleashedActive))
+    if ((CurrentLevel->Event == MAPEVENT_MEGABOSS && !CurrentLevel->EventCompleted) && !GetLevelInfo(LEVELINFO_TOTAL_MONSTERS) == 0 || (CurrentLevel->Event == MAPEVENT_DRLA_OVERMIND && !CurrentLevel->EventCompleted) && !GetLevelInfo(LEVELINFO_TOTAL_MONSTERS) == 0 || (CurrentLevel->Event == MAPEVENT_HELLUNLEASHED && !CurrentLevel->HellUnleashedActive))
     {
         AmbientSound("mission/gottarget2", 127);
 
@@ -838,14 +922,26 @@ NumberedScript(MAP_EXIT_SCRIPTNUM) MapSpecial void MapExit(bool Secret, bool Tel
             if (!PlayerInGame(i)) continue;
 
             SetActivator(Players(i).TID);
-            long int RankBonus = RankTable[Players(i).RankLevel] / 20;
 
             SetFont("SMALLFONT");
-            FadeRange(255, 255, 0, 0.25, 255, 255, 0, 0.0, 1.0);
-            HudMessage("Par Time Beaten!\n%ld Rank Bonus", RankBonus);
-            EndHudMessage(HUDMSG_FADEOUT, 0, "Gold", 1.5, 0.5, 3.0, 2.0);
+            FadeRangeFlash(255, 255, 0, 0.25, 255, 255, 0, 0.0, 1.0);
 
-            Players(i).Rank += RankBonus;
+            if (Players(i).RankLevel < MAX_RANK)
+            {
+                long int RankBonus = ((RankTable[Players(i).RankLevel] / (long)(10 + RoundInt(10.0 * (Player.RankLevel / 24.0)))) + 250l) / 250l * 250l;
+                Players(i).Rank += RankBonus;
+
+                HudMessage("Par Time Beaten!\n%ld Rank Bonus", RankBonus);
+            }
+
+            if (Players(i).RankLevel == MAX_RANK)
+            {
+                GiveActorInventory(Players(i).TID, "DRPGCredits", 1000);
+
+                HudMessage("Par Time Beaten!\n%d Credits Bonus", 1000);
+            }
+
+            EndHudMessage(HUDMSG_FADEOUT, 0, "Gold", 1.5, 0.5, 3.0, 2.0);
         }
 
         AmbientSound("misc/parbonus", 127);
@@ -856,7 +952,7 @@ NumberedScript(MAP_EXIT_SCRIPTNUM) MapSpecial void MapExit(bool Secret, bool Tel
         Delay(35 * 5);
     }
 
-    if (CurrentLevel->Event == MAPEVENT_TELEPORTCRACKS || CurrentLevel->Event == MAPEVENT_DOOMSDAY || CurrentLevel->Event == MAPEVENT_DRLA_FEEDINGFRENZY || CurrentLevel->Event == MAPEVENT_SKILL_HELL || CurrentLevel->Event == MAPEVENT_SKILL_ARMAGEDDON)
+    if (CurrentLevel->Event == MAPEVENT_TELEPORTCRACKS || CurrentLevel->Event == MAPEVENT_DOOMSDAY || CurrentLevel->Event == MAPEVENT_DRLA_FEEDINGFRENZY || CurrentLevel->Event == MAPEVENT_SKILL_TECHNOPHOBIA || CurrentLevel->Event == MAPEVENT_SKILL_ARMAGEDDON)
         CurrentLevel->EventCompleted = true; // These don't actually end until you leave the map normally
 
     // We finished the map
@@ -864,9 +960,31 @@ NumberedScript(MAP_EXIT_SCRIPTNUM) MapSpecial void MapExit(bool Secret, bool Tel
 
     UsedSecretExit = Secret;
     PreviousLevel = CurrentLevel;
-    PreviousLevelNum = CurrentLevel->LevelNum;
-    if (!CurrentLevel->SecretMap)
-        PreviousPrimaryLevelNum = CurrentLevel->LevelNum;
+
+    NextLevelNum++;
+    if (!UsedSecretExit)
+        NextLevelNum = ++NextPrimaryLevelNum;
+
+    if (NextLevelNum > 1000)
+        NextLevelNum = 1000;
+    if (NextPrimaryLevelNum > 1000)
+        NextPrimaryLevelNum = 1000;
+
+    // Compatibility Handling - DoomRL Arsenal Extended
+    // Nomad - Increased Luck Stat for every Level completed
+    if (CompatModeEx == COMPAT_DRLAX)
+    {
+        for (int i = 0; i < MAX_PLAYERS; i++)
+        {
+            if (!PlayerInGame(i)) continue;
+
+            // Increased Luck Stat for Nomad Players
+            if (PlayerClass(i) == 7 && Players(i).NomadLuckBonus < 100 * MapLevelModifier)
+                Players(i).NomadLuckBonus = 100 * MapLevelModifier;
+
+            NomadModPacksSave();
+        }
+    }
 
     // Exits
     if (CurrentLevel->UACArena)
@@ -898,9 +1016,9 @@ NamedScript void AddMiniboss()
     while (!Monsters[Chosen].Init)
         Chosen = Random(1, MonsterID - 1);
 
-    int LevelMod = (GameSkill() - 1) * AveragePlayerLevel();
-    LevelMod = (int)(LevelMod * RandomFixed(1.0, 1.33));
-    Monsters[Chosen].LevelAdd += LevelMod;
+    int LevelMod = 1 + ((GameSkill() + 1) * 0.125);
+    LevelMod = (int)(LevelMod * RandomFixed(1.00, 1.25));
+    Monsters[Chosen].LevelAdd *= LevelMod;
 
     // Shadow Aura
     for (int i = 0; i < AURA_MAX; i++)
@@ -921,6 +1039,7 @@ NamedScript void HellSkillTransport(int player)
     MonsterInfoPtr MonsterList[MAX_TEMP_MONSTERS];
     int MonsterListLength;
     int BossesSpawned = 0;
+    int LevelNum = CurrentLevel->LevelNum;
 
     Delay(35 * 60); // Grace Period
 
@@ -929,33 +1048,56 @@ NamedScript void HellSkillTransport(int player)
     {
         MonsterInfoPtr TempMonster = &MonsterData[i];
 
-        if (TempMonster->Difficulty <= 2 + AveragePlayerLevel() * 2)
-            MonsterList[MonsterListLength++] = TempMonster;
+        if (CompatMonMode == COMPAT_DRLA)
+        {
+            if (GameSkill() < 5)
+            {
+                if ((fixed)TempMonster->Difficulty >= ((((fixed)GameSkill() - 1.0) * 8.0) + ((fixed)LevelNum / ((fixed)GetCVar("drpg_ws_use_wads") * 32.0)) * (200.0 - (((fixed)GameSkill() - 1.0) * 8.0)) + (fixed)AveragePlayerLevel() - 20.0) &&
+                        (fixed)TempMonster->Difficulty <= ((((fixed)GameSkill() - 1.0) * 8.0) + ((fixed)LevelNum / ((fixed)GetCVar("drpg_ws_use_wads") * 32.0)) * (200.0 - (((fixed)GameSkill() - 1.0) * 8.0)) + (fixed)AveragePlayerLevel() + 20.0))
+                    MonsterList[MonsterListLength++] = TempMonster;
+            }
+            if (GameSkill() >= 5)
+            {
+                if ((fixed)TempMonster->Difficulty >= ((((fixed)GameSkill() - 5.0) * 50.0) + ((fixed)LevelNum / ((fixed)GetCVar("drpg_ws_use_wads") * 32.0)) * (200.0 - (((fixed)GameSkill() - 5.0) * 50.0)) + (fixed)AveragePlayerLevel() - 20.0) &&
+                        (fixed)TempMonster->Difficulty <= ((((fixed)GameSkill() - 5.0) * 50.0) + ((fixed)LevelNum / ((fixed)GetCVar("drpg_ws_use_wads") * 32.0)) * (200.0 - (((fixed)GameSkill() - 5.0) * 50.0)) + (fixed)AveragePlayerLevel() + 20.0))
+                    MonsterList[MonsterListLength++] = TempMonster;
+            }
+        }
+        else if (CompatMonMode == COMPAT_PANDEMONIA)
+        {
+            if (GameSkill() < 3)
+            {
+                if ((fixed)TempMonster->Difficulty >= ((((fixed)GameSkill() - 1.0) * 8.0) + ((fixed)LevelNum / ((fixed)GetCVar("drpg_ws_use_wads") * 32.0)) * (200.0 - (((fixed)GameSkill() - 1.0) * 8.0)) + (fixed)AveragePlayerLevel() - 20.0) &&
+                        (fixed)TempMonster->Difficulty <= ((((fixed)GameSkill() - 1.0) * 8.0) + ((fixed)LevelNum / ((fixed)GetCVar("drpg_ws_use_wads") * 32.0)) * (200.0 - (((fixed)GameSkill() - 1.0) * 8.0)) + (fixed)AveragePlayerLevel() + 20.0))
+                    MonsterList[MonsterListLength++] = TempMonster;
+            }
+            if (GameSkill() >= 3)
+            {
+                if ((fixed)TempMonster->Difficulty >= ((((fixed)GameSkill() - 3.0) * 50.0) + ((fixed)LevelNum / ((fixed)GetCVar("drpg_ws_use_wads") * 32.0)) * (200.0 - (((fixed)GameSkill() - 3.0) * 50.0)) + (fixed)AveragePlayerLevel() - 20.0) &&
+                        (fixed)TempMonster->Difficulty <= ((((fixed)GameSkill() - 3.0) * 50.0) + ((fixed)LevelNum / ((fixed)GetCVar("drpg_ws_use_wads") * 32.0)) * (200.0 - (((fixed)GameSkill() - 3.0) * 50.0)) + (fixed)AveragePlayerLevel() + 20.0))
+                    MonsterList[MonsterListLength++] = TempMonster;
+            }
+        }
+        else
+        {
+            if (TempMonster->Difficulty <= 2 + AveragePlayerLevel() * 2)
+                MonsterList[MonsterListLength++] = TempMonster;
+        }
     }
 
     //Log("%d monsters", MonsterListLength);
 
     fixed X, Y, Z;
-    int MonsterIndex;
     fixed SpawnX;
     fixed SpawnY;
-    int TID;
-    bool Success;
-    int SpawnTries;
-    int CurrentRadius;
+    bool Success, IsBoss;
+    int MonsterIndex, TID, SpawnTries, RadiusMin, RadiusMax;
 
     while (GetLevelInfo(LEVELINFO_KILLED_MONSTERS) < GetLevelInfo(LEVELINFO_TOTAL_MONSTERS))
     {
         X = GetActorX(0);
         Y = GetActorY(0);
         Z = GetActorZ(0);
-        MonsterIndex = 0;
-        SpawnX = 0.0;
-        SpawnY = 0.0;
-        TID = 0;
-        Success = false;
-        SpawnTries = 0;
-        CurrentRadius = 0;
 
         // Stop spawning if time is frozen
         while (IsTimeFrozen()) Delay(1);
@@ -963,14 +1105,16 @@ NamedScript void HellSkillTransport(int player)
         TID = UniqueTID();
         Success = false;
         SpawnTries = 0;
-        CurrentRadius = 1024;
+        RadiusMin = 256;
+        RadiusMax = 1024;
+        IsBoss = false;
 
         while (!Success && SpawnTries < 3)
         {
             MonsterIndex = Random(0, MonsterListLength - 1);
 
-            SpawnX = RandomFixed(-(fixed)CurrentRadius, (fixed)CurrentRadius);
-            SpawnY = RandomFixed(-(fixed)CurrentRadius, (fixed)CurrentRadius);
+            SpawnX = RandomFixed(-(fixed)RadiusMax, (fixed)RadiusMax);
+            SpawnY = RandomFixed(-(fixed)RadiusMax, (fixed)RadiusMax);
 
             // Get the floor Z position at this spot
             SpawnForced("MapSpot", X + SpawnX, Y + SpawnY, Z, TID, 0);
@@ -979,10 +1123,10 @@ NamedScript void HellSkillTransport(int player)
 
             Success = Spawn(GetMissionMonsterActor(MonsterList[MonsterIndex]->Actor), X + SpawnX, Y + SpawnY, Z, TID, 0);
 
-            bool IsBoss = CheckFlag(TID, "BOSS");
+            IsBoss = CheckFlag(TID, "BOSS");
 
             if (Success)
-                Success = CheckSight(0, TID, 0);
+                Success = CheckSight(0, TID, 0) && Distance(0, TID) > RadiusMin;
             if (Success)
                 Success = !IsBoss || (!Random (0, 3) && BossesSpawned < 3);
 
@@ -990,7 +1134,9 @@ NamedScript void HellSkillTransport(int player)
             {
                 // Try again, closer to the player each time, up to 3 times, before giving up.
                 Thing_Remove(TID);
-                CurrentRadius /= 2;
+                RadiusMax /= 2;
+                if (SpawnTries == 1)
+                    RadiusMin /= 2;
             }
             else
             {
@@ -999,6 +1145,7 @@ NamedScript void HellSkillTransport(int player)
             }
 
             SpawnTries++;
+            Delay(1);
         }
 
         if (Success)
@@ -1007,9 +1154,10 @@ NamedScript void HellSkillTransport(int player)
             Thing_Hate(TID, Player.TID);
             Thing_ChangeTID(TID, 0); // Get rid of the ID
             Spawn("TeleportFog", X + SpawnX, Y + SpawnY, Z, 0, 0);
+            Delay(35 * Random(60, 120));
         }
 
-        Delay(35 * 30);
+        Delay(1);
     }
 }
 
@@ -1021,71 +1169,79 @@ bool CheckMapEvent(int Event, LevelInfo *TargetLevel)
     {
     case MAPEVENT_MEGABOSS:
         return (GetCVar("drpg_mapevent_megaboss") &&
-                AveragePlayerLevel() >= 50);
+                MapLevelModifier >= 0.80);
 
     case MAPEVENT_TOXICHAZARD:
-        return (GetCVar("drpg_mapevent_toxichazard"));
+        return (GetCVar("drpg_mapevent_toxichazard") &&
+                MapLevelModifier >= 0.30);
 
     case MAPEVENT_NUCLEARBOMB:
-        return (GetCVar("drpg_mapevent_nuclearbomb"));
+        return (GetCVar("drpg_mapevent_nuclearbomb") &&
+                MapLevelModifier >= 0.20);
 
     case MAPEVENT_LOWPOWER:
-        return (GetCVar("drpg_mapevent_lowpower"));
+        return (GetCVar("drpg_mapevent_lowpower") &&
+                MapLevelModifier >= 0.40);
 
     case MAPEVENT_ALLAURAS:
         return (GetCVar("drpg_mapevent_allauras") &&
-                AveragePlayerLevel() >= 20);
+                MapLevelModifier >= 0.60);
 
     case MAPEVENT_ONEMONSTER:
-        return (GetCVar("drpg_mapevent_onemonster"));
+        return (GetCVar("drpg_mapevent_onemonster") &&
+                MapLevelModifier >= 0.30);
 
     case MAPEVENT_HELLUNLEASHED:
         return (GetCVar("drpg_mapevent_hellunleashed") &&
-                AveragePlayerLevel() >= 20);
+                MapLevelModifier >= 0.80);
 
     case MAPEVENT_HARMONIZEDAURAS:
         return (GetCVar("drpg_mapevent_harmonizedauras") &&
-                AveragePlayerLevel() >= 10);
+                MapLevelModifier >= 0.70);
 
     case MAPEVENT_TELEPORTCRACKS:
-        return (GetCVar("drpg_mapevent_teleportcracks"));
+        return (GetCVar("drpg_mapevent_teleportcracks") &&
+                MapLevelModifier >= 0.50);
 
     case MAPEVENT_DOOMSDAY:
         return (GetCVar("drpg_mapevent_doomsday") &&
-                AveragePlayerLevel() >= 20 &&
+                MapLevelModifier >= 0.70 &&
                 !Random(0, 3) &&
                 !TargetLevel->Completed);
 
     case MAPEVENT_ACIDRAIN:
-        return (GetCVar("drpg_mapevent_acidrain"));
+        return (GetCVar("drpg_mapevent_acidrain") &&
+                MapLevelModifier >= 0.20);
 
     case MAPEVENT_DARKZONE:
-        return (GetCVar("drpg_mapevent_darkzone"));
+        return (GetCVar("drpg_mapevent_darkzone") &&
+                MapLevelModifier >= 0.30);
 
     case MAPEVENT_DRLA_FEEDINGFRENZY:
         return (CompatMode == COMPAT_DRLA && CompatMonMode == COMPAT_DRLA &&
                 GetCVar("drpg_mapevent_feedingfrenzy") &&
-                AveragePlayerLevel() >= 20);
+                MapLevelModifier >= 0.60);
 
     case MAPEVENT_DRLA_OVERMIND:
         return (GetCVar("drpg_mapevent_overmind") &&
                 CompatMode == COMPAT_DRLA && CompatMonMode == COMPAT_DRLA &&
-                AveragePlayerLevel() >= 40);
+                MapLevelModifier >= 0.80);
 
     case MAPEVENT_BONUS_RAINBOWS:
         return (GetCVar("drpg_mapevent_rainbows") &&
-                !Random(0, 15));
+                MapLevelModifier >= 0.40 && !Random(0, 15));
 
-    case MAPEVENT_SKILL_HELL:
-        return (GetCVar("drpg_mapevent_skill_hell") &&
-                AveragePlayerLevel() >= 15 &&
-                CurrentSkill < 4);
+    case MAPEVENT_SKILL_TECHNOPHOBIA:
+        return  (CompatMonMode == COMPAT_DRLA &&
+                 GetCVar("drpg_mapevent_skill_technophobia") &&
+                 MapLevelModifier >= 0.50 &&
+                 CurrentSkill != 6);
 
     case MAPEVENT_SKILL_ARMAGEDDON:
         return (CompatMonMode == COMPAT_DRLA &&
                 GetCVar("drpg_mapevent_skill_armageddon") &&
-                AveragePlayerLevel() >= 25 &&
-                CurrentSkill < 5);
+                MapLevelModifier >= 0.70 &&
+                CurrentSkill != 7);
 
     case MAPEVENT_SPECIAL_SINSTORM:
         return false;
@@ -1129,7 +1285,24 @@ void MapEventReward()
             }
 
             ActivatorSound("mission/complete", 127);
-            PrintMessage(Message);
+            PrintMessage(Message, 1, -32);
+
+            if (Player.Level < MAX_LEVEL)
+            {
+                long int XPBonus = ((XPTable[Player.Level] / (long)(5 + RoundInt(5.0 * (Player.Level / 100.0)))) + 50l) / 50l * 50l;
+                Player.XP += XPBonus;
+
+                PrintMessage(StrParam("\CfBonus:\C- %ld XP and Crate", XPBonus), 2, 0);
+            }
+
+            if (Player.Level == MAX_LEVEL)
+            {
+                GiveActorInventory(Player.TID, "DRPGCredits", 5000);
+
+                PrintMessage(StrParam("\CfBonus:\C- %d Credits and Crate", 5000), 2, 0);
+            }
+
+            Spawn("DRPGCrate", GetActorX(0), GetActorY(0), GetActorZ(0), 0, GetActorAngle(0));
         }
     }
 }
@@ -1161,7 +1334,7 @@ NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
 
         "RAINBOWS!",
 
-        "Skills - Hell",
+        "Skills - Technophobia",
         "Skills - Armageddon",
 
         "Sinstorm"
@@ -1215,7 +1388,61 @@ NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
 
     // [KS] Super-special events for super-special levels (and by "special" I of course mean retarded)
     // [KS] PS: I hate you already.
-    if (!StrICmp(TargetLevel->LumpName, "MAP30"))
+    if (MapPacks)
+    {
+        str MapsIconOfSin[35] =
+        {
+            "MAP30",
+            "AV30",
+            "CC130",
+            "CC230",
+            "CC330",
+            "CC430",
+            "CHX30",
+            "DC30",
+            "EP230",
+            "EST30",
+            "GD30",
+            "HLB30",
+            "HR30",
+            "HR230",
+            "INT30",
+            "KS30",
+            "KSS30",
+            "MOC30",
+            "NG116",
+            "NG216",
+            "NV130",
+            "PIZ30",
+            "RDX30",
+            "SDE30",
+            "SL20",
+            "SOD30",
+            "TAT30",
+            "TT130",
+            "TT330",
+            "TU30",
+            "UHR30",
+            "WID30",
+            "WOS30",
+            "ZTH30",
+            "ZOF30"
+        };
+
+        for (int i = 0; i < 35; i++)
+        {
+            str MapNumber = MapsIconOfSin[i];
+            if (!StrICmp(TargetLevel->LumpName, MapNumber))
+            {
+                // Icon of Sin
+                // Blurb about a demon spitter and the game ending finale here.
+                if (GetCVar("drpg_mapevent_sinstorm"))
+                    TargetLevel->Event = MAPEVENT_SPECIAL_SINSTORM;
+                return;
+            }
+        }
+    }
+    else if (!StrICmp(TargetLevel->LumpName, "MAP30"))
     {
         // Icon of Sin
         // Blurb about a demon spitter and the game ending finale here.
@@ -1270,7 +1497,7 @@ NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
     break;
     case MAPEVENT_TOXICHAZARD:
     {
-        TargetLevel->HazardLevel = Random(1, 5);
+        TargetLevel->HazardLevel = Random(1, 1 + RoundInt(4.0 * MapLevelModifier));
         TargetLevel->RadLeft = 100;
     }
     break;
@@ -1281,9 +1508,13 @@ NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
         fixed MonsterLevelDivisor;
 
         // Going to leave this enabled without DRLA's monsters because DRLA's weapons are powerful.
-        if (CompatMode == COMPAT_DRLA)
+        if (CompatMode == COMPAT_DRLA && CompatMonMode != COMPAT_DRLA)
         {
             MonsterLevelDivisor = 2.5;
+        }
+        else if (CompatMonMode == COMPAT_DRLA || CompatMonMode == COMPAT_PANDEMONIA)
+        {
+            MonsterLevelDivisor = 10.00;
         }
         else
         {
@@ -1302,7 +1533,7 @@ NamedScript void DecideMapEvent(LevelInfo *TargetLevel, bool FakeIt)
             if (DebugLog)
                 Log("\CdDEBUG: \CcPotential monster: \Cg%S \Cc/ Needed level: \Cg%d", TempMonster->Name, RequiredLevel);
 
-            if (AverageLevel >= RequiredLevel && TempMonster->ThreatLevel <= 5)
+            if (AverageLevel >= RequiredLevel && TempMonster->ThreatLevel < 24)
                 PotentialMonsters[NumPotentialMonsters++] = TempMonster;
         }
 
@@ -1461,9 +1692,9 @@ NamedScript void SetupMapEvent()
     // Skill Events
     // --------------------------------------------------
 
-    case MAPEVENT_SKILL_HELL:
-        if (GameSkill() != 5)
-            ChangeLevel(CurrentLevel->LumpName, 0, CHANGELEVEL_NOINTERMISSION, 4);
+    case MAPEVENT_SKILL_TECHNOPHOBIA:
+        if (GameSkill() != 7)
+            ChangeLevel(CurrentLevel->LumpName, 0, CHANGELEVEL_NOINTERMISSION, 6);
         SetMusic("Skill5");
         SetHudSize(640, 480, false);
         SetFont("BIGFONT");
@@ -1473,8 +1704,8 @@ NamedScript void SetupMapEvent()
         break;
 
     case MAPEVENT_SKILL_ARMAGEDDON:
-        if (GameSkill() != 6)
-            ChangeLevel(CurrentLevel->LumpName, 0, CHANGELEVEL_NOINTERMISSION, 5);
+        if (GameSkill() != 8)
+            ChangeLevel(CurrentLevel->LumpName, 0, CHANGELEVEL_NOINTERMISSION, 7);
         SetMusic("Skill6");
         SetHudSize(640, 480, false);
         SetFont("BIGFONT");
@@ -1511,7 +1742,7 @@ NamedScript Type_UNLOADING void ResetMapEvent()
     if (CurrentLevel && CurrentLevel->Event && CurrentLevel->EventCompleted)
     {
         // And reset the skill for these
-        if (CurrentLevel->Event == MAPEVENT_SKILL_HELL || CurrentLevel->Event == MAPEVENT_SKILL_ARMAGEDDON)
+        if (CurrentLevel->Event == MAPEVENT_SKILL_TECHNOPHOBIA || CurrentLevel->Event == MAPEVENT_SKILL_ARMAGEDDON)
             ChangeSkill(CurrentSkill);
 
         CurrentLevel->Event = MAPEVENT_NONE;
@@ -1569,6 +1800,8 @@ NamedScript Console void SetMapEvent(int Level, int ID)
 
 NamedScript void MegaBossEvent()
 {
+    Delay(1);
+
     bool Spawned;
     bool Spotted;
     int TID;
@@ -1680,12 +1913,12 @@ NamedScript void MegaBossEvent()
 
 NamedScript void EnvironmentalHazard()
 {
+    Delay(1);
+
     // TODO: [03:23:14] <@Yholl/ID> Maybe fill the radiation event with Stalker style singularities that explode into cool stuff when the science machine sciences at them
     bool NeutralizerSpawned = false;
     int NeutralizerTID;
     SetMusic("EvHazard");
-
-    Delay (1);
 
     for (int i = 0; i < MAX_PLAYERS; i++)
     {
@@ -1704,18 +1937,9 @@ NamedScript void EnvironmentalHazard()
     EnvironmentalHazardSetColors();
     EnvironmentalHazardDamage();
 
-    int CheckPar = GetLevelInfo(LEVELINFO_PAR_TIME);
-    if (CheckPar == 0)
-        CheckPar = GetCVar("drpg_default_par_seconds"); // Default Par
-
-    CheckPar *= 35;
-
     // Spawn the Neutralizer Fuel Tanks
-    int FuelAmount = 35 * 30 * (6 - GameSkill());
-    if (FuelAmount < 35 * 30)
-        FuelAmount = 35 * 30;
-
-    int RadTime = CheckPar * CurrentLevel->HazardLevel;
+    int FuelAmount = 35 * 30;
+    int RadTime = 4200 * CurrentLevel->HazardLevel;
     int TanksNeeded = RadTime / FuelAmount;
 
     DynamicLootGenerator("DRPGNeutralizerFuel", TanksNeeded + 1 + (12 - GameSkill() * 2));
@@ -1727,7 +1951,7 @@ NamedScript void EnvironmentalHazard()
         Delay(1);
     }
 
-    int RadTimeRequired = CheckPar / 100;
+    int RadTimeRequired = 4200 / 100;
     while (CurrentLevel->Event == MAPEVENT_TOXICHAZARD && !CurrentLevel->EventCompleted)
     {
         if (CurrentLevel->GeneratorFuel)
@@ -1740,15 +1964,15 @@ NamedScript void EnvironmentalHazard()
 
             CurrentLevel->GeneratorFuel--;
 
-            if (Timer() % RadTimeRequired == 0)
+            if (Timer() % RadTimeRequired <= 0)
             {
                 CurrentLevel->RadLeft--;
 
-                if (CurrentLevel->RadLeft == 0)
+                if (CurrentLevel->RadLeft <= 0)
                 {
                     CurrentLevel->HazardLevel--;
 
-                    if (CurrentLevel->HazardLevel == 0)
+                    if (CurrentLevel->HazardLevel <= 0)
                     {
                         if (GetUserVariable(NeutralizerTID, "user_running"))
                             Thing_Deactivate(NeutralizerTID);
@@ -1840,9 +2064,7 @@ NamedScript void EnvironmentalHazardDamage()
 
 NamedScript DECORATE void EnvironmentalHazardRefillGenerator()
 {
-    int FuelAmount = 35 * 30 * (6 - GameSkill());
-    if (FuelAmount < 35 * 30)
-        FuelAmount = 35 * 30;
+    int FuelAmount = 35 * 30;
 
     SetActivator(0, AAPTR_TARGET);
 
@@ -1855,7 +2077,7 @@ NamedScript DECORATE void EnvironmentalHazardRefillGenerator()
         return;
     }
 
-    if (CurrentLevel->GeneratorFuel > 0)
+    if (CurrentLevel->GeneratorFuel > (FuelAmount * 3) + 1)
     {
         DropInventory(0, "DRPGNeutralizerFuel");
         ActivatorSound("radiation/tankup", 127);
@@ -1864,7 +2086,7 @@ NamedScript DECORATE void EnvironmentalHazardRefillGenerator()
     }
 
     TakeInventory("DRPGNeutralizerFuel", 1);
-    CurrentLevel->GeneratorFuel = FuelAmount;
+    CurrentLevel->GeneratorFuel += FuelAmount;
 
     AmbientSound("radiation/refuel", 127);
     SetFont("BIGFONT");
@@ -1894,6 +2116,8 @@ NamedScript void EnvironmentalHazardDisarm()
 
 NamedScript void ThermonuclearBombEvent()
 {
+    Delay(1);
+
     int BombTID = UniqueTID();
     int MaxKeys = GameSkill() + 3;
     bool BombSpawned = false;
@@ -2102,6 +2326,8 @@ NamedScript DECORATE void ThermonuclearBombExplode()
 
 NamedScript void LowPowerEvent()
 {
+    Delay(1);
+
     int GeneratorTID = UniqueTID();
     bool GeneratorSpawned = false;
 
@@ -2172,6 +2398,8 @@ NamedScript DECORATE void PowerGeneratorActivate()
 
 NamedScript void OneMonsterEvent()
 {
+    Delay(1);
+
     for (int i = 0; i < MonsterID; i++)
     {
         if (!Monsters[i].Init)
@@ -2207,6 +2435,8 @@ NamedScript void OneMonsterEvent()
 
 NamedScript void HellUnleashedEvent()
 {
+    Delay(1);
+
     bool BoxSpawned = false;
 
     // Generate a TID for the box
@@ -2327,7 +2557,9 @@ NamedScript void HellUnleashedSpawnMonsters()
 
 NamedScript void HarmonizedDestructionEvent()
 {
-    if (AveragePlayerLevel() < 20 && CurrentLevel->AuraType == AURA_MAX)
+    Delay(1);
+
+    if (AveragePlayerLevel() < 35 && CurrentLevel->AuraType == AURA_MAX)
         CurrentLevel->AuraType = Random(0, AURA_MAX - 1);
 
     if (DebugLog)
@@ -2342,10 +2574,13 @@ NamedScript void HarmonizedDestructionEvent()
         {
             for (int j = 0; j < AURA_MAX; j++)
                 Monsters[i].Aura.Type[j].Active = true;
+
+            Monsters[i].HasShadowAura = true;
         }
         else
             Monsters[i].Aura.Type[CurrentLevel->AuraType].Active = true;
 
+        Monsters[i].HasAura = true;
         Monsters[i].Flags &= MF_NOAURAGEN; // Don't let our aura get overwritten
     }
 
@@ -2370,6 +2605,8 @@ NamedScript void HarmonizedDestructionEvent()
 
 NamedScript void TeleportCracksEvent()
 {
+    Delay(1);
+
     SetMusic("Cracks");
 
     int X, InPortalTID, OutPortalTID;
@@ -2422,9 +2659,9 @@ NamedScript void TeleportCracksEvent()
             // Quake
             Radius_Quake2(Players(i).TID, 4, 20, 0, 16, "world/quake");
 
-            // View Fuckery
-            if (!Random(0, 3))
-                TeleporterCrackView(i);
+            // View Fuckery (disabled)
+            //if (!Random(0, 3))
+            //    TeleporterCrackView(i);
         }
 
         AmbientSound("misc/teleport", 127);
@@ -2514,6 +2751,8 @@ Start:
 
 NamedScript void DoomsdayEvent()
 {
+    Delay(1);
+
     ChangeSky("FIRESK00", "-");
 
     for (int i = 0; i < LevelSectorCount; i++)
@@ -2581,7 +2820,7 @@ NamedScript void DoomsdayEvent()
             continue;
 
         SetActorProperty(Players(i).TID, APROP_Health, -1000000);
-        FadeRange(255, 255, 255, 1.0, 255, 255, 255, 0.0, 2.0);
+        FadeRangeFlash(255, 255, 255, 1.0, 255, 255, 255, 0.0, 2.0);
         ActivatorSound("nuke/detonate", 127);
         Radius_Quake2(0, 9, 70, 0, 512, "None");
     }
@@ -2605,7 +2844,7 @@ NamedScript void DoomsdayFirebomb(int PlayerTID)
         Delay(Random(35 * 30, 35 * 90));
         SpawnSpotFacing("DRPGDoomsdayMortarBlast", 0, 0);
         Radius_Quake2(0, 6, 16, 0, 512, "None");
-        FadeRange(255, 128, 64, 0.33, 255, 128, 64, 0.0, 0.5);
+        FadeRangeFlash(255, 128, 64, 0.33, 255, 128, 64, 0.0, 0.5);
         ActivatorSound("drpgmarines/bulletexp", 127);
         if (CurrentLevel->DoomTime < (GetLevelInfo(LEVELINFO_PAR_TIME) ? GetLevelInfo(LEVELINFO_PAR_TIME) * 2 : GetCVar("drpg_default_par_seconds") * 2))
         {
@@ -2637,6 +2876,8 @@ NamedScript Type_RESPAWN void DoomsdaySupplement()
 
 NamedScript void ViciousDownpourEvent()
 {
+    Delay(1);
+
     SetMusic("AcidRain");
     ChangeSky("ACIDSKY", "-");
     SpawnForced("DRPGRainAmbiance", 0, 0, 0, 0, 0);
@@ -2656,7 +2897,7 @@ NamedScript void AcidRain(int PlayerTID)
 
     while (CurrentLevel->Event == MAPEVENT_ACIDRAIN)
     {
-        Delay(1);
+        Delay(5 / GetCVar("drpg_acidrain_intensity"));
         SpawnSpot("DRPGViciousRainSpawner", 0, 0, 0);
     }
 }
@@ -2665,6 +2906,8 @@ NamedScript void AcidRain(int PlayerTID)
 
 NamedScript void DarkZoneEvent()
 {
+    Delay(1);
+
     int ShadowTime = (GetLevelInfo(LEVELINFO_PAR_TIME) ? GetLevelInfo(LEVELINFO_PAR_TIME) * 2 : GetCVar("drpg_default_par_seconds") * 2) * 35;
     int ShadowTimeMax = (GetLevelInfo(LEVELINFO_PAR_TIME) ? GetLevelInfo(LEVELINFO_PAR_TIME) * 2 : GetCVar("drpg_default_par_seconds") * 2) * 35;
     int Color = 16 + (ShadowTime * 239 / ShadowTimeMax);
@@ -2712,7 +2955,7 @@ NamedScript void DarkZoneEvent()
     {
         for (int i = 0; i < MonsterID; i++)
         {
-            if (!Monsters[i].Init || MonsterHasShadowAura(&(Monsters[i])) || ClassifyActor(Monsters[i].TID) & ACTOR_DEAD && !CanRaiseActor(Monsters[i].TID))
+            if (!Monsters[i].Init || &Monsters[i].HasShadowAura || ClassifyActor(Monsters[i].TID) & ACTOR_DEAD && !CanRaiseActor(Monsters[i].TID))
                 continue;
 
             if (ClassifyActor(Monsters[i].TID) & ACTOR_DEAD)
@@ -2736,7 +2979,7 @@ NamedScript void DarkZoneFloorMist(int PlayerTID)
 
     while (CurrentLevel->Event == MAPEVENT_DARKZONE)
     {
-        Delay(1);
+        Delay(5 / GetCVar("drpg_darkzone_floormist_intensity"));
         SpawnSpot("DRPGPurpleFloorMistSpawner", 0, 0, 0);
     }
 }
@@ -2747,6 +2990,8 @@ NamedScript void DarkZoneFloorMist(int PlayerTID)
 
 NamedScript void SinstormEvent()
 {
+    Delay(1);
+
     ChangeSky("FIRESK00", "-");
 
     for (int i = 0; i < LevelSectorCount; i++)
@@ -2796,10 +3041,14 @@ NamedScript void SinstormSpawner(int PlayerTID)
     bool Success;
     int Tries;
     int TID;
+    int Waves = 3 * AveragePlayerLevel() / 10;
 
     while (true)
     {
-        Delay(35 * 45);
+        if (Waves <= 0)
+            break;
+
+        Delay(35 * 60);
 
         Success = false;
         Tries = 10;
@@ -2807,10 +3056,13 @@ NamedScript void SinstormSpawner(int PlayerTID)
 
         while (Tries-- > 0)
         {
-            Success = Spawn("DRPGSinstormRift", GetActorX(0) + RandomFixed(-1024, 1024), GetActorY(0) + RandomFixed(-1024, 1024), GetActorFloorZ(0), TID, 0);
+            Success = Spawn("DRPGSinstormRift", GetActorX(0) + RandomFixed(-1024.0, 1024.0), GetActorY(0) + RandomFixed(-1024.0, 1024.0), GetActorFloorZ(0), TID, 0);
 
             if (Success)
+            {
                 Success = CheckSight(0, TID, 0);
+                Waves--;
+            }
 
             if (!Success)
                 Thing_Remove(TID);
@@ -2824,6 +3076,8 @@ NamedScript void SinstormSpawner(int PlayerTID)
 
 NamedScript void FeedingFrenzyEvent()
 {
+    Delay(1);
+
     bool Spawned;
     bool Spotted;
     int TID;
@@ -2860,22 +3114,30 @@ NamedScript void FeedingFrenzyEvent()
         "RLRevenantsLauncherPickup", // Revenant
         "RLPlasmaRedirectionCannonPickup", // Nightmare Cyberdemon
 
+        // Demonic armor set
+        "RLDemonicCarapaceArmorPickup",
+        "RLDemonicBootsPickup",
+
         // Demonic weapons
-        "RLHellsReignPickup",
-        "RLUnmakerPickup",
         // "RLMonsterFrisbee",
         "RLDeathsGaze",
         "RLSoulstormRifle",
         // "RLMortalyzer",
         // "RLDreadshotMortar",
-
-        // Demonic armor set
-        "RLDemonicCarapaceArmorPickup",
-        "RLDemonicBootsPickup"
+        "RLHellsReignPickup",
+        "RLUnmakerPickup"
     };
 
-    str RewardItem = RewardItems[Random(0, 5)];
-    DynamicLootGenerator(RewardItem, 1);
+    if (AveragePlayerLevel() <= 45)
+    {
+        str RewardItem = RewardItems[Random(0, 5)];
+        DynamicLootGenerator(RewardItem, 1);
+    }
+    else
+    {
+        str RewardItem = RewardItems[Random(0, 7)];
+        DynamicLootGenerator(RewardItem, 1);
+    }
 
     // Ambient Music
     SetMusic("FeedThem");
@@ -2978,6 +3240,8 @@ Start:
 
 NamedScript void WhispersofDarknessEvent()
 {
+    Delay(1);
+
     bool Spawned;
     bool Spotted;
     int TID;
@@ -3036,7 +3300,7 @@ NamedScript void WhispersofDarknessEvent()
             Delay(1);
             MonsterIndex = GetMonsterID(TID);
 
-            Monsters[MonsterIndex].LevelAdd += ((250 / MAX_PLAYERS) * PlayerCount());
+//          Monsters[MonsterIndex].LevelAdd += ((250 / 8) * PlayerCount());
             Monsters[MonsterIndex].NeedReinit = true;
 
             // Shadow Aura
@@ -3298,27 +3562,291 @@ Start:
     goto Start;
 }
 
-// WadSmoosh --------------------------------------------------
-NamedScript void InitWadSmoosh()
+// Initialization map packs --------------------------------------------------
+NamedScript void InitMapPacks()
 {
-    str CvarNames[MAX_WSMAPPACKS] =
+    str CvarNames[MAX_MAPPACKS] =
     {
-        "drpg_ws_doom1",
+        "drpg_ws_doom1",      // WadSmoosh
+        "drpg_ws_sigil",
         "drpg_ws_doom2",
-        "drpg_ws_master",
         "drpg_ws_nerve",
+        "drpg_ws_master",
+        "drpg_ws_tnt",
         "drpg_ws_plut",
-        "drpg_ws_tnt"
+        "drpg_lex_vr",        // Lexicon
+        "drpg_lex_aa1",
+        "drpg_lex_aaa1",
+        "drpg_lex_aaa2",
+        "drpg_lex_av",
+        "drpg_lex_bx1",
+        "drpg_lex_cc1",
+        "drpg_lex_cc2",
+        "drpg_lex_cc3",
+        "drpg_lex_cc4",
+        "drpg_lex_chx",
+        "drpg_lex_coc",
+        "drpg_lex_cs",
+        "drpg_lex_cs2",
+        "drpg_lex_cw",
+        "drpg_lex_dc",
+        "drpg_lex_dib",
+        "drpg_lex_dke",
+        "drpg_lex_du1",
+        "drpg_lex_dv",
+        "drpg_lex_dv2",
+        "drpg_lex_ep1",
+        "drpg_lex_ep2",
+        "drpg_lex_est",
+        "drpg_lex_eye",
+        "drpg_lex_fsw",
+        "drpg_lex_gd",
+        "drpg_lex_hc",
+        "drpg_lex_hlb",
+        "drpg_lex_hp1",
+        "drpg_lex_hp3",
+        "drpg_lex_hph",
+        "drpg_lex_hr",
+        "drpg_lex_hr2",
+        "drpg_lex_int",
+        "drpg_lex_ks",
+        "drpg_lex_kss",
+        "drpg_lex_may",
+        "drpg_lex_moc",
+        "drpg_lex_mom",
+        "drpg_lex_ng1",
+        "drpg_lex_ng2",
+        "drpg_lex_nv1",
+        "drpg_lex_piz",
+        "drpg_lex_rdx",
+        "drpg_lex_sc2",
+        "drpg_lex_sd6",
+        "drpg_lex_sd7",
+        "drpg_lex_sde",
+        "drpg_lex_sf2",
+        "drpg_lex_sf3",
+        "drpg_lex_sl",
+        "drpg_lex_slu",
+        "drpg_lex_snd",
+        "drpg_lex_sod",
+        "drpg_lex_sw1",
+        "drpg_lex_tat",
+        "drpg_lex_tsp",
+        "drpg_lex_tsp2",
+        "drpg_lex_tt1",
+        "drpg_lex_tt2",
+        "drpg_lex_tt3",
+        "drpg_lex_tu",
+        "drpg_lex_uac",
+        "drpg_lex_uhr",
+        "drpg_lex_val",
+        "drpg_lex_van",
+        "drpg_lex_wid",
+        "drpg_lex_wos",
+        "drpg_lex_zth",
+        "drpg_lex_zof",
+        "drpg_comp_hubmap",   // Compendium
+        "drpg_comp_mm101",
+        "drpg_comp_mm201",
+        "drpg_comp_req01",
+        "drpg_comp_ins01",
+        "drpg_comp_obt01",
+        "drpg_comp_str01",
+        "drpg_comp_bio01",
+        "drpg_comp_drk01",
+        "drpg_comp_ttp01",
+        "drpg_comp_pgr01",
+        "drpg_comp_pst01",
+        "drpg_comp_tvr01",
+        "drpg_comp_sci01",
+        "drpg_comp_ica01",
+        "drpg_comp_htp01",
+        "drpg_comp_aby01",
+        "drpg_comp_tal01",
+        "drpg_comp_alh01",
+        "drpg_comp_eni01",
+        "drpg_comp_rlm01",
+        "drpg_comp_dys01",
+        "drpg_comp_ete01",
+        "drpg_comp_reb01",
+        "drpg_comp_scy01",
+        "drpg_comp_cod01",
+        "drpg_comp_dk201",
+        "drpg_comp_equ01",
+        "drpg_comp_mrs01",
+        "drpg_comp_blr01",
+        "drpg_comp_osi01",
+        "drpg_comp_rui01",
+        "drpg_comp_njs01",
+        "drpg_comp_dae01",
+        "drpg_comp_cle01",
+        "drpg_comp_asd01",
+        "drpg_comp_ple01",
+        "drpg_comp_dcv01",
+        "drpg_comp_sla01",
+        "drpg_comp_hfa01",
+        "drpg_comp_cdr01",
+        "drpg_comp_gat01",
+        "drpg_comp_ert01",
+        "drpg_comp_end01",
+        "drpg_comp_res01",
+        "drpg_comp_ens01",
+        "drpg_comp_btk01",
+        "drpg_comp_cit01",
+        "drpg_comp_slp01",
+        "drpg_comp_dis01",
+        "drpg_comp_sid01",
+        "drpg_comp_man01",
+        "drpg_comp_lep01",
+        "drpg_comp_vfl01",
+        "drpg_comp_vco01",
+        "drpg_comp_tw201",
+        "drpg_comp_neo01",
+        "drpg_comp_ann01",
+        "drpg_comp_99w01",
+        "drpg_comp_bth01"
     };
 
-    str LumpNames[MAX_WSMAPPACKS] =
+    str LumpNames[MAX_MAPPACKS] =
     {
-        "E1M1",
+        "E1M1",      // WadSmoosh
+        "E5M1",
         "MAP01",
-        "ML_MAP01",
         "NV_MAP01",
+        "ML_MAP01",
+        "TN_MAP01",
         "PL_MAP01",
-        "TN_MAP01"
+        "VR",        // Lexicon
+        "AA101",
+        "AAA01",
+        "AAA02",
+        "AV01",
+        "BX101",
+        "CC101",
+        "CC201",
+        "CC301",
+        "CC401",
+        "CHX01",
+        "COC01",
+        "CS01",
+        "CS201",
+        "CW101",
+        "DC01",
+        "DIB01",
+        "DKE01",
+        "DU101",
+        "DV01",
+        "DV201",
+        "EP101",
+        "EP201",
+        "EST01",
+        "EYE01",
+        "FSW01",
+        "GD01",
+        "HC01",
+        "HLB01",
+        "HP101",
+        "HP103",
+        "HPH",
+        "HR01",
+        "HR201",
+        "INT01",
+        "KS01",
+        "KSS01",
+        "MAY01",
+        "MOC01",
+        "MOM01",
+        "NG101",
+        "NG201",
+        "NV101",
+        "PIZ01",
+        "RDX01",
+        "SC201",
+        "SD601",
+        "SD701",
+        "SDE01",
+        "SF201",
+        "SF301",
+        "SL20",
+        "SLU01",
+        "SND01",
+        "SOD01",
+        "SW101",
+        "TAT01",
+        "TSP01",
+        "TSP201",
+        "TT101",
+        "TT201",
+        "TT301",
+        "TU01",
+        "USC01",
+        "UHR01",
+        "VAL01",
+        "VAN01",
+        "WID01",
+        "WOS01",
+        "ZTH01",
+        "ZOF01",
+        "HUBMAP",    // Compendium
+        "MM101",
+        "MM201",
+        "REQ01",
+        "INS01",
+        "OBT01",
+        "STR01",
+        "BIO01",
+        "DRK01",
+        "TTP01",
+        "PGR01",
+        "PST01",
+        "TVR01",
+        "SCI01",
+        "ICA01",
+        "HTP01",
+        "ABY01",
+        "TAL01",
+        "ALH01",
+        "ENI01",
+        "RLM01",
+        "DYS01",
+        "ETE01",
+        "REB01",
+        "SCY01",
+        "COD01",
+        "DK201",
+        "EQU01",
+        "MRS01",
+        "BLR01",
+        "OSI01",
+        "RUI01",
+        "NJZ01",
+        "DAE01",
+        "CLE01",
+        "ASD01",
+        "PLE01",
+        "DCV01",
+        "SLA01",
+        "HFA01",
+        "CDR01",
+        "GAT01",
+        "ERT01",
+        "END01",
+        "RES01",
+        "ENS01",
+        "BTK01",
+        "CIT01",
+        "SLP01",
+        "DIS01",
+        "SID01",
+        "MAN01",
+        "LEP01",
+        "VFL01",
+        "VCO01",
+        "TW201",
+        "NEO01",
+        "ANN01",
+        "99W01",
+        "BTH01"
     };
     int i;
     bool BlankStart;
@@ -3328,19 +3856,22 @@ NamedScript void InitWadSmoosh()
     if (CurrentLevel->LumpName == "TITLEMAP") //don't need to run on title screen
         return;
 
-    if (!WadSmoosh || WadSmooshInitialized) return; //let's be safe
-    LogMessage("\CdStarting Wad Smoosh Initialization", LOG_DEBUG);
+    if (!MapPacks || MapPacksInitialized) return; //let's be safe
+    LogMessage("\CdStarting Map Packs Initialization", LOG_DEBUG);
 
-    for (i = 0; i < MAX_WSMAPPACKS; i++)
+    for (i = 0; i < MAX_MAPPACKS; i++)
     {
         MapPackActive[i] = GetCVar(CvarNames[i]); //find which iwads user says they have
+
+        if (GetCVar("drpg_addstartmap") && LumpNames[i] == GetCVarString("drpg_startmap"))
+            MapPackActive[i] = true; //activate the iwad if it is a starter map
     };
 
     bool StartedOnMap = KnownLevels->Position > 1;
 
     if (!StartedOnMap) //we started in the outpost and map arrays are empty - lets add one
     {
-        for (i = 0; i < MAX_WSMAPPACKS; i++)
+        for (i = 0; i < MAX_MAPPACKS; i++)
         {
             if (MapPackActive[i])
             {
@@ -3358,13 +3889,13 @@ NamedScript void InitWadSmoosh()
                 break;
             }
         }
-        if (i == MAX_WSMAPPACKS)
+        if (i == MAX_MAPPACKS)
         {
-            LogMessage(StrParam("\CdERROR: \C-WadSmoosh loaded with no IWADS enabled!"), LOG_ERROR);
+            LogMessage(StrParam("\CdERROR: \C-Map packs loaded with no IWADS enabled!"), LOG_ERROR);
             return;
         }
     }
-    str Lump = ((LevelInfo *)WSMapPacks[WS_DOOM1].Data)[1].LumpName;
+    str Lump = ((LevelInfo *)ExtraMapPacks[WS_DOOM1].Data)[1].LumpName;
 
 
     if (Lump != "E1M1") //we didn't start with doom 1 or started on outpost with add unknown map not set to doom 1
@@ -3373,36 +3904,36 @@ NamedScript void InitWadSmoosh()
 
         DynamicArray Temp;
 
-        for (i = 1; i < MAX_WSMAPPACKS; i++)
+        for (i = 1; i < MAX_MAPPACKS; i++)
         {
             if (Lump == LumpNames[i])    //get which iwad was loaded
                 break;
         }
 
         LogMessage("Swapping Array positions", LOG_DEBUG);
-        Temp = WSMapPacks[i];   //store current data of correct location
-        LogMessage(StrParam("Swapping %p with %p",&WSMapPacks[i], &WSMapPacks[WS_DOOM1]), LOG_DEBUG);
-        WSMapPacks[i] = WSMapPacks[WS_DOOM1]; //move map data to correct position
-        WSMapPacks[WS_DOOM1] = Temp; //place replaced data in the outdated doom 1 slot
+        Temp = ExtraMapPacks[i];   //store current data of correct location
+        LogMessage(StrParam("Swapping %p with %p",&ExtraMapPacks[i], &ExtraMapPacks[WS_DOOM1]), LOG_DEBUG);
+        ExtraMapPacks[i] = ExtraMapPacks[WS_DOOM1]; //move map data to correct position
+        ExtraMapPacks[WS_DOOM1] = Temp; //place replaced data in the outdated doom 1 slot
 
-        KnownLevels = &WSMapPacks[i];   //update pointer to the new location
+        KnownLevels = &ExtraMapPacks[i];   //update pointer to the new location
     }
 
     //we need to do this again to update i, just in case
     //it's possible to get here if data is already initialised and this would
     //mess up the current map pack pointer if we didn't recheck
     Lump = ((LevelInfo *)KnownLevels->Data)[1].LumpName;
-    for (i = 0; i < MAX_WSMAPPACKS; i++)
+    for (i = 0; i < MAX_MAPPACKS; i++)
     {
         if (Lump == LumpNames[i])    //get which iwad was loaded
             break;
     }
 
-    for (int j = 0; j < MAX_WSMAPPACKS; j++) //loop through all map packs
+    for (int j = 0; j < MAX_MAPPACKS; j++) //loop through all map packs
     {
         if (j != i && MapPackActive[j]) //the "current" pack already has data so ignore it, also make sure the iwad is marked active
         {
-            KnownLevels = &WSMapPacks[j]; //move pointer for this operation
+            KnownLevels = &ExtraMapPacks[j]; //move pointer for this operation
             if (KnownLevels->Data == NULL)
                 ArrayCreate(KnownLevels, "Levels", 32, sizeof(LevelInfo)); //allocate memory
 
@@ -3428,12 +3959,14 @@ NamedScript void InitWadSmoosh()
             NewMap->Completed = false;
             NewMap->NeedsRealInfo = true;
             LogMessage(StrParam("Added Lump %S to Array %p", ((LevelInfo *)KnownLevels->Data)[1].LumpName, KnownLevels), LOG_DEBUG);
+
+            if(j > 80) Delay(1);
         }
     }
 
-    KnownLevels = &WSMapPacks[i]; //move pointer back to current mappack
+    KnownLevels = &ExtraMapPacks[i]; //move pointer back to current mappack
     CurrentLevel = FindLevelInfo(); //the CurrentLevel pointer is invalidated and needs to be reset
     Player.SelectedMapPack = i;
 
-    WadSmooshInitialized = true;
+    MapPacksInitialized = true;
 }

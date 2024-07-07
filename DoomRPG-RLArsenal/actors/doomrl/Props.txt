@@ -37,19 +37,19 @@ actor DRPGDeadMarine2 : DRPGDeadMarine Replaces DRPGDeadMarine
         PLAY N -1
         Stop
     Body10:
-        TNT1 A 0 A_SpawnItemEx("RLMarineGunSpawner", Random(-24, 24), Random(-24, 24), 0, 0, 0, 0, 0, "None", 170) 
+        TNT1 A 0 A_SpawnItemEx("RLMarineGunSpawner", Random(-24, 24), Random(-24, 24), 0, 0, 0, 0, 0, 0, 170) 
         PMAR N -1
         Stop
     Body11:
-        TNT1 A 0 A_SpawnItemEx("RLScoutGunSpawner", Random(-24, 24), Random(-24, 24), 0, 0, 0, 0, 0, "None", 130) 
+        TNT1 A 0 A_SpawnItemEx("RLScoutGunSpawner", Random(-24, 24), Random(-24, 24), 0, 0, 0, 0, 0, 0, 130) 
         PSCO N -1
         Stop
     Body12:
-        TNT1 A 0 A_SpawnItemEx("RLTechnicianGunSpawner", Random(-24, 24), Random(-24, 24), 0, 0, 0, 0, 0, "None", 200) 
+        TNT1 A 0 A_SpawnItemEx("RLTechnicianGunSpawner", Random(-24, 24), Random(-24, 24), 0, 0, 0, 0, 0, 0, 200) 
         PTEC L -1
         Stop
     Body13:
-        TNT1 A 0 A_SpawnItemEx("RLRenegadeGunSpawner", Random(-24, 24), Random(-24, 24), 0, 0, 0, 0, 0, "None", 170) 
+        TNT1 A 0 A_SpawnItemEx("RLRenegadeGunSpawner", Random(-24, 24), Random(-24, 24), 0, 0, 0, 0, 0, 0, 170) 
         PREN N -1
         Stop
     }

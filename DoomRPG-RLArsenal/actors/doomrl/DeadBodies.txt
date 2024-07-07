@@ -1,0 +1,38 @@
+actor RLScoutGunSpawnerRPG : RLScoutGunSpawner replaces RLScoutGunSpawner
+{
+    DropItem "RLClipBox2"                  255 50
+    DropItem "RLPistolSpawnerRPG"          255 40
+    DropItem "DRPGTurretPart"              255 10	
+}
+
+actor RLMarineGunSpawnerRPG : RLMarineGunSpawner replaces RLMarineGunSpawner
+{
+    DropItem "RLClipBox2"                  255 50
+    DropItem "RLChaingunSpawnerRPG"        255 40
+    DropItem "DRPGTurretPart"              255 10
+}
+
+actor RLTechnicianGunSpawnerRPG : RLTechnicianGunSpawner replaces RLTechnicianGunSpawner
+{
+    DropItem "RLClipBox2"                  255 20
+    DropItem "RLShellBox2"                 255 10
+    DropItem "RLCellPack2"                 255 10
+    DropItem "RLRocketBox"                 255 10
+    DropItem "DRPGWeaponSpawner"           255 40
+    DropItem "DRPGTurretPart"              255 5
+    DropItem "RLBlueprintComputer"         255 5
+}
+
+actor RLRenegadeGunSpawnerRPG : RLRenegadeGunSpawner replaces RLRenegadeGunSpawner
+{
+    DropItem "RLShellBox2"                 255 50
+    DropItem "RLShotgunSpawnerRPG"         255 40
+    DropItem "DRPGTurretPart"              255 10
+}
+
+actor RLDemolitionistGunSpawnerRPG : RLDemolitionistGunSpawner replaces RLDemolitionistGunSpawner
+{
+    DropItem "RLRocketBox"                 255 50
+    DropItem "RLRocketLauncherSpawnerRPG"  255 40
+    DropItem "DRPGTurretPart"              255 10
+}

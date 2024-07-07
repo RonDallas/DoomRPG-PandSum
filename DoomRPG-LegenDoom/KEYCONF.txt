@@ -1,0 +1,7 @@
+// --------------------------------------------------
+// GAMEPAD CONTROL HELPER (GCH) SECTION
+//
+
+// Open/Close PDA
+alias drla_pda_open_gch "ld_weaponinfoscreen; bind RStickUp +forward; bind RStickDown +back; bind RStickLeft +moveleft; bind RStickRight +moveright; rebind drla_pda_close_gch"
+alias drla_pda_close_gch "ld_weaponinfoscreen; unbind RStickUp; unbind RStickDown; unbind RStickLeft; unbind RStickRight; rebind drla_pda_open_gch"

@@ -1,0 +1,390 @@
+script "RLWeaponMonitor" enter
+{
+	while (GetActorProperty(0, APROP_Health) > 0)
+	{
+		weapons[PlayerNumber()] = GetWeapon();
+
+		// Special Jorkal/Casual Check
+		if (GetWeapon() == "RLAntiFreakJackal" && CheckInventory("RLAntiFreakJackalDemonArtifacts") > 0)
+			Weapons[PlayerNumber()] = "RLHellsingARMSCasull";
+
+/*		// Special Duel Wielding checks
+		if (GetWeapon() == "RLStormUzi" ||
+            (GetWeapon() == "RLMarathonShotguns" && CheckInventory("RLMarathonShotgunsDemonArtifacts") > 0))
+			ACS_NamedExecute("GetSynthfireWeaponMods", 0);*/
+
+		Delay(1);
+	}
+
+	Delay(1);
+	restart;
+}
+
+script "RLRegenMonitor" enter
+{
+	int health;
+	int prevHealth;
+	int maxHealth;
+	int armor;
+	int maxArmor;
+	int regenType;
+	int regenTimer;
+	int regenTimerMult;
+
+	while (GetActorProperty(0, APROP_Health) > 0)
+	{
+		// Map worn armors to regeneration types
+			 if (CheckInventory("RLPowerGreenArmorToken") ||
+				 CheckInventory("RLPowerBlueArmorToken") ||
+				 CheckInventory("RLPowerRedArmorToken"))
+			regenType = AREGEN_POWER;
+		else if (CheckInventory("RLNanoAblativeArmorToken"))
+			regenType = AREGEN_NANO;
+		else if (CheckInventory("RLTacticalArmorToken"))
+			regenType = AREGEN_TACTICAL;
+		else if ((CheckInventory("RLMedicalArmorBonus") ||
+				 CheckInventory("RLOModMedicalArmorBonus") ||
+				 CheckInventory("RLMedicalPowerArmorBonus")) &&
+                 CheckInventory("RLMedicalRegenToggle"))
+			regenType = AREGEN_MEDICAL;
+		else if (CheckInventory("RLNecroArmorToken"))
+			regenType = AREGEN_NECRO;
+		else // No armor equipped
+			regenType = AREGEN_NONE;
+
+		// Check player health
+		health = GetActorProperty(0, APROP_Health);
+		maxHealth = GetActorProperty(0, APROP_SpawnHealth);
+        armor = CheckInventory("BasicArmor");
+		maxArmor = GetArmorInfo(ARMORINFO_SAVEAMOUNT);
+
+		Delay(1);
+
+		// Took damage
+		if (health < prevHealth)
+		{
+			if (regenTimerMult == 0)
+				regenTimer = 35;
+			else
+				regenTimer = 35 * regenTimerMult;
+		}
+
+		// Regeneration effects
+		if (regenTimer <= 0)
+		{
+			switch (regenType)
+			{
+			case AREGEN_POWER:
+				regenTimerMult = 2;
+				if (armor < maxArmor && armor >= 1 && (Timer() % 7) == 0)
+					GiveInventory("RLArmorRestorer100", 1);
+				break;
+			case AREGEN_NANO:
+				regenTimerMult = 2;
+				if (armor < maxArmor && armor >= 1  && (Timer() % 7) == 0)
+					GiveInventory("RLArmorRestorer200", 1);
+				break;
+			case AREGEN_TACTICAL:
+				regenTimerMult = 2;
+				if (armor < maxArmor && armor >= 1  && (Timer() % 18) == 0)
+					GiveInventory("RLArmorRestorer100", 1);
+				break;
+			case AREGEN_MEDICAL:
+				regenTimerMult = 2;
+/*				if (CheckInventory("BasicArmor") > 0 && health < maxHealth && (Timer() % 35) == 0) // THANKS ZDOOM
+				{
+					GiveInventory("Health", 1);
+					TakeInventory("BasicArmor", 1);
+				}*/
+				if (health > 0 && armor >= 1  && (Timer() % 35) == 0)
+				{
+					GiveInventory("RLMedicalArmorRegenHax", 1);
+				}
+				break;
+			case AREGEN_NECRO:
+				regenTimerMult = 1;
+				if (health > 1 && armor < maxArmor && armor >= 1)
+					GiveInventory("RLNecroArmorDamage", 1);
+				break;
+			}
+		}
+
+		if (regenTimer > 0)
+			regenTimer--;
+		prevHealth = health;
+	}
+
+	Delay(1);
+	restart;
+}
+
+script "DRLA_SynthFire" enter
+{
+	if (CheckInventory("RLSynthFireDisabled") == 0)
+	{
+		if (CheckInventory("Health") > 0)
+		{
+			int buttons = GetPlayerInput(PlayerNumber(), INPUT_BUTTONS);
+
+			if (buttons & BT_ATTACK)
+				SetInventory("RLSynthFireLeft", 1);
+			else
+				SetInventory("RLSynthFireLeft", 0);
+
+			if (buttons & BT_ALTATTACK)
+				SetInventory("RLSynthFireRight", 1);
+			else
+				SetInventory("RLSynthFireRight", 0);
+
+			if (buttons & BT_RELOAD)
+				SetInventory("RLSynthFireReload", 1);
+			else
+				SetInventory("RLSynthFireReload", 0);
+		}
+		else // Player is ded, take all the things
+		{
+			SetInventory("RLSynthFireLeft", 0);
+			SetInventory("RLSynthFireRight", 0);
+			SetInventory("RLSynthFireReload", 0);
+		}
+	}
+
+	Delay(1);
+	restart;
+}
+
+script "RLStaminaRegen" enter
+{
+    int staminaTimer = 0;
+    int staminaTimerMax = 0;
+
+    while (true)
+    {
+        int base = 10;
+        int speed = Distance3D(GetActorVelX(0), GetActorVelY(0), GetActorVelZ(0), 0, 0, 0);
+        int fatigue = 0;
+
+        // Doom RPG Fatigue
+        if (ACS_NamedExecuteWithResult("DRPGCheckTiem"))
+            fatigue = ACS_NamedExecuteWithResult("StatusEffectSeverity", 4);
+
+        // Powerups
+        if (GetActorPowerupTics(0, "PowerStrength") > 0)
+        {
+            base = 5;
+            speed /= 16;
+        }
+        if (GetActorPowerupTics(0, "PowerRLBerserkResistance") > 0)
+        {
+            base = 2;
+            speed /= 2;
+        }
+
+        // Calculate Time
+        staminaTimerMax = base + (fatigue * 5) + (base * (speed / 8192) * ((fatigue * 2) + 1)) / 10;
+
+        staminaTimer++;
+        if (staminaTimer >= StaminaTimerMax)
+        {
+            GiveInventory("RLStamina", 1);
+            StaminaTimer = 0;
+        }
+
+        /* Debugging
+        Print(s:"Base: ", d:base, s:"\n",
+              s:"Speed: ", f:speed, s:"\n",
+              s:"Fatigue: ", d:fatigue, s:"\n",
+              s:"StatusTimer: ", d:staminaTimer, s:"\n",
+              s:"StatusTimerMax: ", d:staminaTimerMax);
+        */
+
+        Delay(1);
+    }
+}
+
+script "RLOnslaught_Loop" enter
+{
+    int playerID = PlayerNumber();
+
+    while (CheckWeapon("RLNuclearOnslaught") && GetActorProperty(0, APROP_Health) > 0)
+    {
+        // Calculate clip regen time
+        int time = 6;
+        if (CheckInventory("RLNuclearWeaponSetBonusActive") > 0)
+            time = 3;
+
+        // Loop the timers
+        for (int i = 0; i < 2; i++)
+        {
+            // Check to make sure regen for this gun is active
+            if (OnslaughtActive[playerID][i])
+            {
+                // Regen clip
+                if (onslaughtTimer[playerID][i] <= 0)
+                {
+                    GiveInventory(StrParam(s:"RLNuclearOnslaughtClip", d:i + 1), 1);
+                    onslaughtTimer[playerID][i] = time;
+                }
+
+                // Decrease timer
+                if (onslaughtTimer[playerID][i] > 0)
+                    onslaughtTimer[playerID][i]--;
+            }
+        }
+
+        Delay(1);
+    }
+
+    Delay(1);
+    restart;
+}
+
+script "DRLA_SoulShatterSplit" (void)
+{
+	SetActorProperty(0, APROP_Health, GetActorProperty(0, APROP_Health) / 2);
+}
+
+script "DRLA_Skull" (void)
+{
+    // Delay for long enough to receive skull data message
+    //Delay(5);
+
+    // Now perform the appropriate action based on the skull data populated by DRLA_SkullMessage
+    if (skullType > 0 && skullData > 0)
+    {
+        switch (skullType)
+        {
+        case SKULL_HATRED: // skullData here is the number of seconds that berserk should be active
+            int count = skullData;
+            while (count-- > 0)
+            {
+                GiveInventory("RLPowerHatredSkullBerserk", 1);
+                GiveInventory("PowerStrength", 1);
+            }
+            break;
+        case SKULL_BLOOD: // skullData here is how many points of health to give
+            while(skullData--)
+                SpawnForced("RLBloodSkullHealthRPG", GetActorX(0), GetActorY(0), GetActorZ(0), 0, 0);
+            SetActorVelocity(0, 0.01, 0.01, 0, true, false);
+            break;
+        }
+    }
+
+    // Reset the skull data
+    skullType = 0;
+    skullData = 0;
+}
+
+script "DRLA_SkullMessage" (int type)
+{
+    int data = 0;
+
+    switch (type)
+    {
+    case SKULL_HATRED:
+        data++;
+        break;
+    case SKULL_BLOOD:
+        data = 5;
+        break;
+    case SKULL_FIRE:
+        int X = GetActorX(0);
+        int Y = GetActorY(0);
+        int Z = GetActorZ(0);
+        SpawnForced("RLFireSkullExplosion", X, Y, Z, 0, 0);
+        break;
+    }
+
+    // Pass the skull data to the global data vars so it can be used by DRLA_Skull
+    skullType = type;
+    skullData += data;
+}
+
+script "RLOnslaught_Start" (int side)
+{
+    int playerID = PlayerNumber();
+
+    OnslaughtActive[PlayerNumber()][side] = true;
+
+    // Determine the timer time by checking the clips
+    if (CheckInventory(StrParam(s:"RLNuclearOnslaughtClip", d:side + 1)) >= 1)
+        onslaughtTimer[playerID][side] = 5;
+    else
+        onslaughtTimer[playerID][side] = 35 * 2;
+}
+
+script "RLOnslaught_Stop" (int side)
+{
+    OnslaughtActive[PlayerNumber()][side] = false;
+}
+
+
+//------------------------------------------------------------------------------
+// Used to give Scout his map, seeing as the old crappy hax way suddenly broke for no reason
+
+script "DRLA_ScoutMap" enter
+{
+	if (CheckInventory("RLSharpshooterPerk") == 1)
+	{
+		GiveInventory("RLScoutMap", 1);
+	}
+	else // Is not scoot, does not deserve map
+	{
+		terminate;
+	}
+}
+
+script "DRLA_ScoutMapRes" respawn
+{
+	if (CheckInventory("RLSharpshooterPerk") == 1)
+	{
+		GiveInventory("RLScoutMap", 1);
+	}
+	else // Is not scoot, does not deserve map
+	{
+		terminate;
+	}
+}
+
+//------------------------------------------------------------------------------
+// Used to give Technician his current weapon damage boost, because apparently zdoom just
+// doesn't want to fucking do jumps at the start of the map
+
+script "DRLA_TechnicianBoostFix" enter
+{
+	Delay(1);
+	if (CheckInventory("RLScavengerPerk") == 1)
+	{
+		if (CheckInventory("RLBasicAssemblyTypeWeapon") == 1)
+		{
+			GiveInventory("PowerRLTechnicianBasicDamage", 1);
+		}
+		if (CheckInventory("RLAdvancedAssemblyTypeWeapon") == 1)
+		{
+			GiveInventory("PowerRLTechnicianAdvancedDamage", 1);
+		}
+		if (CheckInventory("RLMasterAssemblyTypeWeapon") == 1)
+		{
+			GiveInventory("PowerRLTechnicianMasterDamage", 1);
+		}
+	}
+	else // Is not technician, does not need to kick zdoom in the teeth
+	{
+		terminate;
+	}
+}
+
+//------------------------------------------------------------------------------
+// Stops players from being frozen if they were using the PDA when things happened
+
+script "DRLA_LevelStartFixer" enter
+{
+	SetPlayerProperty(0,0,PROP_TOTALLYFROZEN);
+	TakeInventory("RLSetBonusLevelCooldown", 1); // counts down the delay till set bonuses can spawn from crates again
+	GiveInventory("RLLevelRestrictionManualGenerator", 1);
+}
+
+script "DRLA_LevelRespawnFixer" respawn
+{
+	SetPlayerProperty(0,0,PROP_TOTALLYFROZEN);
+}

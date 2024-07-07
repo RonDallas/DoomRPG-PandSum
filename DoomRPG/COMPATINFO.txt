@@ -1,6 +1,13 @@
 ColourfulHell	Colourful Hell
 DoomRL_Monsters	DoomRL Arsenal - Monster Pack
 DoomRL_Arsenal	DoomRL Arsenal
+DRLAX	DoomRL Arsenal Extended
+CorruptionCards	Corruption Cards
 j-jukebox	Jimmy's Jukebox Instant Randomizer
-LegenDoom	LegenDoom
+LegenDoom_	LegenDoom
+LegenDoomLite_	LegenDoomLite
+Rampancy	Rampancy
 doom_complete	WadSmoosh
+Compendium	Compendium
+Lexicon	Lexicon
+DehackedAttack	Dehacked Attack

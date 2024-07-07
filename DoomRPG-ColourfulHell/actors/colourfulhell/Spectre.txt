@@ -12,6 +12,8 @@ ACTOR CommonSpectreRPG : CommonSpectre Replaces CommonSpectre
 {
 	Tag "Spectre"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -27,6 +29,8 @@ ACTOR CommonSpectreRPG : CommonSpectre Replaces CommonSpectre
 ACTOR GreenSpectreRPG : GreenSpectre Replaces GreenSpectre
 {
 	Tag "Uncommon Spectre"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -44,6 +48,8 @@ ACTOR CyanSpectre2RPG : CyanSpectre2 Replaces CyanSpectre2
 {
 	Tag "Icy Thing"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -60,6 +66,8 @@ ACTOR BlueSpectreRPG : BlueSpectre Replaces BlueSpectre
 {
 	Tag "Rare Spectre"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -75,6 +83,8 @@ ACTOR BlueSpectreRPG : BlueSpectre Replaces BlueSpectre
 ACTOR FireBluSpectre2RPG : FireBluSpectre2 Replaces FireBluSpectre2
 {
 	Tag "Enchanted Spectre"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -94,6 +104,8 @@ ACTOR PurpleSpectreRPG : PurpleSpectre Replaces PurpleSpectre
 {
 	Tag "Spectre"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -105,10 +117,30 @@ ACTOR PurpleSpectreRPG : PurpleSpectre Replaces PurpleSpectre
 	}
 }
 
+// Brown Spectre
+ACTOR BrownSpectre2RPG : BrownSpectre2 Replaces BrownSpectre2
+{
+	Tag "Monstrous Spectre"
+
+    DropItem "DRPGEmpty"
+
+	States
+	{
+	Spawn:
+		BPWA A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		BPWA A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
 // Gray Spectre
 ACTOR GraySpectre2RPG : GraySpectre2 Replaces GraySpectre2
 {
 	Tag "Ancient Spectre"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -128,6 +160,8 @@ ACTOR YellowSpectreRPG : YellowSpectre Replaces YellowSpectre
 {
 	Tag "Legendary Spectre"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -143,6 +177,8 @@ ACTOR YellowSpectreRPG : YellowSpectre Replaces YellowSpectre
 ACTOR RedSpectreRPG : RedSpectre Replaces RedSpectre
 {
 	Tag "Demonic Spectre"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -160,6 +196,8 @@ ACTOR BlackSpectre2RPG : BlackSpectre2 Replaces BlackSpectre2
 {
 	Tag "The Rogue"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -174,7 +212,9 @@ ACTOR BlackSpectre2RPG : BlackSpectre2 Replaces BlackSpectre2
 // White Spectre
 ACTOR WhiteSpectre2RPG : WhiteSpectre2 Replaces WhiteSpectre2
 {
-	Tag "???"
+	Tag "Worm"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -190,6 +230,8 @@ ACTOR WhiteSpectre2RPG : WhiteSpectre2 Replaces WhiteSpectre2
 ACTOR WakawakaRPG : Wakawaka Replaces Wakawaka
 {
 	Tag "Worm"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{

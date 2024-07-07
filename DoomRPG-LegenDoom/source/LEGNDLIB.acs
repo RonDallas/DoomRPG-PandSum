@@ -1,0 +1,946 @@
+#library "LEGNDLIB"
+
+#include "zcommon.acs"
+
+#include "LEGENDINF.acs" // Info
+#include "LEGENDFNC.acs" // Functions
+#include "LEGENDMEN.acs" // Menus
+#include "LEGENDVAR.acs" // CVar getters
+
+// --------------------------------------------------
+// SCRIPTS
+//
+
+script "LDFavouredCount" (void)
+{
+	int num = 0;
+	for(int i = 0; i < WEAPON_MAX; i++)
+		if(CheckInventory(weaponActors[i]))
+			num++;
+	SetResultValue(num);
+}
+
+script "LDPatientCount" (void)
+{
+    SetResultValue(FixedDiv((CheckInventory("LDPatientCounter")+10),10)); // Maximum is 50, so 5x damage
+//    log(s:"LDPatientCounter: ",             i:CheckInventory("LDPatientCounter"));
+//    log(s:"LDPatientCounter+10: ",             i:CheckInventory("LDPatientCounter")+10);
+//    log(s:"LDPatientCounter+10/10.0: ",     f:FixedDiv((CheckInventory("LDPatientCounter")+10),10));
+//    log(s:"LDPatientCounter Real: ",         f:((CheckInventory("LDPatientCounter")+10)/10)>>16);
+//    log(s:"test: ",                         f:1.56);
+}
+
+script "LDConcentratingCount" (void)
+{
+	SetResultValue(FixedDiv((CheckInventory("LDConcentratingCounter")+100),100)); // Maximum is 1000, so 10x damage
+}
+
+script "LDLaceratingCount" (void)
+{
+	SetResultValue(FixedDiv((CheckInventory("LDLaceratingCounter")+4),4)); // Maximum is 40, so 10x damage
+}
+
+script "LDBloodyCount" (void)
+{
+	SetResultValue(FixedDiv((CheckInventory("LDBloodyCounter")+5),5)); // Maximum is 100, so 20x damage
+}
+
+script "LDSuspensefulCount" (void)
+{
+	SetResultValue(FixedDiv((CheckInventory("LDSuspensefulCounter")+5),5)); // Maximum is 20, so 4x damage
+}
+
+script "LDEffectCount" (int effect)
+{
+	SetResultValue(LD_CountEffect(PlayerNumber(), effect));
+}
+
+script "LDInfiniteAmmoTicTacTimer" (void)
+{
+	SetResultValue(GetActorPowerupTics (0, "PowerInfiniteAmmo"));
+}
+
+script "LDAgitatingScreaming" (void)
+{
+	SetMugShotState("Ouch"); // AAAAAAAAA
+}
+
+script "LDSteadyShotCrouchCheck" (void) // curse whoever suggested this, aaaaa
+{
+	SetResultValue(GetActorViewHeight(ActivatorTID()) >> 16);
+}
+
+int treesDamage;
+
+script "LDGetTreesDamage" (void)
+{
+	SetResultValue(treesDamage); // Has no maximum, Trees agent will be avenged
+}
+
+// Example: (CallACS("LDGetMasterAngle") / 65536.0) * 360.0
+script "LDGetMasterAngle" (void)
+{
+    // Move activation to the Master
+    SetActivator(0, AAPTR_MASTER);
+
+    // Return the angle to DECORATE
+    SetResultValue(GetActorAngle(0));
+}
+
+script "LDGetMasterPitch" (void)
+{
+    // Move activation to the Master
+    SetActivator(0, AAPTR_MASTER);
+
+    // Make sure the pitch is right for DECORATE
+    // Needs to be in the range -0.25 to 0.25
+    int pitch = GetActorPitch(0);
+    if (pitch >= 0.5)
+        pitch -= 1.0;
+
+    // Return the pitch to DECORATE
+    SetResultValue(pitch);
+}
+
+script "PlayerCount" (void)
+{
+	SetResultValue(PlayerCount());
+}
+
+int LD_AdaptiveChanceAmount;
+script "LD_CurrentAdaptiveChance" (void)
+{
+    SetResultValue(LD_AdaptiveChanceAmount / 20);
+}
+
+//------------------------------------------------------------------------------
+// KEKSDOSE HAS BEEN DEPLOYED
+//           BEWARE
+
+// kd: One might think we need to store multiple tids for multiple exploders
+// going off at the same time, but this is not the case.
+#define THERAPY_EXPLOSION "LDGroupTherapyExplosion"
+ 
+int exploder_tid[8];
+ 
+script "LDExploderTid" (void)
+{
+    int tid = ActivatorTid();
+   
+    if(tid == 0)
+    {
+        tid = UniqueTid();
+        Thing_ChangeTid(0, tid);
+    }
+   
+    if(SetActivator(0, AAPTR_TARGET))
+    {
+        exploder_tid[PlayerNumber()] = tid;
+    }
+}
+ 
+script "LDSpawnExplosion" (int player)
+{
+    if(SetActivator(exploder_tid[player]))
+    {
+        int explosion_tid = UniqueTid();
+        SpawnProjectile(0, THERAPY_EXPLOSION, 0, 1, 0, 0, explosion_tid);
+        SetActivator(explosion_tid);
+        SetPointer(AAPTR_TARGET, 0, AAPTR_PLAYER1 << player);
+        SetResultValue(explosion_tid);
+        terminate;
+    }
+   
+    SetResultValue(0);
+}
+/* // DEBUG VERSION
+script "LDSpawnExplosion" (int player)
+{
+    Log(s:"SpawnExplosion: player is ", i:player, s:", exploder_tid is ", i:exploder_tid[player]);
+    Log(s:"There's ", i:ThingCount(T_NONE, exploder_tid[player]), s:" exploders");
+    if(SetActivator(exploder_tid[player]))
+    {
+        Log(s:"Activator ok");
+        int explosion_tid = UniqueTid();
+        SpawnProjectile(0, THERAPY_EXPLOSION, 0, 1, 0, 0, explosion_tid);
+        if(SetActivator(explosion_tid)) {
+            Log(s:"explosion ok");
+        }
+        SetPointer(AAPTR_TARGET, 0, AAPTR_PLAYER1 << player);
+        SetResultValue(explosion_tid);
+        terminate;
+    }
+    
+    SetResultValue(0);
+}
+*/
+script "LDExplodeOwner" (int player) // gets the player int from crime jumps
+{
+    int explosion_tid = Acs_NamedExecuteWithResult("LDSpawnExplosion", player);
+    int warp_result = 0;
+   
+    if(explosion_tid != 0)
+    {
+        warp_result = Warp(
+            explosion_tid,
+            0, // xyz offset
+            0,
+            0,
+            0, // angle
+            WARPF_NOCHECKPOSITION | WARPF_MOVEPTR,
+            "",
+            false,
+            0.5);
+    }
+   
+    SetResultValue(warp_result);
+}
+
+//------------------------------------------------------------------------------
+
+script "LDHowStronkAreYou" (void)
+{
+	SetResultValue(GetActorProperty(0, APROP_SpawnHealth));
+}
+
+		
+script "LDWorldInit" open
+{
+	for(int i = 0; i < 8; i++)
+	{
+		if(PlayerInGame(i))
+		{
+			SetActivator(0, AAPTR_PLAYER1 << i);
+			LD_AdaptiveChanceAmount = CheckInventory("LDAdaptiveChanceHolder");
+		}
+	}
+	if (ACS_NamedExecuteWithResult("LD_AdaptiveChance") == 1||ACS_NamedExecuteWithResult("LD_AdaptiveChance") == 3) { LD_AdaptiveChanceAmount+= 20; }
+    Delay(1); // Give the world a chance to spawn everything
+	if (ACS_NamedExecuteWithResult("SoDCheck") == 1) { delay(4); }
+
+	treesDamage  = 1.0;
+	treesDamage += 0.1 * ThingCountName("BigTree", 0);
+	treesDamage += 0.1 * ThingCountName("TorchTree", 0);
+
+	if (GetCVar("LD_legendarydebug"))
+		log(s:"LDWorldInit: Current Adaptive level is ", d:LD_AdaptiveChanceAmount);
+	while(true)
+	{
+		int skill = GameSkill();
+
+		if (skill > MAX_SKILLS-1)
+		{
+			if (GetCVar("LD_legendarydebug"))
+				log(s:"LDWorldInit: Skill exceeded max ", d:MAX_SKILLS - 1, s:" (was ", d:skill, s:")");
+			skill = MAX_SKILLS - 1;
+		}
+
+		// Assuming the radius of each chooser is 16384, the total reach is 32768 units each
+		for (int x = -32768; x < 32768; x += 16384)
+			for (int y = -32768; y < 32768; y += 16384)
+				for (int z = -32768; z < 32768; z += 16384)
+					SpawnForced(monsterChooser[skill], x << 16, y << 16, z << 16, 0, false);
+
+		// This will handle the text frame animation on the hovering legendary icon texts
+		SpawnForced("LDWordsAreMorePowerfulThanAThousandFrames", -512, -512, 0, 0, false);
+
+		if (GetCVar("LD_legendarynightmare"))
+			Delay(35 * 60);
+		else
+			break;
+	}
+}
+
+function void LD_ApplyStartBuffs(void)
+{
+	if(LD_HasEffectAny(0, EFFECT_RESTORING))
+	{
+		GiveInventory("LDRestoringEffect", 1);
+		GiveInventory("LDRestoringActivation", 1);
+	}
+
+	if(LD_HasEffectAny(0, EFFECT_VANGUARD))
+	{
+		GiveInventory("LDVanguardEffect", 1);
+		GiveInventory("LDVanguardActivation", 1);
+	}
+
+	if(LD_HasEffectAny(0, EFFECT_RESUPPLYING))
+	{
+		SetInventory("Clip", GetAmmoCapacity("Clip"));
+		SetInventory("Shell", GetAmmoCapacity("Shell"));
+		SetInventory("Cell", GetAmmoCapacity("Cell"));
+		SetInventory("RocketAmmo", GetAmmoCapacity("RocketAmmo"));
+		GiveInventory("LDResupplyingActivation", 1);
+	}
+
+	if(LD_HasEffectAny(0, EFFECT_SCRAMBLING))
+		GiveInventory("LDScramblingEffect", 1);
+
+	if(LD_HasEffectAny(0, EFFECT_WILDFIRE))
+	{
+		GiveInventory("LDWildfireEffect", 1);
+		GiveInventory("LDWildfireActivation", 1);
+	}
+
+	if(LD_HasEffectAny(0, EFFECT_CHRONOSTRIKE))
+	{
+		GiveInventory("LDChronostrikeEffect", 1);
+		GiveInventory("LDChronostrikeActivation", 1);
+	}
+}
+
+// This script is used to give the player any more difficult to handle effects, such as Scrambling.
+script "LDWeaponPickupEffectActivation" (void)
+{
+	Delay(1);
+	
+	if(LD_HasEffectAny(0, EFFECT_SCRAMBLING))
+		GiveInventory("LDScramblingEffect", 1);
+}
+
+script "LDPlayerRespawn" respawn
+{
+	LD_ApplyStartBuffs();
+}
+
+script "LDMapEnd" unloading
+{
+	for(int i = 0; i < 8; i++)
+	{
+		if(PlayerInGame(i))
+		{
+			SetActivator(0, AAPTR_PLAYER1 << i);
+			TakeInventory("LDAdaptiveChanceHolder", 0x7FFFFFFF);
+			GiveInventory("LDAdaptiveChanceHolder", LD_AdaptiveChanceAmount);
+		}
+	}
+}
+
+script "LDPlayerLoop" enter
+{
+	Delay(1); // to try and stop memory explosions
+	LD_ApplyStartBuffs();
+
+    while (true)
+    {
+        // Check legendary effect
+        if (GetCVar("LD_effectnames"))
+        {
+            int success = 0;
+            int tid = PickActor(0, GetActorAngle(0), GetActorPitch(0), 1024.0, 0, MF_SPECIAL, ML_BLOCKEVERYTHING, PICKAF_RETURNTID);
+            if (tid == 0)
+            {
+                tid = UniqueTID();
+                success = PickActor(0, GetActorAngle(0), GetActorPitch(0), 1024.0, tid, MF_SPECIAL, ML_BLOCKEVERYTHING, PICKAF_FORCETID);
+            }
+            else
+                success = 1;
+
+            if (success)
+                for (int i = 0; i < WEAPON_MAX; i++)
+                    for (int j = 0; j < EFFECT_MAX; j++)
+                        if (LD_HasEffect(tid, i, j))
+                            ACS_NamedExecuteAlways("IconEffectHover", 0, j, tid);
+        }
+
+        // Legendary buffs
+		int x = 160.0;
+
+		int timerDetermined =		GetActorPowerupTics(0, "LDDeterminedResistanceBuff");
+		int timerBattlerage =		GetActorPowerupTics(0, "LDBattlerageSpeedBoost");
+		int timerKillstreak =		GetActorPowerupTics(0, "LDKillstreakerSpeedBuff");
+		int timerEntrenched =		GetActorPowerupTics(0, "LDEntrenchedDamageResistance");
+		int timerIntimidating =		GetActorPowerupTics(0, "LDIntimidatingDamage");
+		int timerIntimidating2 =	GetActorPowerupTics(0, "PowerFrightener");
+		int timerGhostly =			GetActorPowerupTics(0, "LDGhostlyProtection");
+		int timerMurderous =		GetActorPowerupTics(0, "LDMurderousDamageBuff");
+		int timerUnstoppable =		GetActorPowerupTics(0, "LDUnstoppableResistanceBuff");
+		int timerArtifact =			GetActorPowerupTics(0, "LDArtifactEffectCooldown");
+		int timerAugmented =		GetActorPowerupTics(0, "LDAugmentedDamage");
+		int timerAugmented2 =		GetActorPowerupTics(0, "LDAugmentedDamageResistance");
+
+		SetHudSize(320, 240, false);
+
+		if (timerDetermined > 0)
+		{
+			SetFont("INDEXFONT_DOOM");
+			HudMessage(d:timerDetermined / 35; HUDMSG_PLAIN, 0, CR_GREEN, x + 1.0, 24.0, 0.05);
+
+			PrintSprite("I_DETERM", 0, x, 16.1, 0.05);
+			PrintSprite("HUDBOX6", 0, x, -14.1, 0.05);
+			PrintSprite("HUDBOX5", 0, x, 6.1, 0.05);
+
+			x += 20.0;
+		}
+
+		if (timerBattlerage > 0)
+		{
+			SetFont("INDEXFONT_DOOM");
+			HudMessage(d:timerBattlerage / 35; HUDMSG_PLAIN, 0, CR_GREEN, x + 1.0, 24.0, 0.05);
+
+			PrintSprite("I_BATTLE", 0, x, 16.1, 0.05);
+			PrintSprite("HUDBOX6", 0, x, -14.1, 0.05);
+			PrintSprite("HUDBOX5", 0, x, 6.1, 0.05);
+
+			x += 20.0;
+		}
+
+		if (timerKillstreak > 0)
+		{
+			SetFont("INDEXFONT_DOOM");
+			HudMessage(d:timerKillstreak / 35; HUDMSG_PLAIN, 0, CR_PURPLE, x + 1.0, 24.0, 0.05);
+
+			PrintSprite("I_KILLST", 0, x, 16.1, 0.05);
+			PrintSprite("HUDBOX6", 0, x, -14.1, 0.05);
+			PrintSprite("HUDBOX5", 0, x, 6.1, 0.05);
+
+			x += 20.0;
+		}
+
+		if (timerEntrenched > 0)
+		{
+			SetFont("INDEXFONT_DOOM");
+			HudMessage(d:timerEntrenched / 35; HUDMSG_PLAIN, 0, CR_PURPLE, x + 1.0, 24.0, 0.05);
+
+			PrintSprite("I_ENTREN", 0, x, 16.1, 0.05);
+			PrintSprite("HUDBOX6", 0, x, -14.1, 0.05);
+			PrintSprite("HUDBOX5", 0, x, 6.1, 0.05);
+
+			x += 20.0;
+		}
+
+		if (timerIntimidating > 0)
+		{
+			SetFont("INDEXFONT_DOOM");
+			HudMessage(d:timerIntimidating / 35; HUDMSG_PLAIN, 0, CR_PURPLE, x + 1.0, 24.0, 0.05);
+
+			PrintSprite("I_INTIMI", 0, x, 16.1, 0.05);
+			PrintSprite("HUDBOX6", 0, x, -14.1, 0.05);
+			PrintSprite("HUDBOX5", 0, x, 6.1, 0.05);
+
+			x += 20.0;
+		}
+		
+		if (timerIntimidating2 > 0)
+		{
+			SetFont("INDEXFONT_DOOM");
+			HudMessage(d:timerIntimidating2 / 35; HUDMSG_PLAIN, 0, CR_PURPLE, x + 1.0, 24.0, 0.05);
+
+			PrintSprite("I_INTIM2", 0, x, 16.1, 0.05);
+			PrintSprite("HUDBOX6", 0, x, -14.1, 0.05);
+			PrintSprite("HUDBOX5", 0, x, 6.1, 0.05);
+
+			x += 20.0;
+		}
+
+		if (timerGhostly > 0)
+		{
+			SetFont("INDEXFONT_DOOM");
+			HudMessage(d:timerGhostly / 35; HUDMSG_PLAIN, 0, CR_PURPLE, x + 1.0, 24.0, 0.05);
+
+			PrintSprite("I_GHOSTL", 0, x, 16.1, 0.05);
+			PrintSprite("HUDBOX6", 0, x, -14.1, 0.05);
+			PrintSprite("HUDBOX5", 0, x, 6.1, 0.05);
+
+			x += 20.0;
+		}
+
+		if (timerMurderous > 0)
+		{
+			SetFont("INDEXFONT_DOOM");
+			HudMessage(d:timerMurderous / 35; HUDMSG_PLAIN, 0, CR_ORANGE, x + 1.0, 24.0, 0.05);
+
+			PrintSprite("I_MURDER", 0, x, 16.1, 0.05);
+			PrintSprite("HUDBOX6", 0, x, -14.1, 0.05);
+			PrintSprite("HUDBOX5", 0, x, 6.1, 0.05);
+
+			x += 20.0;
+		}
+
+		if (timerUnstoppable > 0)
+		{
+			SetFont("INDEXFONT_DOOM");
+			HudMessage(d:timerUnstoppable / 35; HUDMSG_PLAIN, 0, CR_ORANGE, x + 1.0, 24.0, 0.05);
+
+			PrintSprite("I_UNSTOP", 0, x, 16.1, 0.05);
+			PrintSprite("HUDBOX6", 0, x, -14.1, 0.05);
+			PrintSprite("HUDBOX5", 0, x, 6.1, 0.05);
+
+			x += 20.0;
+		}
+
+		if (timerArtifact > 0)
+		{
+			SetFont("INDEXFONT_DOOM");
+			HudMessage(d:timerArtifact / 35; HUDMSG_PLAIN, 0, CR_ORANGE, x + 1.0, 24.0, 0.05);
+
+			PrintSprite("I_ARTIFA", 0, x, 16.1, 0.05);
+			PrintSprite("HUDBOX6", 0, x, -14.1, 0.05);
+			PrintSprite("HUDBOX5", 0, x, 6.1, 0.05);
+
+			x += 20.0;
+		}
+		
+		if (timerAugmented > 0)
+		{
+			SetFont("INDEXFONT_DOOM");
+			HudMessage(d:timerAugmented / 35; HUDMSG_PLAIN, 0, CR_ORANGE, x + 1.0, 24.0, 0.05);
+
+			PrintSprite("I_AUGME1", 0, x, 16.1, 0.05);
+			PrintSprite("HUDBOX6", 0, x, -14.1, 0.05);
+			PrintSprite("HUDBOX5", 0, x, 6.1, 0.05);
+
+			x += 20.0;
+		}
+		
+		if (timerAugmented2 > 0)
+		{
+			SetFont("INDEXFONT_DOOM");
+			HudMessage(d:timerAugmented2 / 35; HUDMSG_PLAIN, 0, CR_ORANGE, x + 1.0, 24.0, 0.05);
+
+			PrintSprite("I_AUGME2", 0, x, 16.1, 0.05);
+			PrintSprite("HUDBOX6", 0, x, -14.1, 0.05);
+			PrintSprite("HUDBOX5", 0, x, 6.1, 0.05);
+
+			x += 20.0;
+		}
+
+        Delay(1);
+    }
+}
+
+script "LDMonsterInit" (void)
+{
+    int spawnHealth = GetActorProperty(0, APROP_SpawnHealth);
+    int tid = UniqueTID();
+    bool evolved = false;
+
+    if (CheckInventory("LDLegendaryMonsterToken") > 0)
+        terminate;
+
+    GiveInventory("LDLegendaryMonsterToken", 1);
+
+    if (GetCVar("LD_legendarydebug"))
+        Log(s:"\cdLD DEBUG\c-: \ca", s:GetActorClass(0), s:"\c- has been \cdLEGENDARIFIED\c-");
+
+    if (!SpawnForced("DRPGLegenDoomActive", 0, 0, 0, tid, 0))
+    {
+        if (CheckFlag(0, "BOSS"))
+            spawnHealth *= GetCVar("LD_legendaryhealthboss") / 100;
+        else
+            spawnHealth *= GetCVar("LD_legendaryhealth") / 100;
+
+        SetActorProperty(0, APROP_Health, spawnHealth);
+    }
+    else
+    {
+        Thing_Remove(tid);
+
+        while (CheckInventory("DRPGLegenDoomMonsterInit") < 1)
+            Delay(35);
+
+        spawnHealth = GetActorProperty(0, APROP_Health);
+    }
+
+    while (true)
+    {
+        int health = GetActorProperty(0, APROP_Health);
+
+        if (evolved)
+        {
+            GiveInventory("LDLegendaryMonsterVisualEffectMaker", 1);
+        }
+        else if (Health > 0 && health <= spawnHealth / 2)
+        {
+            SetActorProperty(0, APROP_Health, spawnHealth);
+
+            if (CheckFlag(0, "BOSS"))
+            {
+                GiveInventory("LDLegendaryMonsterBossStatBoost", 1);
+                SetActorProperty(0, APROP_DamageMultiplier, (GetCVar("LD_legendarydamageboss")));
+            }
+            else
+            {
+                GiveInventory("LDLegendaryMonsterStatBoost", 1);
+                SetActorProperty(0, APROP_DamageMultiplier, (GetCVar("LD_legendarydamage")));
+            }
+
+            evolved = true;
+        }
+
+        if (health <= 0)
+        {
+			if (ACS_NamedExecuteWithResult("LD_AdaptiveChance") >= 2) { LD_AdaptiveChanceAmount++; }
+			if (GetCVar("LD_legendarydebug"))
+				log(s:"LDWorldInit: Current Adaptive level is ", d:LD_AdaptiveChanceAmount);
+            if (CheckFlag(0, "BOSS"))
+            {
+                if (GetCVar("LD_specialgamemode") == 1)
+                {
+                    TossItem("LDFunkyGnollKnifestorm");
+                    GiveInventory("LDLegendaryMonsterDed", 1);
+                }
+                else if (GetCVar("LD_doom1compat"))
+                {
+                    TossItem("LDRandomLegendaryDropBossDoom1");
+                    GiveInventory("LDLegendaryMonsterDed", 1);
+                }
+                else
+                {
+                    TossItem("LDRandomLegendaryDropBoss");
+                    GiveInventory("LDLegendaryMonsterDed", 1);
+                }
+            }
+            else
+            {
+                if (GetCVar("LD_doom1compat"))
+                {
+                    TossItem("LDRandomLegendaryDropDoom1");
+                    GiveInventory("LDLegendaryMonsterDed", 1);
+                }
+                else
+                {
+                    TossItem("LDRandomLegendaryDrop");
+                    GiveInventory("LDLegendaryMonsterDed", 1);
+                }
+            }
+
+            terminate;
+        }
+
+        Delay(1);
+    }
+}
+
+// DECORATE Example Usage:
+// ACS_NamedExecuteAlways("EffectScreen", 0, WEAPON_PISTOL, EFFECT_HOARDER, RARITY_COMMON)
+script "EffectScreen" (int weapon, int effect, int rarity)
+{
+	int width = 320;
+	int height = 240;
+	int titleX = FixedDiv(width, 2) + 0.4;
+	int titleY = 20.1;
+	int iconX = FixedDiv(width, 2);
+	int iconY = FixedDiv(height, 2);
+	int icon2X = FixedDiv(width, 2);
+	int icon2Y = FixedDiv(height << 16, 1.6);
+	int descriptionX = FixedDiv(width, 2) + 0.4;
+	int descriptionY = 180.1;
+	int holdTime = 7.5;
+	int fadeTime = 2.5;
+	int id = 12300;
+    int timeMax = holdTime + fadeTime;
+    int time = (timeMax * 35) >> 16;
+
+	// HUD Setup
+	SetHUDSize(width, height, false);
+
+	// Title
+	SetFont("ZD2012");
+	HudMessage(l:LD_GetEffectName(effect), s:" ", l:weaponNames[weapon]; HUDMSG_FADEOUT | HUDMSG_LOG, id, rarityColors[rarity], titleX, titleY, holdTime, fadeTime);
+
+	// Icons
+    SetFont(StrParam(s:"L", s:weaponShortNames[weapon], s:rarityShortNames[rarity]));
+    HudMessage(s:"A"; HUDMSG_FADEOUT, id + 2, CR_WHITE, iconX, iconY, holdTime, fadeTime);
+    SetFont(effectIcons[effect]);
+    HudMessage(s:"A"; HUDMSG_FADEOUT, id + 1, CR_WHITE, icon2X, icon2Y, holdTime, fadeTime);
+
+	// Description
+	SetFont("MINIPLIC");
+    HudMessage(l:LD_GetEffectDesc(effect); HUDMSG_FADEOUT | HUDMSG_LOG, id + 3, CR_WHITE, descriptionX, descriptionY, holdTime, fadeTime);
+
+	// Sound
+    if (effect == EFFECT_MYSTERIOUS)
+        LocalAmbientSound("effects/mysteriouspickup", 127);
+    else if (effect == EFFECT_AGITATING)
+        LocalAmbientSound("effects/agitatingpickup", 127);
+    else if (effect == EFFECT_SERIOUS)
+        LocalAmbientSound("effects/seriouspickup", 127);
+    else if (effect == EFFECT_DESPERATE)
+        LocalAmbientSound("effects/desperatepickup", 127);
+    else if (effect == EFFECT_AUGMENTED)
+        LocalAmbientSound("effects/augmentedpickup", 127);
+    else if (rarity == RARITY_EPIC)
+        LocalAmbientSound("effects/epicnewlegendarypickup", 127);
+    else
+        LocalAmbientSound("effects/newlegendarypickup", 127);
+
+    // Check for keypresses to close the screen
+    while (time-- > 0)
+    {
+        int buttons = GetPlayerInput(PlayerNumber(), INPUT_BUTTONS);
+
+        if (buttons & BT_USE || buttons & BT_ATTACK || buttons & BT_ALTATTACK)
+		{
+            for (int i = id; i < id + 4; i++)
+                ClearHudMessage(i);
+
+			break;
+		}
+
+        Delay(1);
+    }
+}
+
+// DECORATE Example Usage:
+// ACS_NamedExecuteAlways("IconHover", 0, EFFECT_WHITTLING)
+// Called every tic
+script "IconHover" (int effect)
+{
+	int x = GetActorX(0) + Random(-0.5, 0.5);
+	int y = GetActorY(0) + Random(-0.5, 0.5);
+	int z = GetActorZ(0);
+	int height = GetActorProperty(0, APROP_Height);
+	int z2 = z + height + FixedDiv(height, 4.0);
+	int tid = UniqueTID();
+	int alpha = 0.75 + FixedMul(sin(FixedDiv(Timer() << 16, 64.0)), 0.25);
+	str actor = "";
+
+	// Get the right actor
+	switch (effect)
+	{
+	case EFFECT_VIOLENT:
+		actor = "LDViolentVisual";
+		break;
+	case EFFECT_STASIS:
+		actor = "LDStasisVisual";
+		break;
+	case EFFECT_ENERGIZING:
+		actor = "LDEnergizingVisual";
+		break;
+	case EFFECT_GRAVITIC:
+		actor = "LDGraviticVisual";
+		break;
+	case EFFECT_IGNITING:
+		actor = "LDIgnitingVisual";
+		break;
+	case EFFECT_WHITTLING:
+		actor = "LDWhittlingVisual";
+		break;
+	case EFFECT_TORGUE:
+		actor = "LDTorgueVisual";
+		break;
+	case EFFECT_ILLEGAL:
+		actor = "LDIllegalVisual";
+		break;
+	case EFFECT_PERSISTENT:
+		actor = "LDPersistentVisual";
+		break;
+	case EFFECT_CONVINCING:
+		actor = "LDConvincingVisual";
+		break;
+	case EFFECT_CRIPPLING:
+		actor = "LDCripplingVisual";
+		break;
+	case EFFECT_FREEZING:
+		actor = "LDFreezingVisual";
+		break;
+	}
+
+	// Second frame
+	if ((Timer() % 2) == 0)
+		actor = StrParam(s:actor, d:2);
+
+	// Spawn and setup style and alpha
+	SpawnForced(actor, x, y, z2, tid, 0);
+	SetActorProperty(tid, APROP_RenderStyle, STYLE_Add);
+	SetActorProperty(tid, APROP_Alpha, alpha);
+}
+
+script "IconEffectHover" (int effect, int tid)
+{
+	int x = GetActorX(tid);
+	int y = GetActorY(tid);
+	int z = GetActorZ(tid) + 32.0;
+	str actor = StrParam(s:"LDWeaponEffectIcon_", s:effectIdentifiers[effect]);
+
+	// Spawn and setup style and alpha
+    if (!(Timer() % 2))
+    {
+        SpawnForced(actor, x, y, z, tid + 1, 0);
+        SetActorProperty(tid + 1, APROP_RenderStyle, STYLE_Add);
+    }
+}
+
+script "Draw_Pentagram" (int pentaradius, int r, int g, int b)
+{
+    int px, py, c_angle, count;
+    int posx, posy, posz;
+    int radius = pentaradius << 16;
+    int angle;
+    int offset = 0;
+
+    int linepoints_x[5];
+    int linepoints_y[5];
+    int point1, point2;
+    int linepos;
+    int vec;
+
+    int alpha = 1;
+    bool fadeout = false;
+    int color = (r << 16) | (g << 8) | b;
+
+    posx = GetActorX(0);
+    posy = GetActorY(0);
+    posz = GetActorZ(0);
+
+    while (true)
+    {
+        // Draw the circle, 360 points
+        for (count = 360; count > 0; count--)
+        {
+            angle = 1.0 / 360 * count;
+            px = posx + FixedMul(cos(angle), radius);
+            py = posy + FixedMul(sin(angle), radius);
+
+            SpawnParticle(color, true, Random(1, 3), Random(5, 7), px, py, posz, 0, 0, 0, 0, 0, 0, alpha, 255);
+        }
+
+        // Draw each line, 5 points
+        // First build the point positions
+        for (count = 5; count > 0; count--)
+        {
+            angle = 1.0 / 5 * count;
+            linepoints_x[count - 1] = posx + FixedMul(cos(angle), radius);
+            linepoints_y[count - 1] = posy + FixedMul(sin(angle), radius);
+        }
+
+        // Now draw 5 line vectors, skipping every second number to draw the star
+        point1 = 0;
+        point2 = 2; // (point1 + 2) % 5
+        for (count = 0; count < 5; count++)
+        {
+            for (linepos = FixedMul(radius, 1.9) >> 16; linepos > 0; linepos--)
+            {
+                vec = VectorAngle(linepoints_x[point2] - linepoints_x[point1], linepoints_y[point2] - linepoints_y[point1]);
+                px = linepoints_x[point1] + linepos * Cos(vec);
+                py = linepoints_y[point1] + linepos * Sin(vec);
+
+                SpawnParticle(color, true, Random(1, 3), Random(5, 7), px, py, posz, 0, 0, 0, 0, 0, 0, alpha, 255);
+            }
+
+            point1 = point2;
+            point2 = (point1 + 2) % 5;
+        }
+
+        if (!fadeout)
+        {
+            alpha += 20;
+
+            if (alpha > 255)
+            {
+                alpha = 255;
+                fadeout = true;
+            }
+        }
+        else
+        {
+            alpha -= 2;
+
+            if (alpha < 2)
+                terminate;
+        }
+
+        Delay(1);
+    }
+}
+
+script "LDSynthFire" enter
+{
+    if (CheckInventory("Health") > 0)
+    {
+        int buttons = GetPlayerInput(PlayerNumber(), INPUT_BUTTONS);
+
+        if (buttons & BT_ATTACK)
+            SetInventory("LDSynthFire", 1);
+        else
+            SetInventory("LDSynthFire", 0);
+
+        if (buttons & BT_ALTATTACK)
+            SetInventory("LDSynthAltFire", 1);
+        else
+            SetInventory("LDSynthAltFire", 0);
+
+        if (buttons & BT_CROUCH)
+            SetInventory("LDCrouching", 1);
+        else
+            SetInventory("LDCrouching", 0);
+
+        if (buttons & BT_MOVELEFT)
+            SetInventory("LDStrafeLeft", 1);
+        else
+            SetInventory("LDStrafeLeft", 0);
+
+        if (buttons & BT_MOVERIGHT)
+            SetInventory("LDStrafeRight", 1);
+        else
+            SetInventory("LDStrafeRight", 0);
+
+        if (buttons & BT_FORWARD)
+            SetInventory("LDForwards", 1);
+        else
+            SetInventory("LDForwards", 0);
+
+        if (buttons & BT_BACK)
+            SetInventory("LDBackwards", 1);
+        else
+            SetInventory("LDBackwards", 0);
+    }
+    else // Player is ded, take all the things
+    {
+        SetInventory("LDSynthFire", 0);
+        SetInventory("LDSynthAltFire", 0);
+        SetInventory("LDCrouching", 0);
+        SetInventory("LDStrafeLeft", 0);
+        SetInventory("LDStrafeRight", 0);
+        SetInventory("LDForwards", 0);
+        SetInventory("LDBackwards", 0);
+    }
+
+    Delay(1);
+    restart;
+}
+// oh noes kyles drla synthfire stuff how did it get here
+
+// DoomRPG check
+int isDRPG = 2;
+script "DRPGCheck" (void)
+{
+    if (isDRPG == 2)
+    {
+        int TID = UniqueTID();
+        int spawned = SpawnForced("DRPGLegenDoomActive", 0, 0, 0, TID, 0);
+
+        if (spawned)
+        {
+            Thing_Remove(TID);
+            isDRPG = true;
+        }
+        else
+            isDRPG = false;
+    }
+
+    SetResultValue(isDRPG);
+}
+
+// Shades of Doom check
+int isSoD = 2;
+script "SoDCheck" (void)
+{
+    if (isSoD == 2)
+    {
+        int TID = UniqueTID();
+        int spawned = SpawnForced("DeadCyanZombieman2", 0, 0, 0, TID, 0);
+
+        if (spawned)
+        {
+            Thing_Remove(TID);
+            isSoD = true;
+        }
+        else
+            isSoD = false;
+    }
+
+    SetResultValue(isSoD);
+}

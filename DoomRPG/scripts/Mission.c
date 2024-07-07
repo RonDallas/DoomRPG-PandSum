@@ -68,12 +68,15 @@ NamedScript void PopulateMissions()
 
 NamedScript void InitMission()
 {
+    // Small delay before initializing the script
+    Delay(4);
+
     // If you aren't on a mission or you're in the Outpost, return
     if (!Player.Mission.Active || CurrentLevel->UACBase) return;
 
     // Kill Reinforcements Mission
     if (Player.Mission.Type == MT_REINFORCEMENTS)
-        MonsterTransport(CalculateAverageDifficulty(), 10 - Player.Mission.Difficulty, 1024);
+        MonsterTransport(CalculateAverageDifficulty(), 16 - Player.Mission.Difficulty, 1024);
 
     // Assassination Mission
     if (Player.Mission.Type == MT_ASSASSINATION)
@@ -115,9 +118,9 @@ NamedScript void InitMission()
         {
             int Chosen = ((int *)PotentialTargets.Data)[Random(0, PotentialTargets.Position - 1)];
 
-            int LevelMod = Player.Mission.Difficulty * Player.Level;
-            LevelMod = (int)(LevelMod * RandomFixed(1.0, 1.25));
-            Monsters[Chosen].LevelAdd += LevelMod;
+            int LevelMod = 1 + ((Player.Mission.Difficulty + 1) * 0.125);
+            LevelMod = (int)(LevelMod * RandomFixed(1.00, 1.25));
+            Monsters[Chosen].LevelAdd *= LevelMod;
             Monsters[Chosen].Target = PlayerNumber() + 1;
 
             // Shadow Aura
@@ -163,7 +166,7 @@ NamedScript void MissionDeathCheck(int Killer, MonsterStatsPtr Stats)
         }
 
         // Kill Auras Mission
-        if (MonsterHasAura(Stats))
+        if (Stats->HasAura)
         {
             for (int i = 0; i < MAX_PLAYERS; i++)
             {
@@ -225,6 +228,10 @@ MissionInfo CreateMission(int Difficulty)
         long int XPNext;
         long int RankNext;
 
+        fixed RewardModulesFactor = 100.0 / (100.0 + (((fixed)Players(i).Strength + (fixed)Players(i).Defense + (fixed)Players(i).Vitality + (fixed)Players(i).Energy + (fixed)Players(i).Regeneration + (fixed)Players(i).Agility + (fixed)Players(i).Capacity + (fixed)Players(i).Luck) / 16.0));
+        if (RewardModulesFactor < 0.0)
+            RewardModulesFactor = 1.0;
+
         if (!PlayerInGame(i)) continue;
 
         // Prevent overflows due to trying to check for a null table index
@@ -237,10 +244,10 @@ MissionInfo CreateMission(int Difficulty)
         else
             RankNext = RankTable[Players(i).RankLevel];
 
-        RewardXP += XPNext * 1000 / (100000 - (Difficulty * 10000));
-        RewardRank += RankNext * 1000 / (100000 - (Difficulty * 10000));
-        RewardCredits += Random(100 * (Difficulty + 1) * (Players(i).Level + 1), 100 * (Difficulty + 1) * (Players(i).Level + 1) * 2);
-        RewardModules += Random(10 * (Difficulty + 1) * (Players(i).Level + 1), 10 * (Difficulty + 1) * (Players(i).Level + 1) * 2);
+        RewardXP += ((XPNext * ((Difficulty + 1) * (1200 - (Players(i).Level * 10))) / (10000 + (Players(i).Level * 500))) + 50) / 50 * 50;
+        RewardRank += ((RankNext * ((Difficulty + 1) * (300 - (Players(i).RankLevel * 10))) / (10000 + (Players(i).RankLevel * 1000))) + 250) / 250 * 250;
+        RewardCredits += ((Random(4 * (Difficulty + 1) * (Players(i).Level + 1), 12 * (Difficulty + 1) * (Players(i).Level + 1) * 2)) + 50) / 50 * 50;
+        RewardModules += ((int)((RandomFixed(4.0 * ((fixed)Difficulty + 1.0) * ((fixed)Players(i).Level + 1.0), 4.0 * ((fixed)Difficulty + 1.0) * ((fixed)Players(i).Level + 1.0) * 2.0)) * (fixed)RewardModulesFactor) + 25) / 25 * 25;
 
         NumPlayers++;
     }
@@ -266,7 +273,7 @@ MissionInfo CreateMission(int Difficulty)
     {
         // Generate Item and Amount
         int ItemIndex = Random(0, MAX_LOOT - 1);
-        int Amount = 10 + (Difficulty * 5);
+        int Amount = 20 + (Difficulty * 20);
         ItemInfoPtr ItemPtr = &ItemData[7][ItemIndex];
 
         // Pass data to the Mission struct
@@ -280,7 +287,7 @@ MissionInfo CreateMission(int Difficulty)
 
     // Kill Auras and Kill Reinforcements Missions
     if (Type == MT_KILLAURAS || Type == MT_REINFORCEMENTS)
-        Mission.Amount = 10 + (10 * (Difficulty + 1));
+        Mission.Amount = 4.0 + ((15.0 * (19.0 - RandomFixed(4.0 + ((fixed)Difficulty / 2.0), 10.0 + ((fixed)Difficulty / 2.0))) / 19.0) * (1.0 + (fixed)Difficulty / (4.0 + (RandomFixed(4.0 + ((fixed)Difficulty / 2.0), 10.0 + ((fixed)Difficulty / 2.0)) + 1.0) / 3.8))) * (1.0 + (fixed)AveragePlayerLevel() / (75.0 - (fixed)Difficulty * 5.0));
 
     // Assassination Mission
     if (Type == MT_ASSASSINATION)
@@ -288,15 +295,15 @@ MissionInfo CreateMission(int Difficulty)
 
     // Find Secrets Mission
     if (Type == MT_SECRETS)
-        Mission.Amount = 3 + (3 * (Difficulty + 1));
+        Mission.Amount = 3 + (Difficulty * 3);
 
     // Find Items Mission
     if (Type == MT_ITEMS)
-        Mission.Amount = 30 + (30 * (Difficulty + 1));
+        Mission.Amount = 30 + (Difficulty * 30);
 
     // Combo Mission
     if (Type == MT_COMBO)
-        Mission.Amount = (Difficulty + 2) * 10;
+        Mission.Amount = 20 + (Difficulty * 20);
 
     return Mission;
 }
@@ -336,14 +343,14 @@ void CheckMission()
     }
 
     // Generic Checking
-    if (Player.Mission.Type == MT_KILL || Player.Mission.Type == MT_KILLAURAS ||
+    if ((Player.Mission.Type == MT_KILL || Player.Mission.Type == MT_KILLAURAS ||
             Player.Mission.Type == MT_REINFORCEMENTS || Player.Mission.Type == MT_SECRETS ||
-            Player.Mission.Type == MT_ITEMS)
+            Player.Mission.Type == MT_ITEMS) && !CurrentLevel->UACBase)
         if (Player.Mission.Current >= Player.Mission.Amount)
             Complete = true;
 
     // Assassination Mission
-    if (Player.Mission.Type == MT_ASSASSINATION)
+    if (Player.Mission.Type == MT_ASSASSINATION && !CurrentLevel->UACBase)
         if (Player.Mission.Current >= 1)
             Complete = true;
 
@@ -362,13 +369,57 @@ void CheckMission()
     // Mission Complete!
     if (Complete)
     {
+        str ActorToSpawn = Player.Mission.RewardItem->Actor;
+
+        // Compatibility Handling - DoomRL Arsenal
+        // Set actors
+        if (CompatMode == COMPAT_DRLA)
+        {
+            str ItemName = Player.Mission.RewardItem->Name;
+            int ItemCategory = Player.Mission.RewardItem->Category;
+
+            // For weapons
+            if (ItemCategory == 0)
+            {
+                if (StrMid(ItemName, StrLen(ItemName) - 9, 6) == "Common")
+                    ActorToSpawn = StrParam("%SPickup", ActorToSpawn);
+                if (StrMid(ItemName, StrLen(ItemName) - 9, 6) == "Exotic")
+                    ActorToSpawn = StrParam("%SPickup", ActorToSpawn);
+                if (StrMid(ItemName, StrLen(ItemName) - 11, 8) == "Superior")
+                    ActorToSpawn = StrParam("%SPickup", ActorToSpawn);
+                if (StrMid(ItemName, StrLen(ItemName) - 9, 6) == "Unique")
+                    ActorToSpawn = StrParam("%SWorldSpawnPickup", ActorToSpawn);
+                if (StrMid(ItemName, StrLen(ItemName) - 10, 7) == "Demonic")
+                    ActorToSpawn = StrParam("%SWorldSpawnPickup", ActorToSpawn);
+                if (StrMid(ItemName, StrLen(ItemName) - 12, 9) == "Legendary")
+                    ActorToSpawn = StrParam("%SWorldSpawnPickup", ActorToSpawn);
+            }
+
+            // For armors and boots
+            if (ItemCategory == 3 || ItemCategory == 9)
+            {
+                if (StrMid(ItemName, StrLen(ItemName) - 12, 9) == "Assembled")
+                    if ((ItemCategory == 3 && (ActorToSpawn == "RLCerberusArmorPickup" || ActorToSpawn == "RLCyberNanoGreenArmorPickup" || ActorToSpawn == "RLCyberNanoBlueArmorPickup" || ActorToSpawn == "RLCyberNanoRedArmorPickup")) || (ItemCategory == 9 && ActorToSpawn == "RLCerberusBootsPickup"))
+                        ActorToSpawn = StrParam("%SWorldSpawnPickup", StrLeft(ActorToSpawn, StrLen(ActorToSpawn) - 6));
+                if (StrMid(ItemName, StrLen(ItemName) - 9, 6) == "Unique")
+                    ActorToSpawn = StrParam("%SWorldSpawnPickup", StrLeft(ActorToSpawn, StrLen(ActorToSpawn) - 6));
+                if (StrMid(ItemName, StrLen(ItemName) - 10, 7) == "Demonic")
+                    ActorToSpawn = StrParam("%SWorldSpawnPickup", StrLeft(ActorToSpawn, StrLen(ActorToSpawn) - 6));
+                if (StrMid(ItemName, StrLen(ItemName) - 12, 9) == "Legendary")
+                    ActorToSpawn = StrParam("%SWorldSpawnPickup", StrLeft(ActorToSpawn, StrLen(ActorToSpawn) - 6));
+            }
+        }
+
         // Message
         ActivatorSound("mission/complete", 127);
         SetFont("BIGFONT");
-        SetHudSize(640, 480, false);
-        HudMessage("Mission Complete!\n\n\Cj+%ld XP\n\Ck+%ld Rank\n\Cf+%d Credits\n\Cd+%d Modules\n\n\CiItem: \Cj%S",
-                   Player.Mission.RewardXP, Player.Mission.RewardRank, Player.Mission.RewardCredits, Player.Mission.RewardModules, Player.Mission.RewardItem->Name);
-        EndHudMessage(HUDMSG_FADEOUT, MISSION_ID, "Green", 320.4, 240.0, 3.0, 2.0);
+        SetHudSize(GetActivatorCVar("drpg_hud_width"), GetActivatorCVar("drpg_hud_height"), false);
+        if (GetActivatorCVar("drpg_notifications_detailed"))
+            HudMessage("Mission Complete!\n\n\Cj+%ld XP\n\Ck+%ld Rank\n\Cf+%d Credits\n\Cd+%d Modules\n\n\CiItem: \Cj%S",
+                       Player.Mission.RewardXP, Player.Mission.RewardRank, Player.Mission.RewardCredits, Player.Mission.RewardModules, Player.Mission.RewardItem->Name);
+        else
+            HudMessage("Mission Complete!");
+        EndHudMessage(HUDMSG_FADEOUT, MISSION_ID, "Green", GetActivatorCVar("drpg_mission_complete_x") + 0.4, GetActivatorCVar("drpg_mission_complete_y"), 3.0, 2.0);
 
         // Reward - XP/Rank
         Player.XP += Player.Mission.RewardXP;
@@ -381,7 +432,7 @@ void CheckMission()
         GiveInventory("DRPGModule", Player.Mission.RewardModules);
 
         // Spawn Item and try to pick it up
-        SpawnForced(Player.Mission.RewardItem->Actor, GetActorX(0), GetActorY(0), GetActorZ(0), 0, 0);
+        SpawnForced(ActorToSpawn, GetActorX(0), GetActorY(0), GetActorZ(0), 0, 0);
         SetActorVelocity(Player.TID, 0.01, 0.01, 0, true, false);
 
         // Clear the Mission
@@ -417,19 +468,91 @@ void GetTargetMonster(MissionInfo *Mission)
         MonsterInfoPtr TempMonster = &MonsterData[i];
 
         int TestDifficulty = TempMonster->Difficulty + (10 * TempMonster->ThreatLevel);
-        int TestAmount = (30 + (320 * Mission->Difficulty)) / TestDifficulty;
+        int TestAmount;
 
-        if (Mission->Type != MT_KILL)
+        if (CompatMode != COMPAT_DRLA || CompatMonMode != COMPAT_DRLA)
         {
-            if (TempMonster->Difficulty > ((Mission->Difficulty + 1) * 11) - 11 &&
-                    TempMonster->Difficulty < ((Mission->Difficulty + 1) * 11) + 11)
-                PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+            TestAmount = (30 + (320 * Mission->Difficulty)) / TestDifficulty;
+        }
+
+        if (CompatMonMode == COMPAT_DRLA || CompatMonMode == COMPAT_PANDEMONIA)
+        {
+            if (Mission->Type == MT_KILL)
+            {
+                if (Mission->Difficulty == 0)
+                    if (TempMonster->Difficulty > 0 & TempMonster->Difficulty < 60)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 1)
+                    if (TempMonster->Difficulty > 20 & TempMonster->Difficulty < 80)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 2)
+                    if (TempMonster->Difficulty > 40 & TempMonster->Difficulty < 100)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 3)
+                    if (TempMonster->Difficulty > 100 & TempMonster->Difficulty < 160)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 4)
+                    if (TempMonster->Difficulty > 130 & TempMonster->Difficulty < 190)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 5)
+                    if (TempMonster->Difficulty > 160 & TempMonster->Difficulty < 220)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 6)
+                    if (TempMonster->Difficulty > 220 & TempMonster->Difficulty < 280)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 7)
+                    if (TempMonster->Difficulty > 240 & TempMonster->Difficulty < 300)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 8)
+                    if (TempMonster->Difficulty > 260 & TempMonster->Difficulty < 320)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+            }
+
+            if (Mission->Type == MT_ASSASSINATION)
+            {
+                if (Mission->Difficulty == 0)
+                    if (TempMonster->Difficulty > 40 & TempMonster->Difficulty < 63)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 1)
+                    if (TempMonster->Difficulty > 80 & TempMonster->Difficulty < 108)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 2)
+                    if (TempMonster->Difficulty > 110 & TempMonster->Difficulty < 130)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 3)
+                    if (TempMonster->Difficulty > 130 & TempMonster->Difficulty < 160)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 4)
+                    if (TempMonster->Difficulty > 151 & TempMonster->Difficulty < 168)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 5)
+                    if (TempMonster->Difficulty > 170 & TempMonster->Difficulty < 217)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 6)
+                    if (TempMonster->Difficulty > 220 & TempMonster->Difficulty < 280)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 7)
+                    if (TempMonster->Difficulty > 240 & TempMonster->Difficulty < 300)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+                if (Mission->Difficulty == 8)
+                    if (TempMonster->Difficulty > 260 & TempMonster->Difficulty < 320)
+                        PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+            }
         }
         else
         {
-            if (!TempMonster->Boss && TestAmount >= 5 &&
-                    TestAmount <= 40)
-                PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+            if (Mission->Type != MT_KILL)
+            {
+                if (TempMonster->Difficulty > ((Mission->Difficulty + 1) * 11) - 11 &&
+                        TempMonster->Difficulty < ((Mission->Difficulty + 1) * 11) + 11)
+                    PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+            }
+            else
+            {
+                if (!TempMonster->Boss && TestAmount >= 5 &&
+                        TestAmount <= 40)
+                    PotentialMonsters[NumPotentialMonsters++] = TempMonster;
+            }
         }
     }
 
@@ -445,8 +568,20 @@ void GetTargetMonster(MissionInfo *Mission)
 
     // Now that we know the monster type, we can calculate an amount
     int EffectiveDifficulty = MonsterPtr->Difficulty + (10 * MonsterPtr->ThreatLevel);
-    int BaseAmount = (30 + (320 * Mission->Difficulty)) / EffectiveDifficulty;
-    Amount = Random((fixed)BaseAmount * 0.8, (fixed)BaseAmount * 1.2);
+    int BaseAmount;
+
+    if (CompatMonMode == COMPAT_DRLA || CompatMonMode == COMPAT_PANDEMONIA)
+    {
+        BaseAmount = (15.0 * (26.0 - (fixed)MonsterPtr->ThreatLevel) / 26.0) * (1.0 + (fixed)Mission->Difficulty / (4.0 + ((fixed)MonsterPtr->ThreatLevel + 1.0) / 5.2)) * (1.0 + (fixed)AveragePlayerLevel() / (75.0 - (fixed)Mission->Difficulty * 5.0));
+    }
+    else
+    {
+        BaseAmount = (30 + (320 * Mission->Difficulty)) / EffectiveDifficulty;
+    }
+
+    Amount = RoundInt(RandomFixed((fixed)BaseAmount * 0.8, (fixed)BaseAmount * 1.2));
+
+    if (Amount < 1) Amount = 1;
 
     // Insert info into the passed struct
     Mission->Monster = MonsterPtr;

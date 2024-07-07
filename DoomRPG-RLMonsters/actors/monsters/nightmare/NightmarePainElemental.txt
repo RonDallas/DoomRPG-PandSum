@@ -1,0 +1,710 @@
+
+// NIGHTMARE ELEMENTAL
+//
+ACTOR RLNightmarePainElemental : RLPainElementalBase 16529
+{
+  Health 760
+  GibHealth -90
+  
+  MeleeThreshold 148
+  MeleeRange 96
+  MinMissileChance 18
+  
+  DamageFactor "Fire", 0.4
+  DamageFactor "Ice", 1.75
+  
+  +QUICKTORETALIATE
+  -CANUSEWALLS
+  
+  SeeSound "nightmareelemental/sight"
+  ActiveSound "nightmareelemental/sight"
+  PainSound "nightmareelemental/pain"
+  DeathSound "nightmareelemental/death"
+
+  Obituary "%o found the Nightmare Elemental did not like %h."
+  HitObituary "%o didn't get out of a Nightmare Elemental's way."
+  Tag "Nightmare Elemental"
+    //$category "MP Nightmare"
+  
+	// Guncaster compatibility
+	DropItem "Amber", 192
+	DropItem "Ruby"
+	DropItem "Ruby"
+	DropItem "Emerald"
+  States
+  {
+  Spawn:
+    NELE A Random(9,10) A_Look
+    Loop
+	
+  See:
+    TNT1 A 0 A_JumpIfInventory ("RLNightmarePainElementalActive", 1, "CrimeSee")
+    TNT1 A 0 A_Stop
+    TNT1 A 0 A_JumpIfCloser (128, "MeleeCharge")
+    TNT1 A 0 A_CheckSight ("See2")
+    Goto Detected
+  See2:
+    NELE A 3 Fast A_Chase
+	Goto See
+  Detected:
+    TNT1 A 0 A_GiveInventory ("RLNightmarePainElementalActive", 1)
+    Goto CrimeSee
+	
+  CrimeSee:
+    TNT1 A 0 A_Stop
+    TNT1 A 0 A_CheckSight ("CrimeSee2")
+    TNT1 A 0 A_JumpIfCloser (128, "MeleeCharge")
+    NELE A 3 Fast A_Chase
+    Goto CrimeSee
+  CrimeSee2:
+    NELE A 3 A_Wander
+    TNT1 A 0 A_Jump (210, 2)
+    TNT1 A 0 A_CheckSight ("SoulSpawn")
+    TNT1 A 0
+    Goto CrimeSee
+	
+  MeleeCharge:
+    TNT1 A 0 A_FaceTarget
+    TNT1 A 0 ThrustThing(angle*256/360, 5, 0, 0)
+    NELE A 1 A_Chase ("Melee", "", CHF_DONTMOVE | CHF_NOPLAYACTIVE)
+    TNT1 A 0 A_FaceTarget
+    NELE A 1 A_Chase ("Melee", "", CHF_DONTMOVE | CHF_NOPLAYACTIVE)
+    TNT1 A 0 A_FaceTarget
+    NELE A 1 A_Chase ("Melee", "", CHF_DONTMOVE | CHF_NOPLAYACTIVE)
+    TNT1 A 0 A_FaceTarget
+    NELE A 1 A_Chase ("Melee", "", CHF_DONTMOVE | CHF_NOPLAYACTIVE)
+    TNT1 A 0 A_FaceTarget
+    NELE A 1 A_Chase ("Melee", "", CHF_DONTMOVE | CHF_NOPLAYACTIVE)
+    TNT1 A 0 A_FaceTarget
+    NELE A 1 A_Chase ("Melee", "", CHF_DONTMOVE | CHF_NOPLAYACTIVE)
+    TNT1 A 0 A_Stop
+    Goto See
+  MeleeProper:
+    TNT1 A 0 ThrustThing(angle*256/360, 5, 0, 0)
+    NELE B 3 A_FaceTarget
+    TNT1 A 0 ThrustThing(angle*256/360, 5, 0, 0)
+    NELE C 3 A_FaceTarget
+    TNT1 A 0 ThrustThing(angle*256/360, 5, 0, 0)
+    NELE D 3 A_FaceTarget
+    TNT1 A 0 ThrustThing(angle*256/360, 5, 0, 0)
+    NELE C 3 A_CustomMeleeAttack (10 * random(1, 10), "rlmonsters/bite", "", "Melee")
+    NELE B 3 A_Chase ("", "")
+    Goto See
+	
+  MissileProper:
+    NELE BC 5 A_FaceTarget
+    NELE D 4 Bright A_FaceTarget
+    TNT1 A 0 A_CheckFlag ("FRIENDLY", "SummonMissile") // Friendly monsters do not harm you
+    NELE D 1 Bright A_CustomMissile("RLNightmareElementalLavaBall", 24)
+    NELE CB 3 A_Chase ("", "")
+    Goto See
+  SummonMissile:
+    NELE D 1 Bright A_CustomMissile("RLSummonNightmareElementalLavaBall", 24)
+    NELE CB 3 A_Chase ("", "")
+    Goto See
+	
+  SoulSpawn:
+    NELE BC 5
+    NELE D 4 Bright
+    TNT1 A 0 A_Jump (240, 3)
+    NELE D 1 Bright A_PainAttack ("RLNightmareLostSoulNPE", 0, PAF_NOSKULLATTACK | PAF_AIMFACING)
+    TNT1 A 0 A_Jump (256, 2)
+    NELE D 1 Bright A_PainAttack ("RLLostSoulNPE", 0, PAF_NOSKULLATTACK | PAF_AIMFACING)
+    NELE CB 3 A_Chase ("", "")
+    Goto CrimeSee
+	
+  PainMain:
+    TNT1 A 0 A_Stop
+    NELE E 6
+    NELE E 6 A_Pain
+    Goto See
+	
+  XDeathMain:
+  DeathMain:
+    TNT1 A 0 A_GiveInventory ("RLNightmarePainElementalKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    NELE E 8
+    NELE G 8 A_Scream
+    NELE HI 8 Bright
+	TNT1 A 0 A_NoBlocking
+	TNT1 A 0 A_JumpIf(CallACS("DRLA_MonsterQuake") == 0, 3)
+    TNT1 A 0 A_Quake (1, 8, 0, 512, "")
+    TNT1 A 0 A_Quake (5, 8, 0, 256, "")
+    TNT1 A 0 A_PlaySound ("rlmonsters/fireblast", 7, 1, 0, 0.6)
+    TNT1 A 0 A_PlaySound("rlmonsters/fireblast", CHAN_ITEM, 0.05, 0, 0.15)
+    NELE J 8 Bright A_CustomMissile("RLNightmareElementalExplosion",12,0)
+    NELE K 8 Bright
+	TNT1 A 0
+    "####" "#" 0 A_Jump(256, "DestroyedEnd")
+    Goto DestroyedEnd
+  SimpleXDeathMain:
+    TNT1 A 0 A_GiveInventory ("RLNightmarePainElementalKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    NELE E 8
+    NELE G 8 A_Scream
+    NELE HI 8 Bright
+	TNT1 A 0 A_NoBlocking
+    NELE J 8 Bright
+    NELE K 8 Bright
+	TNT1 A 0
+    "####" "#" 0 A_Jump(256, "DestroyedEnd")
+    Goto DestroyedEnd
+  DeathFrame:
+    TNT1 A 0
+    "####" "#" 0 A_Jump(256, "DestroyedEnd")
+    Goto DestroyedEnd
+	
+	//Ice
+  GenericFreezeDeath:
+	"####" "#" 0 A_GiveInventory ("RLNightmarePainElementalKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    "####" "#" 0 A_Jump(256, "GenericFreezeMana")
+    Goto GenericFreezeMana
+	
+  Raise:
+    Stop
+	
+  CrushDRLA:
+    TNT1 A 0 A_SpawnItemEx("RLCrushedMedium",0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION)
+    "####" "#" 0 A_Jump(256, "CrushEnd")
+    Goto CrushEnd
+//==============================================================================
+//					--	DOOMRL ARSENAL STUFF  --
+//==============================================================================
+  Pain.RigelBlast:
+    TNT1 A 0 A_PlaySound("weapons/dn2gunhit", CHAN_BODY)
+    D2F2 E 2 Bright
+    Goto See
+  Pain.NeuralStun:
+    D2F2 E 2 Bright
+    Goto See
+	
+  Death.NeuralStun:
+    TNT1 A 0
+    Goto Death
+  Death.RigelBlast:
+    TNT1 A 0 A_GiveInventory ("RLDuke2Score", 2000, AAPTR_TARGET)
+    TNT1 A 0 A_GiveInventory ("RLNightmarePainElementalKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    TNT1 A 0 A_PlaySound("weapons/dn2gunexplosion", CHAN_BODY)
+    TNT1 A 0 A_NoBlocking
+    TNT1 A 0 A_SpawnItemEx ("RLDuke2AdvancedEnemyExplosions", 0,0,32, 0,0,0, 0, SXF_NOCHECKPOSITION)
+    TNT1 A 35
+    Stop
+  XDeath.RigelBlast:
+	TNT1 A 0 A_JumpIf(CallACS("DRLA_Gibs"), 1)
+	Goto Death.RigelBlast
+    TNT1 A 0 A_GiveInventory ("RLDuke2Score", 2000, AAPTR_TARGET)
+    TNT1 A 0 A_GiveInventory ("RLNightmarePainElementalKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    TNT1 A 0 A_PlaySound("weapons/dn2gungib", CHAN_BODY)
+    TNT1 A 0 A_NoBlocking
+    TNT1 A 0 A_SpawnItemEx ("RLDuke2AdvancedEnemyExplosions", 0,0,32, 0,0,0, 0, SXF_NOCHECKPOSITION)
+    TNT1 A 0 A_SpawnItemEx ("RLDuke2RedGibber", 0,0,0, VelX,VelY,VelZ, 0, SXF_ABSOLUTEMOMENTUM | SXF_NOCHECKPOSITION)
+    TNT1 A 35
+    Stop
+	
+//==============================================================================
+//					--	Special Monster Attacks  --
+//==============================================================================
+  ShadowAuraMissileAttack:
+    NELE BC 5 A_FaceTarget
+    NELE D 4 Bright A_FaceTarget
+    NELE D 1 Bright A_CustomMissile("RLNightmareElementalShadowLavaBall", 24)
+    NELE CB 3 A_Chase ("", "")
+    Goto See
+	
+//==============================================================================
+//					--	Final Doomer Compatibility Stuff  --
+//==============================================================================
+  DeathXSparkFrame:
+    "####" "#" 0 A_JumpIfInTargetInventory("Mana",0,2)
+    "####" "#" 0 A_DropItem("MajorManaPod",-1,54)
+    NELE E 0
+    "####" "#" 0 A_Jump(256, "DeathXSpark")
+	Goto DeathXSpark
+	
+//==============================================================================
+//					--	Guncaster Compatibility Stuff  --
+//==============================================================================
+	MidasFrame1:
+		NELE E 0 A_SpawnItemEx("Midas_Statue_Painis", 0,0,0, 0,0,0, 0,SXF_TRANSFERPOINTERS|SXF_TRANSFERSPRITEFRAME)
+		TNT1 A 0 A_JumpIf(1, "DestroyedEnd")
+		Goto DestroyedEnd
+	MidasFrame2:
+		NELE E 0 A_SpawnItemEx("Midas_Statue_Painis", 0,0,0, frandom(-10.0,-12.0),0,frandom(1.0,3.0), 0,SXF_TRANSFERPOINTERS|SXF_SETMASTER|SXF_TRANSFERSPRITEFRAME)
+		TNT1 A 10 A_KillChildren
+		TNT1 A 0 A_JumpIf(1, "DestroyedEnd")
+		Goto DestroyedEnd
+	MidasFrame3:
+		NELE E 0 A_SpawnItemEx("Midas_Statue_Painis", 0,0,0, frandom(-15.0,-20.0),0,frandom(10.0,15.0), 0,SXF_TRANSFERPOINTERS|SXF_SETMASTER|SXF_TRANSFERSPRITEFRAME)
+		TNT1 A 10 A_KillChildren
+		TNT1 A 0 A_JumpIf(1, "DestroyedEnd")
+		Goto DestroyedEnd
+		
+	//Gumpop
+	Death.Acid:
+		NELE E 1 A_ChangeFlag("SOLID",0)
+		"####" "#" 1 A_Playsound("Gumpop/Expand",5)
+		"####" "###################################" 1 A_SetScale(ScaleX+frandom(0.01,0.025))
+		"####" "#" 1 A_Playsound("Gumpop/Pop",5)
+		"####" "#" 0 A_Jump(256,"XDeathMain")
+		Goto XDeathMain
+		
+	//Thunderstruck
+	Pain.Lightning:
+		"####" "#" 0 A_Jump(164,1)
+		Goto Pain
+		NELE E 0 A_ChangeFlag("NOPAIN",1)
+		"####" "#" 0 A_SetUserVar("User_LightningLock", User_LightningLock + 10)
+		"####" "#" 0 A_Jump(256,"LightningLock")
+		Goto LightningLock
+		
+	//Cauterizer
+	Pain.LightningBlue:
+		"####" "#" 0 A_Jump(48,1)
+		Goto Pain
+		NELE E 0 A_ChangeFlag("NOPAIN",1)
+		"####" "#" 0 A_SetUserVar("User_LightningLock", User_LightningLock + 10)
+		"####" "#" 0 A_Jump(256,"BlueLightningLock")
+		Goto BlueLightningLock
+		
+		// Overwrite these for monsters that do not leave corpses behind
+	//Dreadful
+	Death.Tiberium:
+		"####" "#" 0 A_Jump(256, "Death")
+		Goto Death
+	Death.BlueTiberium:
+		"####" "#" 0 A_Jump(256, "Death")
+		Goto Death
+	//Fire and Lightning
+	Death.Fire:
+		"####" "#" 0 A_Jump(256,"Death")
+		Goto Death
+  }
+}
+
+ACTOR RLNightmareElementalExplosion : Rocket
+{
+   Radius 1
+   Height 1
+   +THRUGHOST
+   +MTHRUSPECIES
+   +NOTIMEFREEZE
+   +BLOODSPLATTER
+   -RANDOMIZE
+   -DEHEXPLOSION
+   -ROCKETTRAIL
+   DamageType "Fire"
+   PainType "Explosion"
+   DeathType "Explosion"
+   Speed 0
+   Damage 0
+   SeeSound ""
+   DeathSound ""
+   Obituary "%o stood too close to the Nightmare Elemental's blast."
+  States
+  {
+  Spawn:
+    TNT1 A 0
+    TNT1 A 0 A_Explode (128, 128)
+    TNT1 A 8
+    Stop
+  }
+}
+
+ACTOR RLNightmareElementalLavaBall
+{
+   Radius 8
+   Height 8
+   Speed 15
+   Damage 6
+   DamageType Fire
+   PainType "Explosion"
+   DeathType "Explosion"
+   Scale 1.0
+   BounceType "Hexen"
+   BounceFactor 1
+   WallBounceFactor 1
+   BounceCount 3
+   ReactionTime 500
+   PROJECTILE
+   RENDERSTYLE ADD
+   ALPHA 0.95
+   +NOTIMEFREEZE
+   +THRUGHOST
+   +EXPLODEONWATER
+   +BLOODSPLATTER
+   SeeSound "nightmareelemental/attack"
+   BounceSound "nightmareelemental/bounce"
+   DeathSound "rlmonsters/fireblast"
+   States
+   {
+   Spawn: 
+      TNT1 A 0 A_Countdown
+      BAL3 AB 4 Bright A_SpawnItem("RLNightmareElementalLavaBallTrail",0,0)
+      Goto Spawn
+   Death:
+      BAL3 C 5 Bright A_Explode (16, 96)
+      BAL3 DE 5 Bright
+      stop
+   }
+}
+
+ACTOR RLNightmareElementalShadowLavaBall : RLNightmareElementalLavaBall
+{
+   +SEEKERMISSILE
+   +NOTIMEFREEZE
+   States
+   {
+   Spawn: 
+      TNT1 A 0 A_Countdown
+      TNT1 A 0 A_SeekerMissile (5,5, SMF_CURSPEED)
+      IFX1 A 4 Bright A_SpawnItem("RLNightmareElementalLavaBallTrail",0,0)
+      TNT1 A 0 A_SeekerMissile (5,5, SMF_CURSPEED)
+      IFX1 B 4 Bright A_SpawnItem("RLNightmareElementalLavaBallTrail",0,0)
+      loop
+   Death:
+      BAL3 C 5 Bright A_Explode (16, 96)
+      BAL3 DE 5 Bright
+      stop
+   }
+}
+
+ACTOR RLSummonNightmareElementalLavaBall : RLNightmareElementalLavaBall
+{
+   +MTHRUSPECIES
+}
+
+ACTOR RLNightmareElementalLavaBallTrail
+{   
+   Radius 2
+   Height 2
+   Speed 0
+   PROJECTILE
+   RENDERSTYLE ADD
+   ALPHA 0.85
+   +NOINTERACTION
+   States
+   {
+   Spawn:
+      TNT1 A 3
+      RPUF ABCDE 3 Bright
+      Stop 
+   }
+}
+
+Actor RLNightmarePainElementalActive : Inventory
+{
+inventory.maxamount 1
+}
+
+ACTOR RLNightmarePainElementalSummoned : RLPainElementalBase 26529
+{
+  Health 760
+  GibHealth -90
+  
+  MeleeThreshold 148
+  MeleeRange 96
+  MinMissileChance 18
+  
+  DamageFactor "Fire", 0.4
+  DamageFactor "Ice", 1.75
+  
+  +QUICKTORETALIATE
+  -CANUSEWALLS
+  
+  SeeSound "nightmareelemental/sight"
+  ActiveSound "nightmareelemental/sight"
+  PainSound "nightmareelemental/pain"
+  DeathSound "nightmareelemental/death"
+
+  Obituary "%o found the Nightmare Elemental did not like %h."
+  HitObituary "%o didn't get out of a Nightmare Elemental's way."
+  Tag "Nightmare Elemental"
+    //$category "MP Nightmare"
+  
+	// Guncaster compatibility
+	DropItem "Amber", 192
+	DropItem "Ruby"
+	DropItem "Ruby"
+	DropItem "Emerald"
+  States
+  {
+  Spawn:
+    NELE A Random(9,10) A_Look
+    Loop
+	
+  See:
+    NELE A 3 Fast A_Chase
+    TNT1 A 0 A_JumpIfCloser (128, "MeleeCharge")
+    Loop
+	
+  MeleeCharge:
+    TNT1 A 0 A_FaceTarget
+    TNT1 A 0 ThrustThing(angle*256/360, 5, 0, 0)
+    NELE A 1 A_Chase ("Melee", "", CHF_DONTMOVE | CHF_NOPLAYACTIVE)
+    TNT1 A 0 A_FaceTarget
+    NELE A 1 A_Chase ("Melee", "", CHF_DONTMOVE | CHF_NOPLAYACTIVE)
+    TNT1 A 0 A_FaceTarget
+    NELE A 1 A_Chase ("Melee", "", CHF_DONTMOVE | CHF_NOPLAYACTIVE)
+    TNT1 A 0 A_FaceTarget
+    NELE A 1 A_Chase ("Melee", "", CHF_DONTMOVE | CHF_NOPLAYACTIVE)
+    TNT1 A 0 A_FaceTarget
+    NELE A 1 A_Chase ("Melee", "", CHF_DONTMOVE | CHF_NOPLAYACTIVE)
+    TNT1 A 0 A_FaceTarget
+    NELE A 1 A_Chase ("Melee", "", CHF_DONTMOVE | CHF_NOPLAYACTIVE)
+    TNT1 A 0 A_Stop
+    Goto See
+  MeleeProper:
+    TNT1 A 0 ThrustThing(angle*256/360, 5, 0, 0)
+    NELE B 3 A_FaceTarget
+    TNT1 A 0 ThrustThing(angle*256/360, 5, 0, 0)
+    NELE C 3 A_FaceTarget
+    TNT1 A 0 ThrustThing(angle*256/360, 5, 0, 0)
+    NELE D 3 A_FaceTarget
+    TNT1 A 0 ThrustThing(angle*256/360, 5, 0, 0)
+    NELE C 3 A_CustomMeleeAttack (10 * random(1, 10), "rlmonsters/bite", "", "Melee")
+    NELE B 3 A_Chase ("", "")
+    Goto See
+	
+  MissileProper:
+    NELE BC 5 A_FaceTarget
+    TNT1 A 0 A_Jump (32, "SoulSpawn")
+    NELE D 4 Bright A_FaceTarget
+    TNT1 A 0 A_CheckFlag ("FRIENDLY", "SummonMissile") // Friendly monsters do not harm you
+    NELE D 1 Bright A_CustomMissile("RLNightmareElementalLavaBall", 24)
+    NELE CB 3 A_Chase ("", "")
+    Goto See
+  SummonMissile:
+    NELE D 1 Bright A_CustomMissile("RLSummonNightmareElementalLavaBall", 24)
+    NELE CB 3 A_Chase ("", "")
+    Goto See
+	
+  SoulSpawn:
+    NELE BC 5
+    NELE D 4 Bright
+    TNT1 A 0 A_Jump (192, 3)
+    NELE D 1 Bright A_PainAttack ("RLDRPGSummonedNightmareLostSoulNPE", 0, PAF_NOSKULLATTACK | PAF_AIMFACING, 5)
+    TNT1 A 0 A_Jump (256, 2)
+    NELE D 1 Bright A_PainAttack ("RLDRPGSummonedLostSoulNPE", 0, PAF_NOSKULLATTACK | PAF_AIMFACING, 5)
+    NELE CB 3 A_Chase ("", "")
+    Goto See
+	
+  PainMain:
+    TNT1 A 0 A_Stop
+    NELE E 6
+    NELE E 6 A_Pain
+    Goto See
+	
+  XDeathMain:
+  DeathMain:
+    TNT1 A 0 A_GiveInventory ("RLNightmarePainElementalKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    NELE E 8
+    NELE G 8 A_Scream
+    NELE HI 8 Bright
+	TNT1 A 0 A_NoBlocking
+	TNT1 A 0 A_JumpIf(CallACS("DRLA_MonsterQuake") == 0, 3)
+    TNT1 A 0 A_Quake (1, 8, 0, 512, "")
+    TNT1 A 0 A_Quake (5, 8, 0, 256, "")
+    TNT1 A 0 A_PlaySound ("rlmonsters/fireblast", 7, 1, 0, 0.6)
+    TNT1 A 0 A_PlaySound("rlmonsters/fireblast", CHAN_ITEM, 0.05, 0, 0.15)
+    NELE J 8 Bright A_CustomMissile("RLNightmareElementalExplosion",12,0)
+    NELE K 8 Bright
+	TNT1 A 0
+    "####" "#" 0 A_Jump(256, "DestroyedEnd")
+    Goto DestroyedEnd
+  SimpleXDeathMain:
+    TNT1 A 0 A_GiveInventory ("RLNightmarePainElementalKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    NELE E 8
+    NELE G 8 A_Scream
+    NELE HI 8 Bright
+	TNT1 A 0 A_NoBlocking
+    NELE J 8 Bright
+    NELE K 8 Bright
+	TNT1 A 0
+    "####" "#" 0 A_Jump(256, "DestroyedEnd")
+    Goto DestroyedEnd
+  DeathFrame:
+    TNT1 A 0
+    "####" "#" 0 A_Jump(256, "DestroyedEnd")
+    Goto DestroyedEnd
+	
+	//Ice
+  GenericFreezeDeath:
+	"####" "#" 0 A_GiveInventory ("RLNightmarePainElementalKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    "####" "#" 0 A_Jump(256, "GenericFreezeMana")
+    Goto GenericFreezeMana
+	
+  Raise:
+    Stop
+	
+  CrushDRLA:
+    TNT1 A 0 A_SpawnItemEx("RLCrushedMedium",0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION)
+    "####" "#" 0 A_Jump(256, "CrushEnd")
+    Goto CrushEnd
+//==============================================================================
+//					--	DOOMRL ARSENAL STUFF  --
+//==============================================================================
+  Pain.RigelBlast:
+    TNT1 A 0 A_PlaySound("weapons/dn2gunhit", CHAN_BODY)
+    D2F2 E 2 Bright
+    Goto See
+  Pain.NeuralStun:
+    D2F2 E 2 Bright
+    Goto See
+	
+  Death.NeuralStun:
+    TNT1 A 0
+    Goto Death
+  Death.RigelBlast:
+    TNT1 A 0 A_GiveInventory ("RLDuke2Score", 2000, AAPTR_TARGET)
+    TNT1 A 0 A_GiveInventory ("RLNightmarePainElementalKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    TNT1 A 0 A_PlaySound("weapons/dn2gunexplosion", CHAN_BODY)
+    TNT1 A 0 A_NoBlocking
+    TNT1 A 0 A_SpawnItemEx ("RLDuke2AdvancedEnemyExplosions", 0,0,32, 0,0,0, 0, SXF_NOCHECKPOSITION)
+    TNT1 A 35
+    Stop
+  XDeath.RigelBlast:
+	TNT1 A 0 A_JumpIf(CallACS("DRLA_Gibs"), 1)
+	Goto Death.RigelBlast
+    TNT1 A 0 A_GiveInventory ("RLDuke2Score", 2000, AAPTR_TARGET)
+    TNT1 A 0 A_GiveInventory ("RLNightmarePainElementalKillIncrementer", 1, AAPTR_PLAYER1) // Used for tallying total kills and bestiary info
+    TNT1 A 0 A_PlaySound("weapons/dn2gungib", CHAN_BODY)
+    TNT1 A 0 A_NoBlocking
+    TNT1 A 0 A_SpawnItemEx ("RLDuke2AdvancedEnemyExplosions", 0,0,32, 0,0,0, 0, SXF_NOCHECKPOSITION)
+    TNT1 A 0 A_SpawnItemEx ("RLDuke2RedGibber", 0,0,0, VelX,VelY,VelZ, 0, SXF_ABSOLUTEMOMENTUM | SXF_NOCHECKPOSITION)
+    TNT1 A 35
+    Stop
+	
+//==============================================================================
+//					--	Special Monster Attacks  --
+//==============================================================================
+  ShadowAuraMissileAttack:
+    NELE BC 5 A_FaceTarget
+    NELE D 4 Bright A_FaceTarget
+    NELE D 1 Bright A_CustomMissile("RLNightmareElementalShadowLavaBall", 24)
+    NELE CB 3 A_Chase ("", "")
+    Goto See
+	
+//==============================================================================
+//					--	Final Doomer Compatibility Stuff  --
+//==============================================================================
+  DeathXSparkFrame:
+    "####" "#" 0 A_JumpIfInTargetInventory("Mana",0,2)
+    "####" "#" 0 A_DropItem("MajorManaPod",-1,54)
+    NELE E 0
+    "####" "#" 0 A_Jump(256, "DeathXSpark")
+	Goto DeathXSpark
+	
+//==============================================================================
+//					--	Guncaster Compatibility Stuff  --
+//==============================================================================
+	MidasFrame1:
+		NELE E 0 A_SpawnItemEx("Midas_Statue_Painis", 0,0,0, 0,0,0, 0,SXF_TRANSFERPOINTERS|SXF_TRANSFERSPRITEFRAME)
+		TNT1 A 0 A_JumpIf(1, "DestroyedEnd")
+		Goto DestroyedEnd
+	MidasFrame2:
+		NELE E 0 A_SpawnItemEx("Midas_Statue_Painis", 0,0,0, frandom(-10.0,-12.0),0,frandom(1.0,3.0), 0,SXF_TRANSFERPOINTERS|SXF_SETMASTER|SXF_TRANSFERSPRITEFRAME)
+		TNT1 A 10 A_KillChildren
+		TNT1 A 0 A_JumpIf(1, "DestroyedEnd")
+		Goto DestroyedEnd
+	MidasFrame3:
+		NELE E 0 A_SpawnItemEx("Midas_Statue_Painis", 0,0,0, frandom(-15.0,-20.0),0,frandom(10.0,15.0), 0,SXF_TRANSFERPOINTERS|SXF_SETMASTER|SXF_TRANSFERSPRITEFRAME)
+		TNT1 A 10 A_KillChildren
+		TNT1 A 0 A_JumpIf(1, "DestroyedEnd")
+		Goto DestroyedEnd
+		
+	//Gumpop
+	Death.Acid:
+		NELE E 1 A_ChangeFlag("SOLID",0)
+		"####" "#" 1 A_Playsound("Gumpop/Expand",5)
+		"####" "###################################" 1 A_SetScale(ScaleX+frandom(0.01,0.025))
+		"####" "#" 1 A_Playsound("Gumpop/Pop",5)
+		"####" "#" 0 A_Jump(256,"XDeathMain")
+		Goto XDeathMain
+		
+	//Thunderstruck
+	Pain.Lightning:
+		"####" "#" 0 A_Jump(164,1)
+		Goto Pain
+		NELE E 0 A_ChangeFlag("NOPAIN",1)
+		"####" "#" 0 A_SetUserVar("User_LightningLock", User_LightningLock + 10)
+		"####" "#" 0 A_Jump(256,"LightningLock")
+		Goto LightningLock
+		
+	//Cauterizer
+	Pain.LightningBlue:
+		"####" "#" 0 A_Jump(48,1)
+		Goto Pain
+		NELE E 0 A_ChangeFlag("NOPAIN",1)
+		"####" "#" 0 A_SetUserVar("User_LightningLock", User_LightningLock + 10)
+		"####" "#" 0 A_Jump(256,"BlueLightningLock")
+		Goto BlueLightningLock
+		
+		// Overwrite these for monsters that do not leave corpses behind
+	//Dreadful
+	Death.Tiberium:
+		"####" "#" 0 A_Jump(256, "Death")
+		Goto Death
+	Death.BlueTiberium:
+		"####" "#" 0 A_Jump(256, "Death")
+		Goto Death
+	//Fire and Lightning
+	Death.Fire:
+		"####" "#" 0 A_Jump(256,"Death")
+		Goto Death
+  }
+}
+
+ACTOR RLDRPGSummonedNightmarePainElemental : RLNightmarePainElementalSummoned
+{
+  -COUNTKILL
+  +NOBLOCKMONST
+  +NOTELESTOMP
+  +NOFEAR
+  +SEEINVISIBLE
+  +DONTDRAIN
+  +ALWAYSFAST
+  +QUICKTORETALIATE
+  +MISSILEMORE
+  +THRUSPECIES
+  Species "Player"
+  States
+  {
+  Spawn:
+	TNT1 A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+    TNT1 A 0 A_GiveInventory ("RLMonsterInitializerToken", 1)
+    TNT1 A 0 A_GiveInventory ("DRPGDRLASummonedMonsterToken", 1)
+	Goto Super::Spawn
+	See:
+	TNT1 A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+    TNT1 A 0 A_GiveInventory ("RLMonsterInitializerToken", 1)
+    TNT1 A 0 A_GiveInventory ("DRPGDRLASummonedMonsterToken", 1)
+	Goto Super::See
+  Raise:
+    Stop
+  }
+}
+
+ACTOR RLCCNightmarePainElemental : RLNightmarePainElemental
+{
+  +TOUCHY
+  States
+  {
+  See:
+    NELE AA 3
+    Loop
+  Melee:
+    NELE BCDCB 3
+    Goto See
+  Missile:
+    NELE BC 5
+    NELE D 4 Bright
+    NELE D 1 Bright
+    NELE CB 3
+    Goto See
+  Death:
+    NELE E 8
+    NELE G 8 A_Scream
+    NELE HI 8 Bright
+    NELE J 8 Bright
+    NELE K 8 Bright
+    Stop
+  }
+}

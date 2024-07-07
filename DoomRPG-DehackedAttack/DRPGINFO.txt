@@ -1,0 +1,6 @@
+Name=Dehacked Attack
+Conflicts=DoomRL Arsenal - Monster Pack
+Conflicts=Colourful Hell
+Conflicts=Rampancy
+Conflicts=Pandemonia - Monster Pack
+Mods=DehackedAttack_v4.0.pk3

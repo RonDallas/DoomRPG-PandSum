@@ -56,7 +56,7 @@ NamedScript Console bool Transport(SkillLevelInfo *, void *);
 // --------------------------------------------------
 // Utility Scripts
 
-NamedScript DECORATE void RemoveAura();
+NamedScript DECORATE OptionalArgs(1) void RemoveAura(bool);
 NamedScript DECORATE void ClearStatusEffects();
 NamedScript void TransportOutFX(int);
 NamedScript void TransportInFX(int);

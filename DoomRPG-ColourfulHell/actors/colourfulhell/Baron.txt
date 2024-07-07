@@ -12,6 +12,8 @@ ACTOR CommonBaronRPG : CommonBaron Replaces CommonBaron
 {
 	Tag "Baron of Hell"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -27,6 +29,8 @@ ACTOR CommonBaronRPG : CommonBaron Replaces CommonBaron
 ACTOR GreenBaronRPG : GreenBaron Replaces GreenBaron
 {
 	Tag "Uncommon Baron of Hell"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -44,6 +48,8 @@ ACTOR BlueBaronRPG : BlueBaron Replaces BlueBaron
 {
 	Tag "Rare Baron of Hell"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -55,10 +61,30 @@ ACTOR BlueBaronRPG : BlueBaron Replaces BlueBaron
 	}
 }
 
+// Brown Baron
+ACTOR BrownBaron2RPG : BrownBaron2 Replaces BrownBaron2
+{
+	Tag "Monstrous Baron of Hell"
+
+    DropItem "DRPGEmpty"
+
+	States
+	{
+	Spawn:
+		STYR A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		STYR A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
 // Cyan Baron
 ACTOR CyanBaron2RPG : CyanBaron2 Replaces CyanBaron2
 {
 	Tag "Icy Baron of Hell"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -76,6 +102,8 @@ ACTOR PurpleBaronRPG : PurpleBaron Replaces PurpleBaron
 {
 	Tag "Epic Baron of Hell"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -91,6 +119,8 @@ ACTOR PurpleBaronRPG : PurpleBaron Replaces PurpleBaron
 ACTOR FireBluBaron2RPG : FireBluBaron2 Replaces FireBluBaron2
 {
 	Tag "Enchanted Baron of Hell"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -108,6 +138,8 @@ ACTOR GrayBaron2RPG : GrayBaron2 Replaces GrayBaron2
 {
 	Tag "Ancient Baron of Hell"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -123,6 +155,8 @@ ACTOR GrayBaron2RPG : GrayBaron2 Replaces GrayBaron2
 ACTOR YellowBaronRPG : YellowBaron Replaces YellowBaron
 {
 	Tag "Grand Baron of Hell"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -140,6 +174,8 @@ ACTOR AbyssBaron2RPG : AbyssBaron2 Replaces AbyssBaron2
 {
 	Tag "Abyssal Baron of Hell"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -154,6 +190,8 @@ ACTOR AbyssBaron2RPG : AbyssBaron2 Replaces AbyssBaron2
 ACTOR AbyssBaronSoulRPG : AbyssBaronSoul Replaces AbyssBaronSoul
 {
     Tag "???"
+
+    DropItem "DRPGEmpty"
 
 	-COUNTKILL
 
@@ -175,6 +213,8 @@ ACTOR RedBaron1RPG : RedBaron1 Replaces RedBaron1
 {
 	Tag "Raging Red Baron"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -190,6 +230,8 @@ ACTOR RedBaron3RPG : RedBaron3 Replaces RedBaron3
 {
 	Tag "Powerful Red Baron"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -204,6 +246,8 @@ ACTOR RedBaron3RPG : RedBaron3 Replaces RedBaron3
 ACTOR RedBaron2RPG : RedBaron2 Replaces RedBaron2
 {
 	Tag "Flying Red Baron"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -221,6 +265,8 @@ ACTOR BlackBaron2RPG : BlackBaron2 Replaces BlackBaron2
 {
 	Tag "Baron of the Abyss"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -237,6 +283,8 @@ ACTOR WhiteBaron2RPG : WhiteBaron2 Replaces WhiteBaron2
 {
 	Tag "Valkyrie of Hell"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -252,6 +300,8 @@ ACTOR DeepTentacleRPG : DeepTentacle Replaces DeepTentacle
 {
 	Tag "Deep Tentacle"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -266,6 +316,8 @@ ACTOR DeepTentacleRPG : DeepTentacle Replaces DeepTentacle
 ACTOR RoseTentacleRPG : RoseTentacle Replaces RoseTentacle
 {
 	Tag "Rose Tentacle"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{

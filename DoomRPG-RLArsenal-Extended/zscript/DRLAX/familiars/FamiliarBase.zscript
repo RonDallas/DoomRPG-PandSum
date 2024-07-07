@@ -1,0 +1,1020 @@
+class DRLAX_FamiliarEvents : EventHandler
+{
+    override void WorldTick()
+    {
+        if(Level.Time == 2)
+        {
+            ThinkerIterator ti = ThinkerIterator.Create("DRLAX_FamiliarDataHolder", Thinker.STAT_STATIC);
+            DRLAX_FamiliarDataHolder p;
+            while(p = DRLAX_FamiliarDataHolder(ti.Next()))
+            {
+                p.Load();
+            }
+        }
+    }
+
+    override void WorldThingDestroyed(WorldEvent e)
+    {
+        Actor a = e.thing;
+        if(a && a.bISMONSTER && a.bCORPSE && !a.bFRIENDLY)
+        {  
+            ThinkerIterator ti = ThinkerIterator.Create("DRLAX_SkullUsed");
+            DRLAX_SkullUsed p;
+            uint ghostcount = 0;
+            if(p = DRLAX_SkullUsed(ti.Next()))
+            {
+                ThinkerIterator pti = ThinkerIterator.Create("PlayerPawn");
+                PlayerPawn player;
+                while(player = PlayerPawn(pti.Next()))
+                {
+                    if(player.CountInv("DRLAX_ArchvileFamiliarGhostCount") > 40)
+                    {
+                        break;
+                    }
+                    if(player.CountInv("DRLAX_ArchvileFamiliarPassive") > 0 && player.Distance2D(a) < 768 && a.CanRaise())
+                    {
+                        Actor ghost = Actor.Spawn(a.GetClassName(), a.pos);
+                        ghost.A_ChangeCountFlags(0);
+                        ghost.bFRIENDLY = true;
+                        ghost.species = "Player";
+                        ghost.A_SetTranslation("CMMDRLA_Ghost");
+                        ghost.GiveInventory("DRLAX_ArchvileFamiliarGhost", 1);
+                        ghost.bLOOKALLAROUND = true;
+                        ghost.lastheard = player;
+                        ghost.A_SetRenderStyle(0.7, STYLE_TRANSLUCENT);
+                        ghost.bTHRUSPECIES = true;
+                        player.GiveInventory("DRLAX_ArchvileFamiliarGhostCount", 1);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(a.GetClassName() == "RLUseHatredSkull" || a.GetClassName() == "RLUseBloodSkull" || a.GetClassName() == "RLUseFireSkull")
+        {
+            DRLAX_SkullUsed s = DRLAX_SkullUsed(new ("DRLAX_SkullUsed"));
+        }
+    }
+
+    override void WorldThingDied(WorldEvent e)
+    {
+        if(e.thing && e.thing.target)
+        {
+            if(e.thing.target.CountInv("DRLAX_RenegadeFamiliarPassive") > 0)
+            {
+                let f = DRLAX_RenegadeFamiliarPassive(e.thing.target.FindInventory("DRLAX_RenegadeFamiliarPassive"));
+                if(f)
+                {
+                    f.Trigger();
+                }
+            }
+
+            if(e.thing.target.CountInv("DRLAX_SpiderbotFamiliarPassive") > 0)
+            {
+                let f = DRLAX_SpiderbotFamiliarPassive(e.thing.target.FindInventory("DRLAX_SpiderbotFamiliarPassive"));
+                if(f)
+                {
+                    if(random(0, 12 - (f.power*2)) == 0)
+                    {
+                        String spid;
+                        Switch(random(0, 3))
+                        {
+                            Case 0: spid = "RLStandardSpiderCapsule"; break;
+                            Case 1: spid = "RLFirestormSpiderCapsule"; break;
+                            Case 2: spid = "RLSniperSpiderCapsule"; break;
+                            Case 3: spid = "RLNanoSpiderCapsule"; break;
+                        }
+                        bool spawned;
+                        Actor act;
+                        [spawned, act] = 
+                        e.thing.target.A_SpawnItemEx(spid, 0, 0, 4, frandom(-5, 5), frandom(-5, 5), 8, 
+                        flags:SXF_NOCHECKPOSITION);
+                        if(spawned && act)
+                        {
+                            act.SetOrigin(e.thing.pos, false);
+                        }
+                    }
+                }
+            }
+
+            
+            if(e.Thing.bISMONSTER && e.thing.target.CountInv("DRLAX_DukeFamiliarPassive") > 0)
+            {
+                let f = DRLAX_DukeFamiliarPassive(e.thing.target.FindInventory("DRLAX_DukeFamiliarPassive"));
+                if(f && e.thing.health <= e.thing.GetGibHealth())
+                {
+                    let m = Actor.Spawn("DRLAX_DukePassiveExplosion", e.thing.pos + (0,0,48));
+                    if(m)
+                    {
+                        m.target = e.thing.target;
+                    }
+
+                    f.Trigger();
+                }
+            }
+            
+        }
+
+        if(e.inflictor && e.thing && e.thing.bISMONSTER && e.inflictor is "DRLAX_FamiliarBase")
+        {
+            e.inflictor.GiveInventory("DRLAX_FamiliarKill", 1);
+        }
+    }
+
+    override void WorldThingSpawned (WorldEvent e)
+	{	
+        Actor a = e.thing;
+        if(a && a.target)
+        {
+            if((a.damagetype || a.damage > 0) && 
+            a.speed > 0 && 
+            a.bMISSILE && 
+            !a.bNOINTERACTION && 
+            a.bNOBLOCKMAP &&
+            a.Distance3D(a.target) < 50 &&
+            a.CountInv("DRLAX_CopiedProjectileInv") == 0)
+            {
+                let invc = a.target.CountInv("DRLAX_FatsoFamiliarPassive");
+                if(invc > 0 && random(0, 5 - invc) == 0)
+                {
+                    SpawnCopyMissile(a);
+                }
+
+                if(a is "Rocket")
+                {
+                    DRLAX_FamiliarManager f = DRLAX_FamiliarManager(a.target.FindInventory("DRLAX_FamiliarManager"));
+
+                    if(f)
+                    {
+                        for(int i; i<f.fam.Size(); i++)
+                        {
+                            DRLAX_SargeFamiliar sarge;
+
+                            if(f.fam[i] && f.fam[i] is "DRLAX_SargeFamiliar")
+                            {
+                                sarge = DRLAX_SargeFamiliar(f.fam[i]);
+                                //if( sarge.Distance3D(a.target)>50)
+                                //{
+                                    sarge.firedm = a.GetClassName();
+                                //}
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(a.target.player && (a is "RLNapalmFire" || a.GetClassName() == "RLJackalFloorFire") && !a.bAMBUSH)
+            {
+                int c = a.target.CountInv("DRLAX_ImpFamiliarPassive") * 3;
+
+                for(int i; i<c; i++)
+                {
+                    bool spawned;
+                    Actor act;
+                    [spawned, act] = 
+                    a.A_SpawnItemEx(a.GetClassName(), (frandom(20, 64)) * ((i+1) / 3), 0, 0, 0, 0, 0, (i * 120) + frandom(-80, 80), SXF_NOCHECKPOSITION);
+
+                    if(spawned && act)
+                    {
+                        act.bAMBUSH = true;
+                    }
+                }
+            }
+        }
+
+        if(a && a.GetclassName() == "TeleportFog")
+        {
+            if(a.target && a.target.health > 0)
+            {
+                if(a.target.CountInv("DRLAX_TerriFamiliarPassive") > 0)
+                {
+                    a.target.GiveInventory("DRLAX_TerriFamiliarPowerup", 1);
+                }
+
+                if(a.target.CountInv("DRLAX_PortiaFamiliarPassive") > 0)
+                {
+                    a.target.GiveInventory("DRLAX_PortiaFamiliarPowerup", 1);
+                }
+            }
+        }
+    }
+
+    void SpawnCopyMissile(Actor a)
+    {
+        Actor copy = Actor.Spawn(a.GetClassName(), a.pos);
+        copy.target = a.target;
+        copy.tracer = a.tracer;
+        copy.vel = a.vel;
+        copy.angle = a.angle;
+        copy.pitch = a.pitch;
+        copy.GiveInventory("DRLAX_CopiedProjectileInv", 1);
+        copy.A_ChangeVelocity(0, -3 + (random(0,1) * 5), 0, CVF_RELATIVE);
+    }
+}
+
+class DRLAX_SkullUsed : Thinker
+{
+    override void Tick()
+    {
+        Destroy();
+    }
+}
+
+class DRLAX_CopiedProjectileInv : Inventory {}
+
+class DRLAX_FamiliarBase : Actor
+{
+    Default
+    {
+        +NOINTERACTION;
+        +NOGRAVITY;
+        +PAINLESS;
+        +MISSILE;
+        +THRUSPECIES;
+        +MTHRUSPECIES;
+        +NOTIMEFREEZE;
+        species "Player";
+        scale 0.25;
+        radius 1;
+        height 1;
+        translation "CMMDRLA_Familiar";
+        renderstyle "Style_Translucent";
+        alpha 0.95;
+    }
+
+    uint attackcooldown;
+    uint usecount;
+    Actor playeractor;
+    Actor tofollow;
+    bool isnanomaniac;
+    bool hideplatform;
+
+    states
+    {
+        Spawn:
+        PLAY ABCD 8 FamiliarIdle();
+        loop;
+        Missile:
+        PLAY F 2;
+        PLAY G 2 bright;
+        PLAY F 2;
+        Goto Spawn;
+    }
+
+    Vector3 ppos;
+    DRLAX_FamiliarPlatform plat;
+
+    static float GetVolume()
+    {
+        return Cvar.GetCvar("DRLAX_familiarvolume").GetFloat();
+    }
+
+    virtual void MoveToPlatform()
+    {
+        SetOrigin(plat.pos, true);
+    }
+
+    virtual void FamiliarTick()
+    {
+        MoveToPlatform();
+    }
+    
+    virtual void FamiliarStart()
+    {
+    }
+
+    virtual void FamiliarEnd()
+    {
+    }
+
+    virtual void FamiliarUsed()
+    {
+    }
+
+    override void OnDestroy()
+    {
+        if(playeractor)
+        {
+            FamiliarEnd();
+        }
+        Super.OnDestroy();
+    }
+
+    uint idletimer;
+
+    virtual void FamiliarIdle()
+    {
+        if(!tracer || tracer && tracer.health < 1)
+        {
+            tracer = null;
+            idletimer++;
+
+            if(idletimer == 9)
+            {
+                angle = random(0,360);
+                idletimer = 0;
+            }
+        }
+
+        if(tracer)
+        {
+            if(playeractor && playeractor.health > 0)
+            {
+                FamiliarAction();
+            }
+            A_Face(tracer);
+        }
+        else
+        {
+            if(GetAge() % 35 == 0)
+            {
+                FindNewTracer();
+                if(tracer)
+                {
+                    if(!tracer.target || tracer.target != playeractor)
+                    {
+                        tracer = null;
+                    }
+                }
+            }
+        }
+    }
+
+    virtual void FamiliarAction()
+    {
+        SetStateLabel("Missile");
+    }
+
+    override void Tick()
+    {
+        if(!playeractor)
+        {
+            Destroy();
+            return;
+        }
+
+        if(attackcooldown > 0)
+        {
+            attackcooldown--;
+            if(attackcooldown > 70)
+            {
+                plat.A_SetTranslation("CMMDRLA_Red");
+            }
+            if(attackcooldown < 70)
+            { 
+                plat.A_SetTranslation("CMMDRLA_Orange");
+            }
+            if(attackcooldown < 10)
+            { 
+                plat.A_SetTranslation("");
+            }
+        }
+
+        if(GetAge() % (35*3) == 0)
+        {
+            if(tracer)
+            {
+                if(Distance2D(tracer) > 800 && !CheckSight(tracer))
+                {
+                    tracer = null;
+                }
+            }
+        }
+
+        if(!plat)
+        {
+            plat = DRLAX_FamiliarPlatform(Spawn("DRLAX_FamiliarPlatform", pos));
+            plat.target = self;
+            plat.reactiontime = radius;
+        }
+
+        if(tofollow && plat && plat.Distance3D(target) > 90)
+        {
+            uint h = 0;
+            if(tofollow.player)
+            {
+               h = 38;
+            }
+
+            DRLAX_FamiliarBase f = DRLAX_FamiliarBase(tofollow);
+            if(f)
+            {
+                ppos = f.plat.pos + (0, 0, h);
+            }
+            else
+            {
+                ppos = tofollow.pos + (0, 0, h);
+            }
+        }
+
+        if(plat)
+        {
+            plat.bINVISIBLE = hideplatform;
+        }
+
+        //Console.Printf("" .. Level.Time * 0.0001);
+        Vector3 newpos = Vec3Lerp(plat.pos, ppos, 0.05);
+        //newpos = ppos;
+        plat.SetOrigin(newpos, true);
+        
+        FamiliarTick();
+        if(GetAge() < 8)
+        {
+            A_SpawnItemEx("RLDemonicBossTeleportFogSpark", 0,0,0, frandom(-1.0,1.0),frandom(-1.0,1.0),frandom(-1.0,1.0), 0, SXF_NOCHECKPOSITION);
+        }
+
+        int dist;
+        
+        if(playeractor)
+        {
+            dist = Distance2D(playeractor);
+        }
+
+        if(playeractor && playeractor.health > 0 && playeractor.player.cmd.buttons & BT_USE && (dist <= 32 || usecount > 0) && playeractor.CheckFOV(self, 10))
+        {
+            if(usecount == 0)
+            {
+                FamiliarUsed();
+            }
+
+            if(usecount == 10)
+            {
+                ShowDescription(playeractor);
+            }
+
+            usecount++;
+            
+            if(usecount == 35*3)
+            {
+                Recall();
+                return;
+            }
+        }
+        else
+        {
+            usecount = 0;
+        }
+
+        if(dist < 64)
+        {
+            A_SetRenderStyle(Clamp(dist * 0.02, 0.01, 0.95) * Cvar.GetCvar("DRLAX_familiartrans", playeractor.player).GetFloat(), Style_Translucent);
+        }
+        else if (alpha < 0.95)
+        {
+            A_SetRenderStyle(0.95 * Cvar.GetCvar("DRLAX_familiartrans", playeractor.player).GetFloat(), Style_Translucent);
+        }
+
+        Super.Tick();
+    }
+
+    void Recall()
+    {
+        for(int i; i < 8; i++)
+        {
+            A_SpawnItemEx("RLDemonicBossTeleportFogSpark", 0,0,0, frandom(-1.0,1.0),frandom(-1.0,1.0),frandom(-1.0,1.0), 0, SXF_NOCHECKPOSITION);
+        }
+
+        let man = DRLAX_FamiliarManager(playeractor.FindInventory("DRLAX_FamiliarManager"));
+        int slot = 0;
+        if(!man)
+        {
+            Destroy();
+            return;
+        }
+
+        while(man.fam[slot] != self)
+        {
+            slot++;
+            if(slot == 6)
+            {
+                Destroy();
+                return;
+            }
+        }
+        
+        DRLAX_FamiliarManager.RemoveFamiliar(playeractor, slot);
+
+        let ball = DRLAX_FamiliarBall(Spawn("DRLAX_FamiliarBall", playeractor.pos));
+        if(ball)
+        {
+            String s = GetClassName();
+            s.Replace("DRLAX_", "");
+            s.Replace("Familiar", "");
+            
+            playeractor.A_StartSound("familiars/familiarballreturn");
+            if(isnanomaniac)
+            {
+                s = "NanoManiac";
+            }
+            ball.Init(s);
+            ball.AttachToOwner(playeractor);
+        }
+
+        return;
+    }
+
+    vector3 Vec3Lerp(vector3 a, vector3 b, double t)
+    {	
+		if(t < 0){t = 0;}
+		else if (t > 1.0)
+		{
+			t = 1.0;
+		}
+
+        return (a.x + (b.x - a.x) * t,
+                a.y + (b.y - a.y) * t,
+                a.z + (b.z - a.z) * t);
+    }
+
+    void FamiliarLineAttack(double angle, double pitch, int damage, name damagetype, Class<Actor> puff, bool usepain)
+    {
+        if(usepain)
+        {
+            LineAttack(angle, 5000, pitch, damage, damagetype, puff, LAF_TARGETISSOURCE);
+            return;
+        }
+        FTranslatedLineTarget victim;
+        LineAttack(angle, 5000, pitch, 0, damagetype, puff, LAF_TARGETISSOURCE, victim);
+
+        if(victim.linetarget && victim.linetarget != playeractor)
+        {
+            victim.linetarget.DamageMobj(self, playeractor, damage, damagetype, DMG_NO_PAIN);
+            //Console.PRintf("victim " .. victim.linetarget.getclassname());
+        }
+    }
+
+    void FindNewTracer()
+    {
+        tracer = null;
+        A_SeekerMissile(90, 90, SMF_LOOK, 256, 64);
+        if(tracer)
+        {
+            if((playeractor && tracer == playeractor) || Distance2D(tracer) > 1000)
+            {
+                tracer = null;
+            }
+        }
+    }
+
+    override void PostBeginPlay()
+    {
+        if(!target || (!playeractor || playeractor.CountInv("DRLAX_FamiliarManager") == 0))
+        {
+            Destroy();
+            return;
+        }
+    }
+
+    void ShowDescription(Actor other)
+    {
+        String c = GetClassName();
+        c.Replace("DRLAX_", "");
+        c.ToUpper();
+        String s = Stringtable.Localize("$" .. "TXT_" .. c);
+        s = s .. "\n\n\cn* Continue holding use to recall familiar *";
+        other.A_Print(s, 5.0, "CONFONT");
+    }
+    
+    void GiveStackingPassive(Class<DRLAX_FamiliarPassive> passive, bool addorremove)
+    {
+        DRLAX_FamiliarPassive p = DRLAX_FamiliarPassive(playeractor.FindInventory(passive));
+
+        if(addorremove)
+        {
+            if(p)
+            {
+                //Console.Printf("found inv, adding power");
+                p.power++;
+            }
+            else
+            {
+                //Console.Printf("no inv, giving passive");
+                playeractor.GiveInventory(passive, 1);
+            }
+        }
+        else
+        {
+            //Console.Printf("we are removing");
+            if(p)
+            {
+                if(p.power > 0)
+                {
+                    p.power--;
+                }
+                else
+                {
+                    playeractor.TakeInventory(passive, 1);
+                    //Console.Printf("removed!");
+                }
+            }
+        }  
+    }
+}
+
+class DRLAX_FamiliarPlatform : Actor
+{
+    Default
+    {
+        +NOINTERACTION;
+        +NOGRAVITY;
+        +NOTIMEFREEZE;
+        height 1;
+        radius 1;
+    }
+
+    states
+    {
+        Spawn:
+        TNT1 A -1;
+        stop;
+    }
+
+    override void PostBeginPlay()
+    {
+        for(int i; i<3; i++)
+        {
+            DRLAX_FamiliarPlatformParticle p = DRLAX_FamiliarPlatformParticle(Spawn("DRLAX_FamiliarPlatformParticle"));
+            p.reactiontime = i;
+            p.target = self;
+        }
+    }
+
+    override void Tick()
+    {
+        angle += 5;
+        if(!target)
+        {
+            Destroy();
+            return;
+        }
+        Super.Tick();
+    }
+}
+
+class DRLAX_FamiliarPlatformParticle : Actor
+{
+    Default
+    {
+        +NOINTERACTION;
+        +NOGRAVITY;
+        +NOTIMEFREEZE;
+        +BRIGHT;
+        height 1;
+        radius 1;
+        scale 0.25;
+    }
+
+    states
+    {
+        Spawn:
+        AEFG GHIJIH 2;
+        loop;
+    }
+
+    override void Tick()
+    {
+        if(!target)
+        {
+            Destroy();
+            return;
+        }
+
+        Warp(target, 8 + target.reactiontime, 0, 0, reactiontime * 120, WARPF_COPYINTERPOLATION|WARPF_NOCHECKPOSITION);
+        translation = target.translation;
+        float trans = Cvar.GetCvar("DRLAX_familiarplatformtrans", Players[consoleplayer]).GetFloat();
+
+        if(target.bINVISIBLE)
+        {
+            trans = 0.0;
+        }
+        A_SetTranslucent(trans);
+
+        Super.Tick();
+    }
+}
+
+class DRLAX_FamiliarDataHolder : Thinker
+{
+    Class<Actor> familiars[5];
+    uint playerno;
+
+    void Save(DRLAX_FamiliarManager f)
+    {
+        for(int i; i<5; i++)
+        {
+            familiars[i] = f.familiars[i];
+        }
+        playerno = f.owner.PlayerNumber();
+        ChangeStatNum(STAT_STATIC);
+    }
+
+    void Load()
+    {
+        DRLAX_FamiliarManager fm = DRLAX_FamiliarManager(Actor.Spawn("DRLAX_FamiliarManager"));
+        fm.AttachToOwner(players[playerno].mo);
+
+        for(int i; i<5; i++)
+        {
+            fm.familiars[i] = familiars[i];
+        }
+
+        fm.Init();
+        Destroy();
+    }
+}
+
+
+class DRLAX_FamiliarManager : Inventory
+{
+    Default
+    {
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.UNTOSSABLE;
+    }
+
+    DRLAX_FamiliarBase fam[5];
+    Class<Actor> familiars[5];
+
+    DRLAX_FamiliarBase FindFamiliar(String famname)
+    {
+        for(int i; i<fam.Size(); i++)
+        {
+            if(fam[i] && fam[i].GetClassName() == famname)
+            {
+                return fam[i];
+            }
+        }
+
+        return null;
+    }
+
+    Class<DRLAX_FamiliarBase> GetRandomFamiliar()
+    {
+        Array<Class<DRLAX_FamiliarBase> > fams;
+        for(int i; i<AllActorClasses.Size(); i++)
+        {
+            if(AllActorClasses[i] is "DRLAX_FamiliarBase")
+            {
+                if(AllActorClasses[i].GetClassName() == "DRLAX_FamiliarBase")
+                {
+                    continue;
+                }
+
+                fams.Push(AllActorClasses[i]);
+            }
+        }
+
+        if(fams.Size() > 0)
+        {
+            return fams[random(0,fams.Size()-1)];
+        }
+
+        return null;
+    }
+
+    static bool NewFamiliar(Actor other, Class<DRLAX_FamiliarBase> f)
+    {
+        DRLAX_FamiliarManager fm = DRLAX_FamiliarManager(other.FindInventory("DRLAX_FamiliarManager"));
+
+        if(!fm)
+        {
+            fm = DRLAX_FamiliarManager(other.Spawn("DRLAX_FamiliarManager"));
+            fm.AttachToOwner(other);
+            fm.Init();
+        }
+
+        return (fm.AddFamiliar(f));
+    }
+
+    override void Tick()
+    {
+        if(!owner || owner.health < 1)
+        {
+            Super.Tick();
+            return;
+        }
+
+        SyncTargets();
+
+        Super.Tick();
+    }
+
+    void SyncTargets()
+    {
+        for(int i; i<5; i++)
+        {
+            if(fam[i])
+            {
+                if(i == 0)
+                {
+                    fam[i].tofollow = owner;
+                }
+                else
+                {
+                    fam[i].tofollow = fam[i - 1];
+                }
+
+                fam[i].playeractor = owner;
+            }
+        }
+    }
+
+    virtual void Init()
+    {
+        for(int i; i<5; i++)
+        {
+            if(familiars[i])
+            {
+                SpawnFamiliar(i);
+            }
+        }
+    }
+
+    bool AddFamiliar(Class<DRLAX_FamiliarBase> f)
+    {
+        for(int i; i<5; i++)
+        {
+            if(!familiars[i])
+            {
+                familiars[i] = f;
+                Init();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void SpawnFamiliar(int slot)
+    {
+        if(!fam[slot] && familiars[slot])
+        {
+            if(familiars[slot] == "DRLAX_NanoManiacFamiliar" && Level.Time < 50)
+            {
+                fam[slot] = DRLAX_FamiliarBase(owner.Spawn(GetRandomFamiliar(), owner.pos + (0,0,32)));
+                fam[slot].isnanomaniac = true;
+            }
+            else
+            {
+                fam[slot] = DRLAX_FamiliarBase(owner.Spawn(familiars[slot], owner.pos + (0,0,32)));
+            }
+            SyncTargets();
+            fam[slot].FamiliarStart();
+            fam[slot].A_StartSound(fam[slot].seesound, CHAN_VOICE, volume:fam[slot].GetVolume(), pitch:1.25);
+            fam[slot].target = owner;
+            if(Cvar.GetCvar("DRLAX_nofamiliartint", owner.player).GetBool()) 
+            {
+                fam[slot].A_SetTranslation("");
+            }
+
+            fam[slot].ACS_NamedExecuteAlways("FamiliarInit", 0, owner.PlayerNumber(), slot);
+        }
+    }
+
+    override void ModifyDamage (int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
+    {
+        if (!passive && damage > 0 && source && source.health > 0 && source.bISMONSTER)
+        {
+            for(int i; i<fam.Size(); i++)
+            {
+                if(fam[i])
+                {
+                    fam[i].tracer = source;
+                }
+            }
+        }
+    }
+
+    static void RemoveFamiliar(actor other, int slot)
+    {
+        DRLAX_FamiliarManager fm = DRLAX_FamiliarManager(other.FindInventory("DRLAX_FamiliarManager"));
+
+        if(!fm)
+        {
+            return;
+        }
+
+        if(fm.familiars[slot])
+        {
+            fm.familiars[slot] = null;
+            //fm.fam[slot].FamiliarEnd(); // called by ondestroy
+            fm.fam[slot].Destroy();
+            for(int i = slot; i<5; i++)
+            {
+                if(fm.fam[i])
+                {
+                    fm.fam[i-1] = fm.fam[i];
+                    fm.fam[i] = null;
+                    fm.familiars[i-1] = fm.familiars[i];
+                    fm.familiars[i] = null;
+                }
+            }
+        }
+
+        fm.SyncTargets();
+    }
+
+    static void DRPGRemoveFamiliar(int playernum, int slot)
+    {
+        DRLAX_FamiliarManager fm = DRLAX_FamiliarManager(Players[playernum].mo.FindInventory("DRLAX_FamiliarManager"));
+
+        if(!fm)
+        {
+            return;
+        }
+
+        if(fm.familiars[slot])
+        {
+            fm.familiars[slot] = null;
+            fm.fam[slot].Destroy();
+        }
+
+        fm.SyncTargets();
+    }
+
+    override void PreTravelled()
+    {
+        DRLAX_FamiliarDataHolder fm = new("DRLAX_FamiliarDataHolder");
+        fm.playerno = owner.PlayerNumber();
+        fm.Save(self);
+        Destroy();
+    }
+
+}
+
+class DRLAX_FamiliarProjectile : FastProjectile
+{
+    Default
+    {
+        Radius 6;
+        Height 7;
+        species "Player";
+        scale 0.35;
+        PROJECTILE;
+        +PAINLESS;
+        +DONTREFLECT;
+        +MTHRUSPECIES;
+    }
+
+    override void PostBeginPlay()
+    {
+        for(int i; i<7; i++)
+        {
+            A_SoundVolume(i, DRLAX_FamiliarBase.GetVolume());
+        }
+    }
+}
+
+class DRLAX_FamiliarKill : Inventory
+{
+    Default
+    {
+        inventory.maxamount 99999;
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.UNTOSSABLE;
+    }
+}
+
+class DRLAX_FamiliarPassive : Inventory
+{
+    uint power;
+
+    Default
+    {
+        inventory.maxamount 6;
+        +INVENTORY.UNDROPPABLE;
+		+INVENTORY.UNTOSSABLE;
+    }
+}
+
+
+Class TestFamiliar : Inventory
+{
+    override void AttachToOwner(actor other)
+    {
+        DRLAX_FamiliarManager.NewFamiliar(other, "DRLAX_SecurityOfficerFamiliar");
+        Destroy();
+        return;
+    }
+}
+
+
+Class TestFamiliar2 : Inventory
+{
+    override void AttachToOwner(actor other)
+    {
+        DRLAX_FamiliarManager.NewFamiliar(other, "DRLAX_ArchvileFamiliar");
+        Destroy();
+        return;
+    }
+}
+
+Class TestFamiliar3 : Inventory
+{
+    override void AttachToOwner(actor other)
+    {
+        DRLAX_FamiliarManager.RemoveFamiliar(other, 1);
+        Destroy();
+        return;
+    }
+}

@@ -1,0 +1,2 @@
+Name=LegenDoomLite
+Mods=LegenDoomLite_4.1.pk3

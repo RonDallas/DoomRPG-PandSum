@@ -1,0 +1,2 @@
+// Supply Crate
+actor RLSupplyCrateRPG : DRPGCrate Replaces RLSupplyCrate {}

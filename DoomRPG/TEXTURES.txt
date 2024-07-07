@@ -1,3 +1,34 @@
+//Outpost 2 textures
+
+texture OPANAA1, 128, 128 {Patch OPANAA1, 0, 0}
+texture OPANAA2, 128, 128 {Patch OPANAA2, 0, 0}
+texture OPANAA3, 128, 128 {Patch OPANAA3, 0, 0}
+texture OPANAA4, 128, 128 {Patch OPANAA4, 0, 0}
+texture OPANA1, 128, 47 {Patch OPANA1, 0, 0}
+texture OPANA2, 128, 47 {Patch OPANA2, 0, 0}
+texture OPANA3, 128, 47 {Patch OPANA3, 0, 0}
+texture OPANA4, 128, 47 {Patch OPANA4, 0, 0}
+texture 64MONI1, 128, 128 {Patch 64MONI1, 0, 0}
+texture 64MONI2, 128, 128 {Patch 64MONI2, 0, 0}
+texture 64MONI3, 128, 128 {Patch 64MONI3, 0, 0}
+texture 64MONI4, 128, 128 {Patch 64MONI4, 0, 0}
+
+texture CGCANI00, 128, 128 {Patch CGCANI00, 0, 0}
+texture CGCANI01, 128, 128 {Patch CGCANI01, 0, 0}
+texture CGCANI02, 128, 128 {Patch CGCANI02, 0, 0}
+texture CGCANI03, 128, 128 {Patch CGCANI03, 0, 0}
+texture CGCANI04, 128, 128 {Patch CGCANI04, 0, 0}
+texture CGCANI05, 128, 128 {Patch CGCANI05, 0, 0}
+texture CGCANI06, 128, 128 {Patch CGCANI06, 0, 0}
+texture CGCANI07, 128, 128 {Patch CGCANI07, 0, 0}
+
+texture ECOMP1, 256, 128 {Patch ECOMP1, 0, 0}
+texture ECOMP2, 256, 128 {Patch ECOMP2, 0, 0}
+texture ECOMP3, 256, 128 {Patch ECOMP3, 0, 0}
+texture ECOMP4, 256, 128 {Patch ECOMP4, 0, 0}
+
+texture PorGS97, 853, 480 {Patch PorGS97, 0, 0}
+
 // Agility Save
 Graphic AGISAVE, 429, 220 { XScale 4.0 YScale 4.0 Patch AgiSav_, 0, 0 }
 
@@ -16,6 +47,15 @@ Sprite CREDH0, 32, 12 { Offset 16, 12 Patch CBRDA0, 0, 0 Patch CLEDH0, 2, 2 { Al
 // Chips
 Graphic CHIPGOLD, 32, 32 { Offset 0, 0 Patch CHPGA0, 0, 0 }
 Graphic CHIPPLAT, 32, 32 { Offset 0, 0 Patch CHPPA0, 0, 0 }
+
+// Extra Life (for shop)
+Graphic L1UPA0, 26, 54 { Offset 0, 6 XScale 1.75 YScale 1.5 Graphic P1UBA0, 0, 0 }
+Graphic L1UPB0, 26, 54 { Offset 0, 6 XScale 1.75 YScale 1.5 Graphic P1UBB0, 0, 0 }
+Graphic L1UPC0, 26, 54 { Offset 0, 6 XScale 1.75 YScale 1.5 Graphic P1UBC0, 0, 0 }
+Graphic L1UPD0, 26, 54 { Offset 0, 6 XScale 1.75 YScale 1.5 Graphic P1UBD0, 0, 0 }
+
+// Chemicals (for shop)
+Graphic LT02CH, 21, 34 { Offset 11, 33 XScale 1.5 YScale 1.5 Graphic LT02A0, 0, 0 }
 
 // Basic Shield Package
 Sprite SHPAA0, 32, 32
@@ -371,7 +411,11 @@ Graphic CRYSF, 32, 32 { Offset -2, -5 XScale 1.1 YScale 1.1 Graphic CRYSF0, 0, 0
 Graphic CRYSG, 32, 32 { Offset -2, -2 XScale 1.1 YScale 1.1 Graphic CRYSG0, 0, 0 }
 Graphic STIM, 14, 14 { Offset -8, -9 Graphic STIMA0, 0, 0 }
 Graphic NUKE, 50, 50 { Offset 0, 6 XScale 1.75 YScale 1.75 Graphic TBOMA0, 0, 0 }
-Graphic PSTR, 28, 19 { Offset -1, -6 Graphic PSTRA0, 0, 0 }
+Graphic PMAP, 28, 27 { Offset -3, -4 XScale 1.15 YScale 1.15 Graphic PMAPA0, 0, 0 }
+Graphic PMAPB, 28, 27 { Offset -3, -4 XScale 1.15 YScale 1.15 Graphic PMAPB0, 0, 0 }
+Graphic PMAPC, 28, 27 { Offset -3, -4 XScale 1.15 YScale 1.15 Graphic PMAPC0, 0, 0 }
+Graphic PMAPD, 28, 27 { Offset -3, -4 XScale 1.15 YScale 1.15 Graphic PMAPD0, 0, 0 }
+Graphic PSTR, 28, 19 { Offset -2, -7 XScale 1.1 YScale 1.1 Graphic PSTRA0, 0, 0 }
 Graphic PVIS, 28, 13 { Offset -1, -9 Graphic PVISA0, 0, 0 }
 Graphic PVISB, 28, 13 { Offset -1, -9 Graphic PVISB0, 0, 0 }
 Graphic REGN, 25, 25 { Offset -2, -3 Graphic REGNA0, 0, 0 }

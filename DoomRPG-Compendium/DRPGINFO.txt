@@ -1,0 +1,2 @@
+Name=Compendium
+Mods=Compendium-v1a.pk3

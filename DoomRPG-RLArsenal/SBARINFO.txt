@@ -21,11 +21,11 @@ statusbar automap, fullscreenoffsets
 // Inventory Bar
 statusbar inventoryfullscreen, fullscreenoffsets
 {
-	drawinventorybar Doom, translucent, 12, INDEXFONT, 15, -31;
+	drawinventorybar Doom, translucent, 7, INDEXFONT, -295, -31;
 }
 
 // SS Inventory Bar
 statusbar inventory, fullscreenoffsets
 {
-	drawinventorybar Doom, translucent, 6, INDEXFONT, -64+center, -31;
+	drawinventorybar Doom, translucent, 6, INDEXFONT, -92+center, -31;
 }

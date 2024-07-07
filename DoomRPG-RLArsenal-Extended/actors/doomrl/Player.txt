@@ -1,0 +1,803 @@
+// Marine
+ACTOR DoomRLMarineRPG : DoomRLMarine
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+    
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}
+
+// Scout
+ACTOR DoomRLScoutRPG : DoomRLScout
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+  
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}
+
+// Technician
+ACTOR DoomRLTechnicianRPG : DoomRLTechnician
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+    
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}
+
+// Renegade
+ACTOR DoomRLRenegadeRPG : DoomRLRenegade
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+  
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}
+
+// Demolitionist
+ACTOR DoomRLDemolitionistRPG : DoomRLDemolitionist
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+  
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}
+
+// Commando
+ACTOR DoomRLCommandoRPG : DoomRLCommando 
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+    
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}
+
+// Mechanoid
+ACTOR DoomRLMechanoidRPG : DoomRLMechanoid
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+    
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}
+
+// Nomad
+ACTOR DoomRLNomadRPG : DoomRLNomad
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+    
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}
+
+// NanoManiac
+ACTOR DoomRLNanoManiacRPG : DoomRLNanoManiac
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+    
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}
+
+// PhaseSisters
+ACTOR DoomRLPhaseSistersRPG : DoomRLPhaseSisters
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+    
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}
+
+// Sarge
+ACTOR DoomRLSargeRPG : DoomRLSarge
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+    
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}
+
+ACTOR DoomRLBunkerRPG : DoomRLBunker
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+    
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}
+
+ACTOR DoomRLTrespasserRPG : DoomRLTrespasser
+{
+  Species "Player"
+  
+  Player.ForwardMove 2.0 1.0
+  Player.SideMove 2.0 1.0
+  Player.MugShotMaxHealth -1
+  
+  Player.DamageScreenColor Green, 1.0, Slime
+  Player.DamageScreenColor Green, 1.0, Radiation
+  Player.DamageScreenColor Green, 1.0, Toxicity
+  
+  +THRUSPECIES
+  +QUICKTORETALIATE
+    
+  States
+  {
+  // Main Damage Types
+  Pain.Melee:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.Melee
+  Pain.Bullet:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_NORMAL)
+    Goto Super::Pain.Bullet
+  Pain.Fire:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Fire
+  Pain.Plasma:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_LIGHTNING) // Our Plasma damage is different from RL's
+    Goto Super::Pain.Plasma
+  // Secondary Damage Types
+  Pain.Electric:
+	TNT1 A 0
+    Goto Pain.Plasma
+  Pain.Slime:
+	TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_TOXIC)
+	Goto Super::Pain.Slime
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION)
+    Goto Pain+1
+  Pain.HellNobleFire:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.HellNobleFire
+  Pain.PlasmaExplosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.PlasmaExplosion
+  Pain.Nightmare:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_PLASMA)
+    Goto Super::Pain.Nightmare
+  Pain.SmallFireball:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.SmallFireball
+  Pain.Explosion:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_FIRE)
+    Goto Super::Pain.Explosion
+  Pain.BluntMelee:
+    TNT1 A 0 ACS_NamedExecuteWithResult("SetDamageType", DT_MELEE)
+    Goto Super::Pain.BluntMelee
+  }
+}

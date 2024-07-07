@@ -1,0 +1,164 @@
+script "RLDemonicBossSpawner" open
+{
+	Delay(1); // ENTER scripts run in unspecified order versus OPEN scripts
+
+	SetActivator(0, AAPTR_PLAYER1);
+
+    if(GetCVar("drpg_drla_demonic_boss_disable"))
+		terminate;
+
+	bool spotchosen = false;
+	int x, y, z, angle;
+    int maxwads = GetCVar("drpg_ws_use_wads") * 32;
+    int pick = Random(1, 18 + maxwads);
+
+    if(GetLevelInfo(LEVELINFO_TOTAL_MONSTERS) == 0) // don't spawn bosses in levels with no monsters
+		terminate;
+	
+    while(true)
+    {
+        int monsters = GetLevelInfo(LEVELINFO_KILLED_MONSTERS);
+        int monstersMax = GetLevelInfo(LEVELINFO_TOTAL_MONSTERS);
+
+        if(CheckInventory("RLDemonicBossActive") > 0)
+        {
+			if(!spotchosen)
+			{
+				x = GetActorX(0);
+				y = GetActorY(0);
+				z = GetActorZ(0);
+				angle = GetActorAngle(0);
+				spotchosen = true;
+
+				if(debug)
+					Log(s:"\cj[\ccRLDemonicBossSpawner\cj] \cgDemonic boss spot chosen at \cj", i:x, s:", ", i:y, s:", ", i:z);
+			}
+
+			if(monsters >= monstersMax)
+			{
+			    int danger;
+                if (ACS_NamedExecuteWithResult("DRLA_MonsterpackCheck"))
+                    danger = CheckInventory("RLDangerLevel");
+                else
+                    danger = CheckInventory("RLUniqueBossLevel");
+					
+				if(debug)
+				{
+					Log(s:"\cj[\ccRLDemonicBossSpawner\cj] \cnPick\cj: ", i:pick);
+					Log(s:"\cj[\ccRLDemonicBossSpawner\cj] \cnDanger Level\cj: ", i:danger);
+				}
+
+				if(pick <= danger)
+					SpawnForced("RLDemonicBossSpawner", x, y, z, UniqueTID(666666), angle);
+				break;
+			}
+        }
+
+        Delay(1);
+    }
+}
+
+//==============================================================================
+
+script "RLUniqueBossSpawner" open
+{
+	Delay(1);
+
+	SetActivator(0, AAPTR_PLAYER1);
+
+    if(GetCVar("drpg_drla_unique_boss_disable"))
+		terminate;
+
+    if(GetLevelInfo(LEVELINFO_TOTAL_MONSTERS) == 0) // don't spawn bosses in levels with no monsters
+		terminate;
+
+	if(!CheckInventory("RLUniqueBossActive"))
+		terminate;
+
+	int x = GetActorX(0);
+	int y = GetActorY(0);
+	int z = GetActorZ(0);
+	int angle = GetActorAngle(0);
+
+	int maxwads = GetCVar("drpg_ws_use_wads") * 32;
+	int pick = Random(1, 43 + maxwads);
+	int time = Random(35 * 20, 35 * 60 * 4);
+
+	if(debug)
+	{
+		Log(s:"\cj[\ccRLUniqueBossSpawner\cj] \cnPick\cj: ", i:pick);
+		Log(s:"\cj[\ccRLUniqueBossSpawner\cj] \cgTime\cj: ", i:time);
+	}
+
+	Delay(time);
+
+	int danger;
+    if (ACS_NamedExecuteWithResult("DRLA_MonsterpackCheck"))
+		danger = CheckInventory("RLDangerLevel");
+    else
+		danger = CheckInventory("RLUniqueBossLevel");
+
+	if(debug)
+		Log(s:"\cj[\ccRLUniqueBossSpawner\cj] \cnDanger\cj: ", i:danger);
+
+	if(pick <= danger)
+		SpawnForced("RLUniqueBossSpawner", x, y, z, UniqueTID(555555), angle);
+}
+
+//==============================================================================
+
+script "RLUniqueBossLevelIncreaser" enter
+{
+	Delay(1);
+
+	if (PlayerNumber() != 0) terminate;
+    if (!ACS_NamedExecuteWithResult("DRLA_MonsterpackCheck"))
+			GiveInventory("RLUniqueBossLevel", 1);
+}
+
+script "RLSpecialBossSequence" (int music)
+{
+	if(ActivatorTID() == 0) // Make sure it has a TID set
+		Thing_ChangeTID(0, UniqueTID);
+	SetMusic("");
+	int SBoss = ActivatorTID();
+	Delay(35 * 2);
+	
+	// Add music tracks for bosses here
+	if(music == 0)
+		SetMusic("D_DEMON1");
+	if(music == 1)
+		SetMusic("D_DEMON2");
+	if(music == 2)
+		SetMusic("D_DMARTY");
+    
+	// Wait here until boss is dead
+	while (ThingCount(T_NONE, SBoss) > 0)
+	{
+		Delay(1);
+	}
+	
+	SetMusic("");
+	Delay(35 * 3);
+	SetMusic("*");
+}
+
+// This will cause VM Aborts in newer gzdooms if not handled correctly.
+// And of course, in true GZDoom style, the stuff to make it not doesn't work.
+// NEAT
+script "DRLA_ArsenalBossPainCheck" (void)
+{
+    if (!CheckFlag(0, "NOPAIN") || !CheckInventory("LDLegendaryMonsterResistances"))
+    {
+        GiveInventory("RLArsenalBossFeelsNoPunyBullets", 1);
+        Delay(35 * random(3,5));
+		GiveInventory("RLArsenalBossFeelsMoreRealisticAboutTheSituation", 1);
+/*		if (CheckActivator())
+		{
+			Log(s:"Monster iz alive");
+			GiveInventory("RLBossFeelsMoreRealisticAboutTheSituation", 1);
+		}
+		else
+			Log(s:"Monster was destroyed by the dark god");*/
+	}
+}

@@ -1,0 +1,4 @@
+OptionString "OutpostStartLevel"
+{
+    "E1M1",    "E1M1 (Doom)"
+}

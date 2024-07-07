@@ -21,6 +21,7 @@
 // Armor Bonus
 Actor DRPGArmorBonus : ArmorBonus
 {
+    Inventory.PickupMessage "You picked up an armor shard."
     Inventory.PickupSound "items/helmet"
 }
 
@@ -40,13 +41,13 @@ actor DRPGGreenArmorEffect : BasicArmorPickup
 
 Actor DRPGGreenArmor : CustomInventory
 {
-    Tag "Green Armor - 10% Damage Protection"
+    Tag "Green combat armor (10% damage protection)"
     
     +INVBAR
     
     Inventory.DefMaxAmount
     Inventory.InterHubAmount 1000
-    Inventory.Pickupmessage "You got Green Combat Armor!"
+    Inventory.PickupMessage "You picked up a green combat armor."
     Inventory.PickupSound "items/armor"
     Inventory.UseSound "items/armor"
     Inventory.Icon "ARM1"
@@ -84,13 +85,13 @@ actor DRPGBlueArmorEffect : BasicArmorPickup
 
 Actor DRPGBlueArmor : CustomInventory
 {
-    Tag "Blue Armor - 25% Damage Protection"
+    Tag "Blue combat armor (25% damage protection)"
     
     +INVBAR
 
     Inventory.DefMaxAmount
     Inventory.InterHubAmount 1000
-    Inventory.Pickupmessage "You got Blue Combat Armor!"
+    Inventory.PickupMessage "You picked up a blue combat armor."
     Inventory.PickupSound "items/armor"
     Inventory.UseSound "items/armor"
     Inventory.Icon "ARM2"
@@ -126,15 +127,15 @@ actor DRPGYellowArmorEffect : BasicArmorPickup
     Armor.Saveamount 200
 }
 
-Actor DRPGYellowArmor : CustomInventory 25042
+Actor DRPGYellowArmor : CustomInventory
 {
-    Tag "Yellow Armor - 50% Damage Protection"
+    Tag "Yellow combat armor (50% damage protection)"
     
     +INVBAR
 
     Inventory.DefMaxAmount
     Inventory.InterHubAmount 1000
-    Inventory.Pickupmessage "You Got Yellow Combat Armor!"
+    Inventory.PickupMessage "You picked up a yellow combat armor."
     Inventory.PickupSound "items/armor2"
     Inventory.UseSound "items/armor2"
     Inventory.Icon "ARM3"
@@ -170,20 +171,20 @@ actor DRPGRedArmorEffect : BasicArmorPickup
     Armor.Saveamount 200
 }
 
-Actor DRPGRedArmor : CustomInventory 25044
+Actor DRPGRedArmor : CustomInventory
 {
     Game Doom
     
     Radius 20
     Height 16
     
-    Tag "Red Armor - 75% Damage Protection"
+    Tag "Red combat armor (75% damage protection)"
     
     +INVBAR
 
     Inventory.DefMaxAmount
     Inventory.InterHubAmount 1000
-    Inventory.Pickupmessage "You Got Red Combat Armor!"
+    Inventory.PickupMessage "You picked up a red combat armor."
     Inventory.PickupSound "items/armor2"
     Inventory.UseSound "items/armor2"
     Inventory.Icon "ARM4"
@@ -219,15 +220,15 @@ actor DRPGWhiteArmorEffect : BasicArmorPickup
     Armor.Saveamount 200
 }
 
-Actor DRPGWhiteArmor : CustomInventory 25046
+Actor DRPGWhiteArmor : CustomInventory
 {
-    Tag "White Armor - 100% Damage Protection"
+    Tag "White combat armor (100% damage protection)"
     
     +INVBAR
 
     Inventory.DefMaxAmount
     Inventory.InterHubAmount 1000
-    Inventory.Pickupmessage "You Got White Combat Armor!"
+    Inventory.PickupMessage "You picked up a white combat armor."
     Inventory.PickupSound "items/armor2"
     Inventory.UseSound "items/armor2"
     Inventory.Icon "ARM5"
@@ -266,15 +267,15 @@ actor DRPGReinforcedGreenArmorEffect : BasicArmorPickup
     Armor.SaveAmount 200
 }
 
-Actor DRPGReinforcedGreenArmor : CustomInventory 25047
+Actor DRPGReinforcedGreenArmor : CustomInventory
 {
-    Tag "Reinforced Green Armor - 10% Damage Protection"
+    Tag "Reinforced green combat armor (10% damage protection)"
     
     +INVBAR
 
     Inventory.DefMaxAmount
     Inventory.InterHubAmount 1000
-    Inventory.Pickupmessage "You Got Reinforced Green Combat Armor!"
+    Inventory.PickupMessage "You picked up a reinforced green combat armor."
     Inventory.PickupSound "items/armor"
     Inventory.UseSound "items/armor"
     Inventory.Icon "ARX1"
@@ -310,15 +311,15 @@ actor DRPGReinforcedBlueArmorEffect : BasicArmorPickup
     Armor.SaveAmount 200
 }
 
-Actor DRPGReinforcedBlueArmor : CustomInventory 25048
+Actor DRPGReinforcedBlueArmor : CustomInventory
 {
-    Tag "Reinforced Blue Armor - 25% Damage Protection"
+    Tag "Reinforced blue combat armor (25% damage protection)"
     
     +INVBAR
 
     Inventory.DefMaxAmount
     Inventory.InterHubAmount 1000
-    Inventory.Pickupmessage "You Got Reinforced Blue Combat Armor!"
+    Inventory.PickupMessage "You picked up a reinforced blue combat armor."
     Inventory.PickupSound "items/armor"
     Inventory.UseSound "items/armor"
     Inventory.Icon "ARX2"
@@ -354,15 +355,15 @@ actor DRPGReinforcedYellowArmorEffect : BasicArmorPickup
     Armor.SaveAmount 400
 }
 
-Actor DRPGReinforcedYellowArmor : CustomInventory 25049
+Actor DRPGReinforcedYellowArmor : CustomInventory
 {
-    Tag "Reinforced Yellow Armor - 50% Damage Protection"
+    Tag "Reinforced yellow combat armor (50% damage protection)"
     
     +INVBAR
 
     Inventory.DefMaxAmount
     Inventory.InterHubAmount 1000
-    Inventory.Pickupmessage "You Got Reinforced Yellow Combat Armor!"
+    Inventory.PickupMessage "You picked up a reinforced yellow combat armor."
     Inventory.PickupSound "items/armor2"
     Inventory.UseSound "items/armor2"
     Inventory.Icon "ARX3"
@@ -398,15 +399,15 @@ actor DRPGReinforcedRedArmorEffect : BasicArmorPickup
     Armor.SaveAmount 400
 }
 
-Actor DRPGReinforcedRedArmor : CustomInventory 25050
+Actor DRPGReinforcedRedArmor : CustomInventory
 {
-    Tag "Reinforced Red Armor - 75% Damage Protection"
+    Tag "Reinforced red combat armor (75% damage protection)"
     
     +INVBAR
 
     Inventory.DefMaxAmount
     Inventory.InterHubAmount 1000
-    Inventory.Pickupmessage "You Got Reinforced Red Combat Armor!"
+    Inventory.PickupMessage "You picked up a reinforced red combat armor."
     Inventory.PickupSound "items/armor2"
     Inventory.UseSound "items/armor2"
     Inventory.Icon "ARX4"
@@ -442,15 +443,15 @@ actor DRPGReinforcedWhiteArmorEffect : BasicArmorPickup
     Armor.SaveAmount 400
 }
 
-Actor DRPGReinforcedWhiteArmor : CustomInventory 25051
+Actor DRPGReinforcedWhiteArmor : CustomInventory
 {
-    Tag "Reinforced White Armor - 100% Damage Protection"
+    Tag "Reinforced white combat armor (100% damage protection)"
     
     +INVBAR
 
     Inventory.DefMaxAmount
     Inventory.InterHubAmount 1000
-    Inventory.Pickupmessage "You Got Reinforced White Combat Armor!"
+    Inventory.PickupMessage "You picked up a reinforced white combat armor."
     Inventory.PickupSound "items/armor2"
     Inventory.UseSound "items/armor2"
     Inventory.Icon "ARX5"

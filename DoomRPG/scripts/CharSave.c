@@ -307,12 +307,53 @@ NamedScript MenuEntry void SaveCharacter()
 
     // Bulk Deposit
     DepositInventory();
-    while (Depositing)
+
+    // Compatibility Handling - DoomRL Extended
+    // Deposit Items for Phase Sisters
+    if (CompatModeEx == COMPAT_DRLAX && PlayerClass(PlayerNumber()) == 9) // Phase Sisters
     {
-        SetFont("BIGFONT");
-        HudMessage("\CkDepositing Items: \Cd%d \C-/ \Cd%d", DepositItems, DepositTotal);
-        EndHudMessage(HUDMSG_FADEOUT, DEPOSIT_ID, "White", 0.5, 0.5, 0.05, 0.5);
+        while (Depositing)
+        {
+            SetFont("BIGFONT");
+            if (CheckInventory("RLPhaseSistersSwapToken") == 1)
+                HudMessage("\CtPortia:\C- \CkDepositing Items: \Cd%d \C-/ \Cd%d", DepositItems, DepositTotal);
+            else
+                HudMessage("\CvTerri:\C- \CkDepositing Items: \Cd%d \C-/ \Cd%d", DepositItems, DepositTotal);
+            EndHudMessage(HUDMSG_FADEOUT, DEPOSIT_ID, "White", 0.5, 0.5, 0.05, 0.5);
+            Delay(1);
+        }
+
+        // Swap Sisters
+        SetInventory("RLPhaseSistersHomingTrigger", 1);
+
         Delay(1);
+
+        // Disable Shield
+        DeactivateShield();
+
+        // Bulk Deposit
+        DepositInventory();
+
+        while (Depositing)
+        {
+            SetFont("BIGFONT");
+            if (CheckInventory("RLPhaseSistersSwapToken") == 1)
+                HudMessage("\CtPortia:\C- \CkDepositing Items: \Cd%d \C-/ \Cd%d", DepositItems, DepositTotal);
+            else
+                HudMessage("\CvTerri:\C- \CkDepositing Items: \Cd%d \C-/ \Cd%d", DepositItems, DepositTotal);
+            EndHudMessage(HUDMSG_FADEOUT, DEPOSIT_ID, "White", 0.5, 0.5, 0.05, 0.5);
+            Delay(1);
+        }
+    }
+    else
+    {
+        while (Depositing)
+        {
+            SetFont("BIGFONT");
+            HudMessage("\CkDepositing Items: \Cd%d \C-/ \Cd%d", DepositItems, DepositTotal);
+            EndHudMessage(HUDMSG_FADEOUT, DEPOSIT_ID, "White", 0.5, 0.5, 0.05, 0.5);
+            Delay(1);
+        }
     }
 
     SetFont("BIGFONT");
@@ -472,16 +513,25 @@ NamedScript MenuEntry void LoadCharacter()
     if (Info.Level > 0)
     {
         Player.Level = Info.Level;
-        Player.XP = XPTable[Player.Level - 1];
     }
     if (Info.RankLevel > 0)
     {
         Player.RankLevel = Info.RankLevel;
-        Player.Rank = RankTable[Player.RankLevel - 1];
+    }
+
+    // XP / Rank
+    if (Info.XP > 0)
+    {
+        Player.XP = Info.XP;
+    }
+    if (Info.Rank > 0)
+    {
+        Player.Rank = Info.Rank;
     }
 
     // Misc
     SetInventory("DRPGCredits", Info.Credits);
+    Player.PrevCredits = Info.Credits;
     SetInventory("DRPGModule", Info.Modules);
     Player.Medkit = Info.Medkit;
     SetInventory("DRPGChipGold", Info.GoldChips);
@@ -517,29 +567,33 @@ NamedScript MenuEntry void LoadCharacter()
     Player.LuckNat         = Info.StatsNat[7];
 
     // Total values
-    Player.StrengthTotal = Player.Strength + Player.StrengthNat;
-    Player.DefenseTotal = Player.Defense + Player.DefenseNat;
-    Player.VitalityTotal = Player.Vitality + Player.VitalityNat;
-    Player.EnergyTotal = Player.Energy + Player.EnergyNat;
-    Player.RegenerationTotal = Player.Regeneration + Player.RegenerationNat;
-    Player.AgilityTotal = Player.Agility + Player.AgilityNat;
-    Player.CapacityTotal = Player.Capacity + Player.CapacityNat;
-    Player.LuckTotal = Player.Luck + Player.LuckNat;
+    Player.StrengthTotal = Player.Strength;
+    Player.DefenseTotal = Player.Defense;
+    Player.VitalityTotal = Player.Vitality;
+    Player.EnergyTotal = Player.Energy;
+    Player.RegenerationTotal = Player.Regeneration;
+    Player.AgilityTotal = Player.Agility;
+    Player.CapacityTotal = Player.Capacity;
+    Player.LuckTotal = Player.Luck;
 
-    // Stat XP
-    Player.StrengthXP = StatTable[Info.StatsNat[0] - 1];
-    Player.DefenseXP = StatTable[Info.StatsNat[1] - 1];
-    Player.VitalityXP = StatTable[Info.StatsNat[2] - 1];
-    Player.EnergyXP = StatTable[Info.StatsNat[3] - 1];
-    Player.RegenerationXP = StatTable[Info.StatsNat[4] - 1];
-    Player.AgilityXP = StatTable[Info.StatsNat[5] - 1];
-    Player.CapacityXP = StatTable[Info.StatsNat[6] - 1];
-    Player.LuckXP = StatTable[Info.StatsNat[7] - 1];
+    // Natural stats values
+    if (GetCVar("drpg_levelup_natural"))
+    {
+        Player.StrengthTotal += Player.StrengthNat;
+        Player.DefenseTotal += Player.DefenseNat;
+        Player.VitalityTotal += Player.VitalityNat;
+        Player.EnergyTotal += Player.EnergyNat;
+        Player.RegenerationTotal += Player.RegenerationNat;
+        Player.AgilityTotal += Player.AgilityNat;
+        Player.CapacityTotal += Player.CapacityNat;
+        Player.LuckTotal += Player.LuckNat;
+    }
 
-    Player.EP = Player.EnergyTotal * 10;
-    Player.HealthMax = Player.VitalityTotal * 10;
+    Player.EP = 50 + ((Player.Level + 1) / 2) * 5 + Player.EnergyTotal * 5;
+    Player.HealthMax = 50 + ((Player.Level + 1) / 2) * 5 + Player.VitalityTotal * 5;
     Player.ActualHealth = Player.HealthMax;
     SetActorProperty(0, APROP_Health, Player.HealthMax);
+    Player.PrevHealth = Player.ActualHealth;
 
     // Skills
     for (int i = 0; i < MAX_CATEGORIES; i++)
@@ -563,7 +617,10 @@ NamedScript MenuEntry void LoadCharacter()
 
     // Augmentations
     for (int i = 0; i < AUG_MAX; i++)
+    {
         Player.Augs.Level[i] = Info.Augs[i];
+        Player.Augs.CurrentLevel[i] = Player.Augs.Level[i];
+    }
 
     // Stims
     for (int i = 0; i < STIM_MAX; i++)
@@ -601,13 +658,54 @@ NamedScript MenuEntry void LoadCharacter()
         for (int j = 0; j < ITEM_MAX; j++)
             Player.ItemAutoMode[i][j] = Info.ItemAutoMode[i][j];
 
+    // Map Level Number
+    if (GetActivatorCVar("drpg_char_load_maplevel"))
+        NextLevelNum = Info.NextLevelNum;
+    if (GetActivatorCVar("drpg_char_load_maplevel"))
+        NextPrimaryLevelNum = Info.NextPrimaryLevelNum;
+
     // ----- COMPATIBILITY EXTENSIONS -----
 
+    // Compatibility Handling - DoomRL Arsenal
     // DRLA Tokens
     if (CompatMode == COMPAT_DRLA)
         for (int i = 0; i < DRLA_MAX_TOKENS; i++)
             if (Info.DRLATokens[i])
                 SetInventory(DRLATokens[i], 1);
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Danger Level
+    if (CompatMonMode == COMPAT_DRLA)
+        if (GetActivatorCVar("drpg_char_load_rl_dangerlevel"))
+            SetInventory("RLDangerLevel", Info.DangerLevel);
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Chances for Assembled/Exotic/Superior/Unique/Demonic/Legendary armor and boots
+    Player.ArmorAssembledChance = Info.ArmorChances[0];
+    Player.ArmorExoticChance = Info.ArmorChances[1];
+    Player.ArmorSuperiorChance = Info.ArmorChances[2];
+    Player.ArmorUniqueChance = Info.ArmorChances[3];
+    Player.ArmorDemonicChance = Info.ArmorChances[4];
+    Player.ArmorLegendaryChance = Info.ArmorChances[5];
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Chances for Exotic/Superior/Unique/Demonic/Legendary weapon
+    Player.WeaponExoticChance = Info.WeaponsChances[0];
+    Player.WeaponSuperiorChance = Info.WeaponsChances[1];
+    Player.WeaponUniqueChance = Info.WeaponsChances[2];
+    Player.WeaponDemonicChance = Info.WeaponsChances[3];
+    Player.WeaponLegendaryChance = Info.WeaponsChances[4];
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Weapons/Armors/Boots/Shield parts spawned values
+    for (int i = 0; i < ItemMax[0]; i++)
+        ItemData[0][i].Spawned = Info.WeaponsSpawned[i];
+    for (int i = 0; i < ItemMax[3]; i++)
+        ItemData[3][i].Spawned = Info.ArmorsSpawned[i];
+    for (int i = 0; i < ItemMax[9]; i++)
+        ItemData[9][i].Spawned = Info.BootsSpawned[i];
+    for (int i = 0; i < ItemMax[5]; i++)
+        ItemData[5][i].Spawned = Info.ShieldsSpawned[i];
 
     // Set Health and EP to their proper max values
     Player.ActualHealth = Player.HealthMax;
@@ -745,6 +843,10 @@ NamedScript void PopulateCharData(CharSaveInfo *Info)
     Info->Level = Player.Level;
     Info->RankLevel = Player.RankLevel;
 
+    // XP / Rank
+    Info->XP = Player.XP;
+    Info->Rank = Player.Rank;
+
     // Stats
     Info->Stats[0] = Player.Strength;
     Info->Stats[1] = Player.Defense;
@@ -832,13 +934,51 @@ NamedScript void PopulateCharData(CharSaveInfo *Info)
         for (int j = 0; j < ITEM_MAX; j++)
             Info->ItemAutoMode[i][j] = Player.ItemAutoMode[i][j];
 
+    // Map Level Number
+    Info->NextLevelNum = NextLevelNum;
+    Info->NextPrimaryLevelNum = NextPrimaryLevelNum;
+
     // ----- COMPATIBILITY EXTENSIONS -----
 
+    // Compatibility Handling - DoomRL Arsenal
     // DRLA Tokens
     if (CompatMode == COMPAT_DRLA)
         for (int i = 0; i < DRLA_MAX_TOKENS; i++)
             if (CheckInventory(DRLATokens[i]))
                 Info->DRLATokens[i] = true;
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Danger Level
+    if (CompatMonMode == COMPAT_DRLA)
+        Info->DangerLevel = CheckInventory("RLDangerLevel");;
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Chances for Assembled/Exotic/Superior/Unique/Demonic/Legendary armor and boots
+    Info->ArmorChances[0] = Player.ArmorAssembledChance;
+    Info->ArmorChances[1] = Player.ArmorExoticChance;
+    Info->ArmorChances[2] = Player.ArmorSuperiorChance;
+    Info->ArmorChances[3] = Player.ArmorUniqueChance;
+    Info->ArmorChances[4] = Player.ArmorDemonicChance;
+    Info->ArmorChances[5] = Player.ArmorLegendaryChance;
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Chances for Exotic/Superior/Unique/Demonic/Legendary weapon
+    Info->WeaponsChances[0] = Player.WeaponExoticChance;
+    Info->WeaponsChances[1] = Player.WeaponSuperiorChance;
+    Info->WeaponsChances[2] = Player.WeaponUniqueChance;
+    Info->WeaponsChances[3] = Player.WeaponDemonicChance;
+    Info->WeaponsChances[4] = Player.WeaponLegendaryChance;
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Weapons/Armors/Boots/Shield parts spawned values
+    for (int i = 0; i < ItemMax[0]; i++)
+        Info->WeaponsSpawned[i] = ItemData[0][i].Spawned;
+    for (int i = 0; i < ItemMax[3]; i++)
+        Info->ArmorsSpawned[i] = ItemData[3][i].Spawned;
+    for (int i = 0; i < ItemMax[9]; i++)
+        Info->BootsSpawned[i] = ItemData[9][i].Spawned;
+    for (int i = 0; i < ItemMax[5]; i++)
+        Info->ShieldsSpawned[i] = ItemData[5][i].Spawned;
 }
 
 NamedScript void LoadCharDataFromString(CharSaveInfo *Info, char const *String)
@@ -872,6 +1012,12 @@ NamedScript void LoadCharDataFromString(CharSaveInfo *Info, char const *String)
     StringPos += 2;
     Info->RankLevel = HexToInteger(String + StringPos, 2);
     StringPos += 2;
+
+    // XP / Rank
+    Info->XP = HexToInteger(String + StringPos, 8);
+    StringPos += 8;
+    Info->Rank = HexToInteger(String + StringPos, 8);
+    StringPos += 8;
 
     // Stats
     for (int i = 0; i < STAT_MAX; i++)
@@ -979,13 +1125,64 @@ NamedScript void LoadCharDataFromString(CharSaveInfo *Info, char const *String)
             StringPos += 1;
         }
 
+    // Map Level Number
+    Info->NextLevelNum = HexToInteger(String + StringPos, 4);
+    StringPos += 4;
+    Info->NextPrimaryLevelNum = HexToInteger(String + StringPos, 4);
+    StringPos += 4;
+
     // ----- COMPATIBILITY EXTENSIONS -----
 
+    // Compatibility Handling - DoomRL Arsenal
     // DRLA Tokens
     for (int i = 0; i < DRLA_MAX_TOKENS; i++)
     {
         Info->DRLATokens[i] = HexToInteger(String + StringPos, 1);
         StringPos += 1;
+    }
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Danger Level
+    Info->DangerLevel = HexToInteger(String + StringPos, 4);
+    StringPos += 4;
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Chances for Assembled/Exotic/Superior/Unique/Demonic/Legendary armor and boots
+    for (int i = 0; i < 6; i++)
+    {
+        Info->ArmorChances[i] = HexToInteger(String + StringPos, 2);
+        StringPos += 2;
+    }
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Chances for Exotic/Superior/Unique/Demonic/Legendary weapon
+    for (int i = 0; i < 5; i++)
+    {
+        Info->WeaponsChances[i] = HexToInteger(String + StringPos, 2);
+        StringPos += 2;
+    }
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Weapons/Armors/Boots/Shield parts spawned values
+    for (int i = 0; i < ItemMax[0]; i++)
+    {
+        Info->WeaponsSpawned[i] = HexToInteger(String + StringPos, 2);
+        StringPos += 2;
+    }
+    for (int i = 0; i < ItemMax[3]; i++)
+    {
+        Info->ArmorsSpawned[i] = HexToInteger(String + StringPos, 2);
+        StringPos += 2;
+    }
+    for (int i = 0; i < ItemMax[9]; i++)
+    {
+        Info->BootsSpawned[i] = HexToInteger(String + StringPos, 2);
+        StringPos += 2;
+    }
+    for (int i = 0; i < ItemMax[5]; i++)
+    {
+        Info->ShieldsSpawned[i] = HexToInteger(String + StringPos, 2);
+        StringPos += 2;
     }
 
     // Verify Checksum
@@ -1033,6 +1230,28 @@ NamedScript char const *MakeSaveString(CharSaveInfo *Info)
     SaveString[pos + 1] = ToHexChar(Info->Level);
     SaveString[pos + 0] = ToHexChar(Info->Level >> 4);
     pos += 4;
+
+    // XP
+    SaveString[pos + 7] = ToHexChar(Info->XP);
+    SaveString[pos + 6] = ToHexChar(Info->XP >> 4);
+    SaveString[pos + 5] = ToHexChar(Info->XP >> 8);
+    SaveString[pos + 4] = ToHexChar(Info->XP >> 12);
+    SaveString[pos + 3] = ToHexChar(Info->XP >> 16);
+    SaveString[pos + 2] = ToHexChar(Info->XP >> 20);
+    SaveString[pos + 1] = ToHexChar(Info->XP >> 24);
+    SaveString[pos + 0] = ToHexChar(Info->XP >> 28);
+    pos += 8;
+
+    // Rank
+    SaveString[pos + 7] = ToHexChar(Info->Rank);
+    SaveString[pos + 6] = ToHexChar(Info->Rank >> 4);
+    SaveString[pos + 5] = ToHexChar(Info->Rank >> 8);
+    SaveString[pos + 4] = ToHexChar(Info->Rank >> 12);
+    SaveString[pos + 3] = ToHexChar(Info->Rank >> 16);
+    SaveString[pos + 2] = ToHexChar(Info->Rank >> 20);
+    SaveString[pos + 1] = ToHexChar(Info->Rank >> 24);
+    SaveString[pos + 0] = ToHexChar(Info->Rank >> 28);
+    pos += 8;
 
     // Stats
     for (int i = 0; i < STAT_MAX; i++)
@@ -1192,13 +1411,79 @@ NamedScript char const *MakeSaveString(CharSaveInfo *Info)
             pos += 1;
         }
 
+    // Map Level Number
+    SaveString[pos + 3] = ToHexChar(Info->NextLevelNum);
+    SaveString[pos + 2] = ToHexChar(Info->NextLevelNum >> 4);
+    SaveString[pos + 1] = ToHexChar(Info->NextLevelNum >> 8);
+    SaveString[pos + 0] = ToHexChar(Info->NextLevelNum >> 12);
+    pos += 4;
+    SaveString[pos + 3] = ToHexChar(Info->NextPrimaryLevelNum);
+    SaveString[pos + 2] = ToHexChar(Info->NextPrimaryLevelNum >> 4);
+    SaveString[pos + 1] = ToHexChar(Info->NextPrimaryLevelNum >> 8);
+    SaveString[pos + 0] = ToHexChar(Info->NextPrimaryLevelNum >> 12);
+    pos += 4;
+
     // ----- COMPATIBILITY EXTENSIONS -----
 
+    // Compatibility Handling - DoomRL Arsenal
     // DRLA Tokens
     for (int i = 0; i < DRLA_MAX_TOKENS; i++)
     {
         SaveString[pos + 0] = ToHexChar(Info->DRLATokens[i]);
         pos += 1;
+    }
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Danger Level
+    SaveString[pos + 3] = ToHexChar(Info->DangerLevel);
+    SaveString[pos + 2] = ToHexChar(Info->DangerLevel >> 4);
+    SaveString[pos + 1] = ToHexChar(Info->DangerLevel >> 8);
+    SaveString[pos + 0] = ToHexChar(Info->DangerLevel >> 12);
+    pos += 4;
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Chances for Assembled/Exotic/Superior/Unique/Demonic/Legendary armor and boots
+    for (int i = 0; i < 6; i++)
+    {
+        SaveString[pos + 1] = ToHexChar(Info->ArmorChances[i]);
+        SaveString[pos + 0] = ToHexChar(Info->ArmorChances[i] >> 4);
+        pos += 2;
+    }
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Chances for Exotic/Superior/Unique/Demonic/Legendary weapon
+    for (int i = 0; i < 5; i++)
+    {
+        SaveString[pos + 1] = ToHexChar(Info->WeaponsChances[i]);
+        SaveString[pos + 0] = ToHexChar(Info->WeaponsChances[i] >> 4);
+        pos += 2;
+    }
+
+    // Compatibility Handling - DoomRL Arsenal
+    // Weapons/Armors/Boots/Shield parts spawned values
+    for (int i = 0; i < ItemMax[0]; i++)
+    {
+        SaveString[pos + 1] = ToHexChar(Info->WeaponsSpawned[i]);
+        SaveString[pos + 0] = ToHexChar(Info->WeaponsSpawned[i] >> 4);
+        pos += 2;
+    }
+    for (int i = 0; i < ItemMax[3]; i++)
+    {
+        SaveString[pos + 1] = ToHexChar(Info->ArmorsSpawned[i]);
+        SaveString[pos + 0] = ToHexChar(Info->ArmorsSpawned[i] >> 4);
+        pos += 2;
+    }
+    for (int i = 0; i < ItemMax[9]; i++)
+    {
+        SaveString[pos + 1] = ToHexChar(Info->BootsSpawned[i]);
+        SaveString[pos + 0] = ToHexChar(Info->BootsSpawned[i] >> 4);
+        pos += 2;
+    }
+    for (int i = 0; i < ItemMax[5]; i++)
+    {
+        SaveString[pos + 1] = ToHexChar(Info->ShieldsSpawned[i]);
+        SaveString[pos + 0] = ToHexChar(Info->ShieldsSpawned[i] >> 4);
+        pos += 2;
     }
 
     Info->Checksum = (unsigned int)(crc(SaveString, pos));

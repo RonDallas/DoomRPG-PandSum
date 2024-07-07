@@ -1,0 +1,126 @@
+//------------------------------------------------------------------------------
+
+script "DRLA_StartDangerLevel" (void)
+{
+	int level;
+	if(GetCVar("DRLA_startdangerlevel") >= GetCVar("drpg_monster_mapweight"))
+		level = GetCVar("DRLA_startdangerlevel") - 1;
+//	else
+//		level = GetCVar("drpg_monster_mapweight") - 1;
+//	if(level > 1) // the curse has been solved, this is no longer required
+//		SetResultValue(level - 1);
+//	else
+		SetResultValue(level);
+}
+
+script "RLSkillChangeMonitor" enter
+{
+   while(true)
+   {
+      int change = GetCVar("DRLA_skillchange");
+	  int apply  = GetCVar("DRLA_skillchange_apply");
+
+      if(apply && change)
+      {
+         ChangeSkill(change - 1);
+         SetCVar("DRLA_skillchange", 0);
+      }
+	  
+	  if(apply)
+		SetCVar("DRLA_skillchange_apply", 0);
+
+      Delay(5);
+   }
+}
+
+script "RLMonstersEnter" enter // [marrub]
+{
+	RLMonstersVars[VAR_MAPSCLEARED]++;
+}
+
+script "RLGetDangerLevel" (void) // [marrub]
+{
+	SetActivator(0, AAPTR_PLAYER1);
+	SetResultValue(CheckInventory("RLDangerLevel"));
+}
+
+script "RLAdaptiveSpawnPicker" (void) // [marrub]
+{
+	// Get the danger level.
+	int danger;
+
+	// If we have DRLA loaded, just get the number from player 1.
+	if (GetCVar("DRLA_is_using_main_pack"))
+		danger = ACS_NamedExecuteWithResult("RLGetDangerLevel");
+
+	// Otherwise, it's based on the number of maps cleared.
+	else
+		danger = FixedMul(RLMonstersVars[VAR_MAPSCLEARED] << 16, 1.666) >> 16;
+
+	// Get settings for randomness.
+	int mult = GetCVar("DRLA_adaptive_random_multiplier");
+	int expn = GetCVar("DRLA_adaptive_random_exponent");
+	int rmxp = GetCVar("DRLA_adaptive_random_multiplier_exponent");
+	int maxwads = GetCVar("drpg_ws_use_wads") * 32;
+
+	// OH GOD
+	if (danger >= 18 + maxwads)
+	{
+		SetActorState(0, "SpawnArmageddon");
+		terminate;
+	}
+
+	// Calculate the difficulty level to use.
+	// Exponentation is used for the random value to make it curve more fairly.
+	// A reverse exponent is used to make it curve more unfairly later on.
+	int rand = mult * exponent(Random(0.01, 1.0), expn);
+	int rmin = FixedMul(FixedDiv(danger << 16, (18.0 + GetCVar("drpg_ws_use_wads") * 32.0)), Random(0.0, 1.0));
+	int rmul = Random(exponent(rmin, rmxp), 1.0);
+	// The danger level is then added to that.
+	int dangermod = danger + (rand >> 16);
+	dangermod = FixedMul(dangermod << 16, rmul) >> 16;
+	// Clamp to max wads.
+	if (dangermod > 18 + maxwads)
+		dangermod = 18 + maxwads;
+
+	// Get settings for spawn determiners.
+	int uvspawn = GetCVar("DRLA_adaptive_uv_spawn_level")        * (18 + maxwads) >> 16;
+	int nmspawn = GetCVar("DRLA_adaptive_nightmare_spawn_level") * (18 + maxwads) >> 16;
+
+	if (dangermod < uvspawn)
+	{
+		SetActorState(0, "SpawnUV");
+		// logASdebug("UV", dangermod, danger, rand, rmul);
+	}
+	else if (dangermod < nmspawn)
+	{
+		if (Random(0.0, 1.0) < GetCVar("DRLA_adaptive_cybernetic_threshold"))
+		{
+			SetActorState(0, "SpawnNightmare");
+			// logASdebug("Nightmare", dangermod, danger, rand, rmul);
+		}
+		else
+		{
+			SetActorState(0, "SpawnCybernetic");
+			// logASdebug("Cybernetic", dangermod, danger, rand, rmul);
+		}
+	}
+	else if (ACS_NamedExecuteWithResult("MapLevelMod") >= 0.6)
+	{
+		SetActorState(0, "SpawnArmageddon");
+		// logASdebug("Armageddon", dangermod, danger, rand, rmul);
+	}
+	else
+	{
+		if (Random(0, 1) <= 0)
+		{
+			SetActorState(0, "SpawnNightmare");
+			// logASdebug("Nightmare", dangermod, danger, rand, rmul);
+		}
+		else
+		{
+			SetActorState(0, "SpawnCybernetic");
+			// logASdebug("Cybernetic", dangermod, danger, rand, rmul);
+		}
+	}
+}

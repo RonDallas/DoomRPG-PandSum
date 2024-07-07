@@ -1,0 +1,23 @@
+//Zombie DRLA monsters groups
+monstergroup "Former Human and its species", RLFormerHumanPistolRPG, RLEliteHumanCombatPistolRPG, RLEliteHumanHandcannonRPG, RLEliteHumanUziRPG, RLFormerHumanBattleRifleRPG, RLFormerHumanBattleRifle2RPG, RLFormerHumanBattleRifle3RPG, RLEliteHumanBattleRifleRPG, RLEliteHumanBattleRifle2RPG, RLFormerCyborgBattleRifleRPG, RLFormerAssaultTrooperRPG
+monstergroup "Former Sergeant and its species", RLFormerSergeantShotgunRPG, RLFormerSergeantCombatShotgunRPG, RLEliteSergeantDoubleShotgunRPG, RLEliteSergeantAssaultShotgunRPG, RLEliteSergeantPlasmaShotgunRPG, RLFormerOverwatchRPG
+monstergroup "Former Commando and its species", RLFormerCommandoChaingunRPG, RLFormerCommandoBattleRifleRPG, RLEliteCommandoMinigunRPG, RLFormerShocktrooperRPG
+monstergroup "Former Captain and its species", RLFormerCaptainPlasmaRifleRPG, RLEliteCaptainTristarBlasterRPG
+
+//Demons DRLA monsters groups
+monstergroup "Imp and its species", RLImpRPG, RLNightmareImpRPG, RLCyberneticImpRPG, RLArmageddonImpRPG
+monstergroup "Demon and its species", RLDemonRPG, RLNightmareDemonRPG, RLCyberneticDemonRPG, RLArmageddonDemonRPG, RLSpectreRPG, RLNightmareSpectreRPG, RLCyberneticSpectreRPG
+monstergroup "Lost Soul and its species", RLLostSoulRPG, RLNightmareLostSoulRPG, RLCyberneticLostSoulRPG, RLArmageddonLostSoulRPG
+monstergroup "Cacodemon and its species", RLCacodemonRPG, RLNightmareCacodemonRPG, RLArmageddonCacodemonRPG
+monstergroup "Hell Knight and its species", RLHellKnightRPG, RLNightmareHellKnightRPG, RLCyberneticHellKnightRPG
+monstergroup "Baron Of Hell and its species", RLBaronOfHellRPG, RLNightmareBaronOfHellRPG, RLCyberneticBaronOfHellRPG, RLArmageddonBaronOfHellRPG
+monstergroup "Arachnotron and its species", RLArachnotronRPG, RLNightmareArachnotronRPG, RLCyberneticArachnotronRPG, RLArmageddonArachnotronRPG
+monstergroup "Pain Elemental and its species", RLPainElementalRPG, RLNightmarePainElementalRPG, RLCyberneticPainElementalRPG, RLArmageddonPainElementalRPG
+monstergroup "Revenant and its species", RLRevenantRPG, RLNightmareRevenantRPG, RLCyberneticRevenantRPG, RLArmageddonRevenantRPG
+monstergroup "Mancubus and its species", RLMancubusRPG, RLNightmareMancubusRPG, RLCyberneticMancubusRPG, RLArmageddonMancubusRPG
+monstergroup "Archvile and its species", RLArchvileRPG, RLNightmareArchvileRPG, RLCyberneticArchvileRPG, RLArmageddonArchvileRPG
+monstergroup "Cyberdemon and its species", RLCyberdemonRPG, RLNightmareCyberdemonRPG, RLCyberneticCyberdemonRPG
+monstergroup "Spider Mastermind and its species", RLSpiderMastermindRPG, RLSpiderMastermindBFGRPG, RLSpiderMastermindMortarRPG, RLNightmareSpiderMastermindRPG
+
+//Uber Bosses DRLA monsters groups
+monstergroup "Uber Bosses", RLBruiserBrotherRPG, RLTerminatorRPG, RLAgonyElementalRPG, RLAbominantRPG

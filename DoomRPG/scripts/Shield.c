@@ -128,465 +128,465 @@ ShieldAccessory const ShieldAccessories[MAX_ACCESSORIES] =
 
     {
         "DRPGShieldAccessory1",
-        "\CgX-7",       "SHACA0",   18000,
-        "\Cg2x Melee Damage",
-        SHIELD_PASS_NONE,
-        X7Mod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory2",
-        "\CaSGENX-5b",  "SHACB0",   25000,
-        "\CfConverter\C-: When full, restores \CgHealth\C-",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, NULL, NULL, NULL, HealthConversion, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory3",
-        "\CgAMP-3000",  "SHACC0",   40000,
-        "\Cg2x Damage\C- when full\nHalves \CvCapacity\C- on attack",
-        SHIELD_PASS_NONE,
-        AmpShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory4",
-        "\CgHRY-VP80",  "SHACD0",   20000,
-        "\Cv-50% Capacity\n\Ca-50% Delay",
-        SHIELD_PASS_NONE,
-        HurryMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory5",
-        "\CvDEF-2",     "SHACE0",   20000,
-        "\Cv2x Capacity\n\Ca2x Delay",
-        SHIELD_PASS_NONE,
-        Def2Mod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory6",
-        "\CdB1-ZUT3",   "SHACF0",   20000,
-        "\Cd2x Charge Rate\n\Cv-50% Capacity",
-        SHIELD_PASS_NONE,
-        BlzutMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory7",
-        "\ChCNV-RT99",  "SHACG0",   12000,
-        "Instead of fast charging with \CnEP\C-, uses 1 \CdCell\C- per 10 \CvCapacity",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, CellFastCharge, NULL,
-    },
-    {
-        "DRPGShieldAccessory8",
-        "\CfREK-T50",   "SHACH0",   15000,
-        "\Cd+100% Damage Taken\C-\nTriples the amount of \CfCredits\C- dropped by monsters",
-        SHIELD_PASS_EPICMEGACASH,
-        RektMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory9",
-        "\CiUW-0t",     "SHACI0",   50000,
-        "When your \Cisurvival bonus\C- goes off, your \CvShield\C- reactivates and is \Cdfully recharged",
-        SHIELD_PASS_SURVIVECHARGE,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory10",
-        "\CqCU-256",    "SHACJ0",   12000,
+        "\CgX-7",       "SHACA0",   6000,
         "When full, gives \CqLight Amplification\C- power",
         SHIELD_PASS_NONE,
         LightAmpMod, NULL, LightAmpUnequip, NULL, NULL, NULL, NULL, NULL, NULL,
     },
     {
-        "DRPGShieldAccessory11",
-        "\CaTX-BGONN",  "SHACK0",   15000,
-        "When full, immune to \CdToxicity",
-        SHIELD_PASS_NOTOXIC,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory12",
-        "\CqWRP30-LITE","SHACL0",   12000,
+        "DRPGShieldAccessory2",
+        "\CaSGENX-5b",  "SHACB0",   8000,
         "When full, gives \CqInvisibility\C- power",
         SHIELD_PASS_NONE,
         InvisibilityMod, NULL, InvisibilityUnequip, NULL, NULL, NULL, NULL, NULL, NULL,
     },
     {
-        "DRPGShieldAccessory13",
-        "\CgNOV-A2",    "SHACM0",   45000,
-        "1 in 4 chance of emitting \CnBFG Balls\C- when \CvShield\C- is depleted",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, NULL, NovaShieldBreak, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory14",
-        "\CdLZ-Y200",   "SHACN0",   20000,
-        "\Cd2x Charge Rate\n\CgOnly charges while standing still",
-        SHIELD_PASS_NONE,
-        LazyMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory15",
-        "\CvBST-700",   "SHACO0",   25000,
-        "Randomly drops \CvShield Boosters\C- when hit",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, BoosterShieldDamage, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory16",
-        "\CnPH-D88",    "SHACP0",   75000,
-        "\CfConverter\C-: When full, recharges \CnEP\C-",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, NULL, NULL, NULL, EPConversion, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory17",
-        "\CcBATT-B",    "SHACQ0",   120000,
-        "\CfConverter\C-: When full, recharges \CkAugmentation Battery\C-",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, NULL, NULL, NULL, BatteryConversion, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory18",
-        "\ChSHVR-Z7",   "SHACR0",   35000,
-        "\CfConverter\C-: When full, produces \CcClips\C- and \CiShells\C-",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, NULL, NULL, NULL, AmmoConversion, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory19",
-        "\CdMM-12",     "SHACS0",   28000,
-        "\CdCharge Rate\C- scales based on current \CvShield Charge\C-\nThe higher, the faster",
-        SHIELD_PASS_NONE,
-        AccelerativeShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory20",
-        "\CgMRTE-KRAR", "SHACT0",   38000,
-        "\Cv-50% Capacity\n\Cg1.5x Damage",
-        SHIELD_PASS_NONE,
-        TheKillingBoosterMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory21",
-        "\CqSP-00k",    "SHACU0",   30000,
-        "1 in 8 chance of getting \CqGhosted\C- when hit",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, SpookyDamage, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory22",
-        "\CjRR-G0",     "SHACV0",   70000,
-        "Scales your \CdCharge Rate\C- up and \CaDelay\C- down based on how long you've been in a level",
-        SHIELD_PASS_NONE,
-        MinuteMaidMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory23",
-        "\CqE1N-T31",   "SHACW0",   90000,
-        "1 second \CqTime Freeze\C- when hit",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, TimeyWimeyHurtyBall, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory24",
-        "\CkPATR-0T",   "SHACX0",   45000,
-        "Scales your \CvCapacity\C- based off your \CkRank",
-        SHIELD_PASS_NONE,
-        AmericaShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory25",
-        "\CfRNJSUS-2",  "SHACY0",   45000,
-        "Scales off of your \CfLuck\C- inversely\nWith 100+ \CfLuck\C-, it has no effect\nwith 0 \CfLuck\C-, it's equivalent to having 50 \CfLuck",
-        SHIELD_PASS_NONE,
-        GhettoLuckMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory26",
-        "\CnPWAA-9001", "SHACZ0",   80000,
-        "Uses the \Cdnext level up\C- of your current \CnSkill\C- for the cost of the current",
-        SHIELD_PASS_SKILLPLUS,
+        "DRPGShieldAccessory3",
+        "\CgAMP-3000",  "SHACC0",   10000,
+        "When full, immune to \CdToxicity",
+        SHIELD_PASS_NOTOXIC,
         NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     },
     {
-        "DRPGShieldAccessory27",
-        "\CcAW-G01",    "SHA2A0",   80000,
-        "Acts as an \CkAugmentation Slot Upgrade",
-        SHIELD_PASS_AUGSLOT,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory28",
-        "\CjSCL-AR53",  "SHA2B0",   200000,
-        "Uses your stats as a percentage to modify \CvShield\C- stats\n\ChCapacity\C- for \CvCapacity\n\CnEnergy\C- for \CdCharge Rate\n\CtRegeneration\C- for reducing \CaDelay",
+        "DRPGShieldAccessory4",
+        "\CgHRY-VP80",  "SHACD0",   12000,
+        "Instead of fast charging with \CnEP\C-, uses 1 \CdCell\C- per 10 \CvCapacity",
         SHIELD_PASS_NONE,
-        SuperSqueezyScalarMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, CellFastCharge, NULL,
     },
     {
-        "DRPGShieldAccessory29",
-        "\CqRF-CT",     "SHA2C0",   125000,
-        "\CqReflects\C- when hit",
-        SHIELD_PASS_NONE,
-        ReflectionMod, NULL, ReflectionUnequip, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory30",
-        "\CdTEW-11",     "SHA2D0",  22000,
-        "When your \CvShield\C- reaches \Cdfull charge\C-, it \Cnmemorizes\C- where you last were\nWhen your \CvShield\C- is \Cgdepleted\C-, it \Cdteleports\C- you to that location",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, NULL, TeleportBreak, NULL, NULL, NULL, TeleportFullCharge,
-    },
-    {
-        "DRPGShieldAccessory31",
-        "\CdNU-YU5",     "SHA2E0",  39000,
-        "If you are killed with your \CvShield\C- active, you respawn with it full and \Cd90% Damage Reduction\C- for 6 seconds",
-        SHIELD_PASS_HYPERION,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory32",
-        "\CdADPT-V15",   "SHA2F0",  45000,
-        "When your \CvShield\C- is \Cgdepleted\C-, it gives you \Cd50% Resistance\C- for 15 seconds against the damage type that finished it off",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, NULL, AdaptiveBreak, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory33",
-        "\CdTENS-H11",   "SHA2G0",  55000,
-        "The lower your shield is, the higher your \CdDamage Reduction\C- is\nIt scales up to \Cd75%\C- at \Cv1 Capacity\C-\nWhen \Cgfully depleted\C-, \Cd0% Damage Reduction",
-        SHIELD_PASS_NONE,
-        ScarletWeatherRhapsodyShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory34",
-        "\CdTEEM-AU5",   "SHA2H0",  50000,
-        "While under the effects of an aura, each other person affected by that aura gains \Cd20% Damage Reduction\C-\n\CuThis does not stack with multiple auras",
-        SHIELD_PASS_DATAURA,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory35",
-        "\CgVENG-R",     "SHA2I0",  62000,
-        "When an ally is killed, you gain \Cg1.5x Damage\C- and \Cd50% Damage Reduction\C- for 30 seconds",
-        SHIELD_PASS_AVENGER,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory36",
-        "\CiSANIC-S88",  "SHA2J0",  88000,
-        "The faster you move, the faster your \CvShield\C- charges",
-        SHIELD_PASS_NONE,
-        SanicMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory37",
-        "\CdNAKD-N0W",   "SHA2K0",  20000,
-        "While you \Caaren't wearing armor\C-, you have \Cd25% Damage Reduction\C-",
-        SHIELD_PASS_NONE,
-        NakedMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory38",
-        "\CgHA3-L1N",   "SHA2L0",   65000,
-        "Whenever you \Cgkill an enemy\C-, your shield recharges \Ct5x\C- as fast for 3 seconds",
-        SHIELD_PASS_BLOODYSHIELDSOREAL,
-        BloodyShieldSoRealMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory39",
-        "\CqHAET-60",   "SHA2M0",   120000,
-        "When you use a \CgBerserk Pack\C-, you gain \Cd99% Resistance\C- to \CcMelee Damage\C- for 60 seconds",
-        SHIELD_PASS_HATEHATEHATE,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory40",
-        "\CdPHA-LX2",   "SHA2N0",   33000,
-        "You gain an additional \Cd10% Damage Reduction\C- for every player using this accessory",
-        SHIELD_PASS_FRIENDSHIPISDEFENSE,
-        FriendshipShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory41",
-        "\CgIKU-N7",    "SHA2O0",   38000,
-        "Whenever you \Catake damage\C-, you release a \Cnsmall electrical blast\C- that stuns enemies\nIf your \CvShield\C- is \Cgdepleted\C-, it releases a \Cnlarge blast\C-",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, StaticChargeShieldDamage, StaticChargeShieldBreak, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory42",
-        "\CdREGN-ER8",  "SHA2P0",   52000,
-        "\CdCharge Rate\C- scales based on how long since your \CvShield\C- took damage\nFrom \Cg0.5x\C- after being hit to \Cd4x\C-",
-        SHIELD_PASS_NONE,
-        RegenShieldMod, NULL, NULL, RegenShieldDamage, NULL, RegenShieldCharge, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory43",
-        "\CgCOUN-TR20", "SHA2Q0",   46000,
-        "Whenever you are struck with \CcMelee Damage\C-, you emit a powerful \CnRepulsion\C- blast",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, CounterDamage, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory44",
-        "\CvPRO-100",   "SHA2R0",   83000,
-        "Gives an additional \Cv+100 Capacity\C- for every stat at or over 100",
-        SHIELD_PASS_NONE,
-        MLGNoScopeShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory45",
-        "\CiRUS-ROU1",  "SHA2S0",   48000,
-        "\Cd+1000% Damage Taken\n\Ci5 In 6 Survival Bonus\C-",
-        SHIELD_PASS_ROULETTE, // To bypass the 75% survival cap
-        RussianRouletteMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory46",
-        "\CjOCD-MX90",  "SHA2T0",   108000,
-        "Every level you \Cd100% complete\C- gives you:\n\Cv+20 Capacity\n\Cd+0.5 Charge Rate\n\Ca-0.2 Delay",
-        SHIELD_PASS_NONE,
-        OCDShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory47",
-        "\CjMASTA-R4",  "SHA2U0",   100000,
-        "Every new wave of \CaThe Arena\C- you complete gives you:\n\Cv+10 Capacity\n\Cd+0.25 Charge Rate\n\Ca-0.1 Delay",
-        SHIELD_PASS_NONE,
-        ArenaShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory48",
-        "\CjHOW-EV3N",  "SHA2V0",   500000,
-        "Swaps \CaDelay\C- and \CdCharge Rate\C-",
-        SHIELD_PASS_NONE,
-        HowDidYouEvenMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory49",
-        "\CgK00-LAYD",  "SHA2W0",   62000,
-        "Upon entering a non-Outpost level, releases an \Cgexplosive blast\C- that kills most monsters around you",
-        SHIELD_PASS_NONE,
-        OhYeahMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory50",
-        "\CvSKROO-G3",  "SHA2X0",   111111,
-        "\Cv+50 Capacity\C- for every \Cf10000 Credits\C- you currently have\nCaps at a maximum of \Cf1000000 Credits\C- and \Cv+5000 Capacity",
-        SHIELD_PASS_NONE,
-        McDuckMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory51",
-        "\ChINFI-NT1",  "SHA2Y0",   200000,
-        "\Cg25% \CvCapacity\n\Cg50% \CdCharge Rate\n\Cg400% \CaDelay\nYou have \Cqinfinite ammo\C- while your \CvShield\C- is full",
-        SHIELD_PASS_NONE,
-        AmmoSpaceMod, NULL, AmmoSpaceUnequip, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory52",
-        "\CgREMI-500",  "SHA2Z0",   110000,
-        "\CgYour Shield does not recharge\nInstead, every kill charges \CvShield\C- for 10% of the enemy's \Camax health",
-        SHIELD_PASS_KILLSCHARGE,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory53",
-        "\CgFLAN-495",  "SHA2[0",   120000,
-        "When your \CvShield\C- is \Cgdepleted\C- or \Cdreaches full charge\C-, enemies around you \Cgexplode\C-",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, NULL, FlanExplosion, NULL, NULL, NULL, FlanExplosion,
-    },
-    {
-        "DRPGShieldAccessory54",
-        "\CgTOJ1-K0",   "SHA2\\0",   55000,
-        "Every time your \CvShield\C- charges, it emits \Cnlightning bolts\C-\nThe higher your \CdCharge Rate\C-, the more \Cnlightning\C- your \CvShield\C- emits",
-        SHIELD_PASS_NONE,
-        NULL, NULL, NULL, NULL, NULL, LightningCharge, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory55",
-        "\CcTRANS-EB2S2",   "SHA2]0",   40000,
-        "If your \CkAugmentation Battery\C- is full, \Cv2x Capacity\C-",
-        SHIELD_PASS_NONE,
-        TheAmazingBatteryShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory56",
-        "\CvLIL-ZZ8",   "SHA3A0",   13000,
+        "DRPGShieldAccessory5",
+        "\CvDEF-2",     "SHACE0",   14000,
         "Adds \CdCharge Rate\C- to \CvCapacity\C-",
         SHIELD_PASS_NONE,
         LilZiggyMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     },
     {
-        "DRPGShieldAccessory57",
-        "\CgMURD-BURD", "SHA3B0",   85000,
-        "Every \Cgkill\C- made on the current level grants \Cv+10 Capacity\C-",
+        "DRPGShieldAccessory6",
+        "\CdB1-ZUT3",   "SHACF0",   16000,
+        "\Cd+50% Damage Taken\C-\nDoubles the amount of \CfCredits\C- dropped by monsters",
+        SHIELD_PASS_EPICMEGACASH,
+        RektMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory7",
+        "\ChCNV-RT99",  "SHACG0",   18000,
+        "\Cg+50% Melee Damage",
         SHIELD_PASS_NONE,
-        MurderBurgerMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        X7Mod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     },
     {
-        "DRPGShieldAccessory58",
-        "\CfLKY-BSTRD4",    "SHA3C0",   32000,
-        "Adds \CfLuck\C- to \CiAgility\C- for the purpose of calculating \CiSurvival Bonus\C-",
+        "DRPGShieldAccessory8",
+        "\CfREK-T50",   "SHACH0",   20000,
+        "\Cv-50% Capacity\n\Ca-50% Delay",
         SHIELD_PASS_NONE,
-        LuckyBastardMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        HurryMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     },
     {
-        "DRPGShieldAccessory59",
-        "\CaHEL-FY20",  "SHA3D0",   52000,
-        "Every \Ca100 Health\C- you have adds \Cv+20 Capacity\C-",
+        "DRPGShieldAccessory9",
+        "\CiUW-0t",     "SHACI0",   21000,
+        "\Cv2x Capacity\n\Ca2x Delay",
         SHIELD_PASS_NONE,
-        IronShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        Def2Mod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     },
     {
-        "DRPGShieldAccessory60",
-        "\CnMUN3-MAG",  "SHA3E0",   33000,
-        "Triples the amount of \CfCredits\C- gained from using \CnMagnetize\C-",
-        SHIELD_PASS_DOSHMAGNET,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory61",
-        "\CnEFF-C13",   "SHA3F0",   80000,
-        "\Cn25%\C- of not using \CnEP\C- when using a \CnSkill\C-",
-        SHIELD_PASS_MORESKILLS,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    },
-    {
-        "DRPGShieldAccessory62",
-        "\CnSYN-C3P",   "SHA3G0",   95000,
-        "\CnEP Regen\C- is substituted for \CdCharge Rate\C-",
+        "DRPGShieldAccessory10",
+        "\CqCU-256",    "SHACJ0",   22000,
+        "\Cd2x Charge Rate\n\Cv-50% Capacity",
         SHIELD_PASS_NONE,
-        EPRegenSwapperMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        BlzutMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     },
     {
-        "DRPGShieldAccessory63",
-        "\CnTUFF-MAG3", "SHA3H0",   54000,
-        "\Cn10%\C- of the cost of a used \CnSkill\C- is added to your \CvShield\C-",
-        SHIELD_PASS_SKILLTOSHIELD,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        "DRPGShieldAccessory11",
+        "\CaTX-BGONN",  "SHACK0",   23000,
+        "\Cd2x Charge Rate\n\CgOnly charges while standing still",
+        SHIELD_PASS_NONE,
+        LazyMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     },
     {
-        "DRPGShieldAccessory64",
-        "\CnUBR-MANZ5", "SHA3I0",   220000,
-        "Whenever you gain \CnEP\C- with \CnEP\C- maxed, you gain the amount in \CaHealth\C- and \CvShield\C- instead",
-        SHIELD_PASS_EPOVERFLOW,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        "DRPGShieldAccessory12",
+        "\CqWRP30-LITE","SHACL0",  24000,
+        "While you \Caaren't wearing armor\C-, you have \Cd25% Damage Reduction\C-",
+        SHIELD_PASS_NONE,
+        NakedMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     },
     {
-        "DRPGShieldAccessory65",
-        "\CqHORD-3RR",  "SHA3J0",   29000,
+        "DRPGShieldAccessory13",
+        "\CgNOV-A2",    "SHACM0",  25000,
+        "When your \CvShield\C- reaches \Cdfull charge\C-, it \Cnmemorizes\C- where you last were\nWhen your \CvShield\C- is \Cgdepleted\C-, it \Cdteleports\C- you to that location",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, NULL, TeleportBreak, NULL, NULL, NULL, TeleportFullCharge,
+    },
+    {
+        "DRPGShieldAccessory14",
+        "\CdLZ-Y200",   "SHACN0",   26000,
+        "Randomly drops \CvShield Boosters\C- when hit",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, BoosterShieldDamage, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory15",
+        "\CvBST-700",   "SHACO0",   27000,
+        "\CfConverter\C-: When full, restores \CgHealth\C-",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, NULL, NULL, NULL, HealthConversion, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory16",
+        "\CnPH-D88",    "SHACP0",   28000,
+        "\CdCharge Rate\C- scales based on current \CvShield Charge\C-\nThe higher, the faster",
+        SHIELD_PASS_NONE,
+        AccelerativeShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory17",
+        "\CcBATT-B",    "SHACQ0",   29000,
         "While a \Cqpowerup\C- is active, you gain 2x of your base \Cdcharge rate\C-\n\CdStacks with multiple different powerups\C-",
         SHIELD_PASS_NONE,
         HoarderMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     },
     {
-        "DRPGShieldAccessory66",
-        "\CdS-SP4G3TT", "SHA3K0",   36000,
+        "DRPGShieldAccessory18",
+        "\ChSHVR-Z7",   "SHACR0",   30000,
+        "1 in 8 chance of getting \CqGhosted\C- when hit",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, SpookyDamage, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory19",
+        "\CdMM-12",     "SHACS0",   32000,
+        "Adds \CfLuck\C- to \CiAgility\C- for the purpose of calculating \CiSurvival Bonus\C-",
+        SHIELD_PASS_NONE,
+        LuckyBastardMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory20",
+        "\CgMRTE-KRAR", "SHACT0",   33000,
+        "You gain an additional \Cd10% Damage Reduction\C- for every player using this accessory",
+        SHIELD_PASS_FRIENDSHIPISDEFENSE,
+        FriendshipShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory21",
+        "\CqSP-00k",    "SHACU0",   36000,
         "Whenever your \CvShield\C- is \Cgdepleted\C-, your \CdArmor\C- is fully repaired\n\CgShield must fully recharge between uses",
         SHIELD_PASS_NONE,
         NULL, NULL, NULL, NULL, SpaghettiShieldBreak, NULL, NULL, NULL, SpaghettiShieldFullCharge,
+    },
+    {
+        "DRPGShieldAccessory22",
+        "\CjRR-G0",     "SHACV0",   37000,
+        "\Cv-50% Capacity\n\Cg+25% Damage",
+        SHIELD_PASS_NONE,
+        TheKillingBoosterMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory23",
+        "\CqE1N-T31",   "SHACW0",   38000,
+        "Whenever you \Catake damage\C-, you release a \Cnsmall electrical blast\C- that stuns enemies\nIf your \CvShield\C- is \Cgdepleted\C-, it releases a \Cnlarge blast\C-",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, StaticChargeShieldDamage, StaticChargeShieldBreak, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory24",
+        "\CkPATR-0T",   "SHACX0",  39000,
+        "If you are killed with your \CvShield\C- active, you respawn with it full and \Cd90% Damage Reduction\C- for 6 seconds",
+        SHIELD_PASS_HYPERION,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory25",
+        "\CfRNJSUS-2",  "SHACY0",   40000,
+        "\Cg2x Damage\C- when full\nHalves \CvCapacity\C- on attack",
+        SHIELD_PASS_NONE,
+        AmpShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory26",
+        "\CnPWAA-9001", "SHACZ0",   42000,
+        "If your \CkAugmentation Battery\C- is full, \Cv+50% Capacity\C-",
+        SHIELD_PASS_NONE,
+        TheAmazingBatteryShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory27",
+        "\CcAW-G01",    "SHA2A0",   43000,
+        "1 in 4 chance of emitting \CnBFG Balls\C- when \CvShield\C- is depleted",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, NULL, NovaShieldBreak, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory28",
+        "\CjSCL-AR53",  "SHA2B0",   44000,
+        "Scales your \CvCapacity\C- based off your \CkRank",
+        SHIELD_PASS_NONE,
+        AmericaShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory29",
+        "\CqRF-CT",     "SHA2C0",   45000,
+        "Scales off of your \CfLuck\C- inversely\nWith 100+ \CfLuck\C-, it has no effect\nwith 0 \CfLuck\C-, it's equivalent to having 50 \CfLuck",
+        SHIELD_PASS_NONE,
+        GhettoLuckMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory30",
+        "\CdTEW-11",     "SHA2D0",  46000,
+        "When your \CvShield\C- is \Cgdepleted\C-, it gives you \Cd50% Resistance\C- for 15 seconds against the damage type that finished it off",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, NULL, AdaptiveBreak, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory31",
+        "\CdNU-YU5",     "SHA2E0",   47000,
+        "Whenever you are struck with \CcMelee Damage\C-, you emit a powerful \CnRepulsion\C- blast",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, CounterDamage, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory32",
+        "\CiRUS-ROU1",   "SHA2F0",   48000,
+        "\Cd+1000% Damage Taken\n\Ci5 In 6 Survival Bonus\C-",
+        SHIELD_PASS_ROULETTE, // To bypass the 75% survival cap
+        RussianRouletteMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory33",
+        "\CdTENS-H11",   "SHA2G0",   49000,
+        "\CfConverter\C-: When full, produces \CcClips\C- and \CiShells\C-",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, NULL, NULL, NULL, AmmoConversion, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory34",
+        "\CdTEEM-AU5",   "SHA2H0",   50000,
+        "When your \Cisurvival bonus\C- goes off, your \CvShield\C- reactivates and is \Cdfully recharged",
+        SHIELD_PASS_SURVIVECHARGE,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory35",
+        "\CgVENG-R",     "SHA2I0",  51000,
+        "While under the effects of an aura, each other person affected by that aura gains \Cd20% Damage Reduction\C-\n\CuThis does not stack with multiple auras",
+        SHIELD_PASS_DATAURA,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory36",
+        "\CiSANIC-S88",  "SHA2J0",   52000,
+        "Doubles the amount of \CfCredits\C- gained from using \CnMagnetize\C-",
+        SHIELD_PASS_DOSHMAGNET,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory37",
+        "\CdNAKD-N0W",   "SHA2K0",   53000,
+        "\CdCharge Rate\C- scales based on how long since your \CvShield\C- took damage\nFrom \Cg0.5x\C- after being hit to \Cd4x\C-",
+        SHIELD_PASS_NONE,
+        RegenShieldMod, NULL, NULL, RegenShieldDamage, NULL, RegenShieldCharge, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory38",
+        "\CgHA3-L1N",   "SHA2L0",   54000,
+        "Every \Ca50 Health\C- you have adds \Cv+25 Capacity\C-",
+        SHIELD_PASS_NONE,
+        IronShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory39",
+        "\CqHAET-60",   "SHA2M0",   55000,
+        "\Cn10%\C- of the cost of a used \CnSkill\C- is added to your \CvShield\C-",
+        SHIELD_PASS_SKILLTOSHIELD,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory40",
+        "\CdPHA-LX2",   "SHA2N0",  56000,
+        "The lower your shield is, the higher your \CdDamage Reduction\C- is\nIt scales up to \Cd75%\C- at \Cv1 Capacity\C-\nWhen \Cgfully depleted\C-, \Cd0% Damage Reduction",
+        SHIELD_PASS_NONE,
+        ScarletWeatherRhapsodyShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory41",
+        "\CgIKU-N7",    "SHA2O0",   58000,
+        "Every time your \CvShield\C- charges, it emits \Cnlightning bolts\C-\nThe higher your \CdCharge Rate\C-, the more \Cnlightning\C- your \CvShield\C- emits",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, NULL, NULL, LightningCharge, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory42",
+        "\CdREGN-ER8",  "SHA2P0",  60000,
+        "When an ally is killed, you gain \Cg1.5x Damage\C- and \Cd50% Damage Reduction\C- for 30 seconds",
+        SHIELD_PASS_AVENGER,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory43",
+        "\CgCOUN-TR20", "SHA2Q0",   62000,
+        "Upon entering a non-Outpost level, releases an \Cgexplosive blast\C- that kills most monsters around you",
+        SHIELD_PASS_NONE,
+        OhYeahMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory44",
+        "\CvPRO-100",   "SHA2R0",   66000,
+        "Whenever you \Cgkill an enemy\C-, your shield recharges \Ct2x\C- as fast for 3 seconds",
+        SHIELD_PASS_BLOODYSHIELDSOREAL,
+        BloodyShieldSoRealMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory45",
+        "\CdADPT-V15",  "SHA2S0",   70000,
+        "Scales your \CdCharge Rate\C- up and \CaDelay\C- down based on how long you've been in a level",
+        SHIELD_PASS_NONE,
+        MinuteMaidMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory46",
+        "\CjOCD-MX90",  "SHA2T0",   75000,
+        "\CfConverter\C-: When full, recharges \CnEP\C-",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, NULL, NULL, NULL, EPConversion, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory47",
+        "\CjMASTA-R4",  "SHA2U0",   80000,
+        "Uses the \Cdnext level up\C- of your current \CnSkill\C- for the cost of the current",
+        SHIELD_PASS_SKILLPLUS,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory48",
+        "\CjHOW-EV3N",  "SHA2V0",   82000,
+        "Acts as an \CkAugmentation Slot Upgrade",
+        SHIELD_PASS_AUGSLOT,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory49",
+        "\CgK00-LAYD",  "SHA2W0",   84000,
+        "\Cn25%\C- of not using \CnEP\C- when using a \CnSkill\C-",
+        SHIELD_PASS_MORESKILLS,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory50",
+        "\CvSKROO-G3",  "SHA2X0",   85000,
+        "Gives an additional \Cv+100 Capacity\C- for every stat at or over 100",
+        SHIELD_PASS_NONE,
+        MLGNoScopeShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory51",
+        "\ChINFI-NT1",  "SHA2Y0",   88000,
+        "Every \Cgkill\C- made on the current level grants \Cv+5 Capacity\C-",
+        SHIELD_PASS_NONE,
+        MurderBurgerMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory52",
+        "\CgREMI-500",  "SHA2Z0",  90000,
+        "The faster you move, the faster your \CvShield\C- charges",
+        SHIELD_PASS_NONE,
+        SanicMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory53",
+        "\CgFLAN-495",  "SHA2[0",   92000,
+        "1 in 4 chance of getting 1 second \CqTime Freeze\C- when hit",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, TimeyWimeyHurtyBall, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory54",
+        "\CgTOJ1-K0",   "SHA2\\0",   95000,
+        "\CnEP Regen\C- is increases by 50% from \CdCharge Rate\C-",
+        SHIELD_PASS_NONE,
+        EPRegenSwapperMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory55",
+        "\CcTRANS-EB2S2",   "SHA2]0",   100000,
+        "Every new wave of \CaThe Arena\C- you complete gives you:\n\Cv+10 Capacity\n\Cd+0.25 Charge Rate\n\Ca-0.1 Delay",
+        SHIELD_PASS_NONE,
+        ArenaShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory56",
+        "\CvLIL-ZZ8",   "SHA3A0",   105000,
+        "Every level you \Cd100% complete\C- gives you:\n\Cv+5 Capacity\n\Cd+0.1 Charge Rate\n\Ca-0.05 Delay",
+        SHIELD_PASS_NONE,
+        OCDShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory57",
+        "\CgMURD-BURD", "SHA3B0",   110000,
+        "\CgYour Shield does not recharge\nInstead, every kill charges \CvShield\C- for 5% of the enemy's \Camax health",
+        SHIELD_PASS_KILLSCHARGE,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory58",
+        "\CfLKY-BSTRD4",    "SHA3C0",   115000,
+        "\Cv+50 Capacity\C- for every \Cf50000 Credits\C- you currently have\nCaps at a maximum of \Cf1000000 Credits\C- and \Cv+1000 Capacity",
+        SHIELD_PASS_NONE,
+        McDuckMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory59",
+        "\CaHEL-FY20",  "SHA3D0",   120000,
+        "\CfConverter\C-: When full, recharges \CkAugmentation Battery\C-",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, NULL, NULL, NULL, BatteryConversion, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory60",
+        "\CnMUN3-MAG",  "SHA3E0",   125000,
+        "When you use a \CgBerserk Pack\C-, you gain \Cd99% Resistance\C- to \CcMelee Damage\C- for 60 seconds",
+        SHIELD_PASS_HATEHATEHATE,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory61",
+        "\CnEFF-C13",   "SHA3F0",   130000,
+        "When your \CvShield\C- is \Cgdepleted\C- or \Cdreaches full charge\C-, enemies around you \Cgexplode\C- (cooldown  is 60 sec)",
+        SHIELD_PASS_NONE,
+        NULL, NULL, NULL, NULL, FlanExplosion, NULL, NULL, NULL, FlanExplosion,
+    },
+    {
+        "DRPGShieldAccessory62",
+        "\CnSYN-C3P",   "SHA3G0",   150000,
+        "\CqReflects\C- when hit",
+        SHIELD_PASS_NONE,
+        ReflectionMod, NULL, ReflectionUnequip, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory63",
+        "\CnTUFF-MAG3", "SHA3H0",   200000,
+        "Uses your stats as a percentage to modify \CvShield\C- stats\n\ChCapacity\C- for \CvCapacity\n\CnEnergy\C- for \CdCharge Rate\n\CtRegeneration\C- for reducing \CaDelay",
+        SHIELD_PASS_NONE,
+        SuperSqueezyScalarMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory64",
+        "\CnUBR-MANZ5", "SHA3I0",   300000,
+        "Swaps \CaDelay\C- and \CdCharge Rate\C-",
+        SHIELD_PASS_NONE,
+        HowDidYouEvenMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory65",
+        "\CqHORD-3RR",  "SHA3J0",   400000,
+        "\Cg25% \CvCapacity\n\Cg50% \CdCharge Rate\n\Cg400% \CaDelay\nYou have \Cqinfinite ammo\C- while your \CvShield\C- is full",
+        SHIELD_PASS_NONE,
+        AmmoSpaceMod, NULL, AmmoSpaceUnequip, NULL, NULL, NULL, NULL, NULL, NULL,
+    },
+    {
+        "DRPGShieldAccessory66",
+        "\CdS-SP4G3TT", "SHA3K0",   500000,
+        "Whenever you gain \CnEP\C- with \CnEP\C- maxed, you gain the amount in \CaHealth\C- and \CvShield\C- instead",
+        SHIELD_PASS_EPOVERFLOW,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     },
 };
 
@@ -605,11 +605,11 @@ NamedScript void HealthConversion(int Charge)
 {
     Player.Shield.AccessoryBattery += Charge;
 
-    while (Player.Shield.AccessoryBattery >= 5)
+    while (Player.Shield.AccessoryBattery >= 16)
     {
         // FadeRange(255, 0, 255, 0.25, 255, 0, 255, 0, 0.25);
         AddHealthDirect(1, 100);
-        Player.Shield.AccessoryBattery -= 5;
+        Player.Shield.AccessoryBattery -= 16;
     }
 }
 
@@ -617,11 +617,11 @@ NamedScript void EPConversion(int Charge)
 {
     Player.Shield.AccessoryBattery += Charge;
 
-    while (Player.Shield.AccessoryBattery >= 2)
+    while (Player.Shield.AccessoryBattery >= 16)
     {
         // FadeRange(0, 255, 255, 0.25, 0, 255, 255, 0, 0.25);
         AddEP(1, true);
-        Player.Shield.AccessoryBattery -= 2;
+        Player.Shield.AccessoryBattery -= 16;
     }
 }
 
@@ -629,11 +629,11 @@ NamedScript void BatteryConversion(int Charge)
 {
     Player.Shield.AccessoryBattery += Charge;
 
-    while (Player.Shield.AccessoryBattery >= 32)
+    while (Player.Shield.AccessoryBattery >= 64)
     {
         // FadeRange(255, 255, 0, 0.25, 255, 255, 0, 0, 0.25);
         AddBattery(1);
-        Player.Shield.AccessoryBattery -= 32;
+        Player.Shield.AccessoryBattery -= 64;
     }
 }
 
@@ -641,12 +641,12 @@ NamedScript void AmmoConversion(int Charge)
 {
     Player.Shield.AccessoryBattery += Charge;
 
-    while (Player.Shield.AccessoryBattery >= 4)
+    while (Player.Shield.AccessoryBattery >= 48)
     {
         // FadeRange(0, 0, 255, 0.25, 0, 0, 255, 0, 0.25);
-        GiveInventory("Clip", 2);
+        GiveInventory("Clip", 4);
         GiveInventory("Shell", 1);
-        Player.Shield.AccessoryBattery -= 4;
+        Player.Shield.AccessoryBattery -= 48;
     }
 }
 
@@ -682,7 +682,7 @@ NamedScript bool CellFastCharge()
     if (CheckInventory("Cell") < 1) return true;
 
     TakeInventory("Cell", 1);
-    FadeRange(0, 255, 255, 0.1, 0, 255, 255, 0.0, 0.5);
+    FadeRangeFlash(0, 255, 255, 0.1, 0, 255, 255, 0.0, 0.5);
     ActivatorSound("regen/shield", 64);
     AddShield(10);
 
@@ -723,11 +723,14 @@ NamedScript void TimeyWimeyHurtyBallZDoomSucks()
     // Note for future endeavours: PowerTimeFreezer will always work on an even tic, but never odd ones.
     // See: https://github.com/rheit/zdoom/blob/master/src/g_shared/a_artifacts.cpp#L1502
 
-    while (Timer() & 1) Delay(1);
+    if (Random(1, 4) == 1)
+    {
+        while (Timer() & 1) Delay(1);
 
-    GiveInventory("DRPGShieldTimePause", 1);
-    Delay(35);
-    TakeInventory("PowerShieldTimeFreezer", 1);
+        GiveInventory("DRPGShieldTimePause", 1);
+        Delay(35);
+        TakeInventory("PowerShieldTimeFreezer", 1);
+    }
 }
 
 NamedScript void TimeyWimeyHurtyBall(int DamageAmount)
@@ -770,7 +773,7 @@ NamedScript void TeleportBreak()
 {
     if (Player.Shield.AccessoryBattery)
     {
-        FadeRange(118, 255, 112, 0.5, 118, 255, 112, 0, 1.0);
+        FadeRangeFlash(118, 255, 112, 0.5, 118, 255, 112, 0, 1.0);
         SetActorPosition(0, Player.Shield.AccessoryPosition.X, Player.Shield.AccessoryPosition.Y, Player.Shield.AccessoryPosition.Z, true);
         SetActorAngle(0, Player.Shield.AccessoryPosition.Angle);
         SetActorPitch(0, Player.Shield.AccessoryPosition.Pitch);
@@ -810,9 +813,15 @@ NamedScript void StaticChargeShieldBreak()
     SetActorPosition(projtid, GetActorX(0), GetActorY(0), GetActorZ(0) + 32.0, false);
 }
 
+NamedScript void SayItOhYeahOhBaby() // OH YEEEEEEEEAH!
+{
+    Delay(8);
+    ActivatorSound("shield/ohyeah", 127);
+}
+
 NamedScript void FlanExplosion() // This gets called on full charge too
 {
-    if (CurrentLevel->UACBase && !ArenaActive) return;
+    if (CurrentLevel->UACBase && !ArenaActive || Player.Shield.AccessoryBattery == 1) return;
 
     for (int i = 0; i < MAX_PLAYERS; i++)
     {
@@ -823,7 +832,13 @@ NamedScript void FlanExplosion() // This gets called on full charge too
             GiveActorInventory(Players(i).Turret.TID, "DRPGShieldRadialExplosionResist", 1);
     }
 
+    FadeRangeFlash(255, 128, 0, 0.5, 255, 128, 0, 0.0, 0.5);
     GiveInventory("DRPGShieldRadialExplosionMaker", 1);
+    SayItOhYeahOhBaby();
+
+    Player.Shield.AccessoryBattery = 1;
+    Delay(35 * 60);
+    Player.Shield.AccessoryBattery = 0;
 }
 
 NamedScript void SpaghettiShieldBreak()
@@ -831,7 +846,7 @@ NamedScript void SpaghettiShieldBreak()
     if (CheckInventory("Armor") == 0 || CheckInventory("Armor") >= GetArmorInfo(ARMORINFO_SAVEAMOUNT) || !Player.Shield.AccessoryBattery)
         return;
 
-    FadeRange(0, 255, 0, 0.5, 0, 255, 0, 0, 1.0);
+    FadeRangeFlash(0, 255, 0, 0.5, 0, 255, 0, 0, 1.0);
     GiveInventory(GetArmorInfoString(ARMORINFO_CLASSNAME), 1);
     ActivatorSound("skills/repair", 127);
     Player.Shield.AccessoryBattery = 0;
@@ -857,8 +872,8 @@ NamedScript void TeleportFullCharge()
 NamedScript void X7Mod()
 {
     if (Player.Shield.Active)
-        if (CheckWeapon("Fist") || CheckWeapon("Knuckle") || CheckWeapon("RLFistRedux"))
-            Player.TotalDamage *= 2;
+        if (CheckWeapon("Fist") || CheckWeapon("Knuckle") || CheckWeapon("RLFist"))
+            Player.TotalDamage *= 1.5;
 }
 
 NamedScript void AmpShieldMod()
@@ -876,7 +891,7 @@ NamedScript void AmpShieldMod()
             if (CheckInput(BT_ATTACK, KEY_HELD, false, PlayerNumber()) && !Player.InMenu && !Player.InShop && !Player.OutpostMenu)
             {
                 PlaySound(0, "shield/amp", 5, 1.0, false, 1.0);
-                FadeRange(255, 255, 255, 0.25, 255, 255, 255, 0.0, 0.5);
+                FadeRangeFlash(255, 255, 255, 0.25, 255, 255, 255, 0.0, 0.5);
                 Player.Shield.Charge /= 2;
                 Player.Shield.AccessoryBattery = 70;
             }
@@ -904,7 +919,7 @@ NamedScript void BlzutMod()
 
 NamedScript void RektMod()
 {
-    Player.DamageFactor *= 2;
+    Player.DamageFactor *= 1.5;
 }
 
 NamedScript void LightAmpMod()
@@ -955,7 +970,7 @@ NamedScript void TheKillingBoosterMod()
 {
     Player.Shield.Capacity /= 2;
     if (Player.Shield.Active)
-        Player.TotalDamage = Player.TotalDamage * 1.5;
+        Player.TotalDamage = Player.TotalDamage * 1.25;
 }
 
 NamedScript void MinuteMaidMod()
@@ -977,13 +992,13 @@ NamedScript void GhettoLuckMod()
 
     Player.HealthChance += Luck * LUCK_HEALTHCHANCE;
     Player.EPChance += Luck * LUCK_EPCHANCE;
-    Player.ArmorChance += Luck * LUCK_ARMORCHANCE;
-    Player.PowerupChance += Luck * LUCK_POWERUPCHANCE;
-    Player.WeaponChance += Luck * LUCK_WEAPONCHANCE;
+    Player.AmmoChance += Luck * LUCK_AMMOCHANCE;
+    Player.TurretChance += Luck * LUCK_TURRETCHANCE;
     Player.ModuleChance += Luck * LUCK_MODULECHANCE;
-    Player.AugChance += Luck * LUCK_AUGCHANCE;
+    Player.ArmorChance += Luck * LUCK_ARMORCHANCE;
+    Player.WeaponChance += Luck * LUCK_WEAPONCHANCE;
     Player.ShieldChance += Luck * LUCK_SHIELDCHANCE;
-    Player.StimChance += Luck * LUCK_STIMCHANCE;
+    Player.AugChance += Luck * LUCK_AUGCHANCE;
 }
 
 NamedScript void SuperSqueezyScalarMod()
@@ -1032,15 +1047,15 @@ NamedScript void SanicMod()
 
 NamedScript void NakedMod()
 {
-    if (Player.Shield.Active && CheckInventory("Armor") > 0)
-        GiveInventory("DRPGShieldNakedResist", 1);
+    if (Player.Shield.Active && CheckInventory("Armor") <= 0)
+        Player.DamageFactor *= 0.75;
 }
 
 NamedScript void BloodyShieldSoRealMod()
 {
     if (Player.Shield.AccessoryBattery)
     {
-        Player.Shield.Interval /= 5;
+        Player.Shield.Interval /= 2;
         Player.Shield.AccessoryBattery--;
     }
 }
@@ -1091,15 +1106,15 @@ NamedScript void RussianRouletteMod()
     if (Player.Shield.Active)
     {
         Player.DamageFactor = 11.0; // Let's crank this up to eleven
-        Player.SurvivalBonus = (5.0 / 6.0) * 100.0;
+        Player.SurvivalBonus = 83;
     }
 }
 
 NamedScript void OCDShieldMod()
 {
-    Player.Shield.Capacity += AllBonusMaps * 20;
-    Player.Shield.ChargeRate += AllBonusMaps / 2;
-    Player.Shield.DelayRate -= (fixed)AllBonusMaps * 0.2;
+    Player.Shield.Capacity += AllBonusMaps * 5;
+    Player.Shield.ChargeRate += AllBonusMaps / 10;
+    Player.Shield.DelayRate -= (fixed)AllBonusMaps * 0.05;
 }
 
 NamedScript void ArenaShieldMod()
@@ -1119,30 +1134,31 @@ NamedScript void HowDidYouEvenMod()
     Player.Shield.ChargeRate = DelayRate;
 }
 
-NamedScript void SayItOhYeahOhBaby() // OH YEEEEEEEEAH!
-{
-    Delay(8);
-    ActivatorSound("shield/ohyeah", 127);
-}
-
 NamedScript void OhYeahMod()
 {
-    if (Timer() == 10 && !CurrentLevel->UACBase)
+    if (Timer() == 105 && !CurrentLevel->UACBase)
     {
-        FadeRange(255, 128, 0, 0.5, 255, 128, 0, 0.0, 0.5);
-        GiveInventory("DRPGShieldRadialExplosion", 1);
         for (int i = 0; i < MAX_PLAYERS; i++)
+        {
             GiveActorInventory(Players(i).TID, "DRPGShieldRadialExplosionResist", 1);
+
+            // Turret needs protection too
+            if (Players(i).Turret.Active)
+                GiveActorInventory(Players(i).Turret.TID, "DRPGShieldRadialExplosionResist", 1);
+        }
+
+        FadeRangeFlash(255, 128, 0, 0.5, 255, 128, 0, 0.0, 0.5);
+        GiveInventory("DRPGShieldRadialExplosionMaker", 1);
         SayItOhYeahOhBaby();
     }
 }
 
 NamedScript void McDuckMod()
 {
-    int Capacity = CheckInventory("DRPGCredits") / 10000 * 50;
+    int Capacity = CheckInventory("DRPGCredits") / 50000 * 50;
 
-    if (Capacity > 5000)
-        Capacity = 5000;
+    if (Capacity > 1000)
+        Capacity = 1000;
 
     Player.Shield.Capacity += Capacity;
 }
@@ -1166,7 +1182,7 @@ NamedScript void AmmoSpaceUnequip(bool EMP)
 NamedScript void TheAmazingBatteryShieldMod()
 {
     if (Player.Augs.Battery >= 100)
-        Player.Shield.Capacity *= 2;
+        Player.Shield.Capacity *= 1.5;
 }
 
 NamedScript void LilZiggyMod()
@@ -1177,36 +1193,28 @@ NamedScript void LilZiggyMod()
 NamedScript void MurderBurgerMod()
 {
     int MonstersKilled = GetLevelInfo(LEVELINFO_KILLED_MONSTERS);
-    if (MonstersKilled > 250)
-        MonstersKilled = 250;
-    Player.Shield.Capacity += MonstersKilled * 10;
+    if (MonstersKilled > 200)
+        MonstersKilled = 200;
+    Player.Shield.Capacity += MonstersKilled * 5;
 }
 
 NamedScript void LuckyBastardMod()
 {
     if (Player.Shield.Active)
     {
-        int CombinedStat = Player.AgilityTotal + Player.LuckTotal;
-
-        Player.SurvivalBonus = (fixed)CombinedStat / 10.0;
-
-        if (Player.Augs.Level[AUG_AGILITY] >= 4)
-            Player.SurvivalBonus *= 2;
-
-        if (Player.Perks[STAT_AGILITY])
-            Player.SurvivalBonus += 30;
+        Player.SurvivalBonus += Player.LuckTotal / 5;
     }
 }
 
 NamedScript void IronShieldMod()
 {
-    Player.Shield.Capacity += Player.ActualHealth / 100 * 20;
+    Player.Shield.Capacity += Player.ActualHealth / 50 * 25;
 }
 
 NamedScript void EPRegenSwapperMod()
 {
     if (Player.Shield.Active)
-        Player.EPAmount = Player.Shield.ChargeRate;
+        Player.EPAmount += Player.Shield.ChargeRate / 2;
 }
 
 NamedScript void HoarderMod()
@@ -1252,9 +1260,9 @@ NamedScript void ShieldTimer()
 
                 if (ChargeRate && (!Player.Shield.Accessory || Player.Shield.Accessory->PassiveEffect != SHIELD_PASS_KILLSCHARGE))
                 {
-                    if (Player.Shield.Charge < 1)
+                    if (GetActivatorCVar("drpg_shield_sound_charge_enable") && Player.Shield.Charge < 1)
                         PlaySound(0, "shield/restart", 5, 1.0, false, 1.0);
-                    else if (Player.Shield.Charge < Player.Shield.Capacity)
+                    else if (GetActivatorCVar("drpg_shield_sound_charge_enable") && Player.Shield.Charge < Player.Shield.Capacity)
                         PlaySound(0, "shield/charge", 5, 0.25, false, 2.0);
                     Player.Shield.Charge += ChargeRate;
                 }
@@ -1267,7 +1275,8 @@ NamedScript void ShieldTimer()
                     if (!Player.Shield.Full)
                     {
                         Player.Shield.Full = true;
-                        PlaySound(0, "shield/full", 5, 1.0, false, 1.0);
+                        if (GetActivatorCVar("drpg_shield_sound_full_enable"))
+                            PlaySound(0, "shield/full", 5, 1.0, false, 1.0);
                         if (Player.Shield.Accessory && Player.Shield.Accessory->FullCharge)
                             Player.Shield.Accessory->FullCharge();
                     }
@@ -1324,12 +1333,12 @@ NamedScript bool ActivateShield()
         return false;
     }
 
-    FadeRange(255, 255, 255, 0.25, 255, 255, 255, 0.0, 0.25);
+    FadeRangeFlash(255, 255, 255, 0.25, 255, 255, 255, 0.0, 0.25);
 
     if (Player.Shield.Accessory && Player.Shield.Accessory->Equip)
         Player.Shield.Accessory->Equip();
 
-    GiveInventory("DRPGZShieldDamageHandler", 1);
+    SetInventory("DRPGZShieldDamageHandler", 1);
     PlaySound(0, "shield/on", 5, 1.0, false, 1.0);
     Player.Shield.Active = true;
     ShieldTimerReset();
@@ -1342,12 +1351,12 @@ NamedScript bool DeactivateShield()
     if (!Player.Shield.Active)
         return true;
 
-    FadeRange(255, 255, 255, 0.25, 255, 255, 255, 0.0, 0.25);
+    FadeRangeFlash(255, 255, 255, 0.25, 255, 255, 255, 0.0, 0.25);
 
     if (Player.Shield.Accessory && Player.Shield.Accessory->Unequip)
         Player.Shield.Accessory->Unequip(Player.StatusType[SE_EMP]);
 
-    TakeInventory("DRPGZShieldDamageHandler", 1);
+    SetInventory("DRPGZShieldDamageHandler", 0);
     PlaySound(0, "shield/off", 5, 1.0, false, 1.0);
     Player.Shield.Active = false;
     Player.Shield.AccessoryBattery = 0;
@@ -1398,7 +1407,7 @@ NamedScript DECORATE void AddShield(int Amount)
         else
             PlaySound(0, "shield/charge", 5, 0.25, false, 2.0);
     };
-    FadeRange(0, 255, 255, 0.25, 0, 255, 255, 0, 0.25);
+    FadeRangeFlash(0, 255, 255, 0.25, 0, 255, 255, 0, 0.25);
     if (Player.Shield.Charge + Amount > Player.Shield.Capacity)
         Amount = Player.Shield.Capacity - Player.Shield.Charge;
 
@@ -1425,7 +1434,7 @@ void CheckShields()
             DeactivateShield();
 
     // EP -> Shield Charging
-    if (Player.Shield.Active && (!Player.InMenu && !Player.InShop) && CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()) && CheckInput(BT_USE, KEY_HELD, false, PlayerNumber()) && Player.Shield.Charge < Player.Shield.Capacity)
+    if (GetActivatorCVar("drpg_shield_charging_enable") && Player.Shield.Active && (!Player.InMenu && !Player.InShop) && CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()) && CheckInput(BT_USE, KEY_HELD, false, PlayerNumber()) && Player.Shield.Charge < Player.Shield.Capacity)
     {
         bool SkipEPCharge = false;
 
@@ -1434,7 +1443,7 @@ void CheckShields()
 
         if (!SkipEPCharge && Player.EP > 0)
         {
-            FadeRange(0, 255, 255, 0.1, 0, 255, 255, 0.0, 0.5);
+            FadeRangeFlash(0, 255, 255, 0.1, 0, 255, 255, 0.0, 0.5);
             ActivatorSound("regen/shield", 64);
             Player.EP--;
             Player.Shield.Charge++;

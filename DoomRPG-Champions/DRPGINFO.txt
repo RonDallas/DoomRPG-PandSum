@@ -1,0 +1,2 @@
+Name=Mikk's Champions
+Mods=mk-champions[20210309].pk3

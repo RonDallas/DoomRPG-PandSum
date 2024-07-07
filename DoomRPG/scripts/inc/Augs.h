@@ -12,7 +12,6 @@ NamedScript DECORATE void AddBattery(int);
 void CheckAugSlots();
 void CheckAugs();
 void EquipAug(int);
-void LevelUpAug(int);
 void AugDamage(int);
 void ClearDisabledAugs();
 

@@ -1,0 +1,5 @@
+Name=DoomRL Arsenal Extended
+Conflicts=LegenDoom
+Conflicts=Extras
+Requires=DoomRL Arsenal
+Mods=DRLAX_1.1c.pk3

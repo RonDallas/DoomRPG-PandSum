@@ -3,21 +3,21 @@
 
 #include "Defs.h"
 
-extern DynamicArray WSMapPacks[MAX_WSMAPPACKS];
+extern DynamicArray ExtraMapPacks[MAX_MAPPACKS];
 extern DynamicArray *KnownLevels;
 extern LevelInfo *CurrentLevel;
 extern LevelInfo *PreviousLevel;
 extern LevelInfo *TransporterLevel;
 extern LevelInfo *DefaultOutpost;
-extern int PreviousLevelNum;
-extern int PreviousPrimaryLevelNum;
+extern int NextLevelNum;
+extern int NextPrimaryLevelNum;
 extern bool UsedSecretExit;
 extern bool PreviousLevelSecret;
 extern bool WaitingForReplacements;
 extern int AllBonusMaps;
 extern int CurrentSkill;
 
-extern bool MapPackActive[MAX_WSMAPPACKS];
+extern bool MapPackActive[MAX_MAPPACKS];
 
 NamedScript Type_OPEN void MapInit();
 NamedScript Type_UNLOADING void MapExiting();
@@ -114,6 +114,6 @@ void MapEventReward();
 OptionalArgs(1) LevelInfo *FindLevelInfo(str);
 OptionalArgs(1) int FindLevelInfoIndex(str);
 
-NamedScript void InitWadSmoosh();
+NamedScript void InitMapPacks();
 
 #endif

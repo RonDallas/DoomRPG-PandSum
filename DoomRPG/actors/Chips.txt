@@ -1,9 +1,9 @@
-actor DRPGChipGold : Inventory     
+actor DRPGChipGold : Inventory
 {
     Scale 0.25
     
     Inventory.MaxAmount 1000
-    Inventory.PickupMessage "You got a \cfGold\c- Chip."
+    Inventory.PickupMessage "You picked up a \cfgold\c- chip."
     Inventory.PickupSound "items/chip"
     
     States
@@ -15,14 +15,33 @@ actor DRPGChipGold : Inventory
     }
 }
 
-actor DRPGChipPlatinum : Inventory     
+actor DRPGChipGoldPack : CustomInventory
+{
+    Scale 0.25
+    
+    Inventory.PickupMessage "You picked up three \cfgold\c- chips."
+    Inventory.PickupSound "items/chip"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+        CHPG A -1 Bright
+        Stop
+    Pickup:
+        TNT1 A 0 A_GiveInventory("DRPGChipGold", 3)
+        Stop
+    }
+}
+
+actor DRPGChipPlatinum : Inventory
 {
     Var int user_cycle;
     
     Scale 0.25
     
     Inventory.MaxAmount 1000
-    Inventory.PickupMessage "You got a \cjPlatinum\c- Chip!"
+    Inventory.PickupMessage "You picked up a \cjplatinum\c- chip."
     Inventory.PickupSound "items/chip"
     
     States
@@ -36,5 +55,31 @@ actor DRPGChipPlatinum : Inventory
             Height / 4)
         TNT1 A 0 A_SetUserVar("user_cycle", user_cycle + 20)
         Goto Spawn+1
+    }
+}
+
+actor DRPGChipPlatinumPack : CustomInventory
+{
+    Var int user_cycle;
+    
+    Scale 0.25
+    
+    Inventory.PickupMessage "You picked up three \cjplatinum\c- chips."
+    Inventory.PickupSound "items/chip"
+    
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteAlways("ItemInit", 0)
+        CHPP A 0 Bright
+        CHPP A 4 Bright A_SpawnItemEx("DRPGBlingParticle",
+            Cos(user_cycle) * ((Radius / 4) * 2),
+            Sin(user_cycle) * ((Radius / 4) * 2),
+            Height / 4)
+        TNT1 A 0 A_SetUserVar("user_cycle", user_cycle + 20)
+        Goto Spawn+1
+    Pickup:
+        TNT1 A 0 A_GiveInventory("DRPGChipPlatinum", 3)
+        Stop
     }
 }

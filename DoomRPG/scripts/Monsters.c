@@ -23,158 +23,226 @@ int MegaBossesAmount;
 
 NoInit MonsterStats RPGMap Monsters[MAX_MONSTERS];
 
+int TotalBosses;
+
 MonsterInfo const MonsterDataDF[MAX_DEF_MONSTERS_DF] =
 {
-    { "ZombieMan",                          "Former Human",                     1,      0, false, "You hear shuffling footsteps and moans!" },
-    { "ShotgunGuy",                         "Former Sergeant",                  2,      0, false, "You hear the sound of shotguns pumping!" },
-    { "ChaingunGuy",                        "Former Commando",                  5,      0, false, "Quiet mutters and whirring set you on edge!" },
-    { "DoomImp",                            "Imp",                              4,      0, false, "The walls are scratched and flame-scorched!" },
-    { "Demon",                              "Demon",                            3,      0, false, "Hungry growls echo around you!" },
-    { "Spectre",                            "Spectre",                          3,      0, false, "It's dark, you are likely to be eaten by a... Spectre?" },
-    { "LostSoul",                           "Lost Soul",                        3,      0, false, "The sound of many flames echo about!" },
-    { "Cacodemon",                          "Cacodemon",                        10,     0, false, "Screeches drown out all other sound!" },
-    { "HellKnight",                         "Hell Knight",                      20,     0, false, "A battle cry chants in the distance!" },
-    { "BaronOfHell",                        "Baron of Hell",                    30,     0, false, "Seems you've found Hell's nobility!" },
-    { "PainElemental",                      "Pain Elemental",                   40,     0, false, "You feel you are being watched!" },
-    { "Revenant",                           "Revenant",                         50,     0, false, "Bones clatter all around you!" },
-    { "Fatso",                              "Mancubus",                         60,     0, false, "You hear deep, guttural noises!" },
-    { "Arachnotron",                        "Arachnotron",                      60,     0, false, "Leg servos squeak and whirr nearby!" },
-    { "Archvile",                           "Arch-Vile",                        70,     0, false, "You hear crackling flames!" },
-    { "Cyberdemon",                         "Cyberdemon",                       85,     0, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
-    { "SpiderMastermind",                   "Spider Mastermind",                95,     0, true,  "You've stumbled into a hive of the deadliest kind!" }
+    { "ZombieMan",                          "Former Human",                      1,      0, false, "You hear shuffling footsteps and moans!" },
+    { "ShotgunGuy",                         "Former Sergeant",                   2,      0, false, "You hear the sound of shotguns pumping!" },
+    { "ChaingunGuy",                        "Former Commando",                   5,      0, false, "Quiet mutters and whirring set you on edge!" },
+    { "DoomImp",                            "Imp",                               4,      0, false, "The walls are scratched and flame-scorched!" },
+    { "Demon",                              "Demon",                             3,      0, false, "Hungry growls echo around you!" },
+    { "Spectre",                            "Spectre",                           3,      0, false, "It's dark, you are likely to be eaten by a... Spectre?" },
+    { "LostSoul",                           "Lost Soul",                         3,      0, false, "The sound of many flames echo about!" },
+    { "Cacodemon",                          "Cacodemon",                         10,     0, false, "Screeches drown out all other sound!" },
+    { "HellKnight",                         "Hell Knight",                       20,     0, false, "A battle cry chants in the distance!" },
+    { "BaronOfHell",                        "Baron of Hell",                     30,     0, false, "Seems you've found Hell's nobility!" },
+    { "PainElemental",                      "Pain Elemental",                    40,     0, false, "You feel you are being watched!" },
+    { "Revenant",                           "Revenant",                          50,     0, false, "Bones clatter all around you!" },
+    { "Fatso",                              "Mancubus",                          60,     0, false, "You hear deep, guttural noises!" },
+    { "Arachnotron",                        "Arachnotron",                       60,     0, false, "Leg servos squeak and whirr nearby!" },
+    { "Archvile",                           "Arch-Vile",                         70,     0, false, "You hear crackling flames!" },
+    { "Cyberdemon",                         "Cyberdemon",                        85,     0, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
+    { "SpiderMastermind",                   "Spider Mastermind",                 95,     0, true,  "You've stumbled into a hive of the deadliest kind!" }
 };
 
 MonsterInfo const MonsterDataLD[MAX_DEF_MONSTERS_DF] =
 {
-    { "LDZombieman",                          "Former Human",                     1,      0, false, "You hear shuffling footsteps and moans!" },
-    { "LDShotgunguy",                         "Former Sergeant",                  2,      0, false, "You hear the sound of shotguns pumping!" },
-    { "LDChaingunguy",                        "Former Commando",                  5,      0, false, "Quiet mutters and whirring set you on edge!" },
-    { "LDDoomImp",                            "Imp",                              4,      0, false, "The walls are scratched and flame-scorched!" },
-    { "LDDemon",                              "Demon",                            3,      0, false, "Hungry growls echo around you!" },
-    { "LDSpectre",                            "Spectre",                          3,      0, false, "It's dark, you are likely to be eaten by a... Spectre?" },
-    { "LDLostSoul",                           "Lost Soul",                        3,      0, false, "The sound of many flames echo about!" },
-    { "LDCacodemon",                          "Cacodemon",                        10,     0, false, "Screeches drown out all other sound!" },
-    { "LDHellKnight",                         "Hell Knight",                      20,     0, false, "A battle cry chants in the distance!" },
-    { "LDBaronOfHell",                        "Baron of Hell",                    30,     0, false, "Seems you've found Hell's nobility!" },
-    { "LDPainElemental",                      "Pain Elemental",                   40,     0, false, "You feel you are being watched!" },
-    { "LDRevenant",                           "Revenant",                         50,     0, false, "Bones clatter all around you!" },
-    { "LDFatso",                              "Mancubus",                         60,     0, false, "You hear deep, guttural noises!" },
-    { "LDArachnotron",                        "Arachnotron",                      60,     0, false, "Leg servos squeak and whirr nearby!" },
-    { "LDArchvile",                           "Arch-Vile",                        70,     0, false, "You hear crackling flames!" },
-    { "LDCyberdemon",                         "Cyberdemon",                       85,     0, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
-    { "LDSpiderMastermind",                   "Spider Mastermind",                95,     0, true,  "You've stumbled into a hive of the deadliest kind!" }
+    { "LDZombieman",                          "Former Human",                    1,      0, false, "You hear shuffling footsteps and moans!" },
+    { "LDShotgunguy",                         "Former Sergeant",                 2,      0, false, "You hear the sound of shotguns pumping!" },
+    { "LDChaingunguy",                        "Former Commando",                 5,      0, false, "Quiet mutters and whirring set you on edge!" },
+    { "LDDoomImp",                            "Imp",                             4,      0, false, "The walls are scratched and flame-scorched!" },
+    { "LDDemon",                              "Demon",                           3,      0, false, "Hungry growls echo around you!" },
+    { "LDSpectre",                            "Spectre",                         3,      0, false, "It's dark, you are likely to be eaten by a... Spectre?" },
+    { "LDLostSoul",                           "Lost Soul",                       3,      0, false, "The sound of many flames echo about!" },
+    { "LDCacodemon",                          "Cacodemon",                       10,     0, false, "Screeches drown out all other sound!" },
+    { "LDHellKnight",                         "Hell Knight",                     20,     0, false, "A battle cry chants in the distance!" },
+    { "LDBaronOfHell",                        "Baron of Hell",                   30,     0, false, "Seems you've found Hell's nobility!" },
+    { "LDPainElemental",                      "Pain Elemental",                  40,     0, false, "You feel you are being watched!" },
+    { "LDRevenant",                           "Revenant",                        50,     0, false, "Bones clatter all around you!" },
+    { "LDFatso",                              "Mancubus",                        60,     0, false, "You hear deep, guttural noises!" },
+    { "LDArachnotron",                        "Arachnotron",                     60,     0, false, "Leg servos squeak and whirr nearby!" },
+    { "LDArchvile",                           "Arch-Vile",                       70,     0, false, "You hear crackling flames!" },
+    { "LDCyberdemon",                         "Cyberdemon",                      85,     0, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
+    { "LDSpiderMastermind",                   "Spider Mastermind",               95,     0, true,  "You've stumbled into a hive of the deadliest kind!" }
+};
+
+MonsterInfo const MonsterDataRAMPANCY[MAX_DEF_MONSTERS_RM] =
+{
+//  Normal Enemies
+    { "Robot_SentryBot",                      "Sentry Bot",                      1,      0, false, "You hear shuffling footsteps and moans!" },
+    { "Robot_DefenderBot",                    "Defender Bot",                    2,      0, false, "You hear the sound of shotguns pumping!" },
+    { "Robot_SecurityBotSmall",               "Security Bot Small",              5,      0, false, "Quiet mutters and whirring set you on edge!" },
+    { "Robot_SoldierBot",                     "Soldier Bot",                     4,      0, false, "The walls are scratched and flame-scorched!" },
+    { "Robot_SpiderBotSmall",                 "Spider Bot Small",                3,      0, false, "Hungry growls echo around you!" },
+    { "Robot_StealthDroid",                   "Stealth Droid",                   3,      0, false, "It's dark, you are likely to be eaten by a... Spectre?" },
+    { "Robot_ScoutDrone",                     "Scout Drone",                     3,      0, false, "The sound of many flames echo about!" },
+    { "Robot_MarauderDrone",                  "Marauder Drone",                  5,      0, false, "The sound of many flames echo about!" },
+    { "Robot_AssassinDrone",                  "Assassin Drone",                  8,      0, false, "The sound of many flames echo about!" },
+    //  Battleroids
+    { "Robot_Battleroid",                     "Battleroid",                      6,      0, false, "The walls are scratched and flame-scorched!" },
+    { "Robot_BattleroidBlue",                 "Battleroid Type-2",               8,      0, false, "The walls are scratched and flame-scorched!" },
+    { "Robot_BattleroidRed",                  "Battleroid Type-3",               10,      0, false, "The walls are scratched and flame-scorched!" },
+    { "Robot_BattleroidBlack",                "Battleroid Type-4",               12,      0, false, "The walls are scratched and flame-scorched!" },
+    { "Robot_BattleroidBrown",                "Battleroid Type-5",               14,      0, false, "The walls are scratched and flame-scorched!" },
+    { "Robot_BattleroidSilver",               "Battleroid Type-6",               16,     0, false, "The walls are scratched and flame-scorched!" },
+    { "Robot_AssaultDrone",                   "Assault Drone",                   10,     0, false, "Screeches drown out all other sound!" },
+    { "Robot_HunterKiller",                   "Hunter-Killer",                   22,     0, false, "Screeches drown out all other sound!" },
+    { "Robot_SecurityBot",                    "Security Bot",                    20,     0, false, "A battle cry chants in the distance!" },
+    { "Robot_HeavySecBot",                    "Heavy Security Bot Type-1",       30,     0, false, "A battle cry chants in the distance!" },
+    { "Robot_HeavySecBotMilitary",            "Heavy Security Bot Type-2",       30,     0, false, "A battle cry chants in the distance!" },
+    { "Robot_DreadnoughtBot",                 "Dreadnought Bot",                 30,     0, false, "Seems you've found Hell's nobility!" },
+    { "Robot_HEATDrone",                      "HEAT Drone",                      35,     0, false, "Seems you've found Hell's nobility!" },
+    { "Robot_HeavyWarBot",                    "Heavy War Bot",                   40,     0, false, "Seems you've found Hell's nobility!" },
+    { "Robot_AHRA",                           "AHRA",                            50,     0, false, "Seems you've found Hell's nobility!" },
+    { "Robot_FabricationNode",                "Fabrication Node",                40,     0, false, "You feel you are being watched!" },
+    { "Robot_RollerDroid",                    "Roller Droid",                    50,     0, false, "Bones clatter all around you!" },
+    { "Robot_MaintenanceBot",                 "Maintenance Bot",                 60,     0, false, "You hear deep, guttural noises!" },
+    { "Robot_SpiderBot",                      "Spider Bot",                      60,     0, false, "Leg servos squeak and whirr nearby!" },
+    { "Robot_GunTurret",                      "Gun Turret",                      60,     0, false, "Leg servos squeak and whirr nearby!" },
+    { "Robot_SecurityTurret",                 "Security Turret",                 65,     0, false, "Leg servos squeak and whirr nearby!" },
+    { "Robot_RepairBot",                      "Repair Bot",                      50,     0, false, "You hear crackling flames!" },
+//  Boss Enemies.
+    { "Robot_MilitaryBot",                    "Military Bot",                    85,     0, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
+    { "Robot_MilitaryBotBoss",                "Military Bot",                    105,     0, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
+    { "Robot_LoaderBot",                      "Loader Bot",                      95,     0, true,  "You've stumbled into a hive of the deadliest kind!" },
+    { "Robot_LoaderBotBoss",                  "Loader Bot",                      115,     0, true,  "You've stumbled into a hive of the deadliest kind!" },
+    { "Robot_SpiderTank",                     "Spider Tank",                     100,     0, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
+    { "Robot_Deathwalker",                    "Deathwalker",                     120,     0, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
+    { "Robot_SiegeDroid",                     "Siege Droid",                     125,     0, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" }
+};
+
+MonsterInfo const MonsterDataDEHACKED[MAX_DEF_MONSTERS_DF] =
+{
+    { "DEHZombieman",                         "Former Human",                    1,      0, false, "You hear shuffling footsteps and moans!" },
+    { "DEHShotgunguy",                        "Former Sergeant",                 2,      0, false, "You hear the sound of shotguns pumping!" },
+    { "DEHChaingunguy",                       "Former Commando",                 5,      0, false, "Quiet mutters and whirring set you on edge!" },
+    { "DEHDoomImp",                           "Imp",                             4,      0, false, "The walls are scratched and flame-scorched!" },
+    { "DEHDemon",                             "Demon",                           3,      0, false, "Hungry growls echo around you!" },
+    { "DEHSpectre",                           "Spectre",                         3,      0, false, "It's dark, you are likely to be eaten by a... Spectre?" },
+    { "DEHLostSoul",                          "Lost Soul",                       3,      0, false, "The sound of many flames echo about!" },
+    { "DEHCacodemon",                         "Cacodemon",                       10,     0, false, "Screeches drown out all other sound!" },
+    { "DEHHellKnight",                        "Hell Knight",                     20,     0, false, "A battle cry chants in the distance!" },
+    { "DEHBaronOfHell",                       "Baron of Hell",                   30,     0, false, "Seems you've found Hell's nobility!" },
+    { "DEHArachnotron",                       "Arachnotron",                     40,     0, false, "You feel you are being watched!" },
+    { "DEHPainElemental",                     "Pain Elemental",                  50,     0, false, "Bones clatter all around you!" },
+    { "DEHRevenant",                          "Revenant",                        60,     0, false, "You hear deep, guttural noises!" },
+    { "DEHFatso",                             "Mancubus",                        60,     0, false, "Leg servos squeak and whirr nearby!" },
+    { "DEHArchvile",                          "Arch-Vile",                       70,     0, false, "You hear crackling flames!" },
+    { "DEHCyberdemon",                        "Cyberdemon",                      85,     0, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
+    { "DEHSpiderMastermind",                  "Spider Mastermind",               95,     0, true,  "You've stumbled into a hive of the deadliest kind!" }
 };
 
 MonsterInfo const MonsterDataDRLA[MAX_DEF_MONSTERS_DRLA] =
 {
     // Normal
-    { "RLFormerHumanPistol",                "Former Human",                     1,      0, false, "You hear shuffling footsteps and moans!" },
-    { "RLFormerHumanBattleRifle",           "Former Human",                     1,      0, false, "You hear shuffling footsteps and moans!" },
-    { "RLFormerHumanBattleRifle2",          "Former Human",                     1,      0, false, "You hear shuffling footsteps and moans!" },
-    { "RLFormerHumanBattleRifle3",          "Former Human",                     1,      0, false, "You hear shuffling footsteps and moans!" },
-    { "RLFormerSergeantShotgun",            "Former Sergeant",                  2,      0, false, "You hear the sound of shotguns pumping!" },
-    { "RLFormerSergeantCombatShotgun",      "Former Sergeant",                  2,      0, false, "You hear the sound of shotguns pumping!" },
-    { "RLFormerCommandoChaingun",           "Former Commando",                  5,      0, false, "Quiet mutters and whirring set you on edge!" },
-    { "RLFormerCommandoBattleRifle",        "Former Commando",                  5,      0, false, "Quiet mutters and magazines being loaded set you on edge!" },
-    { "RLFormerCaptainPlasmaRifle",         "Former Captain",                   6,      0, false, "The sound of a plasma rifle priming makes you flinch!" },
-    { "RLImp",                              "Imp",                              4,      0, false, "The walls are scratched and flame-scorched!" },
-    { "RLDemon",                            "Demon",                            3,      0, false, "Hungry growls echo around you!" },
-    { "RLSpectre",                          "Spectre",                          3,      0, false, "It's dark, you are likely to be eaten by a... Spectre?" },
-    { "RLLostSoul",                         "Lost Soul",                        3,      0, false, "The sound of many flames echo about!" },
-    { "RLCacodemon",                        "Cacodemon",                        10,     0, false, "Screeches drown out all other sound!" },
-    { "RLHellKnight",                       "Hell Knight",                      20,     0, false, "A battle cry chants in the distance!" },
-    { "RLBaronOfHell",                      "Baron of Hell",                    30,     0, false, "Seems you've found Hell's nobility!" },
-    { "RLArachnotron",                      "Arachnotron",                      60,     0, false, "Leg servos squeak and whirr nearby!" },
-    { "RLPainElemental",                    "Pain Elemental",                   40,     0, false, "You feel you are being watched!" },
-    { "RLRevenant",                         "Revenant",                         50,     0, false, "Bones clatter all around you!" },
-    { "RLMancubus",                         "Mancubus",                         60,     0, false, "You hear deep, guttural noises!" },
-    { "RLArchvile",                         "Arch-Vile",                        70,     0, false, "You hear crackling flames!" },
-    { "RLCyberdemon",                       "Cyberdemon",                       87,     0, true,  "Suddenly you have a great urge to turn back!\nYou scream in TERROR!" },
-    { "RLSpiderMastermind",                 "Spider Mastermind",                95,     0, true,  "The smell of sulfur and gunpowder hangs in the air, the war machine is close." },
-    { "RLSpiderMastermindMortar",           "Spider Disastermind",              95,     0, true,  "Looks like this is where all the local invasions are planned!" },
+    { "RLFormerHumanPistol",                "Former Human",                      1,      0, false, "You hear shuffling footsteps and moans!" },
+    { "RLFormerHumanBattleRifle",           "Former Human",                      3,      0, false, "You hear shuffling footsteps and moans!" },
+    { "RLFormerHumanBattleRifle2",          "Former Human",                      6,      0, false, "You hear shuffling footsteps and moans!" },
+    { "RLFormerHumanBattleRifle3",          "Former Human",                      9,      1, false, "You hear shuffling footsteps and moans!" },
+    { "RLFormerSergeantShotgun",            "Former Sergeant",                   12,     1, false, "You hear the sound of shotguns pumping!" },
+    { "RLFormerSergeantCombatShotgun",      "Former Sergeant",                   18,     1, false, "You hear the sound of shotguns pumping!" },
+    { "RLFormerCommandoChaingun",           "Former Commando",                   29,     2, false, "Quiet mutters and whirring set you on edge!" },
+    { "RLFormerCommandoBattleRifle",        "Former Commando",                   27,     2, false, "Quiet mutters and magazines being loaded set you on edge!" },
+    { "RLFormerCaptainPlasmaRifle",         "Former Captain",                    58,     5, false, "The sound of a plasma rifle priming makes you flinch!" },
+    { "RLImp",                              "Imp",                               22,     2, false, "The walls are scratched and flame-scorched!" },
+    { "RLDemon",                            "Demon",                             34,     4, false, "Hungry growls echo around you!" },
+    { "RLSpectre",                          "Spectre",                           45,     5, false, "It's dark, you are likely to be eaten by a... Spectre?" },
+    { "RLLostSoul",                         "Lost Soul",                         38,     1, false, "The sound of many flames echo about!" },
+    { "RLCacodemon",                        "Cacodemon",                         54,     7, false, "Screeches drown out all other sound!" },
+    { "RLHellKnight",                       "Hell Knight",                       62,     12, false, "A battle cry chants in the distance!" },
+    { "RLBaronOfHell",                      "Baron of Hell",                     72,     14, false, "Seems you've found Hell's nobility!" },
+    { "RLArachnotron",                      "Arachnotron",                       82,     12, false, "Leg servos squeak and whirr nearby!" },
+    { "RLPainElemental",                    "Pain Elemental",                    74,     19, false, "You feel you are being watched!" },
+    { "RLRevenant",                         "Revenant",                          92,     15, false, "Bones clatter all around you!" },
+    { "RLMancubus",                         "Mancubus",                          102,    16, false, "You hear deep, guttural noises!" },
+    { "RLArchvile",                         "Arch-Vile",                         112,    18, false, "You hear crackling flames!" },
+    { "RLCyberdemon",                       "Cyberdemon",                        268,    24, true,  "Suddenly you have a great urge to turn back!\nYou scream in TERROR!" },
+    { "RLSpiderMastermind",                 "Spider Mastermind",                 278,    24, true,  "The smell of sulfur and gunpowder hangs in the air, the war machine is close." },
+    { "RLSpiderMastermindMortar",           "Spider Disastermind",               284,    25, true,  "Looks like this is where all the local invasions are planned!" },
 
     // Special Normal enemies
-    { "RLBruiserBrother",                   "Bruiser Brothers",                 85,     0, true,  "The heat in here has gotten intense!" },
+    { "RLBruiserBrother",                   "Bruiser Brothers",                  294,    24, true,  "The heat in here has gotten intense!" },
 
     // Nightmare
-    { "RLEliteHumanCombatPistol",           "Elite Human",                      2,      1, false, "The sound of heavy gunshots alerts you!" },
-    { "RLEliteHumanHandcannon",             "Elite Human",                      2,      1, false, "Loud gunshots echo throughout the area!" },
-    { "RLEliteHumanBattleRifle",            "Elite Human",                      3,      1, false, "You notice a lot of empty rifle magazines on the ground..." },
-    { "RLEliteHumanBattleRifle2",           "Elite Human",                      3,      1, false, "You notice a lot of empty rifle magazines on the ground..." },
-    { "RLEliteHumanUzi",                    "Elite Human",                      4,      1, false, "Looks like a whole bunch of recon squads ended up here..." },
-    { "RLEliteSergeantDoubleShotgun",       "Elite Sergeant",                   8,      1, false, "Veteran soldiers patrol the halls, seeking you!" },
-    { "RLEliteSergeantAssaultShotgun",      "Elite Sergeant",                   8,      1, false, "Veteran soldiers patrol the halls, seeking you!" },
-    { "RLEliteSergeantPlasmaShotgun",       "Elite Sergeant",                   8,      1, false, "Veteran soldiers patrol the halls, seeking you!" },
-    { "RLEliteCommandoMinigun",             "Elite Commando",                   12,     1, false, "Heavy ammo belts rustle and clank in the dark!" },
-//  { "RLEliteCommandoLaserRifle",          "Elite Commando",                   12,     1, false, "Spent laser rifle cells litter the floor..." },
-    { "RLEliteCaptainTristarBlaster",       "Elite Captain",                    15,     1, false, "You notice some power cells on the floor,\nused only by the most powerful weapons!" },
-//  { "RLEliteCaptainMissileLauncher",      "Elite Captain",                    15,     1, false, "Seems like this area is being used to test some tank buster weapons!" },
-//  { "RLEliteCaptainNapalmLauncher",       "Elite Captain",                    15,     1, false, "Empty napalm drums and scorched walls indicate some serious weaponry!" },
-    { "RLNightmareImp",                     "Nightmare Imp",                    8,      1, false, "You notice dark nebulous enemies are hunting you down!" },
-    { "RLNightmareDemon",                   "Nightmare Demon",                  6,      1, false, "Roars and growls fill the air!" },
-    { "RLNightmareSpectre",                 "Nightmare Spectre",                6,      1, false, "You feel you are being stalked by something unseen!" },
-    { "RLNightmareLostSoul",                "Nightmare Soul",                   6,      1, false, "You feel like you are being haunted!" },
-    { "RLNightmareCacodemon",               "Nightmare Cacodemon",              20,     1, false, "The air is crackling with electricity!" },
-    { "RLNightmareHellKnight",              "Nightmare Knight",                 25,     1, false, "Heavy hoofsteps echo through the chambers!" },
-    { "RLNightmareBaronOfHell",             "Baron of Nightmares",              45,     1, false, "Commanding roars warn you of danger ahead!" },
-    { "RLNightmareArachnotron",             "Nightmare Arachnotron",            65,     1, false, "The charging of heavy plasma guns fills the air with humming!" },
-    { "RLNightmarePainElemental",           "Nightmare Elemental",              60,     1, false, "You feel like Hell's invisible influence\nis leaking into this area faster!" },
-    { "RLNightmareRevenant",                "Nightmare Revenant",               60,     1, false, "Distant screams echo through the air and your mind!" },
-    { "RLNightmareMancubus",                "Nightmare Mancubus",               75,     1, false, "You hear deep growling and the priming of heavy plasma cannons!" },
-    { "RLNightmareArchvile",                "Nightmare Arch-Vile",              85,     1, false, "You suddenly break out in a flash sweat!" },
-    { "RLNightmareCyberdemon",              "Nightmare Cyberdemon",             100,    1, true,  "Surrounded by hoofsteps and deep laughter,\nyou know you will not leave alive!" },
-    { "RLNightmareSpiderMastermind",        "Nightmare Mastermind",             100,    1, true,  "Insane screeching and the pounding of\nmetal legs drowns out all other sound!" },
+    { "RLEliteHumanCombatPistol",           "Elite Human",                       63,     4, false, "The sound of heavy gunshots alerts you!" },
+    { "RLEliteHumanHandcannon",             "Elite Human",                       65,     4, false, "Loud gunshots echo throughout the area!" },
+    { "RLEliteHumanBattleRifle",            "Elite Human",                       66,     4, false, "You notice a lot of empty rifle magazines on the ground..." },
+    { "RLEliteHumanBattleRifle2",           "Elite Human",                       68,     4, false, "You notice a lot of empty rifle magazines on the ground..." },
+    { "RLEliteHumanUzi",                    "Elite Human",                       69,     4, false, "Looks like a whole bunch of recon squads ended up here..." },
+    { "RLEliteSergeantDoubleShotgun",       "Elite Sergeant",                    75,     6, false, "Veteran soldiers patrol the halls, seeking you!" },
+    { "RLEliteSergeantAssaultShotgun",      "Elite Sergeant",                    76,     5, false, "Veteran soldiers patrol the halls, seeking you!" },
+    { "RLEliteSergeantPlasmaShotgun",       "Elite Sergeant",                    78,     5, false, "Veteran soldiers patrol the halls, seeking you!" },
+    { "RLEliteCommandoMinigun",             "Elite Commando",                    86,     7, false, "Heavy ammo belts rustle and clank in the dark!" },
+//  { "RLEliteCommandoLaserRifle",          "Elite Commando",                    112,    9, false, "Spent laser rifle cells litter the floor..." },
+    { "RLEliteCaptainTristarBlaster",       "Elite Captain",                     114,    9, false, "You notice some power cells on the floor,\nused only by the most powerful weapons!" },
+//  { "RLEliteCaptainMissileLauncher",      "Elite Captain",                     115,    9, false, "Seems like this area is being used to test some tank buster weapons!" },
+//  { "RLEliteCaptainNapalmLauncher",       "Elite Captain",                     117,    9, false, "Empty napalm drums and scorched walls indicate some serious weaponry!" },
+    { "RLNightmareImp",                     "Nightmare Imp",                     88,     7, false, "You notice dark nebulous enemies are hunting you down!" },
+    { "RLNightmareDemon",                   "Nightmare Demon",                   98,     7, false, "Roars and growls fill the air!" },
+    { "RLNightmareSpectre",                 "Nightmare Spectre",                 106,    7, false, "You feel you are being stalked by something unseen!" },
+    { "RLNightmareLostSoul",                "Nightmare Soul",                    109,    4, false, "You feel like you are being haunted!" },
+    { "RLNightmareCacodemon",               "Nightmare Cacodemon",               119,    9, false, "The air is crackling with electricity!" },
+    { "RLNightmareHellKnight",              "Nightmare Knight",                  122,    13, false, "Heavy hoofsteps echo through the chambers!" },
+    { "RLNightmareBaronOfHell",             "Baron of Nightmares",               132,    16, false, "Commanding roars warn you of danger ahead!" },
+    { "RLNightmareArachnotron",             "Nightmare Arachnotron",             142,    14, false, "The charging of heavy plasma guns fills the air with humming!" },
+    { "RLNightmarePainElemental",           "Nightmare Elemental",               136,    20, false, "You feel like Hell's invisible influence\nis leaking into this area faster!" },
+    { "RLNightmareRevenant",                "Nightmare Revenant",                154,    16, false, "Distant screams echo through the air and your mind!" },
+    { "RLNightmareMancubus",                "Nightmare Mancubus",                162,    17, false, "You hear deep growling and the priming of heavy plasma cannons!" },
+    { "RLNightmareArchvile",                "Nightmare Arch-Vile",               172,    19, false, "You suddenly break out in a flash sweat!" },
+    { "RLNightmareCyberdemon",              "Nightmare Cyberdemon",              288,    24, true,  "Surrounded by hoofsteps and deep laughter,\nyou know you will not leave alive!" },
+    { "RLNightmareSpiderMastermind",        "Nightmare Mastermind",              296,    25, true,  "Insane screeching and the pounding of\nmetal legs drowns out all other sound!" },
 
     // Special Nightmare enemies
-    { "RLAgonyElemental",                   "Agony Elemental",                  100,    1, true, "You feel the presence of great conduits of the damned!" },
-    { "RLAbominant",                  	    "Abominant",                        100,    1, true, "Death waits for the slightest lapse in concentration." },
+    { "RLAgonyElemental",                   "Agony Elemental",                   304,    25, true, "You feel the presence of great conduits of the damned!" },
+    { "RLAbominant",                  	    "Abominant",                         314,    25, true, "Death waits for the slightest lapse in concentration." },
 
     // Cybernetic
-    { "RLFormerCyborgBattleRifle",          "Former Human Cyborg",              4,      1, false, "Sounds like a platoon of the UAC's finest got corrupted!" },
-//  { "RLFormerCyborgSergeantShotgun",      "Former Human Cyborg Sergeant",     8,      1, false, "You hear whirring legs and the cracks of shotgun fire!" },
-//  { "RLFormerCyborgCommandoChaingun",     "Former Human Cyborg Commando",     12,     1, false, "You realise that the UAC still hasn't\nlearned Hell likes to possess soldiers!" },
-    { "RLCyberneticImp",                    "Cyber-Imp",                        3,      1, false, "Arcs of electricity and howling creatures greet you!" },
-    { "RLCyberneticDemon",                  "Mech-Demon",                       3,      1, false, "Stomping metal feet ring in your ears!" },
-    { "RLCyberneticSpectre",                "Mechtre",                          4,      1, false, "You hear the sound of a cloaking device shorting out!" },
-    { "RLCyberneticLostSoul",               "Hellmine",                         2,      1, false, "It's quiet...\ntoo quiet..." },
-//  { "RLCyberneticCacodemon",              "Cyber-Cacodemon",                  15,     1, false, "The hum of antigrav drives vibrates through your body!" },
-    { "RLCyberneticHellKnight",             "Cybruiser",                        30,     1, false, "Clanking footsteps herald Hell's mechanical legions!" },
-    { "RLCyberneticBaronOfHell",            "Techno-Lord",                      45,     1, false, "Uneven footsteps marks the arrival of some of Hell's cyberforces!" },
-    { "RLCyberneticArachnotron",            "Arachnosentinel",                  70,     1, false, "The walls are covered in bullet holes!" },
-    { "RLCyberneticPainElemental",          "Machine Elemental",                60,     1, false, "You hear humming and beeping everywhere!" },
-    { "RLCyberneticRevenant",               "Heavy Revenant",                   70,     1, false, "Seems they needed bigger rocket launchers!" },
-    { "RLCyberneticMancubus",               "Volacubus",                        75,     1, false, "The smell of burning fuel fills this area!" },
-    { "RLCyberneticArchvile",               "Tech-Vile",                        80,     1, false, "You hear electrical zaps and pulsing energy waves!" },
-    { "RLCyberneticCyberdemon",             "Cyberdemon Mk. II",                100,    1, true,  "You hear crashing metal footfalls! You can't stop shaking!" },
-    { "RLCyberneticSpiderMastermind",       "Spider Overmind",                  100,    1, true,  "You hear endless whispering in your mind!\nYou feel your resistance slipping!" },
+    { "RLFormerCyborgBattleRifle",          "Former Human Cyborg",               128,    6, false, "Sounds like a platoon of the UAC's finest got corrupted!" },
+//  { "RLFormerCyborgSergeantShotgun",      "Former Human Cyborg Sergeant",      138,    10, false, "You hear whirring legs and the cracks of shotgun fire!" },
+//  { "RLFormerCyborgCommandoChaingun",     "Former Human Cyborg Commando",      146,    10, false, "You realise that the UAC still hasn't\nlearned Hell likes to possess soldiers!" },
+    { "RLCyberneticImp",                    "Cyber-Imp",                         148,    10, false, "Arcs of electricity and howling creatures greet you!" },
+    { "RLCyberneticDemon",                  "Mech-Demon",                        158,    9, false, "Stomping metal feet ring in your ears!" },
+    { "RLCyberneticSpectre",                "Mechtre",                           165,    9, false, "You hear the sound of a cloaking device shorting out!" },
+    { "RLCyberneticLostSoul",               "Hellmine",                          169,    7, false, "It's quiet...\ntoo quiet..." },
+//  { "RLCyberneticCacodemon",              "Cyber-Cacodemon",                   178,    11, false, "The hum of antigrav drives vibrates through your body!" },
+    { "RLCyberneticHellKnight",             "Cybruiser",                         182,    15, false, "Clanking footsteps herald Hell's mechanical legions!" },
+    { "RLCyberneticBaronOfHell",            "Techno-Lord",                       192,    15, false, "Uneven footsteps marks the arrival of some of Hell's cyberforces!" },
+    { "RLCyberneticArachnotron",            "Arachnosentinel",                   202,    16, false, "The walls are covered in bullet holes!" },
+    { "RLCyberneticPainElemental",          "Machine Elemental",                 195,    20, false, "You hear humming and beeping everywhere!" },
+    { "RLCyberneticRevenant",               "Heavy Revenant",                    212,    17, false, "Seems they needed bigger rocket launchers!" },
+    { "RLCyberneticMancubus",               "Volacubus",                         222,    16, false, "The smell of burning fuel fills this area!" },
+    { "RLCyberneticArchvile",               "Tech-Vile",                         232,    19, false, "You hear electrical zaps and pulsing energy waves!" },
+    { "RLCyberneticCyberdemon",             "Cyberdemon Mk. II",                 304,    24, true,  "You hear crashing metal footfalls! You can't stop shaking!" },
+    { "RLCyberneticSpiderMastermind",       "Spider Overmind",                   308,    25, true,  "You hear endless whispering in your mind!\nYou feel your resistance slipping!" },
 
     // Special Technophobia enemies
-    { "RLTerminator",                       "Terminator",                       100,    1, true,  "Distorted digital roars mark the beginning of your end!" },
+    { "RLTerminator",                       "Terminator",                        316,    25, true,  "Distorted digital roars mark the beginning of your end!" },
 
     // Armageddon
-    { "RLFormerAssaultTrooper",             "Former Human Assault Trooper",     5,      3, false, "Marching feet and magazines being slapped into\nplace alerts you of the battalion here!" },
-    { "RLFormerOverwatch",                  "Former Human Overwatch",           8,      3, false, "You hear the sound of someone activating a hover drone nearby..." },
-    { "RLFormerShocktrooper",               "Former Human Shocktrooper",        15,     3, false, "You get the feeling someone is about to get the drop on you..." },
-    { "RLArmageddonImp",                    "The Watcher",                      12,     3, false, "You feel incredibly uneasy, as though many things are watching you!" },
-    { "RLArmageddonDemon",                  "Mech-strosity",                    8,      3, false, "You feel that using a gun here might be a baaaad idea!" },
-//  { "RLArmageddonSpectre",                "Rift Demon",                       16,     3, false, "There don't appear to be any monsters, but that's likely to change!" },
-    { "RLArmageddonLostSoul",               "The Hungry",                       6,      3, false, "You hear endless slavering mouths, hoping to consume human flesh!" },
-    { "RLArmageddonCacodemon",              "Cacobyss",                         25,     4, false, "Metallic echoing screeches herald your doom!" },
-//  { "RLArmageddonHellKnight",             "Crusader of Ruination",            50,     4, false, "You hear the clanking of metal hooves and the smell of burnt flesh!" },
-    { "RLArmageddonBaronOfHell",            "Lord of the Abyss",                65,     4, false, "Deep laughter and endless flames welcome you to your death!" },
-    { "RLArmageddonArachnotron",            "Deathweaver",                      70,     4, false, "You feel you've intruded somewhere that you should not have!" },
-    { "RLArmageddonPainElemental",          "Hellstorm Elemental",              80,     4, false, "The air ripples with instability!\nYou feel like you are being slowly torn apart!" },
-    { "RLArmageddonRevenant",               "Revenihilator",                    60,     4, false, "Beeping and the sound of bones scraping\nagainst metal alerts you to the danger ahead!" },
-    { "RLArmageddonMancubus",               "Magmabus",                         75,     4, false, "Deep growling and blasts of searing heat greet you here!" },
-    { "RLArmageddonArchvile",               "De-Vile",                          85,     5, false, "This entire area seems to be corrupted with great and terrible magic!" },
-//  { "RLArmageddonCyberdemon",             "Nightmare Cyberdemon Mk. II",      100,    5, true,  "Hell has gone all out to stop you!\nYou are one doomed space marine..." },
-//  { "RLArmageddonSpiderMastermind",       "Nightmare Overmind",               100,    5, true,  "The greatest of foul minds,\nthey taunt you telepathically before their hunt begins!" },
+    { "RLFormerAssaultTrooper",             "Former Human Assault Trooper",      188,    8, false, "Marching feet and magazines being slapped into\nplace alerts you of the battalion here!" },
+    { "RLFormerOverwatch",                  "Former Human Overwatch",            199,    12, false, "You hear the sound of someone activating a hover drone nearby..." },
+    { "RLFormerShocktrooper",               "Former Human Shocktrooper",         205,    11, false, "You get the feeling someone is about to get the drop on you..." },
+    { "RLArmageddonImp",                    "The Watcher",                       209,    11, false, "You feel incredibly uneasy, as though many things are watching you!" },
+    { "RLArmageddonDemon",                  "Mech-strosity",                     218,    10, false, "You feel that using a gun here might be a baaaad idea!" },
+//  { "RLArmageddonSpectre",                "Rift Demon",                        215,    10, false, "There don't appear to be any monsters, but that's likely to change!" },
+    { "RLArmageddonLostSoul",               "The Hungry",                        218,    7, false, "You hear endless slavering mouths, hoping to consume human flesh!" },
+    { "RLArmageddonCacodemon",              "Cacobyss",                          238,    12, false, "Metallic echoing screeches herald your doom!" },
+//  { "RLArmageddonHellKnight",             "Crusader of Ruination",             244,    17, false, "You hear the clanking of metal hooves and the smell of burnt flesh!" },
+    { "RLArmageddonBaronOfHell",            "Lord of the Abyss",                 252,    16, false, "Deep laughter and endless flames welcome you to your death!" },
+    { "RLArmageddonArachnotron",            "Deathweaver",                       264,    18, false, "You feel you've intruded somewhere that you should not have!" },
+    { "RLArmageddonPainElemental",          "Hellstorm Elemental",               258,    19, false, "The air ripples with instability!\nYou feel like you are being slowly torn apart!" },
+    { "RLArmageddonRevenant",               "Revenihilator",                     275,    18, false, "Beeping and the sound of bones scraping\nagainst metal alerts you to the danger ahead!" },
+    { "RLArmageddonMancubus",               "Magmabus",                          282,    19, false, "Deep growling and blasts of searing heat greet you here!" },
+    { "RLArmageddonArchvile",               "De-Vile",                           292,    21, false, "This entire area seems to be corrupted with great and terrible magic!" },
+//  { "RLArmageddonCyberdemon",             "Nightmare Cyberdemon Mk. II",       306,    24, true,  "Hell has gone all out to stop you!\nYou are one doomed space marine..." },
+//  { "RLArmageddonSpiderMastermind",       "Nightmare Overmind",                309,    25, true,  "The greatest of foul minds,\nthey taunt you telepathically before their hunt begins!" },
 
     // Special Armageddon enemies
     // These guys should never be one monsters or anything like that.
     // [KS] Should we add them as Megabosses instead?
-//  { "RLArmageddonCyberdemon2",            "Cyber-Riftlord",                   100,    10, true, "You can feel the presence of dark entities beyond your comprehension!" },
-//  { "RLArmageddonSpiderMastermind2",      "Supreme Overmind",                 100,    10, true, "Seems like you found the grand leaders of the invasion here!" }
+//  { "RLArmageddonCyberdemon2",            "Cyber-Riftlord",                    316,    25, true, "You can feel the presence of dark entities beyond your comprehension!" },
+//  { "RLArmageddonSpiderMastermind2",      "Supreme Overmind",                  318,    25, true, "Seems like you found the grand leaders of the invasion here!" }
 };
 
 // Colourful Hell
@@ -260,7 +328,7 @@ MonsterInfo const MonsterDataCH[MAX_DEF_MONSTERS_CH] =
     { "BlackHK2",                             "The Terminator",                   74,     4, true,  "A battle cry chants in the distance!" },
     { "WhiteHK3",                             "Ghost of 1993",                    84,     5, true,  "A battle cry chants in the distance!" },
 
-    // Baron
+    // Baron of Hell
     { "CommonBaron",                          "Baron of Hell",                    30,     0, false, "Seems you've found Hell's nobility!" },
     { "GreenBaron",                           "Uncommon Baron of Hell",           34,     1, false, "Seems you've found Hell's nobility!" },
     { "BlueBaron",                            "Rare Baron of Hell",               38,     2, false, "Seems you've found Hell's nobility!" },
@@ -350,6 +418,163 @@ MonsterInfo const MonsterDataCH[MAX_DEF_MONSTERS_CH] =
     { "BlackMind2",                           "Pseudo Old God",                   99,     5, true,  "You've stumbled into a hive of the deadliest kind!" },
 };
 
+//Pandemonia Monsters
+MonsterInfo const MonsterDataPANDM[MAX_DEF_MONSTERS_PANDM] =
+{
+    // Zombieman
+    { "PistolZombie",                      "Pistol Zombie",                       1,      0, false, "You hear shuffling footsteps and moans!" },
+    { "PlasmaPistolZombie",                "Plasma Pistol Zombie",               32,      3, false, "Scientist notes laying around there..." },
+    { "LaserRifleZombie",                  "Laser Rifle Zombie",                116,      6, false, "You feel like you're being targeted!" },
+    { "SpecOpsRifleman",                   "Spec Ops Rifleman",                 164,      8, false, "Systems catch a mumbling radio communications.\nYou smell a plasma..." },
+
+    // Shotgunner
+    { "NewShotgunguy",                     "Shotgun Zombie",                     12,      1, false, "You hear the sound of shotguns pumping!" },
+    { "SlugShotgunZombie",                 "Slug Shotgun Zombie",                18,      1, false, "You hear the sound of shotguns pumping!\nCorpses are lying around with a single hole in their heads..." },
+    { "AutoShotgunZombie",                 "Auto Shotgun Zombie",                75,      5, false, "You see couple of 12cal. mags on the ground!" },
+    { "RocketZombie",                      "Rocket Zombie",                      78,      5, false, "A persistent smell of blood and rocket fuel is in the air." },
+    { "SuperShotgunZombie",                "Super Shotgun Zombie",               96,      8, false, "The sound of break action flies above splattered bodies!" },
+    { "SpecOpsShotgunner",                 "Spec Ops Shotgunner",               138,     10, false, "Systems catch a mumbling radio communications.\nYou hear the sound of shotguns pumping behind your back!" },
+    { "ChaosWarrior",                      "Chaos Warrior",                     180,     15, false, "Something is wrong here...\nAn undead, silent warriors are stalking this place." },
+    { "ShotgunAdmiral",                    "Shotgun Admiral",                   199,     16, false, "Torn corpses are all around you... and the walls are covered in bullet holes!" },
+
+    // Chaingunner
+    { "AssaultGunner",                     "Assault Gunner",                     27,      1, false, "You notice a lot of empty rifle magazines on the ground..." },
+    { "ChaingunZombie",                    "Chaingunner",                        29,      2, false, "Ammo belts rustle and clank in the dark!" },
+    { "PlasmaRifleZombie",                 "Plasmagunner",                       40,      3, false, "The sound of a plasma rifle priming makes you flinch!" },
+    { "NailborgCommando",                  "Nailborg Commando",                  75,      6, false, "Someone`s hand is nailed to the wall!" },
+    { "SpecOpsGunner",                     "Spec Ops Gunner",                    88,      7, false, "Systems catch a mumbling radio communications.\nYou notice a lot of empty rifle magazines on the ground..." },
+    { "BFGCommando",                       "BFG Commando",                      100,      8, false, "You notice some wasted power cells on the floor,\nused only by the most powerful weapons!" },
+    { "SpecOpsLieutenant",                 "Spec Ops Lieutenant",               125,     10, false, "An evil laughter echoes everywhere! \nThe infernal gods demand a sacrifice..." },
+    { "ChaosDeathmark",                    "Chaos Deathmark",                   175,     14, false, "Something is wrong here...\nYou are marked for death!" },
+    { "BFG10kWarrior",                     "BFG10k Warrior",                    225,     18, false, "Walls around you are twisted with a huge plasma holes." },
+
+    // Imp
+    { "NewImp",                            "Imp",                                22,      2, false, "The walls are scratched and flame-scorched!" },
+    { "DarkImp",                           "Dark Imp",                           36,      3, false, "A sharp-toothed smiles are blinking in the darkness." },
+    { "Devil",                             "Devil",                              60,      5, false, "The walls are scratched and flame-scorched!" },
+    { "Scoundrel",                         "Scoundrel",                          48,      4, false, "You hear a mad beast chunter in the dark!" },
+    { "PhaseImp",                          "Phase Imp",                         114,      9, false, "Something is watching you from another dimension." },
+    { "Plagueling",                        "Plagueling",                        168,     14, false, "A gruesome toxic scent makes it hard to breathe." },
+    { "ChaosImp",                          "Chaos Imp",                         204,     17, false, "Something is wrong here...\nRadioactive electrical zaps can be heard there." },
+
+    // Demon
+    { "NewDemon",                          "Demon",                              34,      4, false, "Hungry growls echo around you!" },
+    { "MechDemon",                         "Mech Demon",                         72,      6, false, "Heavy metal stomps ringing in your ears!" },
+    { "BloodFiend",                        "Blood Fiend",                       108,      9, false, "You see uncoagulated blood on the floor..." },
+    { "MagmaDemon",                        "Magma Demon",                       156,     13, false, "Solidified magma particles are scattered everywhere." },
+    { "PandMauler",                        "Mauler",                            168,     14, false, "Heavy stomps and menaing growls are heard around you!" },
+    { "ChaosFlayer",                       "Chaos Flayer",                      204,     17, false, "Something is wrong here...\nThe dosimeter goes off the scale near THE wall scratch!" },
+
+    // Spectre
+    { "NewSpectre",                        "Spectre",                            45,      5, false, "It's dark, you are likely to be eaten by a... Spectre?" },
+    { "Delusion",                          "Delusion",                           80,      7, false, "These creatures mimic a familiar aura!" },
+    { "NightmareDemon",                    "Nightmare Demon",                   120,     10, false, "Shadows are lurking around!" },
+    { "Wretch",                            "Wretch",                            160,     13, false, "You feel an eyeless things watching you..." },
+    { "Darkbeast",                         "Darkbeast",                         188,     15, false, "Sensors detected the high concentration of metal and magic in the area!" },
+    { "ChaosOphydian",                     "Chaos Ophydian",                    212,     17, false, "Something is wrong here...\nYou hear the invisibility mechanisms working!" },
+
+    // Cacodemons
+    { "NewCacodemon",                      "Cacodemon",                          54,      7, false, "Screeches drown out all other sound!" },
+    { "DarkCacodemon",                     "Dark Cacodemon",                     86,      7, false, "Aggressive screeches drown out all other sound!" },
+    { "Agathodemon",                       "Agathodemon",                       119,      9, false, "You hear the hum of an electrical substation...\nWhich is not there!" },
+    { "Crackodemon",                       "Crackodemon",                       140,     11, false, "Your hair is on end from the electric field in this place!" },
+    { "Witherdemon",                       "Witherdemon",                       178,     13, false, "The local corpses melted from some infection!" },
+    { "Cacobot",                           "Cacobot",                           238,     15, false, "Something is interrupting the incoming signal..." },
+
+    // Hell Knight
+    { "NewHellKnight",                     "Hell Knight",                       64,      12, false, "A battle cry chants in the distance!" },
+    { "HellViscount",                      "Hell Viscount",                     112,     13, false, "Heavy hoofsteps echo through the chambers!" },
+    { "HellWarden",                        "Hell Warden",                       144,     14, false, "Shield strikes can be heard from afar!" },
+    { "CyberHellKnight",                   "Cyber Hell Knight",                 182,     15, false, "Clanking footsteps herald Hell's mechanical legions!" },
+    { "CyberHellViscount",                 "Cyber Hell Viscount",               204,     16, false, "You hear the clanking of metal hooves and the smell of burnt flesh!" },
+    { "Infernoble",                        "Infernoble",                        244,     17, false, "An evil laugh can be heard through the flames!" },
+
+    // Baron of Hell
+    { "NewBaronOfHell",                    "Baron Of Hell",                      72,     14, false, "Seems you've found Hell's nobility!" },
+    { "Afrit",                             "Afrit",                             104,     14, false, "The heat hits you in the face!" },
+    { "Cybruiser",                         "Cybruiser",                         136,     15, false, "Uneven footsteps marks the arrival of some of Hell's cyberforces!" },
+    { "ArchonOfHell",                      "Archon Of Hell",                    158,     16, false, "Dying green flames are burning all around." },
+    { "BruiserDemon",                      "BruiserDemon",                      182,     16, false, "The heat in here has gotten intense!" },
+    { "DarkCybruiser",                     "Dark Cybruiser",                    214,     17, false, "Sensors detected dark technology in this location!" },
+    { "Cyberwarden",                       "Cyberwarden",                       236,     18, false, "Sounds of shield bashing and guns loading echoes throught this sector." },
+    { "Pyrobruiser",                       "Pyrobruiser",                       261,     21, false, "The walls tremble from the onslaught of the fiery army!" },
+
+    // Lost Souls
+    { "NewLostSoul",                       "Lost Soul",                          38,      4, false, "The sound of many flames echo around!" },
+    { "Phantasm",                          "Phantasm",                           60,      5, false, "An overwhelming stench of green flames is in the air." },
+    { "Electrosoul",                       "Electrosoul",                        76,      6, false, "All the lighting in this place burned out..." },
+    { "SoullessDrone",                     "Soulless Drone",                    109,      7, false, "Looks like the soulless automatons have overtaken this place." },
+    { "PandWraith",                        "Wraith",                            169,      8, false, "You hear the whispers of lost souls!" },
+    { "ChaosUmbra",                        "Chaos Umbra",                       218,      9, false, "Something is wrong here...\nAn otherworldly scream wafts above your head!" },
+
+    // Pain Elemental
+    { "NewPainElemental",                  "Pain Elemental",                     74,     17, false, "You feel like you're about to get swarmed!" },
+    { "DarkElemental",                     "Dark Elemental",                    118,     18, false, "Toxic traces are everywhere!" },
+    { "PlasmaticElemental",                "Plasmatic Elemental",               164,     19, false, "Sounds like a BFG shot is being prepared somewhere!" },
+    { "HadesElemental",                    "Hades Elemental",                   228,     20, false, "An electric shriek can be heard from afar!" },
+    { "ChaosBeholder",                     "Chaos Beholder",                    262,     21, false, "Something is wrong here...\nThe level of radioactive plasma exceeds all norms in this place!" },
+
+    // Revevant
+    { "NewRevenant",                       "Revenant",                           92,     15, false, "Bones clatter all around you!" },
+    { "DarkRevenant",                      "Dark Revenant",                     110,     15, false, "Aggressive bone clatter all around you!" },
+    { "MissileRevenant",                   "Missile Revenant",                  130,     16, false, "Sensors detect a large heavy rocket supplies in the area.\n...and no living sings." },
+    { "Sentry",                            "Sentry",                            154,     17, false, "Screeching of bones and metal echoes from the corner!" },
+    { "ChaosHollow",                       "Chaos Hollow",                      212,     18, false, "Something is wrong here...\nEmpty eye sockets are looking straight into your soul!" },
+    { "PandSentinel",                      "Sentinel",                          275,     20, false, "Incoming radio transmission...\nEnemy heavy machines have been detected in your sector!" },
+
+    // Mancubus
+    { "Mancubus",                          "Mancubus",                          102,     16, false, "You hear deep, guttural noises!" },
+    { "Hectebus",                          "Hectebus",                          138,     16, false, "You hear deep growling and the priming of heavy plasma cannons!" },
+    { "Mafibus",                           "Mafibus",                           162,     17, false, "From the darkness, a red brawn is coming at you!" },
+//  { "Tankubus",                          "Tankubus",                          224,     17, false, "Tracks of tank treads capture your attention!" },
+    { "Corpulent",                         "Corpulent",                         253,     18, false, "Deep growling and blasts of searing heat greet you here!" },
+    { "Maxibus",                           "Maxibus",                           282,     19, false, "You hear deeper, more guttular noises!" },
+
+    // Arachnotron
+    { "NewArachnotron",                    "Arachnotron",                        82,     12, false, "Leg servos squeak and whirr nearby!" },
+    { "NailgunArachnotron",                "Nailgun Arachnotron",               104,     12, false, "Somebody's leg is nailed to the wall!" },
+    { "FusionArachnotron",                 "Fusion Arachnotron",                128,     13, false, "The walls are covered with numberless marks of red plasma." },
+    { "AugmentedArachnotron",              "Augmented Arachnotron",             142,     14, false, "The charging of heavy plasma guns fills the air with humming!" },
+    { "Widow",                             "Widow",                             202,     16, false, "Surrounding corpses have railgun and plasma marks on them." },
+    { "Arachknight",                       "Arachknight",                       224,     17, false, "The ancient technology of hell has awakened!" },
+    { "ChaosObserver",                     "Chaos Observer",                    264,     21, false, "Something is wrong here...\nFlying radiation sources detected in close proximity!" },
+
+    // Archvile
+    { "NewArchvile",                       "Arch-Vile",                         112,     18, false, "You hear a crackling flames!" },
+    { "DarkVile",                          "Dark-Vile",                         132,     18, false, "Green flames are visible around!" },
+    { "Diabolist",                         "Diabolist",                         164,     18, false, "It looks like there was a big fire here..." },
+    { "Infernalist",                       "Infernalist",                       192,     19, false, "An infernal levels of heat detected in this area." },
+    { "Distortionist",                     "Distortionist",                     232,     19, false, "You feel the space and time distorting around you." },
+    { "Cryptek",                           "Cryptek",                           292,     21, false, "Something is wrong here...\nCryptic destuctive power lingers nearby." },
+
+    // Other
+    { "Epic2Alien",                        "Alien",                               3,      2, false, "It seems aliens are hunting for our technology." },
+    { "Scythe2Marine",                     "Traitor Marine",                     60,      5, false, "Traitors want to sacrifice you to the infernal gods!" },
+    { "Scythe2Afrit",                      "Infernal Afrit",                     82,     14, false, "Strong flames are burning your gear!" },
+
+    // Mastermind
+    { "NewSpiderMastermind",               "Spider Mastermind",                 278,     24, true, "The smell of metal and gunpowder hangs in the air, the war machine is close." },
+    { "Demolisher",                        "Demolisher",                        298,     24, true, "Superheavy weapon platforms detected in this area." },
+    { "Arachnophyte",                      "Arachnophyte",                      299,     24, true, "Infernal aviation razes this place to the ground!" },
+    { "SpiderMasterspark",                 "Spider Masterspark",                305,     24, true, "Some thoughts of hell have reached space..." },
+    { "ChaosMonolith",                     "ChaosMonolith",                     318,     25, true, "Something is wrong here...\nAll wrong..." },
+
+    // Cyberdemon
+    { "NewCyberdemon",                     "Cyberdemon",                        268,     24, true, "Deafening metal footsteps are heard all around.\nYou hear the rocket launchers being loaded..." },
+    { "Annihilator",                       "Annihilator",                       276,     24, true, "Deafening metal footsteps are heard all around.\nYou hear the rocket launchers being loaded... Twice as fast!" },
+    { "DarkCyberdemon",                    "Dark Cyberdemon",                   284,     24, true, "Hell's whispering heralds a great pain and destruction!" },
+    { "DarkCardinal",                      "Dark Cardinal",                     292,     24, true, "You hear screams of terror and a guttural roar!" },
+    { "Terminator",                        "Terminator",                        298,     24, true, "Heavily armed demons desire your termination!" },
+    { "Dreamweaver",                       "Dreamweaver",                       306,     24, true, "Something otherworldly and devastating weaves at the edge of your senses..." },
+    { "Plamexis",                          "Plamexis",                          312,     25, true, "Hell's sun is shining on you!" },
+    { "Eradicator",                        "Eradicator",                        316,     25, true, "The strongest demonic beasts have come to eradicate your soul!\n...And your ears." },
+
+    // Special Bosses
+    { "GeneralRoasterock",                 "General Roasterock",                244,     24, true, "You feel like you're about to get roasted!" },
+    { "Myrkura",                           "Myrkura",                           260,     24, true, "Bloodthirsty anomalous entities filled this place!" },
+
+};
+
 MegabossInfo const MegaBossesDF[MAX_MEGABOSSES_DF] =
 {
     { "DRPGMegabossPride"},
@@ -389,6 +614,8 @@ int NewMonsterID()
     Monsters[CurrentID].Level = 0;
     Monsters[CurrentID].LevelAdd = 0;
     Monsters[CurrentID].Aura.Time = 0;
+    Monsters[CurrentID].HasAura = false;
+    Monsters[CurrentID].HasShadowAura = false;
     for (int i = 0; i < AURA_MAX; i++)
     {
         Monsters[CurrentID].Aura.Type[i].Active = false;
@@ -505,6 +732,10 @@ NamedScript DECORATE void MonsterInit(int Flags)
     // Store Monster Flags
     Stats->Flags = Flags;
 
+    // Calculate Total Bosses
+    if (Stats->Flags & MF_BOSS)
+        TotalBosses++;
+
     // Set the Height and Radius
     Stats->Height = GetActorPropertyFixed(0, APROP_Height);
     Stats->Radius = GetActorPropertyFixed(0, APROP_Radius);
@@ -517,8 +748,9 @@ NamedScript DECORATE void MonsterInit(int Flags)
     MonsterLevelCap = GetCVar("drpg_monster_level_cap");
     MonsterStatCap = GetCVar("drpg_monster_stat_cap");
 
-    // Start Damage Numbers Script
-    DamageNumbers();
+    // Delay if Toaster Mode on
+    if (GetCVar("drpg_toaster"))
+        while (ActorNotSeePlayers(0, 1024, true)) Delay(20);
 
     // Give it a Health Bar
     if (!(Flags & MF_NOHEALTHBAR))
@@ -534,15 +766,15 @@ NamedScript DECORATE void MonsterInit(int Flags)
     // Stat-Change Handling
     MonsterStatsHandler();
 
-    // Aura Spawner
-    MonsterAuraDisplayHandler();
-
     // Regeneration Stat Handling
     if (!(Flags & MF_NOSTATS))
         MonsterRegenerationHandler();
 
     // Energy Stat Handling
     MonsterAggressionHandler();
+
+    // Friendly Monsters Teleport To The Player Handling
+    MonsterFriendlyTeleport(false);
 
     // Death Handler
     // Handled via ZScript
@@ -660,6 +892,9 @@ NamedScript Console void MonsterDump()
     Log(" Height: %.2k", GetActorPropertyFixed(0, APROP_Height));
     Log(" Radius: %.2k", GetActorPropertyFixed(0, APROP_Radius));
     Log(" Speed: %.2k", GetActorPropertyFixed(0, APROP_Speed));
+    Log(" Damage Multiplier: %.2k", GetActorPropertyFixed(0, APROP_DamageMultiplier));
+    Log(" Damage Factor: %.2k", GetActorPropertyFixed(0, APROP_DamageFactor));
+    Log(" Distance: %.2k", Distance(0, Players(PlayerNum).TID));
     Log(" TID: %d", ActivatorTID());
     Log(" ID: %d", GetMonsterID(0));
 
@@ -710,6 +945,199 @@ NamedScript Console void MonsterDamage(int Amount, int Type)
     DamageThing(Amount, Type);
 }
 
+NamedScript void CalculateMonsterStats(MonsterStatsPtr Stats)
+{
+    int StatEffect[8];
+    int MonsterStatPool;
+
+    // Calculate Map Level Modifier
+    fixed Modifier = 1.0;
+
+    if (GetCVar("drpg_ws_use_wads") < 4)
+    {
+        Modifier = 4.0 / GetCVar("drpg_ws_use_wads") * MapLevelModifier;
+
+        if (Modifier < 1.0)
+            Modifier = 1.0;
+    }
+
+    int LevelType = GetCVar("drpg_monster_levels");
+    fixed LevelWeight = GetCVarFixed("drpg_monster_level_weight");
+    fixed MapWeight = GetCVarFixed("drpg_monster_map_weight");
+    fixed RandomMinWeight = GetCVarFixed("drpg_monster_random_min_mult");
+    fixed RandomMaxWeight = GetCVarFixed("drpg_monster_random_max_mult");
+    int LevelNum = CurrentLevel->LevelNum * Modifier;
+
+    // Let's not cap Level Number to 100 anymore
+    //if (LevelNum > 100)
+    //    LevelNum = 100;
+
+    // If the Arena is active, base the Monster Levels Map Number portion on the current wave
+    if (CurrentLevel->UACBase && ArenaActive)
+        LevelNum = ArenaWave / 3;
+
+    // Calculate Monster Level
+    if (LevelType == 1 || LevelType == 3) // Player Level
+        Stats->Level += (int)((fixed)AveragePlayerLevel() * LevelWeight);
+    if (LevelType == 2 || LevelType == 3) // Map Number
+        Stats->Level += (int)((fixed)LevelNum * MapWeight);
+    if (CurrentLevel->UACBase || CurrentLevel->UACArena) // Outpost or Arena
+        Stats->Level = AveragePlayerLevel();
+    if (AveragePlayerLuck() < 0)
+        Stats->Level += -AveragePlayerLuck();
+
+    // Randomization Weight
+    if (RandomMinWeight > RandomMaxWeight)
+        Log("\CgERROR: \C-Monster Random Min Multiplier cannot be above Monster Random Max Multiplier!");
+    else
+        Stats->Level = (int)(Stats->Level * RandomFixed(RandomMinWeight, RandomMaxWeight));
+
+    // If the monster is friendly, it has the average level of all players in the game
+    if (!CurrentLevel->UACBase && GetActorProperty(0, APROP_Friendly))
+        Stats->Level = (int)(((fixed)AveragePlayerLevel() * LevelWeight + (fixed)LevelNum * MapWeight) * RandomFixed(0.9, 1.1));
+
+    // Special case for Powersuit Mk. II
+    if (GetActorClass(0) == "DRPGSuperPowerSuit")
+        Stats->Level = 1000;
+
+    MonsterStatPool = (40 + 5 * Stats->Level) * (GetCVar("drpg_levelup_natural") ? StatsNatMod() : 1.0);
+
+    // Minimal Points
+    Stats->Strength = Stats->Level / 2;
+    Stats->Defense = Stats->Level / 2;
+    Stats->Vitality = Stats->Level / 2;
+    Stats->Energy = Stats->Level / 2;
+    Stats->Regeneration = Stats->Level / 2;
+    Stats->Agility = Stats->Level / 2;
+    Stats->Capacity = Stats->Level / 2;
+    Stats->Luck = Stats->Level / 2;
+    MonsterStatPool -= (Stats->Level / 2) * 8;
+
+    // Calculate the monster's cut and special stats
+    if (GetCVar("drpg_monster_specialize"))
+    {
+        // [KS] Here's a fun and fast little way of doing it:
+
+        // 2 specialized stats
+        StatEffect[0] = 2;
+        StatEffect[1] = 2;
+
+        // 2 normal stats
+        StatEffect[2] = 0;
+        StatEffect[3] = 0;
+
+        // 4 cut stats
+        StatEffect[4] = 1;
+        StatEffect[5] = 1;
+        StatEffect[6] = 1;
+        StatEffect[7] = 1;
+
+        // Shuffle 'em up!
+        for (int i = 0; i < STAT_MAX; i++)
+        {
+            int SwapWith = Random(0, STAT_MAX - 1);
+            int Temp = StatEffect[i];
+
+            StatEffect[i] = StatEffect[SwapWith];
+            StatEffect[SwapWith] = Temp;
+        }
+
+        // Next, create a weighted list of stats.
+        // Specialized stats are preferred over normal stats, and cut stats are avoided.
+        int StatSelector[14];
+        int j = 0;
+
+        for (int i = 0; i < STAT_MAX; i++)
+        {
+            if (StatEffect[i] == 2)
+            {
+                StatSelector[j++] = i;
+                StatSelector[j++] = i;
+                StatSelector[j++] = i;
+            }
+            else if (StatEffect[i] == 0)
+            {
+                StatSelector[j++] = i;
+                StatSelector[j++] = i;
+            }
+            else
+                StatSelector[j++] = i;
+        }
+
+        // Finally, distribute the points with our weighted list.
+        while (MonsterStatPool > 0)
+        {
+            switch (StatSelector[Random (0, 13)])
+            {
+            case 0:
+                Stats->Strength++;
+                break;
+            case 1:
+                Stats->Defense++;
+                break;
+            case 2:
+                Stats->Vitality++;
+                break;
+            case 3:
+                Stats->Energy++;
+                break;
+            case 4:
+                Stats->Regeneration++;
+                break;
+            case 5:
+                Stats->Agility++;
+                break;
+            case 6:
+                Stats->Capacity++;
+                break;
+            case 7:
+                Stats->Luck++;
+                break;
+            }
+            MonsterStatPool--;
+        }
+    }
+    else
+    {
+        // Distribute entirely at random
+        while (MonsterStatPool > 0)
+        {
+            switch (Random (0, STAT_MAX - 1))
+            {
+            case 0:
+                Stats->Strength++;
+                break;
+            case 1:
+                Stats->Defense++;
+                break;
+            case 2:
+                Stats->Vitality++;
+                break;
+            case 3:
+                Stats->Energy++;
+                break;
+            case 4:
+                Stats->Regeneration++;
+                break;
+            case 5:
+                Stats->Agility++;
+                break;
+            case 6:
+                Stats->Capacity++;
+                break;
+            case 7:
+                Stats->Luck++;
+                break;
+            }
+            MonsterStatPool--;
+        }
+    }
+
+    // Map Event - RAINBOWS!
+    if (CurrentLevel->Event == MAPEVENT_BONUS_RAINBOWS)
+        Stats->Capacity *= 2;
+}
+
 // Apply stats to monsters
 OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
 {
@@ -737,186 +1165,7 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
 
     if (!(StatFlags & SF_RECREATE))
     {
-        int LevelType = GetCVar("drpg_monster_levels");
-        fixed LevelWeight = GetCVarFixed("drpg_monster_level_weight");
-        fixed MapWeight = GetCVarFixed("drpg_monster_map_weight");
-        fixed RandomMinWeight = GetCVarFixed("drpg_monster_random_min_mult");
-        fixed RandomMaxWeight = GetCVarFixed("drpg_monster_random_max_mult");
-        int LevelNum = CurrentLevel->LevelNum;
-
-        // Let's not cap Level Number to 100 anymore
-        //if (LevelNum > 100)
-        //    LevelNum = 100;
-
-        // If the Arena is active, base the Monster Levels Map Number portion on the current wave
-        if (CurrentLevel->UACBase && ArenaActive)
-            LevelNum = ArenaWave / 3;
-
-        // Calculate Monster Level
-        if (LevelType == 1 || LevelType == 3) // Player Level
-            Stats->Level += (int)((fixed)AveragePlayerLevel() * LevelWeight);
-        if (LevelType == 2 || LevelType == 3) // Map Number
-            Stats->Level += (int)((fixed)LevelNum * MapWeight);
-        if (AveragePlayerLuck() < 0)
-            Stats->Level += -AveragePlayerLuck();
-
-        // Randomization Weight
-        if (RandomMinWeight > RandomMaxWeight)
-            Log("\CgERROR: \C-Monster Random Min Multiplier cannot be above Monster Random Max Multiplier!");
-        else
-            Stats->Level = (int)(Stats->Level * RandomFixed(RandomMinWeight, RandomMaxWeight));
-
-        // If the monster is friendly, it has the average level of all players in the game
-        if (GetActorProperty(0, APROP_Friendly))
-            Stats->Level = AveragePlayerLevel();
-
-        // Special case for Bosses
-        if (Stats->Flags & MF_BOSS)
-            Stats->Level += (GameSkill() * 10);
-
-        // Special case for Megabosses
-        if (Stats->Flags & MF_MEGABOSS)
-            Stats->Level += ((1000 / MAX_PLAYERS) * PlayerCount());
-
-        // Special case for Powersuit Mk. II
-        if (GetActorClass(0) == "DRPGSuperPowerSuit")
-            Stats->Level = 1000;
-
-        MonsterStatPool = 40 + GameSkill() * Stats->Level;
-
-        // Calculate the monster's cut and special stats
-        if (GetCVar("drpg_monster_specialize"))
-        {
-            // [KS] Here's a fun and fast little way of doing it:
-
-            // 2 specialized stats
-            StatEffect[0] = 2;
-            StatEffect[1] = 2;
-
-            // 2 normal stats
-            StatEffect[2] = 0;
-            StatEffect[3] = 0;
-
-            // 4 cut stats
-            StatEffect[4] = 1;
-            StatEffect[5] = 1;
-            StatEffect[6] = 1;
-            StatEffect[7] = 1;
-
-            // Shuffle 'em up!
-            for (int i = 0; i < STAT_MAX; i++)
-            {
-                int SwapWith = Random(0, STAT_MAX - 1);
-                int Temp = StatEffect[i];
-
-                StatEffect[i] = StatEffect[SwapWith];
-                StatEffect[SwapWith] = Temp;
-            }
-
-            // Next, create a weighted list of stats.
-            // Specialized stats are preferred over normal stats, and cut stats are avoided.
-            int StatSelector[14];
-            int j = 0;
-
-            for (int i = 0; i < STAT_MAX; i++)
-            {
-                if (StatEffect[i] == 2)
-                {
-                    StatSelector[j++] = i;
-                    StatSelector[j++] = i;
-                    StatSelector[j++] = i;
-                }
-                else if (StatEffect[i] == 0)
-                {
-                    StatSelector[j++] = i;
-                    StatSelector[j++] = i;
-                }
-                else
-                    StatSelector[j++] = i;
-            }
-
-            // Finally, distribute the points with our weighted list.
-            while (MonsterStatPool > 0)
-            {
-                switch (StatSelector[Random (0, 13)])
-                {
-                case 0:
-                    Stats->Strength++;
-                    break;
-                case 1:
-                    Stats->Defense++;
-                    break;
-                case 2:
-                    Stats->Vitality++;
-                    break;
-                case 3:
-                    Stats->Energy++;
-                    break;
-                case 4:
-                    Stats->Regeneration++;
-                    break;
-                case 5:
-                    Stats->Agility++;
-                    break;
-                case 6:
-                    Stats->Capacity++;
-                    break;
-                case 7:
-                    Stats->Luck++;
-                    break;
-                }
-                MonsterStatPool--;
-            }
-        }
-        else
-        {
-            // Distribute entirely at random
-            while (MonsterStatPool > 0)
-            {
-                switch (Random (0, STAT_MAX - 1))
-                {
-                case 0:
-                    Stats->Strength++;
-                    break;
-                case 1:
-                    Stats->Defense++;
-                    break;
-                case 2:
-                    Stats->Vitality++;
-                    break;
-                case 3:
-                    Stats->Energy++;
-                    break;
-                case 4:
-                    Stats->Regeneration++;
-                    break;
-                case 5:
-                    Stats->Agility++;
-                    break;
-                case 6:
-                    Stats->Capacity++;
-                    break;
-                case 7:
-                    Stats->Luck++;
-                    break;
-                }
-                MonsterStatPool--;
-            }
-        }
-
-        // Pity Points
-        if (Stats->Strength < 1)     Stats->Strength = 1;
-        if (Stats->Defense < 1)      Stats->Defense = 1;
-        if (Stats->Vitality < 1)     Stats->Vitality = 1;
-        if (Stats->Energy < 1)       Stats->Energy = 1;
-        if (Stats->Regeneration < 1) Stats->Regeneration = 1;
-        if (Stats->Agility < 1)      Stats->Agility = 1;
-        if (Stats->Capacity < 1)     Stats->Capacity = 1;
-        if (Stats->Luck < 1)         Stats->Luck = 1;
-
-        // Map Event - RAINBOWS!
-        if (CurrentLevel->Event == MAPEVENT_BONUS_RAINBOWS)
-            Stats->Capacity *= Random(2, 4);
+        CalculateMonsterStats(Stats);
 
         // Apply Aura
         if (!GetActorProperty(0, APROP_Friendly) && !(Stats->Flags & MF_NOAURA) && !(Stats->Flags & MF_NOAURAGEN))
@@ -948,7 +1197,7 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
 
             // 2nd roll: Number of auras to have
             int AuraRand = Random(Stats->Energy / 10, 200);
-            int AuraNumber = (AuraRand * AuraRand) / 4000;
+            int AuraNumber = ((AuraRand * AuraRand) / 4000) * MapLevelModifier;
             if (AuraNumber < 1) AuraNumber = 1;
             if (AuraNumber > AURA_MAX) AuraNumber = AURA_MAX;
             if (!HasAura) AuraNumber = 0;
@@ -1057,6 +1306,9 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
         MonsterMoneyDrainHandler();
     }
 
+    Stats->HasAura = MonsterHasAura(Stats);
+    Stats->HasShadowAura = MonsterHasShadowAura(Stats);
+
     // Calculate Aura time
     Stats->Aura.Time = (30 * 35) + (int)((fixed)Stats->Energy * 0.57) * 35;
 
@@ -1065,7 +1317,7 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
     {
         if (Stats->Level + Stats->LevelAdd >= MonsterLevelCap)
             Stats->LevelAdd = MonsterLevelCap - Stats->Level;
-        MonsterStatPool = GameSkill() * Stats->LevelAdd;
+        MonsterStatPool = 5 * Stats->LevelAdd;
 
         int StrengthAdd = 0;
         int DefenseAdd = 0;
@@ -1143,7 +1395,7 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
     SetActorProperty(0, APROP_Health, Stats->HealthMax);
 
     // Generate Name
-    if (!Stats->Named && (Stats->Flags & MF_MEGABOSS || Stats->Flags & MF_NAMEGEN || MonsterHasShadowAura(Stats)))
+    if (!Stats->Named && (Stats->Flags & MF_MEGABOSS || Stats->Flags & MF_NAMEGEN || Stats->HasShadowAura))
     {
         SetActorPropertyString(0, APROP_NameTag, GenerateName(GetActorClass(0), GetActorPropertyString(0, APROP_NameTag)));
         Stats->Named = true;
@@ -1177,7 +1429,19 @@ NamedScript void MonsterAggressionHandler()
     // Pointer
     MonsterStatsPtr Stats = &Monsters[GetMonsterID(0)];
 
+    // Get Monster TID
+    int MonsterTID = Stats->TID;
+
+    // Init Toaster Mode
+    bool ToasterMod = GetCVar("drpg_toaster");
+
+    // Calculate delay time
+    int DelayTime = 10;
+    if (ToasterMod)
+        DelayTime = 35;
+
     int Capacity = Stats->Capacity;
+    int Aggression = 25 + Capacity * 2;
 
 Start:
 
@@ -1185,33 +1449,306 @@ Start:
         return;
 
     if (GetActorProperty(0, APROP_Health) <= 0)
+    {
+        TakeInventory("DRPGMonsterAggressionHandler", 1);
         return;
+    }
 
     if (ClassifyActor(0) & ACTOR_WORLD)
         return;
 
+    // Delay if Toaster Mode on
+    if (ToasterMod)
+        while (ActorNotSeePlayers(0, 0, true)) Delay(35);
+
+    // Changing the AI of monsters in case if there are summoned monsters or turrets
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (!PlayerInGame(i)) continue;
+
+        // Changing the AI of monsters in case if there are summoned monsters
+        if (Players(i).Summons > 0)
+        {
+            for (int j = 0; j < Players(i).Summons; j++)
+            {
+                if (!GetActorProperty(0, APROP_Friendly))
+                {
+                    // If the enemy has no target and the summoned monster is in his field of vision he immediately becomes aggressive towards summoned monster
+                    if (!MonsterHasTarget() && CheckSight(0, Players(i).SummonTID[j], 0) && Distance(0, Players(i).SummonTID[j]) <= 1536 && Distance(0, Players(i).SummonTID[j]) < Distance(0, Players(i).TID))
+                    {
+                        Thing_Hate (0, Players(i).SummonTID[j], 3);
+                        Delay(DelayTime);
+                    }
+
+                    // Clearing enemy target in case a summoned monster is nearby and the player is out of sight (or vice versa)
+                    if (MonsterHasTarget() && !MonsterSeeTarget(MonsterTID) && Random(0, 100) <= 15)
+                    {
+                        if (CheckSight(0, Players(i).SummonTID[j], 0))
+                        {
+                            GiveInventory("DRPGEnemyClearTarget1", 1);
+                            Delay(DelayTime);
+                        }
+                        else
+                        {
+                            GiveInventory("DRPGEnemyClearTarget2", 1);
+                            Delay(DelayTime);
+                        }
+                    }
+
+                    // Switch to another target if it is closer than the current target
+                    if (MonsterHasTarget() && MonsterSeeTarget(MonsterTID) && MonsterDistanceTarget(MonsterTID) > Random(256, 512) && Random(0, 100) <= 15)
+                    {
+                        if (CheckSight(0, Players(i).SummonTID[j], 0) && Distance(0, Players(i).SummonTID[j]) < Distance(0, Players(i).TID))
+                        {
+                            if (Distance(0, Players(i).SummonTID[j]) < MonsterDistanceTarget(MonsterTID))
+                            {
+                                Thing_Hate (0, Players(i).SummonTID[j], 4);
+                                Delay(DelayTime);
+                            }
+                        }
+                        else if (CheckSight(0, Players(i).TID, 0) && Distance(0, Players(i).TID) < Distance(0, Players(i).SummonTID[j]))
+                        {
+                            if (Distance(0, Players(i).TID) < MonsterDistanceTarget(MonsterTID))
+                            {
+                                Thing_Hate (0, Players(i).TID, 4);
+                                Delay(DelayTime);
+                            }
+                        }
+                    }
+
+                    // Summons switch to another target if it is closer than the current target
+                    if (MonsterHasTarget() && CheckSight(Players(i).SummonTID[j], MonsterTID, 0) && Distance(Players(i).SummonTID[j], MonsterTID) <= 256 && Random(0, 100) <= 15)
+                    {
+                        if (MonsterSeeTarget(Players(i).SummonTID[j]) && MonsterDistanceTarget(Players(i).SummonTID[j]) > Random(256, 512))
+                        {
+                            if (Distance(Players(i).SummonTID[j], MonsterTID) < MonsterDistanceTarget(Players(i).SummonTID[j]))
+                            {
+                                Thing_Hate (Players(i).SummonTID[j], MonsterTID);
+                                Delay(DelayTime);
+                            }
+                        }
+                        else if (!MonsterSeeTarget(Players(i).SummonTID[j]))
+                        {
+                            Thing_Hate (Players(i).SummonTID[j], MonsterTID);
+                            Delay(DelayTime);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Changing the AI of enemy monsters in case if there are turret
+        if (!GetActorProperty(0, APROP_Friendly) && Players(i).Turret.Active)
+        {
+            // If the enemy has no target and the turret is in his field of vision he immediately becomes aggressive towards turret
+            if (!MonsterHasTarget() && Distance(0, Players(i).Turret.TID) <= 1536 && CheckSight(0, Players(i).Turret.TID, 0) && Distance(0, Players(i).Turret.TID) < Distance(0, Players(i).TID))
+            {
+                Thing_Hate (0, Players(i).Turret.TID, 3);
+                Delay(DelayTime);
+            }
+
+            // Clearing enemy target in case a turret is nearby and the player is out of sight (or vice versa)
+            if (MonsterHasTarget() && !MonsterSeeTarget(MonsterTID) && Random(0, 100) <= 15)
+            {
+                if (CheckSight(0, Players(i).Turret.TID, 0))
+                {
+                    GiveInventory("DRPGEnemyClearTarget1", 1);
+                    Delay(DelayTime);
+                }
+                else
+                {
+                    GiveInventory("DRPGEnemyClearTarget2", 1);
+                    Delay(DelayTime);
+                }
+            }
+
+            // Switch to another target if it is closer than the current target
+            if (MonsterHasTarget() && MonsterSeeTarget(MonsterTID) && MonsterDistanceTarget(MonsterTID) > Random(256, 512) && Random(0, 100) <= 15)
+            {
+                if (CheckSight(0, Players(i).Turret.TID, 0) && Distance(0, Players(i).Turret.TID) < Distance(0, Players(i).TID))
+                {
+                    if (Distance(0, Players(i).Turret.TID) < MonsterDistanceTarget(MonsterTID))
+                    {
+                        Thing_Hate (0, Players(i).Turret.TID, 4);
+                        Delay(DelayTime);
+                    }
+                }
+                else if (CheckSight(0, Players(i).TID, 0) && Distance(0, Players(i).TID) < Distance(0, Players(i).Turret.TID))
+                {
+                    if (Distance(0, Players(i).TID) < MonsterDistanceTarget(MonsterTID))
+                    {
+                        Thing_Hate (0, Players(i).TID, 4);
+                        Delay(DelayTime);
+                    }
+                }
+            }
+        }
+
+        // Changing the AI for friendly monsters
+        if (GetActorProperty(0, APROP_Friendly))
+        {
+            // Clearing a friendly monster's target in case the enemy is out of sight
+            if (MonsterHasTarget() && !MonsterSeeTarget(MonsterTID) && Random(0, 100) <= 15)
+            {
+                GiveInventory("DRPGFriendlyClearTarget", 1);
+                Delay(DelayTime);
+            }
+
+            // More enemies aggression to summoned monsters
+            if (MonsterHasTarget() && MonsterSeeTarget(MonsterTID) && Random(0, 100) <= 15)
+            {
+                GiveInventory("DRPGFriendlyAlertMonsters", 1);
+                Delay(DelayTime);
+            }
+
+            // Used to change the AI of friendly marines
+            if (CheckInventory("DRPGMarineSummonedToken"))
+            {
+                if (!MonsterHasTarget() && Distance(0, Players(i).TID) <= 200 && Random(0, 100) <= 25)
+                {
+                    Thing_Hate(0, Players(i).TID);
+                    Delay(DelayTime);
+                }
+            }
+        }
+    }
+
     if (!MonsterHasTarget())
     {
-        Delay(10);
+        Delay(DelayTime);
         goto Start;
     }
 
-    Capacity = Stats->Capacity;
-
-    fixed Aggression = 0.25 + (Capacity * 0.00475);
-
-    if (Aggression < 1.0)
+    if (Aggression < 100)
     {
-        if (RandomFixed(0.0, 1.0) > Aggression)
-            GiveInventory("DRPGMonsterDontAttack", 1);
+        if (Random(0, 100) > Aggression)
+        {
+            SetActorFlag(0, "JUSTHIT", false);
+            SetActorFlag(0, "JUSTATTACKED", true);
+        }
     }
     else
     {
-        if (RandomFixed(0.0, 1.0) < ((Aggression - 1.0) / 4.0))
-            GiveInventory("DRPGMonsterAttackMore", 1);
+        if (Random(0, 100) < (Aggression - 100) / 4)
+        {
+            SetActorFlag(0, "JUSTHIT", true);
+            SetActorFlag(0, "JUSTATTACKED", false);
+        }
     }
 
-    Delay(8);
+    Delay(DelayTime);
+    goto Start;
+}
+
+NamedScript void MonsterFriendlyTeleport(bool SpecialMonster)
+{
+    if (!GetActorProperty(0, APROP_Friendly) || CurrentLevel->UACBase)
+        return;
+
+    // Check class
+    if (GetActorClass(0) == "DRPGForceWall" || GetActorClass(0) == "DRPGPortableTurret")
+        return;
+    if (GetActorClass(0) == "RLDRPGSummonedLostSoulPE" || GetActorClass(0) == "RLDRPGSummonedLostSoulNPE" || GetActorClass(0) == "RLDRPGSummonedNightmareLostSoulNPE")
+        SpecialMonster = true;
+
+    // Delay Stagger
+    Delay(35 + (GetMonsterID(0) % 4));
+
+    // Pointer
+    MonsterStatsPtr Stats = &Monsters[GetMonsterID(0)];
+
+    // Init Toaster Mode
+    bool ToasterMod = GetCVar("drpg_toaster");
+
+    // Calculate delay time
+    int DelayTime = 35;
+    if (ToasterMod)
+        DelayTime = 50;
+
+    int PlayerTID;
+    int PlayerNumber;
+    int MonsterTID = Stats->TID;
+    int MasterTID = GetActorProperty(0, APROP_MasterTID);
+    int TeleportDistance;
+
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (!PlayerInGame(i)) continue;
+
+        // Checking if a player is monster's master
+        if (SpecialMonster && MasterTID == Players(i).TID)
+        {
+            PlayerTID = Players(i).TID;
+            PlayerNumber = i;
+            break;
+        }
+
+        if (Players(i).Summons == 0) continue;
+
+        // Checking if a monster is summoned by a player
+        for (int j = 0; j < Players(i).Summons; j++)
+        {
+            if (MonsterTID == Players(i).SummonTID[j])
+            {
+                PlayerTID = Players(i).TID;
+                PlayerNumber = i;
+                break;
+            }
+        }
+    }
+
+Start:
+
+    if (!GetUserCVar(PlayerNumber, "drpg_monster_friendly_teleport_enable"))
+    {
+        Delay(35);
+        goto Start;
+    }
+
+    if (ClassifyActor(0) & ACTOR_WORLD || ClassifyActor(0) & ACTOR_DEAD) return;
+
+    while (MonsterHasTarget() || ActorSeePlayers(0, 0)) Delay(35);
+
+    TeleportDistance = 512 + (512 * GetUserCVar(PlayerNumber, "drpg_monster_friendly_teleport_distance"));
+
+    if (Distance(0, PlayerTID) > TeleportDistance)
+    {
+        int TeleportSpotTID = UniqueTID();
+
+        bool Success = false;
+        fixed TeleportAngle;
+        fixed TeleportDistance;
+        fixed X, Y, Z, Angle;
+
+        for (int i = 0; i < 10; i++)
+        {
+            fixed TeleportAngle = RandomFixed(0.0, 1.0);
+
+            X = GetActorX(PlayerTID) + Random(-256, 256);
+            Y = GetActorY(PlayerTID) + Random(-256, 256);
+            Z = GetActorZ(PlayerTID);
+            Angle = TeleportAngle + 0.5;
+            Angle %= 1.0;
+
+            Success = Spawn("MapSpot", X, Y, Z, TeleportSpotTID, Angle);
+            if (Success && !SetActorPosition(TeleportSpotTID, GetActorX(TeleportSpotTID), GetActorY(TeleportSpotTID), GetActorFloorZ(TeleportSpotTID), false)) Success = false;
+            if (Success && !CheckSight(PlayerTID, TeleportSpotTID, 0)) Success = false;
+            if (Success)
+                break;
+        }
+
+        if (Success)
+        {
+            // Surprise!!
+            SpawnSpotFacingForced("TeleportFog", 0, 0);
+            SetActorPosition(0, GetActorX(TeleportSpotTID), GetActorY(TeleportSpotTID), GetActorZ(TeleportSpotTID), false);
+            SetActorAngle(0, Angle);
+            SpawnSpotFacingForced("TeleportFog", 0, 0);
+            Thing_Remove(TeleportSpotTID);
+        }
+    }
+
+    Delay(DelayTime);
     goto Start;
 }
 
@@ -1228,6 +1765,15 @@ NamedScript void MonsterStatsHandler()
     // Pointer
     MonsterStatsPtr Stats = &Monsters[GetMonsterID(0)];
 
+    // Init Toaster Mode
+    bool ToasterMod = GetCVar("drpg_toaster");
+
+    // Calculate delay time
+    int DelayTime = 4;
+    if (ToasterMod)
+        DelayTime = 15;
+
+    // Set standart variables
     int OldStrength;
     int OldDefense;
     int OldCapacity;
@@ -1238,9 +1784,28 @@ NamedScript void MonsterStatsHandler()
     int OldLuck;
     int StolenCredits;
     int HealthPercentage;
+    int LevelNum = CurrentLevel->LevelNum;
+    int PopoffsDrawDist = GetCVar("drpg_popoffs_drawdistance");
     bool StatsChanged;
+    bool HasAuraDisplay = false;
     bool MonsterWasDisrupted = false;
+    bool HasDamageNumbers = false;
     bool Friendly = GetActorProperty(0, APROP_Friendly); // Sanity check for when APROP_Friendly gets removed from summons
+
+    // Set variables for summons (for AUG)
+    int MonsterTID = Stats->TID;
+    int MasterTID = GetActorProperty(0, APROP_MasterTID);
+    int PlayerTID;
+    int PlayerNumber;
+    int OldAugStatus;
+    int OldStrengthAug = Stats->Strength;
+    int OldDefenseAug = Stats->Defense;
+    int OldCapacityAug = Stats->Capacity;
+    int OldVitalityAug = Stats->Vitality;
+    int OldAgilityAug = Stats->Agility;
+    int OldRegenerationAug = Stats->Regeneration;
+    int OldEnergyAug = Stats->Energy;
+    int OldLuckAug = Stats->Luck;
 
 Start:
 
@@ -1260,6 +1825,7 @@ Start:
             OldEnergy = 0;
             OldLuck = 0;
         }
+        TakeInventory("DRPGMonsterStatsHandler", 1);
         return;
     }
 
@@ -1296,7 +1862,11 @@ Start:
     {
         StatsChanged = true;
 
-        SetActorPropertyFixed(0, APROP_DamageMultiplier, 1.0 + ((fixed)(Stats->Strength * (fixed)GameSkill()) / 100.0));
+        if (GetActorProperty(0, APROP_Friendly) || Stats->Flags & MF_BOSS || Stats->Flags & MF_MEGABOSS)
+            SetActorPropertyFixed(0, APROP_DamageMultiplier, 1.0 + (((fixed)(Stats->Strength * (fixed)GameSkill()) / 400.0)));
+        else
+            SetActorPropertyFixed(0, APROP_DamageMultiplier, 1.0 + (((fixed)(Stats->Strength * (fixed)GameSkill()) / 400.0) + ((fixed)LevelNum / (GetCVar("drpg_ws_use_wads") * 25.0))));
+
         OldStrength = Stats->Strength;
     }
 
@@ -1304,11 +1874,18 @@ Start:
     if (Stats->Defense != OldDefense)
     {
         StatsChanged = true;
+        fixed DamageFactor;
 
-        if (Stats->Defense < 1000)
-            SetActorPropertyFixed(0, APROP_DamageFactor, 1.0 - (0.09 * ((fixed)Stats->Defense / 100.0)));
+        if (GetActorProperty(0, APROP_Friendly))
+            DamageFactor = 1.0 - ((fixed)Stats->Defense / 400.0);
         else
-            SetActorPropertyFixed(0, APROP_DamageFactor, 100.0 / (fixed)Stats->Defense);
+            DamageFactor = 1.0 - (((fixed)Stats->Defense / 400.0) + ((fixed)LevelNum / (GetCVar("drpg_ws_use_wads") * 100.0)));
+
+        if (DamageFactor < 0.251)
+            DamageFactor = 0.251;
+
+        SetActorPropertyFixed(0, APROP_DamageFactor, DamageFactor);
+
         OldDefense = Stats->Defense;
     }
 
@@ -1321,7 +1898,9 @@ Start:
         if (CheckInventory("DRPGCredits") > OldCapacity)
             StolenCredits = CheckInventory("DRPGCredits") - OldCapacity;
 
-        SetInventory("DRPGCredits", Stats->Capacity + StolenCredits);
+        // Calculation of credits depending of WADs that you plan to go through
+        CalculateMonsterCredits(Stats, StolenCredits);
+
         OldCapacity = Stats->Capacity;
     }
 
@@ -1410,7 +1989,7 @@ Start:
             MonsterWasDisrupted = true;
         }
 
-        TakeInventory("DRPGMonsterDisrupted", MonsterHasShadowAura(Stats) ? 12 : 4);
+        TakeInventory("DRPGMonsterDisrupted", Stats->HasShadowAura ? 12 : 4);
     }
     else
     {
@@ -1433,7 +2012,142 @@ Start:
         }
     }
 
-    Delay(4);
+    if (Friendly && !CurrentLevel->UACBase)
+    {
+        // Find master player
+        if (PlayerTID == 0)
+        {
+            for (int i = 0; i < MAX_PLAYERS; i++)
+            {
+                if (!PlayerInGame(i)) continue;
+
+                // Checking if a player is monster's master
+                if (MasterTID == Players(i).TID)
+                {
+                    PlayerTID = Players(i).TID;
+                    PlayerNumber = i;
+                    break;
+                }
+
+                if (Players(i).Summons == 0) continue;
+
+                // Checking if a monster is summoned by a player
+                for (int j = 0; j < Players(i).Summons; j++)
+                {
+                    if (MonsterTID == Players(i).SummonTID[j])
+                    {
+                        PlayerTID = Players(i).TID;
+                        PlayerNumber = i;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Check AUG Summoner status for master player
+        if (Players(PlayerNumber).Augs.Active[AUG_SUMMONER] * Players(PlayerNumber).Augs.CurrentLevel[AUG_SUMMONER] != OldAugStatus)
+        {
+            if (Players(PlayerNumber).Augs.Active[AUG_SUMMONER])
+            {
+                fixed BaseStatePoint = (40.0 + 5.0 * (fixed)Stats->Level) / 8.0;
+                fixed AugSummonerModifier;
+                int AddStrength;
+                int AddDefense;
+                int AddCapacity;
+                int AddVitality;
+                int AddAgility;
+                int AddRegeneration;
+                int AddEnergy;
+                int AddLuck;
+
+                // Calculate add stats
+                if (Players(PlayerNumber).Augs.CurrentLevel[AUG_SUMMONER] >= 1)
+                    AddVitality = 20 + RoundInt(BaseStatePoint * ((fixed)Players(PlayerNumber).EnergyTotal * (0.5 - (fixed)Players(PlayerNumber).EnergyTotal * 0.0025)) / 100.0);
+                if (Players(PlayerNumber).Augs.CurrentLevel[AUG_SUMMONER] >= 2)
+                    AddDefense = 20 + RoundInt(BaseStatePoint * ((fixed)Players(PlayerNumber).EnergyTotal * (0.5 - (fixed)Players(PlayerNumber).EnergyTotal * 0.0025)) / 100.0);
+                if (Players(PlayerNumber).Augs.CurrentLevel[AUG_SUMMONER] >= 3)
+                    AddStrength = 20 + RoundInt(BaseStatePoint * ((fixed)Players(PlayerNumber).EnergyTotal * (0.5 - (fixed)Players(PlayerNumber).EnergyTotal * 0.0025)) / 100.0);
+                if (Players(PlayerNumber).Augs.CurrentLevel[AUG_SUMMONER] >= 4)
+                    SetActorInventory(MonsterTID, "DRPGSummonedRegenerationBoosterToken", 1);
+
+                // Calculate add level
+                if (Players(PlayerNumber).Augs.CurrentLevel[AUG_SUMMONER] == 5)
+                    AugSummonerModifier = 0.10;
+                if (Players(PlayerNumber).Augs.CurrentLevel[AUG_SUMMONER] == 6)
+                    AugSummonerModifier = 0.15;
+                if (Players(PlayerNumber).Augs.CurrentLevel[AUG_SUMMONER] == 7)
+                    AugSummonerModifier = 0.20;
+                if (Players(PlayerNumber).Augs.CurrentLevel[AUG_SUMMONER] >= 8)
+                    AugSummonerModifier = 0.25;
+                if (AugSummonerModifier > 0)
+                {
+                    AddStrength += Stats->Strength * AugSummonerModifier;
+                    AddDefense += Stats->Defense * AugSummonerModifier;
+                    AddCapacity += Stats->Capacity * AugSummonerModifier;
+                    AddVitality += Stats->Vitality * AugSummonerModifier;
+                    AddAgility += Stats->Agility * AugSummonerModifier;
+                    AddRegeneration += Stats->Regeneration * AugSummonerModifier;
+                    AddEnergy += Stats->Energy * AugSummonerModifier;
+                    AddLuck += Stats->Luck * AugSummonerModifier;
+                }
+
+                // Set actual stats
+                Stats->Strength = OldStrengthAug + AddStrength;
+                Stats->Defense = OldDefenseAug + AddDefense;
+                Stats->Capacity = OldCapacityAug + AddCapacity;
+                Stats->Vitality = OldVitalityAug + AddVitality;
+                Stats->Agility = OldAgilityAug + AddAgility;
+                Stats->Regeneration = OldRegenerationAug + AddRegeneration;
+                Stats->Energy = OldEnergyAug + AddEnergy;
+                Stats->Luck = OldLuckAug + AddLuck;
+            }
+            else if (!Players(PlayerNumber).Augs.Active[AUG_SUMMONER])
+            {
+                // Set actual stats if AUG is off
+                Stats->Strength = OldStrengthAug;
+                Stats->Defense = OldDefenseAug;
+                Stats->Capacity = OldCapacityAug;
+                Stats->Vitality = OldVitalityAug;
+                Stats->Agility = OldAgilityAug;
+                Stats->Regeneration = OldRegenerationAug;
+                Stats->Energy = OldEnergyAug;
+                Stats->Luck = OldLuckAug;
+                SetActorInventory(MonsterTID, "DRPGSummonedRegenerationBoosterToken", 0);
+            }
+
+            // Set actual health
+            int Health = GetActorProperty(0, APROP_Health);
+            if (Health > Stats->HealthMax)
+                SetActorProperty(0, APROP_Health, Stats->HealthMax);
+            else
+                SetActorProperty(0, APROP_Health, Health);
+
+            // Re-calculate threat level
+            Stats->Threat = CalculateMonsterThreatLevel(&Monsters[GetMonsterID(MonsterTID)]);
+
+            OldAugStatus = Players(PlayerNumber).Augs.Active[AUG_SUMMONER] * Players(PlayerNumber).Augs.CurrentLevel[AUG_SUMMONER];
+        }
+    }
+
+    // Aura Spawner
+    if (!HasAuraDisplay && (Stats->HasAura || Stats->Target > 0 || (GetActorProperty(0, APROP_Friendly) && !CurrentLevel->UACBase)))
+    {
+        MonsterAuraDisplayHandler();
+        HasAuraDisplay = true;
+    }
+
+    // Damage Numbers
+    if (!HasDamageNumbers && !ActorNotSeePlayers(0, PopoffsDrawDist, true))
+    {
+        DamageNumbers();
+        HasDamageNumbers = true;
+    }
+
+    // Delay if Toaster Mode on
+    if (ToasterMod)
+        while (ActorNotSeePlayers(0, 0, true)) Delay(35);
+
+    Delay(DelayTime);
     goto Start;
 }
 
@@ -1446,57 +2160,36 @@ NamedScript void MonsterAuraDisplayHandler()
     MonsterStatsPtr Stats = &Monsters[GetMonsterID(0)];
 
     int DrawDist = GetCVar("drpg_auras_drawdistance");
-    bool CloseToPlayers;
 
-    while(true)
-    {
-        if (GetActorProperty(0, APROP_Health) <= 0)
-            break;
+Start:
 
-        if (ClassifyActor(0) & ACTOR_WORLD)
-            break;
+    if (GetActorProperty(0, APROP_Health) <= 0)
+        return;
 
-        for (int i = 0; i < MAX_PLAYERS; i++)
-        {
-            if (!PlayerInGame(i))
-                continue;
+    if (ClassifyActor(0) & ACTOR_WORLD)
+        return;
 
-            if (Distance(Players(i).TID, 0) < DrawDist)
-                CloseToPlayers = true;
-            else
-            {
-                CloseToPlayers = false;
-                break;
-            }
+    // Distance and sight checks
+    while (ActorNotSeePlayers(0, DrawDist, false)) Delay(35);
 
-            if (CheckSight(Players(i).TID, 0, CSF_NOBLOCKALL))
-                break;
-        }
+    // Spawn Auras
+    if (Stats->HasAura || (GetActorProperty(0, APROP_Friendly) && !CurrentLevel->UACBase))
+        SpawnAuras(0, false);
 
-        if (!CloseToPlayers)
-        {
-            Delay(35);
-            continue;
-        }
+    // Shadow Aura Effects
+    if (Stats->HasShadowAura)
+        SetActorProperty(0, APROP_RenderStyle, STYLE_Subtract);
 
-        // Spawn Auras
-        if (MonsterHasAura(Stats) || (GetActorProperty(0, APROP_Friendly) && !CurrentLevel->UACBase))
-            SpawnAuras(0, false);
+    // Spawn Assassination Target
+    if (Stats->Target > 0)
+        SpawnForced("DRPGAssassinationIcon", GetActorX(0), GetActorY(0), GetActorZ(0) + GetActorPropertyFixed(0, APROP_Height) + 16.0 + (Sin(Timer() / 64.0) * 8.0), 0, 0);
 
-        // Shadow Aura Effects
-        if (MonsterHasShadowAura(Stats))
-            SetActorProperty(0, APROP_RenderStyle, STYLE_Subtract);
+    // Spawn Disruption Icon
+    if (Stats->HasAura && CheckInventory("DRPGMonsterDisrupted"))
+        SpawnForced("DRPGDisruptionIcon", GetActorX(0), GetActorY(0), GetActorZ(0) + GetActorPropertyFixed(0, APROP_Height) + 16.0 + (Sin(Timer() / 64.0) * 8.0), 0, 0);
 
-        // Spawn Assassination Target
-        if (Stats->Target > 0)
-            SpawnForced("DRPGAssassinationIcon", GetActorX(0), GetActorY(0), GetActorZ(0) + GetActorPropertyFixed(0, APROP_Height) + 16.0 + (Sin(Timer() / 64.0) * 8.0), 0, 0);
-
-        // Spawn Disruption Icon
-        if (MonsterHasAura(Stats) && CheckInventory("DRPGMonsterDisrupted"))
-            SpawnForced("DRPGDisruptionIcon", GetActorX(0), GetActorY(0), GetActorZ(0) + GetActorPropertyFixed(0, APROP_Height) + 16.0 + (Sin(Timer() / 64.0) * 8.0), 0, 0);
-
-        Delay(1);
-    }
+    Delay(1);
+    goto Start;
 }
 
 NamedScript void MonsterLevelupHandler()
@@ -1600,7 +2293,7 @@ Start:
         if (Distance(0, Players(i).TID) < Stats->Radius * GameSkill() * 4 + Stats->Radius && CheckSight(0, Players(i).TID, 0) && Players(i).EP > 0)
         {
             // Continue if this player is immune to stealing
-            if ((Players(i).Aura.Type[AURA_PINK].Active && Players(i).Aura.Type[AURA_PINK].Level >= 3) || Players(i).SoulActive[SOUL_PINK]) continue;
+            if (Players(i).Aura.Type[AURA_PINK].Active && Players(i).Aura.Type[AURA_PINK].Level >= 3) continue;
 
             int Previous = Players(i).EP;
 
@@ -1623,7 +2316,7 @@ Start:
                 int NewTID = UniqueTID(0, 0);
                 Thing_ChangeTID(0, NewTID);
                 SetActivator(Players(i).TID);
-                FadeRange(64, 128, 128, 0.5, 64, 128, 128, 0.0, 0.5);
+                FadeRangeFlash(64, 128, 128, 0.5, 64, 128, 128, 0.0, 0.5);
                 ActivatorSound("drain/ep", 32);
                 SetActivator(NewTID);
                 Thing_ChangeTID(0, OrigTID);
@@ -1653,7 +2346,10 @@ NamedScript void MonsterRegenerationHandler()
 Start:
 
     if (GetActorProperty(0, APROP_Health) <= 0)
+    {
+        TakeInventory("DRPGMonsterRegenerationHandler", 1);
         return;
+    }
 
     if (ClassifyActor(0) & ACTOR_WORLD)
         return;
@@ -1661,12 +2357,19 @@ Start:
     if (!CheckInventory("DRPGMonsterRegenerationHandler"))
         return;
 
-    long long RegenAmount = (long long)Stats->HealthMax * (long long)Stats->Regeneration;
+    int RegenAmount = (Stats->HealthMax / 50) * (1 + Stats->Regeneration / (25 + Stats->Regeneration / 4));
 
-    if (Stats->RegenHealth >= Stats->HealthMax * 10)
-        RegenAmount /= 10000;
-    else
-        RegenAmount /= 1000;
+    if (Stats->Flags & MF_BOSS)
+        RegenAmount /= 2;
+
+    if (Stats->Flags & MF_MEGABOSS)
+        RegenAmount /= 2;
+
+    if (Stats->RegenHealth >= Stats->HealthMax)
+        RegenAmount /= 2;
+
+    if (GetActorProperty(0, APROP_Friendly) && !CheckInventory("DRPGSummonedRegenerationBoosterToken"))
+        RegenAmount /= 2;
 
     if (RegenAmount > INT_MAX)
         RegenAmount = INT_MAX;
@@ -1680,7 +2383,14 @@ Start:
         DelayTime = 35 * 10;
     }
     else
-        DelayTime = 35 * 30;
+    {
+        if (CheckInventory("DRPGSummonedRegenerationBoosterToken"))
+        {
+            DelayTime = 35 * 20;
+        }
+        else
+            DelayTime = 35 * 30;
+    }
 
     // Prevent going over 100%
     if (GetActorProperty(0, APROP_Health) > Stats->HealthMax)
@@ -1692,6 +2402,9 @@ Start:
 
 NamedScript DECORATE void MonsterRegenHealer()
 {
+    if (GetActorProperty(0, APROP_Friendly))
+        return;
+
     // Pointer
     MonsterStatsPtr Stats = &Monsters[GetMonsterID(0)];
 
@@ -1767,8 +2480,8 @@ Start:
                 int NewTID = UniqueTID(0, 0);
                 Thing_ChangeTID(0, NewTID);
                 SetActivator(Players(i).TID);
-                FadeRange(255, 0, 0, 0.5, 255, 0, 0, 0.0, 0.5);
-                TryStatusEffect(SE_CURSE, Random(30,90), Intensity);
+                FadeRangeFlash(255, 0, 0, 0.5, 255, 0, 0, 0.0, 0.5);
+                TryStatusEffect(SE_CURSE, Random(30, 90), Intensity);
                 SetActivator(NewTID);
                 Thing_ChangeTID(0, OrigTID);
             }
@@ -1795,8 +2508,8 @@ Start:
                 int NewTID = UniqueTID(0, 0);
                 Thing_ChangeTID(0, NewTID);
                 SetActivator(Players(i).TID);
-                FadeRange(255, 0, 0, 0.5, 255, 0, 0, 0.0, 0.5);
-                TryStatusEffect(SE_SILENCE, Random(30,90), Intensity);
+                FadeRangeFlash(255, 0, 0, 0.5, 255, 0, 0, 0.0, 0.5);
+                TryStatusEffect(SE_SILENCE, Random(30, 90), Intensity);
                 SetActivator(NewTID);
                 Thing_ChangeTID(0, OrigTID);
             }
@@ -1854,7 +2567,7 @@ Start:
         if (Distance(0, Players(i).TID) < Stats->Radius * GameSkill() * 4 + Stats->Radius && CheckSight(0, Players(i).TID, 0))
         {
             // Continue if this player is immune to stealing
-            if ((Players(i).Aura.Type[AURA_PINK].Active && Players(i).Aura.Type[AURA_PINK].Level >= 3) || Players(i).SoulActive[SOUL_PINK]) continue;
+            if (Players(i).Aura.Type[AURA_PINK].Active && Players(i).Aura.Type[AURA_PINK].Level >= 3) continue;
 
             int Previous = CheckActorInventory(Players(i).TID, "DRPGCredits");
             int OrigTID = ActivatorTID();
@@ -1863,7 +2576,7 @@ Start:
             TakeActorInventory(Players(i).TID, "DRPGCredits", (int)(Stats->Luck * GetCVarFixed("drpg_aurasteal_amount")));
             GiveInventory("DRPGCredits", (int)(Stats->Luck * GetCVarFixed("drpg_aurasteal_amount")));
             SetActivator(Players(i).TID);
-            FadeRange(255, 255, 0, 0.5, 255, 255, 0, 0.0, 0.5);
+            FadeRangeFlash(255, 255, 0, 0.5, 255, 255, 0, 0.0, 0.5);
             ActivatorSound("drain/money", 32);
             SetActivator(NewTID);
             Thing_ChangeTID(0, OrigTID);
@@ -1920,12 +2633,12 @@ Start:
         if (Distance(0, Players(i).TID) < Stats->Radius * GameSkill() * 4 + Stats->Radius && CheckSight(0, Players(i).TID, 0))
         {
             // Continue if this player is immune to stealing
-            if ((Players(i).Aura.Type[AURA_PINK].Active && Players(i).Aura.Type[AURA_PINK].Level >= 3) || Players(i).SoulActive[SOUL_PINK]) continue;
+            if (Players(i).Aura.Type[AURA_PINK].Active && Players(i).Aura.Type[AURA_PINK].Level >= 3) continue;
 
             // [KS] We'll give the player 30 seconds of ammo if they were full at stat max.
             int ClipSteal = (int)((fixed)Stats->Capacity / 7.5 * GetCVarFixed("drpg_aurasteal_amount"));
             int ShellSteal = (int)((fixed)Stats->Capacity / 30 * GetCVarFixed("drpg_aurasteal_amount"));
-            int RocketSteal = (int)((fixed)Stats->Capacity / 60 * GetCVarFixed("drpg_aurasteal_amount"));
+            int RocketSteal = (int)((fixed)Stats->Capacity / 120 * GetCVarFixed("drpg_aurasteal_amount"));
             int CellSteal = (int)((fixed)Stats->Capacity / 20 * GetCVarFixed("drpg_aurasteal_amount"));
 
             if (ClipSteal < 2) ClipSteal = 2;
@@ -1958,7 +2671,7 @@ Start:
             int NewTID = UniqueTID(0, 0);
             Thing_ChangeTID(0, NewTID);
             SetActivator(Players(i).TID);
-            FadeRange(0, 0, 255, 0.5, 0, 0, 255, 0.0, 0.5);
+            FadeRangeFlash(0, 0, 255, 0.5, 0, 0, 255, 0.0, 0.5);
             ActivatorSound("drain/ammo", 32);
             SetActivator(NewTID);
             Thing_ChangeTID(0, OrigTID);
@@ -2068,8 +2781,8 @@ Start:
 
         for (int i = 0; i < 10; i++)
         {
-            fixed TeleportAngle = RandomFixed(0, 1);
-            fixed TeleportDistance = RandomFixed(128, 384);
+            fixed TeleportAngle = RandomFixed(0.0, 1.0);
+            fixed TeleportDistance = RandomFixed(128.0, 384.0);
 
             X = GetActorX(TargetPlayerTID) + (Cos(TeleportAngle) * TeleportDistance);
             Y = GetActorY(TargetPlayerTID) + (Sin(TeleportAngle) * TeleportDistance);
@@ -2115,18 +2828,161 @@ NamedScript DECORATE void MonsterRevive()
 
     // Account for monsters revived by friendly Archvile
     if (GetActorProperty(0, APROP_Friendly))
-        SetActorPropertyString(0, APROP_Species, "Player");
+    {
+        int MonsterTID = Stats->TID;
+        int MasterTID = GetActorProperty(MonsterTID, APROP_MasterTID);
+        int PlayerNumber;
+
+        for (int i = 0; i < MAX_PLAYERS; i++)
+        {
+            if (!PlayerInGame(i)) continue;
+
+            // Checking if a player is monster's master
+            if (MasterTID == Players(i).TID)
+            {
+                PlayerNumber = i;
+                break;
+            }
+        }
+
+        // If summons more than the maximum number or failure - the corpse is burned
+        if (Players(PlayerNumber).Summons >= MAX_SUMMONS || Random(0, 100) <= 80)
+        {
+            // Chance 10% for get stuff from corpse
+            if (Random(0, 100) <= 10)
+            {
+                switch (Random(1, 8))
+                {
+                case 1:
+                    Spawn("DRPGMoneyDropper", GetActorX(MonsterTID), GetActorY(MonsterTID), GetActorZ(MonsterTID) + 48, 0, 0);
+                    break;
+                case 2:
+                    Spawn("DRPGStimpack", GetActorX(MonsterTID), GetActorY(MonsterTID), GetActorZ(MonsterTID) + 48, 0, 0);
+                    break;
+                case 3:
+                    Spawn("DRPGClip", GetActorX(MonsterTID), GetActorY(MonsterTID), GetActorZ(MonsterTID) + 48, 0, 0);
+                    break;
+                case 4:
+                    Spawn("DRPGShell", GetActorX(MonsterTID), GetActorY(MonsterTID), GetActorZ(MonsterTID) + 48, 0, 0);
+                    break;
+                case 5:
+                    if (CompatMode == COMPAT_DRLA)
+                    {
+                        Spawn("RLArmorBonusPickup", GetActorX(MonsterTID), GetActorY(MonsterTID), GetActorZ(MonsterTID) + 48, 0, 0);
+                    }
+                    else
+                        Spawn("DRPGArmorBonus", GetActorX(MonsterTID), GetActorY(MonsterTID), GetActorZ(MonsterTID) + 48, 0, 0);
+                    break;
+                case 6:
+                    Spawn("DRPGEPCapsule", GetActorX(MonsterTID), GetActorY(MonsterTID), GetActorZ(MonsterTID) + 48, 0, 0);
+                    break;
+                case 7:
+                    Spawn("DRPGRocketAmmo", GetActorX(MonsterTID), GetActorY(MonsterTID), GetActorZ(MonsterTID) + 48, 0, 0);
+                    break;
+                case 8:
+                    Spawn("DRPGCell", GetActorX(MonsterTID), GetActorY(MonsterTID), GetActorZ(MonsterTID) + 48, 0, 0);
+                    break;
+                }
+            }
+
+            ActivatorSound("vile/firestrt", 127);
+            SpawnForced("SpawnFire", GetActorX(MonsterTID), GetActorY(MonsterTID), GetActorZ(MonsterTID), 0, 0);
+            SpawnForced("DRPGBurnedCorpse", GetActorX(MonsterTID), GetActorY(MonsterTID), GetActorZ(MonsterTID), 0, 0);
+            Thing_Remove(MonsterTID);
+            return;
+        }
+
+        // Set property and handlers
+        SetActorProperty(MonsterTID, APROP_Friendly, true);
+        SetActorPropertyString(MonsterTID, APROP_Species, "Player");
+        GiveActorInventory(MonsterTID, "DRPGFriendlyBooster", 1);
+        MonsterFriendlyTeleport(false);
+
+        // Add summon to your summon array
+        for (int h = 0; h < MAX_SUMMONS; h++)
+            if (Players(PlayerNumber).SummonTID[h] == 0)
+            {
+                Players(PlayerNumber).SummonTID[h] = MonsterTID;
+                Players(PlayerNumber).Summons++;
+                break;
+            }
+
+        // Set stats
+        Stats->Threat = CalculateMonsterThreatLevel(&Monsters[GetMonsterID(MonsterTID)]);
+        Stats->Flags |= MF_NOXP;
+        Stats->Flags |= MF_NODROPS;
+        Stats->NeedReinit = true;
+    }
     else
         SetActorPropertyString(0, APROP_Species, "None");
 
     // Reboot handlers
-    DamageNumbers();
     MonsterStatsHandler();
-    MonsterAuraDisplayHandler();
+    MonsterAggressionHandler();
     if (!(Stats->Flags & MF_NOSTATS))
         MonsterRegenerationHandler();
 
-    MonsterAggressionHandler();
+    // Give full health
+    SetActorProperty(0, APROP_Health, Stats->HealthMax);
+}
+
+NamedScript DECORATE void PropDeathCheck(int PropType)
+{
+    if (CurrentLevel && !CurrentLevel->UACBase && !CurrentLevel->UACArena)
+    {
+        Delay(1);
+
+        int Killer = WhoKilledMe();
+
+        // Calculate and set prop's DRPGCredits value
+        SetInventory("DRPGCredits", Random(0, 100 * MapLevelModifier));
+
+        if(PropType)
+        {
+            switch(PropType)
+            {
+            case 1: // tech
+                DropMonsterItem(Killer, 0, "DRPGLootScrapMetals2",     37); // ~30%
+                DropMonsterItem(Killer, 0, "DRPGTurretPart",           25); // ~20%
+                DropMonsterItem(Killer, 0, "DRPGBatterySmall",         10); // ~4%
+                break;
+
+            case 2: // gore
+                DropMonsterItem(Killer, 0, "DRPGAmmoMonsterDropper",   37); // ~30%
+                DropMonsterItem(Killer, 0, "DRPGMedikitRandomizer",    37); // ~30%
+                DropMonsterItem(Killer, 0, "DRPGWeaponDropper",        25); // ~20% - vanilla weapons only
+                DropMonsterItem(Killer, 0, "DRPGGreenArmorRandomizer", 25); // ~20% - vanilla armors only
+                break;
+
+            case 3: // barrels
+                DropMonsterItem(Killer, 0, "DRPGLootChemicals2",       12); // ~10%
+                break;
+            }
+        }
+
+        DropCredits(Killer, NULL);
+    }
+}
+
+OptionalArgs(1) NamedScript void CalculateMonsterCredits(MonsterStatsPtr Stats, int StolenCredits)
+{
+    int Amount = Stats->Capacity;
+    if(StolenCredits)
+        Amount = Stats->Capacity + StolenCredits;
+
+    if (GetCVar("drpg_ws_use_wads") < 4)
+    {
+        fixed Modifier = 4.0 / GetCVar("drpg_ws_use_wads") * PowFixed(MapLevelModifier, GetCVar("drpg_ws_use_wads") / 2);
+
+        if (Modifier < 1.0)
+            Modifier = 1.0;
+
+        SetInventory("DRPGCredits", (int)(Amount / 2 * Modifier));
+    }
+    else
+    {
+        SetInventory("DRPGCredits", (int)(Amount / 2));
+    }
 }
 
 NamedScript DECORATE void MonsterDeathCheck()
@@ -2145,40 +3001,115 @@ NamedScript DECORATE void MonsterDeathCheck()
     MonsterDeath();
 }
 
+NamedScript void DropCredits(int Killer, MonsterStatsPtr Stats)
+{
+    int LuckMult;
+    int CreditsMin;
+    int CreditsMax;
+    int CreditsAmount;
+    int CreditsTable[MAX_PLAYERS];
+    int CreditsUAC;
+
+    // Fair sharing
+    if (GetCVar("drpg_multi_sharecredits") && Stats != NULL)
+    {
+        for (int i = 0; i < MAX_PLAYERS; i++)
+        {
+            LuckMult = 100 + (GetCVar("drpg_levelup_natural") ? Players(i).LuckTotal / 2 : Players(i).LuckTotal);
+            CreditsMin = (CheckInventory("DRPGCredits") * LuckMult) / 1000;
+            CreditsMax = (CheckInventory("DRPGCredits") * LuckMult) / 100;
+            CreditsTable[i] = (Random(CreditsMin, CreditsMax) * (Stats->DamageTable[i] * 100) / Stats->HealthMax) / 100;
+
+            // REK-T50 accessory
+            if (Players(i).Shield.Active && Players(i).Shield.Accessory && Players(i).Shield.Accessory->PassiveEffect == SHIELD_PASS_EPICMEGACASH)
+                CreditsTable[i] *= 2;
+
+            // RAINBOWS Event
+            if (CurrentLevel->Event == MAPEVENT_BONUS_RAINBOWS)
+                CreditsTable[i] *= 2;
+
+            // UAC Premium
+            if (GetCVar("drpg_uac_premium"))
+            {
+                CreditsUAC = (fixed)Stats->Threat + CreditsTable[i] / 100.0 * (4.0 + (fixed)Players(i).RankLevel * 4.0);
+                GiveActorInventory(Players(i).TID, "DRPGCredits", CreditsUAC);
+            }
+        }
+    }
+    else
+    {
+        LuckMult = 100 + (GetCVar("drpg_levelup_natural") ? Players(Killer).LuckTotal / 2 : Players(Killer).LuckTotal);
+        CreditsMin = (CheckInventory("DRPGCredits") * LuckMult) / 1000;
+        CreditsMax = (CheckInventory("DRPGCredits") * LuckMult) / 100;
+        CreditsAmount = Random(CreditsMin, CreditsMax);
+
+        // REK-T50 accessory
+        if (Players(Killer).Shield.Active && Players(Killer).Shield.Accessory && Players(Killer).Shield.Accessory->PassiveEffect == SHIELD_PASS_EPICMEGACASH)
+            CreditsAmount *= 2;
+
+        // RAINBOWS Event
+        if (CurrentLevel->Event == MAPEVENT_BONUS_RAINBOWS)
+            CreditsAmount *= 2;
+
+        // UAC Premium
+        if (GetCVar("drpg_uac_premium") && Stats != NULL)
+        {
+            CreditsUAC = (fixed)Stats->Threat + CreditsAmount / 100.0 * (4.0 + (fixed)Players(Killer).RankLevel * 4.0);
+            GiveActorInventory(Players(Killer).TID, "DRPGCredits", CreditsUAC);
+        }
+    }
+
+    //Log("\CfInitial Amount: %d\n\CfLuck Mult: %d\n\CfMin: %d\n\CfMax: %d\n\CfAmount: %d", CheckInventory("DRPGCredits"), LuckMult, CreditsMin, CreditsMax, CreditsAmount);
+    if (GetCVar("drpg_virtual_credits"))
+    {
+        if (GetCVar("drpg_multi_sharecredits") && Stats != NULL)
+        {
+            for (int i = 0; i < MAX_PLAYERS; i++)
+                if (PlayerInGame(i))
+                    GiveActorInventory(Players(i).TID, "DRPGCredits", CreditsTable[i]);
+        }
+        else
+            GiveActorInventory(Players(Killer).TID, "DRPGCredits", CreditsAmount);
+    }
+    else
+    {
+        if (GetCVar("drpg_multi_sharecredits") && Stats != NULL)
+        {
+            for (int i = 0; i < MAX_PLAYERS; i++)
+                if (PlayerInGame(i))
+                    DropMoney(i, 0, CreditsTable[i]);
+        }
+        else
+            DropMoney(Killer, 0, CreditsAmount);
+    }
+}
+
 NamedScript void MonsterDeath()
 {
     // Pointer
     MonsterStatsPtr Stats = &Monsters[GetMonsterID(0)];
     // Don't forget to remove stupid fixed-point avoidance code after migration (if it happens)
     int Killer = WhoKilledMe();
-    int HealthXP;
+    long int HealthXP;
+
     if (GetCVarFixed("drpg_xp_health_awareness") < 1.0)
-        HealthXP = Stats->SpawnHealth + ((Stats->HealthMax - Stats->SpawnHealth) * (int)(GetCVarFixed("drpg_xp_health_awareness") * 10)) / 10;
+        HealthXP = (long int)Stats->SpawnHealth + (((long int)Stats->HealthMax - (long int)Stats->SpawnHealth) * (long int)(GetCVarFixed("drpg_xp_health_awareness") * 10l)) / 10l;
     else
-        HealthXP = (Stats->HealthMax * (int)(GetCVarFixed("drpg_xp_health_awareness") * 10)) / 10;
+        HealthXP = ((long int)Stats->HealthMax * (long int)(GetCVarFixed("drpg_xp_health_awareness") * 10l)) / 10l;
 
-    int ThreatMult = Stats->Threat;
-    if (ThreatMult < 1)
-        ThreatMult = 1;
+    fixed ThreatMult = (fixed)Stats->Threat + ((fixed)Stats->Level / ((fixed)GetCVar("drpg_ws_use_wads") * 6.0)) + 8.0 * PowFixed(MapLevelModifier, GetCVar("drpg_ws_use_wads") / 2);
+    if (ThreatMult < 1.0)
+        ThreatMult = 1.0;
 
-    long int XPAmount = Random(HealthXP / 2, HealthXP) * ThreatMult;
-    long int RankAmount = HealthXP * ThreatMult;
-
-    // Aura-Based XP/Rank Modifiers
-    if (MonsterHasShadowAura(Stats))
-    {
-        XPAmount *= 2;
-        RankAmount *= 4;
-    }
-    else if (Stats->Aura.Type[AURA_WHITE].Active)
-        XPAmount *= 2;
+    long int XPAmount = Random(HealthXP / 2l, HealthXP) * (long fixed)ThreatMult;
+    long int RankAmount = HealthXP * (long fixed)ThreatMult;
 
     if (Players(Killer).Shield.Accessory)
     {
         switch (Players(Killer).Shield.Accessory->PassiveEffect)
         {
         case SHIELD_PASS_KILLSCHARGE:
-            AddRemoteShield(Players(Killer).TID, Stats->HealthMax / 10);
+            AddRemoteShield(Players(Killer).TID, Stats->HealthMax / 20);
             break;
         case SHIELD_PASS_BLOODYSHIELDSOREAL:
             Players(Killer).Shield.AccessoryBattery = 35 * 3;
@@ -2246,21 +3177,27 @@ NamedScript void MonsterDeath()
 
             Stats->DamageTable[i] = Clamp(0, Stats->DamageTable[i], Stats->HealthMax);
 
-            if (Stats->DamageTable[i] > 0)
+            long fixed mult = 1.0;
+            if (InMultiplayer && !GetCVar("drpg_multi_sharexp") && (long fixed)Stats->HealthMax > 0)
+                mult = (long fixed)Stats->DamageTable[i] / (long fixed)Stats->HealthMax;
+            else if (Killer < 0)
+                mult = 0;
+
+            if (mult > 0)
             {
-                XPAmount = (XPAmount * (Stats->DamageTable[i] * 100) / Stats->HealthMax) / 100;
-                RankAmount = (RankAmount * (Stats->DamageTable[i] * 100) / Stats->HealthMax) / 100;
+                XPAmount = (int)(XPAmount * mult);
+                RankAmount = (int)(RankAmount * mult);
 
                 AddXP(i, XPAmount, RankAmount);
                 if (GetCVar("drpg_levelup_natural"))
                 {
-                    fixed Scale = GetCVarFixed("drpg_strength_scalexp");
+                    long fixed Scale = GetCVarFixed("drpg_strength_scalexp") / GetCVar("drpg_ws_use_wads");
                     if (GetCVar("drpg_allow_spec"))
                     {
                         if (GetActivatorCVar("drpg_character_spec") == 1)
                             Scale *= 2;
                     }
-                    Players(i).StrengthXP += (int)(XPAmount * Scale);
+                    Players(i).StrengthXP += (long int)(HealthXP * mult * Scale);
                 }
             }
         }
@@ -2276,60 +3213,92 @@ NamedScript void MonsterDeath()
     // Drops
     if (!(Stats->Flags & MF_NODROPS) && !GetActorProperty(0, APROP_Friendly) && !GetCVar("drpg_monster_shadows"))
     {
+        // Calculate current map total monsters modifier
+        fixed DropMonsterModifier = MapTotalMonstersMod();
+
         // Auras have a chance of rare vial drops
         for (int i = 0; i < AURA_MAX; i++)
             if (Stats->Aura.Type[i].Active)
-                DropMonsterItem(Killer, 0, "DRPGVialDropperRare", 51);
+                DropMonsterItem(Killer, 0, "DRPGVialDropperRare", 16 * DropMonsterModifier);
 
         // Aura Drops
         if (Stats->Aura.Type[AURA_RED].Active) // Red Aura - Strength
-            DropMonsterItem(Killer, 0, "DRPGVialStrength", 256);
+            DropMonsterItem(Killer, 0, "DRPGVialDropper", 64 * DropMonsterModifier);
         if (Stats->Aura.Type[AURA_GREEN].Active) // Green Aura - Defense
-            DropMonsterItem(Killer, 0, "DRPGVialDefense", 256);
+            DropMonsterItem(Killer, 0, "DRPGVialDropper", 64 * DropMonsterModifier);
         if (Stats->Aura.Type[AURA_WHITE].Active) // White Aura - XP
-            DropMonsterItem(Killer, 0, "DRPGStimDropper", 256);
+            DropMonsterItem(Killer, 0, "DRPGVialDropper", 64 * DropMonsterModifier);
         if (Stats->Aura.Type[AURA_PINK].Active) // Pink Aura - Vitality
-            DropMonsterItem(Killer, 0, "DRPGVialVitality", 256);
+            DropMonsterItem(Killer, 0, "DRPGVialDropper", 64 * DropMonsterModifier);
         if (Stats->Aura.Type[AURA_BLUE].Active) // Blue Aura - Energy
-            DropMonsterItem(Killer, 0, "DRPGVialEnergy", 256);
+            DropMonsterItem(Killer, 0, "DRPGVialDropper", 64 * DropMonsterModifier);
         if (Stats->Aura.Type[AURA_PURPLE].Active) // Purple Aura - Regeneration
-            DropMonsterItem(Killer, 0, "DRPGVialRegeneration", 256);
+            DropMonsterItem(Killer, 0, "DRPGVialDropper", 64 * DropMonsterModifier);
         if (Stats->Aura.Type[AURA_ORANGE].Active) // Orange Aura - Agility
-            DropMonsterItem(Killer, 0, "DRPGVialAgility", 256);
+            DropMonsterItem(Killer, 0, "DRPGVialDropper", 64 * DropMonsterModifier);
         if (Stats->Aura.Type[AURA_DARKBLUE].Active) // Dark Blue Aura - Capacity
-            DropMonsterItem(Killer, 0, "DRPGVialCapacity", 256);
+            DropMonsterItem(Killer, 0, "DRPGVialDropper", 64 * DropMonsterModifier);
         if (Stats->Aura.Type[AURA_YELLOW].Active) // Yellow Aura - Luck
-            DropMonsterItem(Killer, 0, "DRPGVialLuck", 256);
+        {
+            DropMonsterItem(Killer, 0, "DRPGVialDropper", 64 * DropMonsterModifier);
+            DropMonsterItem(Killer, 0, "DRPGChipDropper", 64 * DropMonsterModifier);
+        }
 
         // Luck-based Drops
         if (Killer > -1 && !(Stats->Flags & MF_MEGABOSS))
         {
-            if (Players(Killer).HealthDrop && RandomFixed(0.0, 100.0) < Players(Killer).HealthChance)    DropMonsterItem(Killer, 0, "DRPGHealthDropper", 256);
-            if (Players(Killer).EPDrop && RandomFixed(0.0, 100.0) < Players(Killer).EPChance)            DropMonsterItem(Killer, 0, "DRPGEPCapsule", 256);
-            if (Players(Killer).ArmorDrop && RandomFixed(0.0, 100.0) < Players(Killer).ArmorChance)      DropMonsterItem(Killer, 0, "DRPGArmorDropper", 256);
-            if (Players(Killer).WeaponDrop && RandomFixed(0.0, 100.0) < Players(Killer).WeaponChance)    DropMonsterItem(Killer, 0, "DRPGWeaponDropper", 256);
-            if (Players(Killer).PowerupDrop && RandomFixed(0.0, 100.0) < Players(Killer).PowerupChance)  DropMonsterItem(Killer, 0, "DRPGPowerupDropper", 256);
-            if (Players(Killer).StimDrop && RandomFixed(0.0, 100.0) < Players(Killer).StimChance)        DropMonsterItem(Killer, 0, "DRPGVialDropperRare", 256);
-            if (Players(Killer).ModuleDrop && RandomFixed(0.0, 100.0) < Players(Killer).ModuleChance)    DropMonsterItem(Killer, 0, "DRPGModuleDropper", 256);
-            if (Players(Killer).ShieldDrop && RandomFixed(0.0, 100.0) < Players(Killer).ShieldChance)    DropMonsterItem(Killer, 0, "DRPGShieldDropper", 256);
-            if (Players(Killer).AugDrop && RandomFixed(0.0, 100.0) < Players(Killer).AugChance)          DropMonsterItem(Killer, 0, "DRPGAugDropper", 256);
+            if (Players(Killer).HealthDrop && RandomFixed(0.0, 100.0) < Players(Killer).HealthChance)    DropMonsterItem(Killer, 0, "DRPGHealthMonsterDropper", 256 * DropMonsterModifier);
+            if (Players(Killer).EPDrop && RandomFixed(0.0, 100.0) < Players(Killer).EPChance)            DropMonsterItem(Killer, 0, "DRPGEPMonsterDropper", 256 * DropMonsterModifier);
+            if (Players(Killer).AmmoDrop && RandomFixed(0.0, 100.0) < Players(Killer).AmmoChance)        DropMonsterItem(Killer, 0, "DRPGAmmoMonsterDropper", 256 * DropMonsterModifier);
+            if (Players(Killer).TurretDrop && RandomFixed(0.0, 100.0) < Players(Killer).TurretChance)    DropMonsterItem(Killer, 0, "DRPGTurretMonsterDropper", 256 * DropMonsterModifier);
+            if (Players(Killer).ModuleDrop && RandomFixed(0.0, 100.0) < Players(Killer).ModuleChance)    DropMonsterItem(Killer, 0, "DRPGModuleDropper", 256 * DropMonsterModifier);
+            if (Players(Killer).ArmorDrop && RandomFixed(0.0, 100.0) < Players(Killer).ArmorChance)      DropMonsterItem(Killer, 0, "DRPGArmorDropper", 256 * DropMonsterModifier);
+            if (Players(Killer).WeaponDrop && RandomFixed(0.0, 100.0) < Players(Killer).WeaponChance)    DropMonsterItem(Killer, 0, "DRPGWeaponDropper", 256 * DropMonsterModifier);
+            if (Players(Killer).ShieldDrop && RandomFixed(0.0, 100.0) < Players(Killer).ShieldChance)    DropMonsterItem(Killer, 0, "DRPGShieldDropper", 256 * DropMonsterModifier);
+            if (Players(Killer).AugDrop && RandomFixed(0.0, 100.0) < Players(Killer).AugChance)          DropMonsterItem(Killer, 0, "DRPGAugDropper", 256 * DropMonsterModifier);
         }
 
         Delay(1);
 
+        // Compatibility Handling - LegenDoom
+        // LegenDoom monster drops
+        if (CompatMode == COMPAT_LEGENDOOM || CompatModeLite == COMPAT_LEGENDOOMLITE)
+        {
+            if (CheckInventory("LDLegendaryMonsterToken") && GetCVar("LD_droptype") == 1)
+            {
+                DropMonsterItem(Killer, 0, "DRPGLuckDropper", 256);
+            }
+        }
+
         // Boss Drops
         if (Stats->Flags & MF_BOSS)
         {
-            DropMonsterItem(Killer, 0, "DRPGCredits250", 200);
-            DropMonsterItem(Killer, 0, "DRPGCredits500", 170);
-            DropMonsterItem(Killer, 0, "DRPGCredits1000", 256);
-            DropMonsterItem(Killer, 0, "DRPGSoulsphereRandomizer", 256);
-            DropMonsterItem(Killer, 0, "DRPGLifeDropper", 128);
-            DropMonsterItem(Killer, 0, "DRPGModuleDropper", 256);
-            DropMonsterItem(Killer, 0, "DRPGAugDropper", 128);
-            DropMonsterItem(Killer, 0, "DRPGShieldDropper", 128);
-            DropMonsterItem(Killer, 0, "DRPGUACCard", 128 / (Players(Killer).ShopCard + 1));
-            DropMonsterItem(Killer, 0, "DRPGImmunityCrystalDropper", 8);
+            fixed DropBossModifier = MapTotalBossesMod();
+
+            DropMonsterItem(Killer, 0, "DRPGCredits250", 200 * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGCredits500", 170 * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGCredits1000", 256 * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGSoulsphereRandomizer", 256 * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGLifeDropper", 80 * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGModulePickup", 256 * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGAugDropper", 96 * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGUACCard", (40 / (Players(Killer).ShopCard + 1)) * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGStimPackageStat", 48 * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGStimPackagePowerup", 24 * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGShieldSpawner", 48 * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGArmorDropper", 32 * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGWeaponDropper", 16 * DropBossModifier);
+            DropMonsterItem(Killer, 0, "DRPGImmunityCrystalDropper", 32 * DropBossModifier);
+
+            if (CompatMode == COMPAT_DRLA)
+            {
+                DropMonsterItem(Killer, 0, "DRPGCraftPartsExotic", 32 * DropBossModifier);
+                if (MapLevelModifier > 0.25)
+                    DropMonsterItem(Killer, 0, "DRPGCraftPartsUnique", 16 * DropBossModifier);
+                DropMonsterItem(Killer, 0, "RLBlueprintComputer", 32 * DropBossModifier);
+                DropMonsterItem(Killer, 0, "RLBasicModPackSpawner", 16 * DropBossModifier);
+                DropMonsterItem(Killer, 0, "RLExoticModPackSpawner", 8 * DropBossModifier);
+            }
         }
 
         // Megaboss Drops
@@ -2339,7 +3308,7 @@ NamedScript void MonsterDeath()
             Delay(35 * 2.25); // Just long enough to sync up with the sound nicely
 
             // LOOTSPLOOOOOOOOOOOOOSIIIOOOOOOOOOOOOOONNNNNN
-            int Rolls = 200 - (GameSkill() * 25);
+            int Rolls = (200 / 8) * PlayerCount();
             while (Rolls--)
             {
                 DropMonsterItem(Killer, 0, "DRPGCredits250", 256, 0, 0, 0, 16, 16, Random(8, 16));
@@ -2351,7 +3320,19 @@ NamedScript void MonsterDeath()
                     Delay(1);
             }
 
-            DropMonsterItem(Killer, 0, "DRPGDiamondUACCard", 256);
+            DropMonsterItem(Killer, 0, "DRPGImmunityCrystalDropper", 128);
+            DropMonsterItem(Killer, 0, "DRPGArmorDropper", 128);
+            DropMonsterItem(Killer, 0, "DRPGWeaponDropper", 64);
+            DropMonsterItem(Killer, 0, "DRPGUACCard", 16);
+
+            if (CompatMode == COMPAT_DRLA)
+            {
+                DropMonsterItem(Killer, 0, "DRPGCraftPartsExotic", 128);
+                DropMonsterItem(Killer, 0, "DRPGCraftPartsUnique", 64);
+                DropMonsterItem(Killer, 0, "RLBlueprintComputer", 128);
+                DropMonsterItem(Killer, 0, "RLBasicModPackSpawner", 64);
+                DropMonsterItem(Killer, 0, "RLExoticModPackSpawner", 32);
+            }
         }
     }
 
@@ -2373,78 +3354,7 @@ NamedScript void MonsterDeath()
     // Drop Credits
     if (!(Stats->Flags & MF_NODROPS) && CheckInventory("DRPGCredits") > 0)
     {
-        int LuckMult;
-        int CreditsMin;
-        int CreditsMax;
-        int CreditsAmount;
-        int CreditsTable[MAX_PLAYERS];
-
-        // Fair sharing
-        if (GetCVar("drpg_multi_sharecredits"))
-        {
-            for (int i = 0; i < MAX_PLAYERS; i++)
-            {
-                LuckMult = 100 + Players(i).LuckTotal;
-                CreditsMin = (CheckInventory("DRPGCredits") * LuckMult) / 1000;
-                CreditsMax = (CheckInventory("DRPGCredits") * LuckMult) / 100;
-                CreditsTable[i] = (Random(CreditsMin, CreditsMax) * (Stats->DamageTable[i] * 100) / Stats->HealthMax) / 100;
-
-                // REK-T50 accessory
-                if (Players(i).Shield.Active && Players(i).Shield.Accessory && Players(i).Shield.Accessory->PassiveEffect == SHIELD_PASS_EPICMEGACASH)
-                    CreditsTable[i] *= 3;
-
-                // RAINBOWS Event
-                if (CurrentLevel->Event == MAPEVENT_BONUS_RAINBOWS)
-                    CreditsTable[i] *= 4;
-
-                // UAC Premium
-                if (GetCVar("drpg_uac_premium"))
-                    GiveActorInventory(Players(i).TID, "DRPGCredits", Stats->SpawnHealth * ThreatMult * Stats->DamageTable[i] * 10 / Stats->HealthMax / 100);
-            }
-        }
-        else
-        {
-            LuckMult = 100 + Players(Killer).LuckTotal;
-            CreditsMin = (CheckInventory("DRPGCredits") * LuckMult) / 1000;
-            CreditsMax = (CheckInventory("DRPGCredits") * LuckMult) / 100;
-            CreditsAmount = Random(CreditsMin, CreditsMax);
-
-            // REK-T50 accessory
-            if (Players(Killer).Shield.Active && Players(Killer).Shield.Accessory && Players(Killer).Shield.Accessory->PassiveEffect == SHIELD_PASS_EPICMEGACASH)
-                CreditsAmount *= 3;
-
-            // RAINBOWS Event
-            if (CurrentLevel->Event == MAPEVENT_BONUS_RAINBOWS)
-                CreditsAmount *= 4;
-
-            // UAC Premium
-            if (GetCVar("drpg_uac_premium"))
-                GiveActorInventory(Players(Killer).TID, "DRPGCredits", Stats->SpawnHealth * ThreatMult / 10);
-        }
-
-        // Log("\CfInitial Amount: %d\n\CfLuck Mult: %d\n\CfMin: %d\n\CfMax: %d\n\CfAmount: %d", CheckInventory("DRPGCredits"), LuckMult, CreditsMin, CreditsMax, CreditsAmount);
-        if (GetCVar("drpg_virtual_credits"))
-        {
-            if (GetCVar("drpg_multi_sharecredits"))
-            {
-                for (int i = 0; i < MAX_PLAYERS; i++)
-                    if (PlayerInGame(i))
-                        GiveActorInventory(Players(i).TID, "DRPGCredits", CreditsTable[i]);
-            }
-            else
-                GiveActorInventory(Players(Killer).TID, "DRPGCredits", CreditsAmount);
-        }
-        else
-        {
-            if (GetCVar("drpg_multi_sharecredits"))
-            {
-                for (int i = 0; i < MAX_PLAYERS; i++)
-                    if (PlayerInGame(i))
-                        DropMoney(i, 0, CreditsTable[i]);
-            }
-            else
-                DropMoney(Killer, 0, CreditsAmount);
-        }
+        DropCredits(Killer, Stats);
     }
 
     // Drop stolen ammo
@@ -2487,6 +3397,10 @@ NamedScript void MonsterDeath()
     // [SW] 10/22/2018 - This is an option now, yee.
     if (GetCVar("drpg_aura_removeondeath"))
         RemoveMonsterAura(Stats);
+
+    // Corpses cleanup
+    if (GetCVar("drpg_corpses_cleanup") > 0)
+        CorpsesCleanup();
 }
 
 //[[alloc_Aut(16384)]]
@@ -2503,9 +3417,42 @@ NamedScript DECORATE void MonsterTransport(int Difficulty, int Time, int Radius)
     {
         TempMonster = &MonsterData[i];
 
-        if (TempMonster->Difficulty >= ((Difficulty + 1) * 10) - 40 &&
-                TempMonster->Difficulty <= ((Difficulty + 1) * 10) + 10)
-            MonsterList[MonsterListLength++] = TempMonster;
+        if (CompatMonMode == COMPAT_DRLA || CompatMonMode == COMPAT_PANDEMONIA)
+        {
+            if (Difficulty == 0)
+                if (TempMonster->Difficulty > 0 & TempMonster->Difficulty < 60 & TempMonster->ThreatLevel < 24)
+                    MonsterList[MonsterListLength++] = TempMonster;
+            if (Difficulty == 1)
+                if (TempMonster->Difficulty > 20 & TempMonster->Difficulty < 80 & TempMonster->ThreatLevel < 24)
+                    MonsterList[MonsterListLength++] = TempMonster;
+            if (Difficulty == 2)
+                if (TempMonster->Difficulty > 40 & TempMonster->Difficulty < 100 & TempMonster->ThreatLevel < 24)
+                    MonsterList[MonsterListLength++] = TempMonster;
+            if (Difficulty == 3)
+                if (TempMonster->Difficulty > 100 & TempMonster->Difficulty < 160 & TempMonster->ThreatLevel < 24)
+                    MonsterList[MonsterListLength++] = TempMonster;
+            if (Difficulty == 4)
+                if (TempMonster->Difficulty > 130 & TempMonster->Difficulty < 190 & TempMonster->ThreatLevel < 24)
+                    MonsterList[MonsterListLength++] = TempMonster;
+            if (Difficulty == 5)
+                if (TempMonster->Difficulty > 160 & TempMonster->Difficulty < 220 & TempMonster->ThreatLevel < 24)
+                    MonsterList[MonsterListLength++] = TempMonster;
+            if (Difficulty == 6)
+                if (TempMonster->Difficulty > 220 & TempMonster->Difficulty < 280 & TempMonster->ThreatLevel < 24)
+                    MonsterList[MonsterListLength++] = TempMonster;
+            if (Difficulty == 7)
+                if (TempMonster->Difficulty > 240 & TempMonster->Difficulty < 300 & TempMonster->ThreatLevel < 24)
+                    MonsterList[MonsterListLength++] = TempMonster;
+            if (Difficulty == 8)
+                if (TempMonster->Difficulty > 260 & TempMonster->Difficulty < 320 & TempMonster->ThreatLevel < 24)
+                    MonsterList[MonsterListLength++] = TempMonster;
+        }
+        else
+        {
+            if (TempMonster->Difficulty >= ((Difficulty + 1) * 10) - 40 &&
+                    TempMonster->Difficulty <= ((Difficulty + 1) * 10) + 10)
+                MonsterList[MonsterListLength++] = TempMonster;
+        }
     }
 
     if (!MonsterListLength)
@@ -2516,7 +3463,7 @@ NamedScript DECORATE void MonsterTransport(int Difficulty, int Time, int Radius)
 
     bool Complete, Success, IsBoss;
     fixed X, Y, Z, SpawnX, SpawnY;
-    int MonsterIndex, TID, SpawnTries, CurrentRadius;
+    int MonsterIndex, TID, SpawnTries, RadiusMin, RadiusMax;
     MonsterStatsPtr Stats;
 
     while (true)
@@ -2542,16 +3489,17 @@ NamedScript DECORATE void MonsterTransport(int Difficulty, int Time, int Radius)
         TID = UniqueTID();
         Success = false;
         SpawnTries = 0;
-        CurrentRadius = Radius;
+        RadiusMin = 256;
+        RadiusMax = Radius;
         Stats = NULL;
         IsBoss = false;
 
-        while (!Success && SpawnTries < 3)
+        while (!Success && SpawnTries < 3 && CurrentLevel->Event != MAPEVENT_MEGABOSS)
         {
             MonsterIndex = Random(0, MonsterListLength - 1);
 
-            SpawnX = RandomFixed(-(fixed)CurrentRadius, (fixed)CurrentRadius);
-            SpawnY = RandomFixed(-(fixed)CurrentRadius, (fixed)CurrentRadius);
+            SpawnX = RandomFixed(-(fixed)RadiusMax, (fixed)RadiusMax);
+            SpawnY = RandomFixed(-(fixed)RadiusMax, (fixed)RadiusMax);
 
             // Get the floor Z position at this spot
             SpawnForced("MapSpot", X + SpawnX, Y + SpawnY, Z, TID, 0);
@@ -2563,7 +3511,7 @@ NamedScript DECORATE void MonsterTransport(int Difficulty, int Time, int Radius)
             IsBoss = CheckFlag(TID, "BOSS");
 
             if (Success)
-                Success = CheckSight(0, TID, 0);
+                Success = CheckSight(0, TID, 0) && Distance(0, TID) > RadiusMin;
             if (Success)
                 Success = !IsBoss || (!Random (0, 3) && BossesSpawned < 3);
 
@@ -2571,7 +3519,9 @@ NamedScript DECORATE void MonsterTransport(int Difficulty, int Time, int Radius)
             {
                 // Try again, closer to the player each time, up to 3 times, before giving up.
                 Thing_Remove(TID);
-                CurrentRadius /= 2;
+                RadiusMax /= 2;
+                if (SpawnTries == 1)
+                    RadiusMin /= 2;
             }
             else
             {
@@ -2580,6 +3530,7 @@ NamedScript DECORATE void MonsterTransport(int Difficulty, int Time, int Radius)
             }
 
             SpawnTries++;
+            Delay(1);
         }
 
         if (Success)
@@ -2646,7 +3597,7 @@ void MonsterLevelup(MonsterStatsPtr Stats)
     // Apply the stats to the monster
     Stats->Level++;
 
-    int Pool = GameSkill();
+    int Pool = 5;
 
     while (Pool > 0)
     {
@@ -2713,7 +3664,7 @@ void CapMonsterStats(MonsterStatsPtr Stats)
 
 int CalculateMonsterThreatLevel(MonsterStatsPtr Stats)
 {
-    int Threat;
+    fixed Threat;
 
     // Stats
     Threat += Stats->Strength;
@@ -2724,19 +3675,19 @@ int CalculateMonsterThreatLevel(MonsterStatsPtr Stats)
     Threat += Stats->Agility;
     Threat += Stats->Capacity;
     Threat += Stats->Luck;
-    Threat /= 800;
+    Threat /= 200.0;
 
     // Auras
     for (int i = 0; i < AURA_MAX; i++)
         if (Stats->Aura.Type[i].Active)
-            Threat++;
+            Threat += 0.25;
 
     // Bosses
     if (CheckFlag(0, "BOSS") || Stats->Flags & MF_BOSS)
-        Threat++;
+        Threat += 1.0;
     // Megaboss
     if (Stats->Flags & MF_MEGABOSS)
-        Threat += 2;
+        Threat += 2.0;
 
     // Monsters
     if (CompatMonMode != COMPAT_NONE)
@@ -2749,17 +3700,17 @@ int CalculateMonsterThreatLevel(MonsterStatsPtr Stats)
 
             if (StartsWith(Actor, MonsterIterPtr->Actor))
             {
-                Threat += MonsterIterPtr->ThreatLevel;
+                Threat += (fixed)((0.25 - 0.01 * MonsterIterPtr->ThreatLevel) + MonsterIterPtr->ThreatLevel / 10.0);
                 break;
             }
         }
     }
 
     // Cap
-    if (Threat > 10)
-        Threat = 10;
+    if (Threat > 10.0)
+        Threat = 10.0;
 
-    return Threat;
+    return RoundInt(Threat);
 }
 
 int CalculateMonsterMaxHealth(MonsterStatsPtr Stats)
@@ -2772,6 +3723,21 @@ int CalculateMonsterMaxHealth(MonsterStatsPtr Stats)
     HealthAddition /= 1000;
 
     Health += HealthAddition + HealthBoost;
+
+    // Compatibility Handling - LegenDoom
+    // Add health for Legendary monsters
+    if (CompatMode == COMPAT_LEGENDOOM || CompatModeLite == COMPAT_LEGENDOOMLITE)
+    {
+        if (CheckInventory("LDLegendaryMonsterToken"))
+        {
+            if (CheckFlag(0, "BOSS"))
+                Health *= GetCVar("LD_legendaryhealthboss") / 100;
+            else
+                Health *= GetCVar("LD_legendaryhealth") / 100;
+
+            GiveInventory("DRPGLegenDoomMonsterInit", 1);
+        }
+    }
 
     return Health;
 }
@@ -2792,6 +3758,8 @@ void RemoveMonsterAura(MonsterStatsPtr Stats)
 {
     Stats->Aura.Time = 0;
     Stats->Aura.Team = false;
+    Stats->HasAura = false;
+    Stats->HasShadowAura = false;
 
     for (int i = 0; i < AURA_MAX; i++)
     {
@@ -3020,7 +3988,7 @@ NamedScript Console void MonsterDamaged(int SourceTID, int Damage)
     if (PlayerNum > -1)
     {
         Stats->DamageTable[PlayerNum] += Damage;
-        if (GetCVar("drpg_combo_damage"))
+        if (GetCVar("drpg_combo_damage") || Player.Aura.Type[AURA_WHITE].Active && Player.Aura.Type[AURA_WHITE].Level >= 2)
         {
             if (Players(PlayerNum).Combo > 0)
                 Players(PlayerNum).ComboTimer = COMBO_MAX;
@@ -3044,14 +4012,74 @@ NamedScript Console void MonsterDamaged(int SourceTID, int Damage)
     }
 }
 
+// Calculate current map total monsters modifier
+fixed MapTotalMonstersMod()
+{
+    fixed MapTotalMonstersMod = 1.0;
+    int TotalMonsters = GetLevelInfo(LEVELINFO_TOTAL_MONSTERS);
+
+    if (TotalMonsters > 256)
+        MapTotalMonstersMod = 256.0 / TotalMonsters;
+    if (MapTotalMonstersMod < 0.25)
+        MapTotalMonstersMod = 0.25;
+
+    return MapTotalMonstersMod;
+}
+
+// Calculate current map total bosses modifier
+fixed MapTotalBossesMod()
+{
+    fixed MapTotalBossesMod = 1.0;
+
+    if (TotalBosses > 2)
+        MapTotalBossesMod = 2.0 / TotalBosses;
+    if (MapTotalBossesMod < 0.25)
+        MapTotalBossesMod = 0.25;
+
+    return MapTotalBossesMod;
+}
+
+// Compatibility Handling - DoomRL Arsenal Extended
+// Familiar Init Script
+NamedScript DECORATE void FamiliarInit(int PlayerNum, int Slot)
+{
+    // Get a new ID for the familiar
+    if (GetMonsterID(0) == 0)
+        SetMonsterID(0, NewMonsterID());
+
+    // Store TID
+    if (ActivatorTID() == 0)
+    {
+        int TID = UniqueTID();
+        Thing_ChangeTID(0, TID);
+        Players(PlayerNum).FamiliarTID[Slot] = TID;
+    }
+    else
+        Players(PlayerNum).FamiliarTID[Slot] = ActivatorTID();
+
+    Players(PlayerNum).Familiars = true;
+}
+
 NamedScript DECORATE int GetMonsterHealthMax()
 {
+    // Pointer
     MonsterStatsPtr Stats = &Monsters[GetMonsterID(0)];
+
+    // Move script to the targeted monster
+    SetActivatorToTarget(Player.TID);
+
+    // Return value monster maximum health
     return Stats->HealthMax;
 }
 
 NamedScript DECORATE int GetMonsterLevel()
 {
+    // Pointer
     MonsterStatsPtr Stats = &Monsters[GetMonsterID(0)];
+
+    // Move script to the targeted monster
+    SetActivatorToTarget(Player.TID);
+
+    // Return value monster level
     return Stats->Level;
 }

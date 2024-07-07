@@ -1,58 +1,105 @@
 clearskills
 
-// Easy skill
-skill easy
-{
-	aggressiveness = 0.25
-	spawnfilter = normal
 
-	easybossbrain
-	easykey
-	autousehealth
-	
-	acsreturn = 1
-	
-	PicName = "M_EASY"
-	Name = "$SKILL_EASY"
-	textcolor = "Green"
+skill baby
+{
+	AutoUseHealth
+	AmmoFactor = 2
+	DamageFactor = 0.5
+	EasyBossBrain
+	SpawnFilter = Baby
+	PicName = "M_VEASY"
+	Name = "$SKILL_BABY"
 	Key = "1"
-	
+	acsreturn = 1
 	ReplaceActor = "Zombieman", "RLFormerHumanSpawnerEasy"
 	ReplaceActor = "Shotgunguy", "RLFormerSergeantSpawnerEasy"
 	ReplaceActor = "Chaingunguy", "RLFormerCommandoSpawnerEasy"
-	ReplaceActor = "DoomImp", "RLImp"
-	ReplaceActor = "Demon", "RLDemon"
-	ReplaceActor = "Spectre", "RLSpectre"
-	ReplaceActor = "LostSoul", "RLLostSoul"
-	ReplaceActor = "Cacodemon", "RLCacodemon"
-	ReplaceActor = "HellKnight", "RLHellKnight"
-	ReplaceActor = "BaronOfHell", "RLBaronOfHell"
-	ReplaceActor = "Arachnotron", "RLArachnotron"
-	ReplaceActor = "PainElemental", "RLPainElemental"
-	ReplaceActor = "Revenant", "RLRevenant"
-	ReplaceActor = "Fatso", "RLMancubus"
-	ReplaceActor = "Archvile", "RLArchvile"
-	ReplaceActor = "Cyberdemon", "RLCyberdemon"
+	ReplaceActor = "DoomImp", "RLImpRPG"
+	ReplaceActor = "Demon", "RLDemonRPG"
+	ReplaceActor = "Spectre", "RLSpectreRPG"
+	ReplaceActor = "LostSoul", "RLLostSoulRPG"
+	ReplaceActor = "Cacodemon", "RLCacodemonRPG"
+	ReplaceActor = "HellKnight", "RLHellKnightRPG"
+	ReplaceActor = "BaronOfHell", "RLBaronOfHellRPG"
+	ReplaceActor = "Arachnotron", "RLArachnotronRPG"
+	ReplaceActor = "PainElemental", "RLPainElementalRPG"
+	ReplaceActor = "Revenant", "RLRevenantRPG"
+	ReplaceActor = "Fatso", "RLMancubusRPG"
+	ReplaceActor = "Archvile", "RLArchvileRPG"
+	ReplaceActor = "Cyberdemon", "RLCyberdemonRPG"
 	ReplaceActor = "SpiderMastermind", "RLSpiderMastermindVariantSpawner"
+	ReplaceActor = "BossEye", "RLEasyBossEye"
+	ReplaceActor = "BossBrain", "RLBossBrain"
+}
+
+skill easy
+{
+	AutoUseHealth
+	EasyBossBrain
+	SpawnFilter = Easy
+	PicName = "M_EASY"
+	Name = "$SKILL_EASY"
+	Key = "2"
+	acsreturn = 2
+	ReplaceActor = "Zombieman", "RLFormerHumanNoArmageddonSpawner"
+	ReplaceActor = "Shotgunguy", "RLFormerSergeantNoArmageddonSpawner"
+	ReplaceActor = "Chaingunguy", "RLFormerCommandoNoArmageddonSpawner"
+	ReplaceActor = "DoomImp", "RLImpNoArmageddonSpawner"
+	ReplaceActor = "Demon", "RLDemonNoArmageddonSpawner"
+	ReplaceActor = "Spectre", "RLSpectreNoArmageddonSpawner"
+	ReplaceActor = "LostSoul", "RLLostSoulNoArmageddonSpawner"
+	ReplaceActor = "Cacodemon", "RLCacodemonNoArmageddonSpawner"
+	ReplaceActor = "HellKnight", "RLHellKnightNoArmageddonSpawner"
+	ReplaceActor = "BaronOfHell", "RLBaronOfHellNoArmageddonSpawner"
+	ReplaceActor = "Arachnotron", "RLArachnotronNoArmageddonSpawner"
+	ReplaceActor = "PainElemental", "RLPainElementalNoArmageddonSpawner"
+	ReplaceActor = "Revenant", "RLRevenantNoArmageddonSpawner"
+	ReplaceActor = "Fatso", "RLMancubusNoArmageddonSpawner"
+	ReplaceActor = "Archvile", "RLArchvileNoArmageddonSpawner"
+	ReplaceActor = "Cyberdemon", "RLCyberdemonNoArmageddonSpawner"
+	ReplaceActor = "SpiderMastermind", "RLSpiderMastermindNoArmageddonSpawner"
 	ReplaceActor = "BossEye", "RLBossEye"
 	ReplaceActor = "BossBrain", "RLBossBrain"
 }
 
-// Normal skill
 skill normal
 {
-	aggressiveness = 0.5
-	spawnfilter = normal
-	
-	autousehealth
-
-	acsreturn = 2
-	
+	AutoUseHealth
+	SpawnFilter = Normal
 	PicName = "M_MODER"
+	Key = "3"
+	acsreturn = 3
 	Name = "$SKILL_NORMAL"
-	textcolor = "Yellow"
-	Key = "2"
+	ReplaceActor = "Zombieman", "RLFormerHumanNoArmageddonSpawner"
+	ReplaceActor = "Shotgunguy", "RLFormerSergeantNoArmageddonSpawner"
+	ReplaceActor = "Chaingunguy", "RLFormerCommandoNoArmageddonSpawner"
+	ReplaceActor = "DoomImp", "RLImpNoArmageddonSpawner"
+	ReplaceActor = "Demon", "RLDemonNoArmageddonSpawner"
+	ReplaceActor = "Spectre", "RLSpectreNoArmageddonSpawner"
+	ReplaceActor = "LostSoul", "RLLostSoulNoArmageddonSpawner"
+	ReplaceActor = "Cacodemon", "RLCacodemonNoArmageddonSpawner"
+	ReplaceActor = "HellKnight", "RLHellKnightNoArmageddonSpawner"
+	ReplaceActor = "BaronOfHell", "RLBaronOfHellNoArmageddonSpawner"
+	ReplaceActor = "Arachnotron", "RLArachnotronNoArmageddonSpawner"
+	ReplaceActor = "PainElemental", "RLPainElementalNoArmageddonSpawner"
+	ReplaceActor = "Revenant", "RLRevenantNoArmageddonSpawner"
+	ReplaceActor = "Fatso", "RLMancubusNoArmageddonSpawner"
+	ReplaceActor = "Archvile", "RLArchvileNoArmageddonSpawner"
+	ReplaceActor = "Cyberdemon", "RLCyberdemonNoArmageddonSpawner"
+	ReplaceActor = "SpiderMastermind", "RLSpiderMastermindNoArmageddonSpawner"
+	ReplaceActor = "BossEye", "RLBossEye"
+	ReplaceActor = "BossBrain", "RLBossBrain"
+}
 
+skill hard
+{
+	AutoUseHealth
+	SpawnFilter = Hard
+	PicName = "M_STAND"
+	Name = "$SKILL_HARD"
+	Key = "4"
+	acsreturn = 4
 	ReplaceActor = "Zombieman", "RLFormerHumanSpawner"
 	ReplaceActor = "Shotgunguy", "RLFormerSergeantSpawner"
 	ReplaceActor = "Chaingunguy", "RLFormerCommandoSpawner"
@@ -70,29 +117,22 @@ skill normal
 	ReplaceActor = "Archvile", "RLArchvileSpawner"
 	ReplaceActor = "Cyberdemon", "RLCyberdemonSpawner"
 	ReplaceActor = "SpiderMastermind", "RLSpiderMastermindSpawner"
-	ReplaceActor = "BossEye", "RLBossEye"
+	ReplaceActor = "BossEye", "RLUVBossEye"
 	ReplaceActor = "BossBrain", "RLBossBrain"
 }
 
-// Adaptive skill
 skill adaptive
 {
-	aggressiveness = 0.8
-	spawnfilter = nightmare
-
-	disablecheats
-	autousehealth
-	
-	acsreturn = 3
-	
+	AutoUseHealth
+	SpawnFilter = Nightmare
 	PicName = "M_ADAPT"
 	Name = "Adaptive"
 	MustConfirm = "A progressive difficulty that ramps up over time, starts at UV, ends up far worse."
-	textcolor = "Sapphire"
-	Key = "3"
-	
-	//ReplaceActor = "GreenArmor", "RLAdaptiveStandardArmorSpawner"
-	//ReplaceActor = "BlueArmor", "RLAdaptiveAdvancedArmorSpawner"
+	Key = "5"
+	acsreturn = 5
+	DefaultSkill
+//	ReplaceActor = "GreenArmor", "RLAdaptiveStandardArmorSpawner"
+//	ReplaceActor = "BlueArmor", "RLAdaptiveAdvancedArmorSpawner"
 	ReplaceActor = "Zombieman", "RLAdaptiveFormerHuman"
 	ReplaceActor = "Shotgunguy", "RLAdaptiveFormerSergeant"
 	ReplaceActor = "Chaingunguy", "RLAdaptiveFormerCommando"
@@ -114,116 +154,949 @@ skill adaptive
 	ReplaceActor = "BossBrain", "RLBossBrain"
 }
 
-// Nightmare skill
 skill nightmare
 {
-	defaultskill
-	aggressiveness = 1.0
-	spawnfilter = nightmare
-	
-	autousehealth
-
-	acsreturn = 4
-	
+	AutoUseHealth
+	SpawnFilter = Hard
 	PicName = "M_NIGHT"
 	Name = "$SKILL_NIGHTMARE"
 	MustConfirm = "Raging, horned devils. Only Nightmare enemies spawn..."
-	textcolor = "Red"
-	Key = "4"
-
+	Key = "6"
+	acsreturn = 6
 	ReplaceActor = "Zombieman", "RLEliteFormerHumanSpawner"
 	ReplaceActor = "Shotgunguy", "RLEliteFormerSergeantSpawner"
 	ReplaceActor = "Chaingunguy", "RLEliteFormerCommandoSpawner"
-	ReplaceActor = "DoomImp", "RLNightmareImp"
-	ReplaceActor = "Demon", "RLNightmareDemon"
-	ReplaceActor = "Spectre", "RLNightmareSpectre"
-	ReplaceActor = "LostSoul", "RLNightmareLostSoul"
-	ReplaceActor = "Cacodemon", "RLNightmareCacodemon"
-	ReplaceActor = "HellKnight", "RLNightmareHellKnight"
-	ReplaceActor = "BaronOfHell", "RLNightmareBaronOfHell"
-	ReplaceActor = "Arachnotron", "RLNightmareArachnotron"
-	ReplaceActor = "PainElemental", "RLNightmarePainElemental"
-	ReplaceActor = "Revenant", "RLNightmareRevenant"
-	ReplaceActor = "Fatso", "RLNightmareMancubus"
-	ReplaceActor = "Archvile", "RLNightmareArchvile"
+	ReplaceActor = "DoomImp", "RLNightmareImpRPG"
+	ReplaceActor = "Demon", "RLNightmareDemonRPG"
+	ReplaceActor = "Spectre", "RLNightmareSpectreRPG"
+	ReplaceActor = "LostSoul", "RLNightmareLostSoulRPG"
+	ReplaceActor = "Cacodemon", "RLNightmareCacodemonRPG"
+	ReplaceActor = "HellKnight", "RLNightmareHellKnightRPG"
+	ReplaceActor = "BaronOfHell", "RLNightmareBaronOfHellRPG"
+	ReplaceActor = "Arachnotron", "RLNightmareArachnotronRPG"
+	ReplaceActor = "PainElemental", "RLNightmarePainElementalRPG"
+	ReplaceActor = "Revenant", "RLNightmareRevenantRPG"
+	ReplaceActor = "Fatso", "RLNightmareMancubusRPG"
+	ReplaceActor = "Archvile", "RLNightmareArchvileRPG"
 	ReplaceActor = "Cyberdemon", "RLNightmareCyberdemonSpawner"
 	ReplaceActor = "SpiderMastermind", "RLNightmareSpiderMastermindSpawner"
 	ReplaceActor = "BossEye", "RLNightmareBossEye"
 	ReplaceActor = "BossBrain", "RLNightmareBossBrain"
 }
 
-// Hell skill
-skill hell
+skill technophobia
 {
-	aggressiveness = 1.0
-	spawnfilter = nightmare
-
-	disablecheats
-	autousehealth
-	
-	acsreturn = 5
-	
-	PicName = "M_HELL"
-	Name = "Hell"
-	textcolor = "Brick"
-	Key = "5"
-
-	ReplaceActor = "Zombieman", "DRPGHellFormerHumanSpawner"
-	ReplaceActor = "Shotgunguy", "DRPGHellFormerSergeantSpawner"
-	ReplaceActor = "Chaingunguy", "DRPGHellFormerCommandoSpawner"
-	ReplaceActor = "DoomImp", "DRPGHellImpSpawner"
-	ReplaceActor = "Demon", "DRPGHellDemonSpawner"
-	ReplaceActor = "Spectre", "DRPGHellSpectreSpawner"
-	ReplaceActor = "LostSoul", "DRPGHellLostSoulSpawner"
-	ReplaceActor = "Cacodemon", "DRPGHellCacodemonSpawner"
-	ReplaceActor = "HellKnight", "DRPGHellHellKnightSpawner"
-	ReplaceActor = "BaronOfHell", "DRPGHellBaronOfHellSpawner"
-	ReplaceActor = "Arachnotron", "DRPGHellArachnotronSpawner"
-	ReplaceActor = "PainElemental", "DRPGHellPainElementalSpawner"
-	ReplaceActor = "Revenant", "DRPGHellRevenantSpawner"
-	ReplaceActor = "Fatso", "DRPGHellMancubusSpawner"
-	ReplaceActor = "Archvile", "DRPGHellArchvileSpawner"
-	ReplaceActor = "Cyberdemon", "DRPGHellCyberdemonSpawner"
-	ReplaceActor = "SpiderMastermind", "DRPGHellSpiderMastermindSpawner"
-    ReplaceActor = "BossEye", "RLUVBossEye"
+	AutoUseHealth
+	SpawnFilter = Hard
+	PicName = "M_TECHN"
+	Name = "Technophobia"
+	MustConfirm = "Cold, unfeeling metal. Only Cybernetic enemies spawn... muh cyber-caco experience ;_;."
+	Key = "7"
+	acsreturn = 7
+	ReplaceActor = "Zombieman", "RLFormerCyborgBattleRifleRPG"
+	ReplaceActor = "Shotgunguy", "RLFormerCyborgBattleRifleRPG"
+	ReplaceActor = "Chaingunguy", "RLFormerCyborgBattleRifleRPG"
+	ReplaceActor = "DoomImp", "RLCyberneticImpRPG"
+	ReplaceActor = "Demon", "RLCyberneticDemonRPG"
+	ReplaceActor = "Spectre", "RLCyberneticSpectreRPG"
+	ReplaceActor = "LostSoul", "RLCyberneticLostSoulRPG"
+//	ReplaceActor = "Cacodemon", "RLCyberneticCacodemon"
+	ReplaceActor = "Cacodemon", "RLCacodemonRPG"
+	ReplaceActor = "HellKnight", "RLCyberneticHellKnightRPG"
+	ReplaceActor = "BaronOfHell", "RLCyberneticBaronOfHellRPG"
+	ReplaceActor = "Arachnotron", "RLCyberneticArachnotronRPG"
+	ReplaceActor = "PainElemental", "RLCyberneticPainElementalRPG"
+	ReplaceActor = "Revenant", "RLCyberneticRevenantRPG"
+	ReplaceActor = "Fatso", "RLCyberneticMancubusRPG"
+	ReplaceActor = "Archvile", "RLCyberneticArchvileRPG"
+	ReplaceActor = "Cyberdemon", "RLCyberneticCyberdemonSpawner"
+	ReplaceActor = "SpiderMastermind", "RLCyberneticSpiderMastermindSpawner"
+	ReplaceActor = "BossEye", "RLTechnophobiaBossEye"
+	ReplaceActor = "BossBrain", "RLTechnophobiaBossBrain"
 }
 
-// Armageddon skill
 skill armageddon
 {
-	aggressiveness = 1.0
-	spawnfilter = nightmare
-
-	disablecheats
-	autousehealth
-	
-	acsreturn = 6
-	
+	AutoUseHealth
+	SpawnFilter = Nightmare
 	PicName = "M_ARMAG"
 	Name = "Armageddon"
 	MustConfirm = "WELCOME TO ARMAGEDDON, FOOL"
-	textcolor = "Black"
-	Key = "6"
-	
+	Key = "8"
+	acsreturn = 8
 	ReplaceActor = "GreenArmor", "RLArmageddonStandardArmorSpawner"
 	ReplaceActor = "BlueArmor", "RLArmageddonAdvancedArmorSpawner"
-	ReplaceActor = "Zombieman", "RLFormerAssaultTrooper"
-	ReplaceActor = "Shotgunguy", "RLFormerOverwatch"
-	ReplaceActor = "Chaingunguy", "RLFormerShocktrooper"
-	ReplaceActor = "DoomImp", "RLArmageddonImp"
-	ReplaceActor = "Demon", "RLArmageddonDemon"
+	ReplaceActor = "Zombieman", "RLFormerAssaultTrooperRPG"
+	ReplaceActor = "Shotgunguy", "RLFormerOverwatchRPG"
+	ReplaceActor = "Chaingunguy", "RLFormerShocktrooperRPG"
+	ReplaceActor = "DoomImp", "RLArmageddonImpRPG"
+	ReplaceActor = "Demon", "RLArmageddonDemonRPG"
 	ReplaceActor = "Spectre", "RLArmageddonSpectreSpawner"
 	ReplaceActor = "LostSoul", "RLTheHungrySpawner"
-	ReplaceActor = "Cacodemon", "RLArmageddonCacodemon"
+	ReplaceActor = "Cacodemon", "RLArmageddonCacodemonRPG"
 	ReplaceActor = "HellKnight", "RLArmageddonHellKnightSpawner"
-	ReplaceActor = "BaronOfHell", "RLArmageddonBaronOfHell"
-	ReplaceActor = "Arachnotron", "RLArmageddonArachnotron"
-	ReplaceActor = "PainElemental", "RLArmageddonPainElemental"
-	ReplaceActor = "Revenant", "RLArmageddonRevenant"
-	ReplaceActor = "Fatso", "RLArmageddonMancubus"
+	ReplaceActor = "BaronOfHell", "RLArmageddonBaronOfHellRPG"
+	ReplaceActor = "Arachnotron", "RLArmageddonArachnotronRPG"
+	ReplaceActor = "PainElemental", "RLArmageddonPainElementalRPG"
+	ReplaceActor = "Revenant", "RLArmageddonRevenantRPG"
+	ReplaceActor = "Fatso", "RLArmageddonMancubusRPG"
 	ReplaceActor = "Archvile", "RLArmageddonArchvileSpawner"
 	ReplaceActor = "Cyberdemon", "RLArmageddonCyberdemonSpawner"
 	ReplaceActor = "SpiderMastermind", "RLArmageddonSpiderMastermindSpawner"
 	ReplaceActor = "BossEye", "RLArmageddonBossEye"
 	ReplaceActor = "BossBrain", "RLArmageddonBossBrain"
+}
+
+Intermission Inter_Cast
+{
+	Wiper
+	{
+		WipeType = Crossfade
+	}
+	Image
+	{
+		// This is only here to initialize the background and the music
+		Background = "BOSSBACK"
+		Time = -1
+		Music = "CC_CASTC"
+	}
+	Link = Doom2Cast
+}
+
+Intermission Doom2Cast
+{
+	Cast
+	{
+		CastClass = "RLCCFormerHumanPistol"
+		CastName = "Former Human [\cjPistol\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/pistol"
+	}
+	Cast
+	{
+		CastClass = "RLCCFormerHumanBattleRifle"
+		CastName = "Former Human [\cjBattle Rifle\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/battlerifle"
+	}
+	Cast
+	{
+		CastClass = "RLCCFormerSergeantShotgun"
+		CastName = "Former Human Sergeant [\cjShotgun\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/shotgun"
+		AttackSound = "Missile", 4, "rlmonsters/shotgunpump"
+	}
+	Cast
+	{
+		CastClass = "RLCCFormerSergeantCombatShotgun"
+		CastName = "Former Human Sergeant [\cjCombat Shotgun\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/combatshotgun"
+		AttackSound = "Missile", 4, "rlmonsters/combatshotgunpump"
+	}
+	Cast
+	{
+		CastClass = "RLCCFormerCommandoChaingun"
+		CastName = "Former Human Commando [\cjChaingun\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/chaingun"
+		AttackSound = "Missile", 3, "rlmonsters/chaingun"
+		AttackSound = "Missile", 5, "rlmonsters/chaingun"
+		AttackSound = "Missile", 7, "rlmonsters/chaingun"
+		AttackSound = "Missile", 9, "rlmonsters/chaingun"
+	}
+	Cast
+	{
+		CastClass = "RLCCFormerCommandoBattleRifle"
+		CastName = "Former Human Commando [\cjBattle Rifle\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/battlerifle"
+		AttackSound = "Missile", 3, "rlmonsters/battlerifle"
+		AttackSound = "Missile", 5, "rlmonsters/battlerifle"
+	}
+	Cast
+	{
+		CastClass = "RLCCFormerCaptainPlasmaRifle"
+		CastName = "Former Human Captain [\cjPlasma Rifle\c-]"
+		AttackSound = "Missile", 1, "weapons/plasmaf"
+		AttackSound = "Missile", 3, "weapons/plasmaf"
+		AttackSound = "Missile", 5, "weapons/plasmaf"
+		AttackSound = "Missile", 7, "weapons/plasmaf"
+	}
+	Cast
+	{
+		CastClass = "RLCCImp"
+		CastName = "Imp"
+		AttackSound = "Missile", 2, "imp/attack"
+		AttackSound = "Melee", 2, "imp/melee"
+	}
+	Cast
+	{
+		CastClass = "RLCCDemon"
+		CastName = "Demon"
+		AttackSound = "Melee", 0, "demon/melee"
+	}
+	Cast
+	{
+		CastClass = "RLCCSpectre"
+		CastName = "Spectre"
+		AttackSound = "Melee", 0, "demon/melee"
+	}
+	Cast
+	{
+		CastClass = "RLCCLostSoul"
+		CastName = "Lost Soul"
+		AttackSound = "Missile", 1, "skull/melee"
+	}
+	Cast
+	{
+		CastClass = "RLCCCacodemon"
+		CastName = "Cacodemon"
+		AttackSound = "Missile", 1, "caco/attack"
+		AttackSound = "Melee", 5, "rlmonsters/bite"
+	}
+	Cast
+	{
+		CastClass = "RLCCHellKnight"
+		CastName = "Hell Knight"
+		AttackSound = "Missile", 1, "baron/attack"
+		AttackSound = "Melee", 1, "baron/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCBaronOfHell"
+		CastName = "Baron of Hell"
+		AttackSound = "Missile", 1, "baron/attack"
+		AttackSound = "Missile", 4, "baron/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCArachnotron"
+		CastName = "Arachnotron"
+		AttackSound = "Missile", 1, "rlmonsters/plasmamkii"
+		AttackSound = "Missile", 3, "rlmonsters/plasmamkii"
+		AttackSound = "Missile", 5, "rlmonsters/plasmamkii"
+	}
+	Cast
+	{
+		CastClass = "RLCCPainElemental"
+		CastName = "Pain Elemental"
+		AttackSound = "Missile", 2, "skull/melee"
+		AttackSound = "Melee", 5, "rlmonsters/bite"
+	}
+	Cast
+	{
+		CastClass = "RLCCRevenant"
+		CastName = "Revenant"
+		AttackSound = "Missile", 0, "skeleton/attack"
+		AttackSound = "Melee", 1, "skeleton/swing"
+		AttackSound = "Melee", 3, "skeleton/melee"
+	}
+	Cast
+	{
+		CastClass = "RLCCMancubus"
+		CastName = "Mancubus"
+		AttackSound = "Missile", 1, "fatso/attack"
+		AttackSound = "Missile", 4, "fatso/attack"
+		AttackSound = "Missile", 7, "fatso/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCArchvile"
+		CastName = "Arch-vile"
+		AttackSound = "Missile", 1, "vile/start"
+		AttackSound = "Melee", 0, "misc/gibbed"
+	}
+	Cast
+	{
+		CastClass = "RLCCSpiderMastermind"
+		CastName = "Spider Mastermind"
+		AttackSound = "Missile", 0, "rlmonsters/minigun"
+		AttackSound = "Missile", 1, "rlmonsters/minigun"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberdemon"
+		CastName = "Cyberdemon"
+		AttackSound = "Melee", 1, "rlmonsters/stomp"
+		AttackSound = "Missile", 1, "weapons/rocklf"
+		AttackSound = "Missile", 3, "weapons/rocklf"
+		AttackSound = "Missile", 5, "weapons/rocklf"
+	}
+	Cast
+	{
+		CastClass = "RLCCBruiserBrother"
+		CastName = "Bruiser Brothers"
+		AttackSound = "Missile", 2, "baron/attack"
+		AttackSound = "Missile", 5, "baron/attack"
+		AttackSound = "Melee", 2, "rlmonsters/baronball"
+	}
+	Link = Inter_NCast	// Proceed to Nightmare Cast Call
+}
+
+Intermission Inter_NCast
+{
+	Wiper
+	{
+		WipeType = Crossfade
+	}
+	Image
+	{
+		// This is only here to initialize the background and the music
+		Background = "BOSSBAC2"
+		Time = -1
+		Music = "CC_NMARE"
+	}
+	Link = NightmareCast
+}
+
+Intermission NightmareCast
+{
+	Cast
+	{
+		CastClass = "RLCCEliteHumanCombatPistol"
+		CastName = "Elite Human [\ctCombat Pistol\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/combatpistol"
+		AttackSound = "Missile", 3, "rlmonsters/combatpistol"
+		AttackSound = "Missile", 5, "rlmonsters/combatpistol"
+	}
+	Cast
+	{
+		CastClass = "RLCCEliteHumanHandcannon"
+		CastName = "Elite Human [\ctHandcannon\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/handcannon"
+	}
+	Cast
+	{
+		CastClass = "RLCCEliteHumanBattleRifle"
+		CastName = "Elite Human [\cvBurst-Fire Rifle\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/burstbattlerifle"
+		AttackSound = "Missile", 3, "rlmonsters/burstbattlerifle"
+		AttackSound = "Missile", 5, "rlmonsters/burstbattlerifle"
+	}
+	Cast
+	{
+		CastClass = "RLCCEliteHumanUzi"
+		CastName = "Elite Human Scout [\ctUzi\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/uzi"
+		AttackSound = "Missile", 3, "rlmonsters/uzi"
+		AttackSound = "Missile", 5, "rlmonsters/uzi"
+		AttackSound = "Missile", 7, "rlmonsters/uzi"
+		AttackSound = "Missile", 9, "rlmonsters/uzi"
+		AttackSound = "Missile", 11, "rlmonsters/uzi"
+	}
+	Cast
+	{
+		CastClass = "RLCCEliteSergeantDoubleShotgun"
+		CastName = "Elite Human Sergeant [\cjDouble Shotgun\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/doubleshotgun"
+		AttackSound = "Missile", 3, "rlmonsters/doubleshotgunopen"
+		AttackSound = "Missile", 4, "rlmonsters/doubleshotgunload"
+		AttackSound = "Missile", 5, "rlmonsters/doubleshotgunclose"
+	}
+	Cast
+	{
+		CastClass = "RLCCEliteSergeantAssaultShotgun"
+		CastName = "Elite Human Sergeant [\ctAssault Shotgun\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/assaultshotgun"
+		AttackSound = "Missile", 3, "rlmonsters/assaultshotgun"
+		AttackSound = "Missile", 5, "rlmonsters/assaultshotgun"
+	}
+	Cast
+	{
+		CastClass = "RLCCEliteSergeantPlasmaShotgun"
+		CastName = "Elite Human Sergeant [\ctPlasma Shotgun\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/plasmashotgun"
+	}
+	Cast
+	{
+		CastClass = "RLCCEliteCommandoMinigun"
+		CastName = "Elite Human Commando [\ctMinigun\c-]"
+		AttackSound = "Missile", 0, "rlmonsters/minigun"
+		AttackSound = "Missile", 1, "rlmonsters/minigun"
+	}
+	Cast
+	{
+		CastClass = "RLCCEliteCommandoLaserRifle"
+		CastName = "Elite Human Commando [\ctLaser Rifle\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/laserrifle"
+		AttackSound = "Missile", 3, "rlmonsters/laserrifle"
+		AttackSound = "Missile", 5, "rlmonsters/laserrifle"
+		AttackSound = "Missile", 7, "rlmonsters/laserrifle"
+	}
+	Cast
+	{
+		CastClass = "RLCCEliteCaptainTristarBlaster"
+		CastName = "Elite Human Captain [\ctTristar Blaster\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/tristarblaster"
+	}
+	Cast
+	{
+		CastClass = "RLCCEliteCaptainMissileLauncher"
+		CastName = "Elite Human Captain [\ctMissile Launcher\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/missilelauncher"
+	}
+	Cast
+	{
+		CastClass = "RLCCEliteCaptainNapalmLauncher"
+		CastName = "Elite Human Captain [\ctNapalm Launcher\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/missilelauncher"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareImp"
+		CastName = "Nightmare Imp"
+		AttackSound = "Missile", 2, "imp/attack"
+		AttackSound = "Melee", 2, "imp/melee"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareDemon"
+		CastName = "Nightmare Demon"
+		AttackSound = "Melee", 0, "nightmaredemon/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareSpectre"
+		CastName = "Nightmare Spectre"
+		AttackSound = "Melee", 0, "demon/melee"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareLostSoul"
+		CastName = "Nightmare Soul"
+		AttackSound = "Missile", 1, "skull/melee"
+		AttackSound = "Melee", 0, "skull/melee"
+		AttackSound = "Melee", 4, "skull/melee"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareCacodemon"
+		CastName = "Nightmare Cacodemon"
+		AttackSound = "Missile", 1, "caco/attack"
+		AttackSound = "Melee", 0, "nightmarecacodemon/shadowsplit"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareHellKnight"
+		CastName = "Nightmare Knight"
+		AttackSound = "Missile", 1, "baron/attack"
+		AttackSound = "Melee", 1, "baron/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareBaronOfHell"
+		CastName = "Nightmare Baron"
+		AttackSound = "Missile", 1, "rlmonsters/baronball"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareArachnotron"
+		CastName = "Nightmare Arachnotron"
+		AttackSound = "Missile", 1, "rlmonsters/highpowerplasma"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmarePainElemental"
+		CastName = "Nightmare Elemental"
+		AttackSound = "Missile", 2, "nightmareelemental/attack"
+		AttackSound = "Melee", 3, "rlmonsters/bite"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareRevenant"
+		CastName = "Nightmare Revenant"
+		AttackSound = "Missile", 1, "nightmarerevenant/fire"
+		AttackSound = "Melee", 1, "skeleton/swing"
+		AttackSound = "Melee", 4, "skeleton/swing"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareMancubus"
+		CastName = "Nightmare Mancubus"
+		AttackSound = "Missile", 1, "nightmaremancubus/fire"
+		AttackSound = "Missile", 4, "nightmaremancubus/fire"
+		AttackSound = "Missile", 7, "nightmaremancubus/homingfire"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareArchvile"
+		CastName = "Nightmare Archvile"
+		AttackSound = "Missile", 1, "vile/start"
+		AttackSound = "Melee", 0, "misc/gibbed"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareSpiderMastermind"
+		CastName = "Nightmare Mastermind"
+		AttackSound = "Missile", 0, "nightmaremastermind/minigunloop"
+		AttackSound = "Melee", 0, "nightmaremastermind/minigunend"
+	}
+	Cast
+	{
+		CastClass = "RLCCNightmareCyberdemon"
+		CastName = "Nightmare Cyberdemon"
+		AttackSound = "Melee", 1, "rlmonsters/stomp"
+		AttackSound = "Missile", 1, "weapons/rocklf"
+		AttackSound = "Missile", 3, "rlmonsters/homingplasma"
+		AttackSound = "Missile", 5, "rlmonsters/particlebeam"
+	}
+	Cast
+	{
+		CastClass = "RLCCAgonyElemental"
+		CastName = "Agony Elemental"
+		AttackSound = "Missile", 2, "skull/melee"
+		AttackSound = "Melee", 2, "rlmonsters/bite"
+	}
+	Link = Inter_TCast	// Proceed to Technophobia Cast Call
+}
+
+Intermission Inter_TCast
+{
+	Wiper
+	{
+		WipeType = Crossfade
+	}
+	Image
+	{
+		// This is only here to initialize the background and the music
+		Background = "BOSSBAC3"
+		Time = -1
+		Music = "CC_TPHOB"
+	}
+	Link = TechnophobiaCast
+}
+
+Intermission TechnophobiaCast
+{
+	Cast
+	{
+		CastClass = "RLCCFormerCyborgBattleRifle"
+		CastName = "Former Cyborg [\cjBattle Rifle\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/battlerifle"
+		AttackSound = "Missile", 3, "rlmonsters/battlerifle"
+		AttackSound = "Missile", 5, "rlmonsters/battlerifle"
+	}
+	Cast
+	{
+		CastClass = "RLCCFormerCyborgSergeantShotgun"
+		CastName = "Former Cyborg Sergeant [\cjShotgun\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/shotgun"
+	}
+	Cast
+	{
+		CastClass = "RLCCFormerCyborgCommandoDualChaingun"
+		CastName = "Former Cyborg Commando [\cjChaingun\c-]x2"
+		AttackSound = "Missile", 1, "rlmonsters/chaingun"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticImp"
+		CastName = "Cyber-Imp"
+		AttackSound = "Missile", 2, "weapons/plasmaf"
+		AttackSound = "Melee", 2, "techvile/smallzap"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticDemon"
+		CastName = "Mech-Demon"
+		AttackSound = "Melee", 0, "mechdemon/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticSpectre"
+		CastName = "Mechtre"
+		AttackSound = "Melee", 0, "mechdemon/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticLostSoul"
+		CastName = "Hellmine"
+		AttackSound = "Missile", 0, "hellmine/arm"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticCacodemon"
+		CastName = "Cyber-Caco"
+		AttackSound = "Missile", 1, "caco/attack"
+		AttackSound = "Melee", 1, "rlmonsters/bite"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticHellKnight"
+		CastName = "Cybruiser"
+		AttackSound = "Missile", 1, "cybruiser/fire"
+		AttackSound = "Missile", 3, "cybruiser/fire"
+		AttackSound = "Missile", 5, "cybruiser/fire"
+		AttackSound = "Melee", 2, "baron/melee"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticBaronOfHell"
+		CastName = "Techno-Lord"
+		AttackSound = "Missile", 1, "rlmonsters/minimissile"
+		AttackSound = "Missile", 3, "rlmonsters/minimissile"
+		AttackSound = "Missile", 5, "rlmonsters/minimissile"
+		AttackSound = "Missile", 7, "rlmonsters/minimissile"
+		AttackSound = "Missile", 9, "rlmonsters/minimissile"
+		AttackSound = "Melee", 1, "baron/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticArachnotron"
+		CastName = "Arachnosentinel"
+		AttackSound = "Missile", 1, "rlmonsters/bulletstormchaingun"
+		AttackSound = "Missile", 3, "rlmonsters/bulletstormchaingun"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticPainElemental"
+		CastName = "Machine Elemental"
+		AttackSound = "Missile", 1, "heavyrevenant/boost"
+		AttackSound = "Missile", 4, "heavyrevenant/boost"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticRevenant"
+		CastName = "Heavy Revenant"
+		AttackSound = "Missile", 0, "heavyrevenant/target"
+		AttackSound = "Missile", 2, "heavyrevenant/target"
+		AttackSound = "Missile", 4, "heavyrevenant/target"
+		AttackSound = "Missile", 6, "heavyrevenant/targetlocked"
+		AttackSound = "Missile", 7, "heavyrevenant/fire"
+		AttackSound = "Melee", 1, "skeleton/swing"
+		AttackSound = "Melee", 3, "skeleton/melee"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticMancubus"
+		CastName = "Volacubus"
+		AttackSound = "Missile", 1, "volacubus/fire"
+		AttackSound = "Missile", 5, "volacubus/fire"
+		AttackSound = "Missile", 9, "volacubus/fire"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticArchvile"
+		CastName = "Techvile"
+		AttackSound = "Missile", 1, "techvile/pulse"
+		AttackSound = "Missile", 3, "techvile/pulse"
+		AttackSound = "Missile", 5, "techvile/pulse"
+		AttackSound = "Melee", 1, "techvile/smallzap"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticSpiderMastermind"
+		CastName = "Spider Overmind"
+		AttackSound = "Missile", 3, "spiderovermind/plasma"
+		AttackSound = "Missile", 5, "spiderovermind/plasma"
+		AttackSound = "Missile", 7, "spiderovermind/plasma"
+		AttackSound = "Missile", 9, "spiderovermind/plasma"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberneticCyberdemon"
+		CastName = "Cyberdemon Mk. II"
+		AttackSound = "Melee", 1, "cyberdemonmkii/fire"
+		AttackSound = "Missile", 1, "cyberdemonmkii/fire"
+	}
+	Cast
+	{
+		CastClass = "RLCCTerminator"
+		CastName = "Terminator"
+		AttackSound = "Missile", 1, "rlmonsters/bulletstormrifle"
+		AttackSound = "Missile", 3, "rlmonsters/bulletstormrifle"
+		AttackSound = "Missile", 5, "rlmonsters/bulletstormrifle"
+		AttackSound = "Missile", 7, "rlmonsters/bulletstormrifle"
+		AttackSound = "Melee", 1, "rlmonsters/grenadelauncher"
+		AttackSound = "Melee", 4, "terminator/pulsewave"
+		AttackSound = "Melee", 5, "terminator/pulsewave"
+		AttackSound = "Melee", 6, "terminator/pulsewave"
+		AttackSound = "Melee", 7, "terminator/pulsewave"
+		AttackSound = "Melee", 8, "terminator/pulsewaveoverheat"
+	}
+	Link = Inter_ACast	// Proceed to Armageddon Cast Call
+}
+
+Intermission Inter_ACast
+{
+	Wiper
+	{
+		WipeType = Crossfade
+	}
+	Image
+	{
+		// This is only here to initialize the background and the music
+		Background = "BOSSBAC4"
+		Time = -1
+		Music = "CC_ARMAG"
+	}
+	Link = ArmageddonCast
+}
+
+Intermission ArmageddonCast
+{
+	Cast
+	{
+		CastClass = "RLCCFormerAssaultTrooper"
+		CastName = "Former Assault Trooper [\cjBattle Rifle\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/battlerifle"
+	}
+	Cast
+	{
+		CastClass = "RLCCFormerOverwatch"
+		CastName = "Former Overwatch [\ctSuper Shotgun\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/supershotgun"
+		AttackSound = "Missile", 3, "rlmonsters/supershotgunopen"
+		AttackSound = "Missile", 4, "rlmonsters/supershotgunload"
+		AttackSound = "Missile", 5, "rlmonsters/supershotgunclose"
+	}
+	Cast
+	{
+		CastClass = "RLCCFormerShocktrooper"
+		CastName = "Former Human Shocktrooper [\cvHigh Power Minigun\c-]"
+		AttackSound = "Missile", 1, "rlmonsters/minigun"
+		AttackSound = "Missile", 2, "rlmonsters/minigun"
+	}
+	Cast
+	{
+		CastClass = "RLCCUACDefenceDrone"
+		CastName = "UAC Defence Drone"
+		AttackSound = "Missile", 1, "rlmonsters/chaingun"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonImp"
+		CastName = "Watcher"
+		AttackSound = "Missile", 3, "imp/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonDemon"
+		CastName = "Mech-strosity"
+		AttackSound = "Missile", 0, "mechdemon/attack"
+		AttackSound = "Melee", 1, "rlmonsters/chaingun"
+		AttackSound = "Melee", 3, "rlmonsters/chaingun"
+		AttackSound = "Melee", 5, "rlmonsters/chaingun"
+		AttackSound = "Melee", 7, "rlmonsters/chaingun"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonSpectre"
+		CastName = "Shifter"
+		AttackSound = "Melee", 0, "demon/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonLostSoul"
+		CastName = "The Hungry"
+		AttackSound = "Missile", 0, "thehungry/attack"
+		AttackSound = "Melee", 0, "thehungry/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonCacodemon"
+		CastName = "Cacobyss"
+		AttackSound = "Missile", 2, "cacobyss/ball"
+		AttackSound = "Melee", 2, "rlmonsters/bite"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonHellKnight"
+		CastName = "Crusader of Ruination"
+		AttackSound = "Missile", 2, "baron/attack"
+		AttackSound = "Melee", 2, "baron/melee"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonBaronOfHell"
+		CastName = "Lord of the Abyss"
+		AttackSound = "Missile", 2, "baron/attack"
+		AttackSound = "Melee", 1, "rlmonsters/flamethrower"
+	}
+	Cast
+	{
+		CastClass = "RLCCSkullOfTheAbyss"
+		CastName = "Skull of the Abyss"
+		AttackSound = "Missile", 0, "lordoftheabyss/attackgrowl"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonArachnotron"
+		CastName = "Deathweaver"
+		AttackSound = "Missile", 1, "deathweaver/firing"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonPainElemental"
+		CastName = "Hellstorm Elemental"
+		AttackSound = "Missile", 2, "hellstormelemental/attack"
+		AttackSound = "Melee", 2, "hellstormelemental/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonRevenant1"
+		CastName = "Revenihilator"
+		AttackSound = "Missile", 2, "revenihilator/pulseflak"
+		AttackSound = "Missile", 4, "revenihilator/pulseflak"
+		AttackSound = "Missile", 6, "revenihilator/pulseflak"
+		AttackSound = "Melee", 2, "revenihilator/hyperbolt"
+		AttackSound = "Melee", 4, "revenihilator/hyperbolt"
+		AttackSound = "Melee", 6, "revenihilator/hyperbolt"
+		AttackSound = "Melee", 8, "revenihilator/hyperbolt"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonMancubus"
+		CastName = "Magmabus"
+		AttackSound = "Missile", 1, "nightmareelemental/attack"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonArchvile"
+		CastName = "De-vile"
+		AttackSound = "Missile", 1, "devile/laugh"
+		AttackSound = "Melee", 0, "devile/active"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonSpiderMastermind1"
+		CastName = "Nightmare Overmind"
+		AttackSound = "Missile", 3, "rlmonsters/minimissile"
+		AttackSound = "Missile", 5, "rlmonsters/minimissile"
+		AttackSound = "Missile", 7, "rlmonsters/minimissile"
+		AttackSound = "Missile", 9, "rlmonsters/minimissile"
+	}
+	Cast
+	{
+		CastClass = "RLCCArmageddonCyberdemon"
+		CastName = "Nightmare Cyberdemon Mk. II"
+		AttackSound = "Melee", 1, "rlmonsters/stomp"
+		AttackSound = "Missile", 1, "weapons/rocklf"
+		AttackSound = "Missile", 3, "weapons/rocklf"
+		AttackSound = "Missile", 5, "weapons/rocklf"
+	}
+	Cast
+	{
+		CastClass = "RLCCAbominant"
+		CastName = "Abominant"
+		AttackSound = "Missile", 2, "abominant/pulse"
+	}
+	Cast
+	{
+		CastClass = "RLCCCyberRiftLord"
+		CastName = "Cyber-Riftlord"
+		AttackSound = "Melee", 1, "rlmonsters/stomp"
+		AttackSound = "Missile", 1, "weapons/rocklf"
+		AttackSound = "Missile", 3, "weapons/rocklf"
+		AttackSound = "Missile", 5, "weapons/rocklf"
+	}
+	Cast
+	{
+		CastClass = "RLCCSupremeOvermind"
+		CastName = "Supreme Overmind"
+		AttackSound = "Missile", 3, "rlmonsters/minimissile"
+		AttackSound = "Missile", 5, "rlmonsters/minimissile"
+		AttackSound = "Missile", 7, "rlmonsters/minimissile"
+		AttackSound = "Missile", 9, "rlmonsters/minimissile"
+	}
+	Link = Inter_PCast	// Proceed to Player Cast Call
+}
+
+Intermission Inter_PCast
+{
+	Wiper
+	{
+		WipeType = Crossfade
+	}
+	Image
+	{
+		// This is only here to initialize the background and the music
+		Background = "BOSSBAC5"
+		Time = -1
+		Music = "CC_PLAYE"
+	}
+	Link = PlayerCast
+}
+
+Intermission PlayerCast
+{
+	Cast
+	{
+		CastClass = "RLCCMarinePlayer"
+		CastName = "\cqMarine\c-"
+		AttackSound = "Missile", 1, "rlmonsters/chaingun"
+		AttackSound = "Missile", 3, "rlmonsters/chaingun"
+		AttackSound = "Missile", 5, "rlmonsters/chaingun"
+		AttackSound = "Missile", 7, "rlmonsters/chaingun"
+		AttackSound = "Missile", 9, "rlmonsters/chaingun"
+		AttackSound = "Melee", 0, "weapons/fistswing"
+	}
+	Cast
+	{
+		CastClass = "RLCCScoutPlayer"
+		CastName = "\cqScout\c-"
+		AttackSound = "Missile", 1, "rlmonsters/pistol"
+		AttackSound = "Missile", 3, "rlmonsters/pistol"
+		AttackSound = "Melee", 0, "weapons/fistswing"
+	}
+	Cast
+	{
+		CastClass = "RLCCTechnicianPlayer"
+		CastName = "\cqTechnician\c-"
+		AttackSound = "Missile", 1, "rlmonsters/battlerifle"
+		AttackSound = "Missile", 3, "rlmonsters/battlerifle"
+		AttackSound = "Missile", 5, "rlmonsters/battlerifle"
+		AttackSound = "Missile", 7, "rlmonsters/battlerifle"
+		AttackSound = "Melee", 0, "weapons/fistswing"
+	}
+	Cast
+	{
+		CastClass = "RLCCRenegadePlayer"
+		CastName = "\cqRenegade\c-"
+		AttackSound = "Missile", 1, "rlmonsters/doubleshotgun"
+		AttackSound = "Melee", 0, "weapons/fistswing"
+		AttackSound = "Melee", 2, "renegade/aaagh"
+	}
+	Cast
+	{
+		CastClass = "RLCCDemolitionistPlayer"
+		CastName = "\cqDemolitionist\c-"
+		AttackSound = "Missile", 1, "rlmonsters/missilelauncher"
+		AttackSound = "Missile", 3, "rlmonsters/uzi"
+		AttackSound = "Missile", 5, "rlmonsters/uzi"
+		AttackSound = "Missile", 7, "rlmonsters/uzi"
+		AttackSound = "Missile", 9, "rlmonsters/uzi"
+		AttackSound = "Melee", 0, "weapons/fistswing"
+	}
+/*	Cast
+	{
+		CastClass = "RLCCCommandoPlayer"
+		CastName = "\cqCommando\c-"
+		AttackSound = "Missile", 1, "weapons/fistswing"
+		AttackSound = "Melee", 0, "weapons/fistswing"
+	}*/
+	Link = Inter_GCCast	// Proceed to start
+}
+
+Intermission Inter_GCCast
+{
+	Wiper
+	{
+		WipeType = Crossfade
+	}
+	Image
+	{
+		// This is only here to initialize the background and the music
+		Background = "BOSSBACK"
+		Time = -1
+		Music = "CC_PLAYE"
+	}
+	Link = DragonCast
+}
+
+Intermission DragonCast
+{
+   Cast
+   {
+      CastClass = "GuncasterDummy"
+      CastName = "$CC_HERO"
+      AttackSound = "Missile", 0, "Longhorn/Fire2"
+   }
+   Link = Inter_Cast // restart cast call
 }

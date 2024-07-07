@@ -214,13 +214,17 @@ Start:
                 DrawBarStats(&Info);
             }
 
+            // Compatibility Handling - LegenDoom
             // LegenDoom Legendary Skull
-            if (CompatMode == COMPAT_LEGENDOOM && CheckActorInventory(Info.TID, "LDLegendaryMonsterToken"))
+            if (CompatMode == COMPAT_LEGENDOOM || CompatModeLite == COMPAT_LEGENDOOMLITE)
             {
-                HealthBarX -= 250.0;
-                HealthBarY -= 25.0 + (int)(Sin(Timer() / 64.0) * 4);
+                if (CheckActorInventory(Info.TID, "LDLegendaryMonsterToken"))
+                {
+                    HealthBarX -= 250.0;
+                    HealthBarY -= 25.0 + (int)(Sin(Timer() / 64.0) * 4);
 
-                DrawBarSprite(&Info, "SCULC0");
+                    DrawBarSprite(&Info, "SCULC0");
+                }
             }
         }
 

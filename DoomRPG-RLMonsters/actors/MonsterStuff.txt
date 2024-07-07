@@ -1,0 +1,635 @@
+
+//==============================================================================
+//		OH NOES INHERITANCE
+//==============================================================================
+
+Actor RLPermanentMPInventory : Inventory
+{
+  +INVENTORY.UNDROPPABLE
+  +INVENTORY.UNTOSSABLE
+  +INVENTORY.IGNORESKILL
+inventory.maxamount 1
+}
+
+actor RLMNullActor
+{
+	Radius 6
+	Height 6
+	+NOGRAVITY
+	+NOCLIP
+	+NOTONAUTOMAP
+	+NOINTERACTION
+    +NOTIMEFREEZE
+    States
+    {
+    Spawn:
+	    TNT1 AA 1
+        Stop
+    }
+}
+
+ // A thing that does multiple actions on an actor
+ACTOR RLMPCustomFunction : CustomInventory
+{
+  -COUNTITEM
+  +INVENTORY.ALWAYSPICKUP
+  Inventory.PickupMessage ""
+  Inventory.PickupSound ""
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 A 0
+	TNT1 A 0
+    Stop
+  }
+}
+
+ // Base PowerupGiver for inheritance
+actor RLMPPowerupGiver : PowerupGiver
+{
+  inventory.pickupmessage ""
+  inventory.maxamount 0
+  Powerup.Duration -30
+  powerup.type "PowerProtection"
+  +INVENTORY.AUTOACTIVATE
+  +INVENTORY.ALWAYSPICKUP
+//  +INVENTORY.ADDITIVETIME
+  Inventory.PickupSound ""
+  states
+  {
+  Spawn:
+    TNT1 A 0
+    Stop
+  }
+}
+
+Actor RLLevelRestrictedMPInventory : Inventory
+{
+  +INVENTORY.UNTOSSABLE
+  +INVENTORY.IGNORESKILL
+Inventory.InterHubAmount 0
+inventory.maxamount 1
+}
+
+ACTOR RLPlayerLOSChecker : FastProjectile
+{
+   Radius 4
+   Height 4
+   Speed 300
+   Projectile
+   +NOTIMEFREEZE
+   +THRUSPECIES
+   +PAINLESS
+   +NODAMAGETHRUST
+   +BLOODLESSIMPACT
+   +HITTRACER
+   +DONTSPLASH
+   +NOTONAUTOMAP
+   -ACTIVATEIMPACT
+   -ACTIVATEPCROSS
+   Species "Player"
+   DamageType "NullDamage"
+   Damage (0)
+   States
+   {
+   Spawn:
+    TNT1 A 0
+    TNT1 A 3
+    Stop
+   Death:
+    TNT1 A 0// A_JumpIf(CheckClass("RLArmageddonImp", AAPTR_TRACER), "GiveThingy")
+    Stop
+   GiveThingy:
+    TNT1 A 0// A_GiveInventory ("RLWatcherHasBeenWatched", 1, AAPTR_TRACER)
+    Stop
+   }
+}
+
+ACTOR RLNullBeamPuff : BulletPuff
+{
+  -ALLOWPARTICLES
+  -RANDOMIZE
+  +PUFFONACTORS
+  +ALWAYSPUFF
+  +PUFFGETSOWNER
+  +THRUGHOST
+  +MTHRUSPECIES
+  +NOTIMEFREEZE
+  +BLOODLESSIMPACT
+  +PAINLESS
+  +NODECAL
+  VSpeed 0
+  Mass 5
+  Damagetype "NullDamage"
+  States
+  {
+  Spawn:
+    TNT1 A 0
+	Stop
+  Melee:
+    Goto Spawn
+  }
+}
+
+ACTOR RLNullBeamPuff2 : RLNullBeamPuff
+{
+  +THRUACTORS
+}
+
+ // Used to check for the monsterpack in compatibility things.
+ACTOR RLMonsterpackThingo
+{
+  +NOINTERACTION
+  States
+  {
+  Spawn:
+	TNT1 A 10
+    Stop
+  }
+}
+
+ // Used to escalate the game's difficulty in various ways, increments on levels and rare items
+Actor RLDangerLevel : RLPermanentMPInventory
+{
+	inventory.maxamount 1000
+}
+
+//==============================================================================
+//		ENEMY DROPPED WEAPONS
+//==============================================================================
+// These exist so that the gameplay modes can modify enemy weapon or ammo drops
+
+ACTOR RLEnemyWeaponDrop
+{
+	+NOINTERACTION
+	+NOCLIP
+	States
+	{
+	Spawn:
+		TNT1 A 0
+// Checks to see if the monsterpack is run by itself.
+		TNT1 A 0 A_JumpIf(CallACS("DRLAMonsterOnlyCheck"), "FullArsenalExperience")
+		TNT1 A 0 A_Jump(256, "MonsterPackOnly")
+		Goto MonsterPackOnly
+		
+	FullArsenalExperience:
+// Checks to see if DRPG is being run.
+		TNT1 A 0 A_JumpIf(CallACS("DRPGCheck"), "WeaponDropType")
+// Checks the DRLA gameplay modes for whether or not it should spawn.
+		TNT1 A 0 A_JumpIf(CallACS("DRLA_specialstarts") == 1, "Nope")
+		TNT1 A 0 A_JumpIf(CallACS("DRLA_specialstarts") == 2, "Nope")
+		TNT1 A 0 A_JumpIf(CallACS("DRLA_specialstarts") == 3, "Nope")
+		TNT1 A 0 A_Jump(256, "WeaponDrop")
+		Goto WeaponDrop
+		
+	MonsterPackOnly:
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") == 1, "WeaponDropVanilla")
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") == 2, "AmmoDrop")
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") == 3, "Nope")
+		TNT1 A 0 A_Jump(48, "WeaponDropVanilla")
+		TNT1 A 0 A_Jump(256, "AmmoDrop")
+		Goto AmmoDrop
+		
+	WeaponDropType:
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") == 0, "AdaptiveDrop")
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") == 1, "WeaponDrop")
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") == 2, "AmmoDrop")
+		TNT1 A 0 A_JumpIf(GetCVar("DRLA_weapondroptype") == 3, "Nope")
+		Stop
+
+	AdaptiveDrop:
+		TNT1 A 0 A_Jump(48, "WeaponDrop")
+		TNT1 A 0 A_Jump(6, "WeaponSpawner")
+		TNT1 A 0 A_Jump(256, "AmmoDrop")
+		Goto AmmoDrop
+	WeaponSpawner:
+		TNT1 A 0 ACS_NamedExecuteWithResult("DRPGWeaponSpawner", Random(0,9))
+		Stop
+
+	WeaponDrop:
+		TNT1 A 0 A_DropItem("RLChaingunPickup")
+		Stop
+	WeaponDropNoArsenal:
+		TNT1 A 0 A_DropItem("Chaingun")
+		Stop
+	WeaponDropVanilla:
+		TNT1 A 0 A_DropItem("Chaingun")
+		Stop
+	AmmoDrop:
+		TNT1 A 0 A_DropItem("DRPGClipBoxSpawner")
+		Stop
+	Nope:
+		TNT1 A 0
+		Stop
+	}
+}
+
+//==============================================================================
+//		DAMAGE TYPES
+//==============================================================================
+
+DamageType NullDamage
+{
+   Factor 0
+   ReplaceFactor // Used for weapons that must deal no damage at a certain point.
+}
+
+DamageType Bullet
+{
+   Factor 1
+   ReplaceFactor // Bullet and shrapnel based damage
+}
+
+DamageType Plasma
+{
+   Factor 1
+   ReplaceFactor // Zapinating based damage
+}
+
+DamageType Piercing
+{
+   Factor 1
+   ReplaceFactor // Try and defend against this, beeyotch
+   NoArmor
+}
+
+DamageType MindRape
+{
+   Factor 1
+   ReplaceFactor // Used for Overmind's psychic attack.
+   NoArmor
+}
+
+//==============================================================================
+//		RETARGETING
+//==============================================================================
+
+//This doesn't really work for some reason. I got nothin'. (╯°□°）╯
+ACTOR RLMonsterRetargeting : CustomInventory
+{
+  -COUNTITEM
+  +INVENTORY.ALWAYSPICKUP
+  Inventory.PickupMessage ""
+  Inventory.PickupSound ""
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+      TNT1 A 0 
+      TNT1 A 0 A_Jump(256, 1,3,5,7,9,11,13,15)
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER1, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+	  Goto BackupSelection
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER2, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+	  Goto BackupSelection
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER3, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+	  Goto BackupSelection
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER4, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+	  Goto BackupSelection
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER5, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+	  Goto BackupSelection
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER6, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+	  Goto BackupSelection
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER7, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+	  Goto BackupSelection
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER8, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+	  Goto BackupSelection
+    Stop
+  BackupSelection:
+      TNT1 A 0 
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER1, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER2, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER3, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER4, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER5, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER6, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER7, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+
+      TNT1 A 0 A_TransferPointer(AAPTR_PLAYER8, AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_TARGET)
+      TNT1 A 0 A_CheckFlag("SHOOTABLE", "Retargeted", AAPTR_TARGET)
+    Stop
+  Retargeted:
+    TNT1 A 0
+    Stop
+  }
+}
+
+//==============================================================================
+//		MISCELLANEOUS
+//==============================================================================
+
+Actor RLResurrectionComplete : RLPermanentMPInventory {}
+Actor RLMonsterInitializerToken : RLPermanentMPInventory {}
+Actor RLHatredToken : RLPermanentMPInventory {}
+Actor DRPGDRLASummonedMonsterToken : RLPermanentMPInventory {}
+
+ACTOR RLResurrectionFire
+{
+  +NOBLOCKMAP
+  +NOGRAVITY
+  +DONTBLAST
+  +NOTIMEFREEZE
+  RenderStyle Add
+  Alpha 1
+  States
+  {
+  Spawn:
+    RVFX A 2 Bright
+    RVFX BAB 2 Bright
+    RVFX C 2 Bright
+    RVFX BCBCDCDCDEDED 2 Bright
+    RVFX E 2 Bright
+    RVFX FEFEFGHGHGH 2 Bright
+    Stop
+  }
+}
+
+ACTOR RLNightmareResurrectionToken : Powerup
+{
+	Powerup.Duration 3
+}
+
+ACTOR RLCyberneticResurrectionToken : Powerup
+{
+	Powerup.Duration 3
+}
+
+ACTOR PowerRLMonsterInfightCooldownToken : Powerup
+{
+	Powerup.Duration -8
+}
+
+ACTOR PowerRLBossFlinchCooldown : Powerup
+{
+	Powerup.Duration -5
+}
+
+// Used to get monsters to not attack non-stop when used with LegenDoom
+ACTOR RLLegendaryAttackCooldown : Powerup
+{
+	Powerup.Duration -1
+}
+
+ACTOR RLBodyThud
+{
+   Radius  32
+   Height  6
+     +CORPSE
+     +NOCLIP
+     -DONTSPLASH
+   States
+   {
+   Spawn:
+      TNT1 A 8
+      Stop
+   Crash:
+      TNT1 A 1 A_PlaySound("rlmonsters/bodythud")
+      Stop
+   }
+}
+
+ACTOR RLGibThud : RLBodyThud
+{
+   States
+   {
+   Spawn:
+      TNT1 A 8
+      Stop
+   Crash:
+      TNT1 A 1 A_PlaySound("rlmonsters/gibthud")
+      Stop
+   }
+}
+
+ACTOR RLMonsterAntiTelefrag
+{
+  Radius 2
+  Height 2
+  Speed 0
+  Damage 0
+  DamageType "Mysterious"
+  Projectile
+  +NOTIMEFREEZE
+  States
+  {
+  Spawn:
+    TNT1 A 0
+    TNT1 A 0 A_Explode (10000, 128, 0)
+    Stop
+  }
+}
+
+//==============================================================================
+//		OLD IDENTIFIER CRAP
+//==============================================================================
+
+Actor RLDemonToken : RLPermanentMPInventory {}
+Actor RLCacodemonToken : RLPermanentMPInventory {}
+Actor RLHellNobleToken : RLPermanentMPInventory {}
+Actor RLSpiderMindToken : RLPermanentMPInventory {}
+Actor RLCyberdemonToken : RLPermanentMPInventory {}
+
+//==============================================================================
+//		BULLETPUFFS
+//==============================================================================
+
+ACTOR RLEnemyBulletPuff
+{ 
+   ActiveSound ""
+   PainSound "weapons/ricochet"
+   AttackSound "weapons/bullethit"
+   Decal "BulletChip"
+   +NOGRAVITY
+   +NOEXTREMEDEATH
+   +NOBLOCKMAP
+   +ALLOWPARTICLES
+   +RANDOMIZE
+   +THRUGHOST
+   DamageType "Bullet"
+   RenderStyle Translucent
+   Alpha 0.5
+   VSpeed 1
+   Mass 5
+   States
+   {
+   Spawn:
+      PUFF A 4 Bright
+      PUFF BCD 4
+      Stop
+   }
+}
+
+ACTOR RLEnemySummonBulletPuff : RLEnemyBulletPuff
+{ 
+   +MTHRUSPECIES
+}
+
+ACTOR RLEnemyMeleeWeaponPuff : RLEnemyBulletPuff
+{ 
+   PainSound ""
+   AttackSound ""
+   Decal "None"
+   DamageType "Melee"
+   +ALWAYSPUFF
+   +PUFFONACTORS
+   -ALLOWPARTICLES
+   States
+   {
+   Spawn:
+      TNT1 A 3
+      Stop
+   Crash:
+      TNT1 A 3
+      Stop
+   Melee:
+      TNT1 A 3
+      Stop
+   }
+}
+
+ACTOR RLEnemyBluntMeleePuff : RLEnemyMeleeWeaponPuff
+{ 
+   DamageType "Melee"
+   PainType "BluntMelee"
+   DeathType "BluntMelee"
+}
+
+ACTOR RLEnemyRevenantBluntMeleePuff : RLEnemyMeleeWeaponPuff
+{ 
+   DamageType "Melee"
+   PainType "BluntMelee"
+   DeathType "BluntMelee"
+   States
+   {
+   Spawn:
+      TNT1 A 0
+      TNT1 A 3 A_PlaySound ("skeleton/melee")
+      Stop
+   Crash:
+      TNT1 A 0
+      TNT1 A 3
+      Stop
+   Melee:
+      TNT1 A 0
+      TNT1 A 3 A_PlaySound ("skeleton/melee")
+      Stop
+   }
+}
+
+ACTOR RLEnemyNightmareRevenantBluntMeleePuff : RLEnemyRevenantBluntMeleePuff
+{ 
+   DamageType "Melee"
+   PainType "BluntMelee"
+   DeathType "BluntMelee"
+   States
+   {
+   Spawn:
+      TNT1 A 0
+      TNT1 A 3 A_PlaySound ("nightmarerevenant/melee")
+      Stop
+   Crash:
+      TNT1 A 0
+      TNT1 A 3
+      Stop
+   Melee:
+      TNT1 A 0
+      TNT1 A 3 A_PlaySound ("nightmarerevenant/melee")
+      Stop
+   }
+}
+
+ACTOR RLEnemyBulletPuffNoInfight : RLEnemyBulletPuff
+{ 
+   +MTHRUSPECIES
+}
+
+ACTOR RLEnemyBulletPuffNoInfightGib : RLEnemyBulletPuff
+{ 
+   +MTHRUSPECIES
+   -NOEXTREMEDEATH
+}
+
+ACTOR RLEnemyBulletPuffGib : RLEnemyBulletPuff
+{ 
+   -NOEXTREMEDEATH
+}
+
+ACTOR RLSpiderMastermindBulletPuff : RLEnemyBulletPuff
+{ 
+   DamageType "Piercing"
+   -NOEXTREMEDEATH
+   +EXTREMEDEATH
+   +PIERCEARMOR
+   +MTHRUSPECIES
+}
+
+ACTOR RLEnemyPiercingPuff : RLEnemyBulletPuff
+{ 
+   DamageType "Piercing"
+   -NOEXTREMEDEATH
+   +PIERCEARMOR
+}
+
+ACTOR RLEnemyPlasmaticPuff : RLEnemyBulletPuff
+{ 
+   PainSound ""
+   AttackSound ""
+   +PUFFONACTORS
+   +PUFFGETSOWNER
+   Decal "PlasmaScorch"
+   Damagetype "Plasma"
+   RenderStyle Add
+   Alpha 0.9
+   Mass 5
+   VSpeed 0
+   Scale 0.5
+   States
+   {
+   Spawn:
+      TNT1 A 0
+      HLSE A 2 Bright A_Explode (4,24, 0, 1)
+      HLSE BCDE 2 Bright
+      Stop
+   }
+}
+
+//==============================================================================
+//		DOORPEG COMPATIBILITY THINGOS
+//==============================================================================
+
+// Aura Tokens
+actor DRPGRedAuraToken : RLPermanentMPInventory {}
+actor DRPGGreenAuraToken : RLPermanentMPInventory {}
+actor DRPGWhiteAuraToken : RLPermanentMPInventory {}
+actor DRPGPinkAuraToken : RLPermanentMPInventory {}
+actor DRPGBlueAuraToken : RLPermanentMPInventory {}
+actor DRPGPurpleAuraToken : RLPermanentMPInventory {}
+actor DRPGOrangeAuraToken : RLPermanentMPInventory {}
+actor DRPGDarkBlueAuraToken : RLPermanentMPInventory {}
+actor DRPGYellowAuraToken : RLPermanentMPInventory {}
+actor DRPGShadowAuraToken : RLPermanentMPInventory {}

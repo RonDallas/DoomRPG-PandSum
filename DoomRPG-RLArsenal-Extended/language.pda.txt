@@ -1,0 +1,29 @@
+[enu default]
+
+PDA_CLASS_DOOMRLPHASESISTERSRPG_NAME =
+	"Phase Sisters";
+PDA_CLASS_DOOMRLPHASESISTERSRPG_ABILITIES =
+	"\c[Green]PERK:\n"
+	"\c[Gold](Gemini)\c- You control both a \c[Gold]Marine\c- and \c[Gold]Renegade\c- class that exist in two different dimensions. Both characters recieve the full perks and passives of these "
+	"classes, but can only carry four weapons each.\n\n"
+	"\c[Green]PASSIVE:\n"
+	"Using a teleport or exiting a level will swap sisters. Each sister has their own weapons, health and inventory. \c[Cyan]Terri\c- starts with a single \c[Green]Phase Device\c- "
+	"and a \c[Gold]Pistol\c-, while \c[Purple]Portia\c- carries a \c[Gold]Shotgun\c-. \c[Cyan]Terri\c- specialises in rapid fire weapons as a Marine class, while "
+	"\c[Purple]Portia\c- favors shotgun type weapons as a Renegade.\n\n"
+	"\c[Green]Phase Devices\c- and \c[Green]Homing Phase Devices\c- will instantly swap between the sisters without teleporting them anywhere. "
+	"\c[Red]Recall Phase Devices\c- and other special items will teleport them normally, but will still cause the sisters to swap.";
+
+PDA_CLASS_DOOMRLPHASESISTERSRPG_STORY =
+	"\c[Yellow]\"Sis... I feel you're with me.\"\n"
+	"\c[Yellow]\"I'll see you soon Terri, I promise.\"\n\n"
+			
+	"\c-In an effort to prevent further demonic invasions, the UAC began installing their Quantum Accelerator prototypes at various locations. A small group of marines was "
+	"dispatched along with the installation team just in case anything went wrong. Portia and her younger sister, Terri, were among one of these groups when disaster struck; "
+	"a malfunction ripped open a portal to hell, and a vile demon stepped through and began ripping the team to shreds. The sisters managed to wound the beast enough for it to "
+	"retreat through the portal. But in one final act of malice, it cursed the sisters, trapping their souls between two different dimensions.\n\n"
+
+	"Once close siblings, now split from each other's reality, they will do anything to rid themselves of the curse and see each other again. "
+	"Even if it means venturing into hell itself!";
+	
+PDA_CLASS_DOOMRLPHASESISTERSRPG_HEIGHT =
+    "60";

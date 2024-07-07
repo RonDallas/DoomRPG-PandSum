@@ -1,3 +1,6 @@
 Name=DoomRL Arsenal - Monster Pack
 Conflicts=Colourful Hell
+Conflicts=Rampancy
+Conflicts=Dehacked Attack
+Conflicts=Pandemonia - Monster Pack
 Mods=DoomRL_Monsters_Beta_7.3.pk3

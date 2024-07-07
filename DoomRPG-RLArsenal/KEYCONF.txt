@@ -1,0 +1,13 @@
+// --------------------------------------------------
+// GAMEPAD CONTROL HELPER (GCH) SECTION
+//
+
+// DoomRLA Commands
+alias rl_removearmor_gch "closemenu; rl_removearmor"
+alias rl_removeboots_gch "closemenu; rl_removeboots"
+alias rl_armorspecial_gch "closemenu; rl_armorspecial"
+alias rl_specialitemdropper_gch "closemenu; rl_specialitemdropper"
+
+// Open/Close PDA
+alias drla_pda_open_gch "drla_pda; rebind drla_pda_close_gch"
+alias drla_pda_close_gch "drla_pda; rebind drla_pda_open_gch"

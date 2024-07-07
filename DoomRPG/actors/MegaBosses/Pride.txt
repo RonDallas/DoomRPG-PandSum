@@ -10,7 +10,7 @@
 
 ACTOR DRPGMegabossPride
 {
-  Health 66600
+  Health 30000
   Radius 52
   Height 82
   Mass 100000
@@ -124,7 +124,7 @@ ACTOR DRPGMegabossPride
 	TNT1 A 0 A_SpawnItemEx ("DRPGYellowAuraParticle", Random(-radius,radius), Random(-radius,radius), Random(0,height), 0,0,0, 0)
 	TNT1 A 0 A_Chase ("", "")
     PRID D 1 A_FaceTarget
-	TNT1 A 0 A_CustomMeleeAttack (random(300, 1500), "megaboss/bite", "None", "Melee", 1)
+	TNT1 A 0 A_CustomMeleeAttack (random(20, 80), "megaboss/bite", "None", "Melee", 1)
 	TNT1 A 0 A_Chase ("", "")
     PRID B 1 A_FaceTarget
 	TNT1 A 0 A_SpawnItemEx ("DRPGYellowAuraParticle", Random(-radius,radius), Random(-radius,radius), Random(0,height), 0,0,0, 0)
@@ -355,7 +355,7 @@ ACTOR DRPGPrideElectroBall : CacodemonBall
     PRSH D 1 Bright
     Loop
   Death:
-    TNT1 A 0 A_Explode (256, 256, 0)
+    TNT1 A 0 A_Explode (128, 256, 0)
     TNT1 A 0 A_Quake (1, 6, 0, 720, "")
     TNT1 A 0 A_Quake (9, 3, 0, 320, "")
     TNT1 A 0 A_StopSound(6)
@@ -415,7 +415,7 @@ ACTOR DRPGPrideSupaaElectroBall
   Radius 13
   Height 8
   Speed 16
-  Damage (10000)
+  Damage (1000)
   DamageType "Plasma"
   PainType "PlasmaExplosion"
   DeathType "PlasmaExplosion"
@@ -470,7 +470,7 @@ ACTOR DRPGPrideSupaaElectroBall
     TNT1 A 0 A_GiveInventory ("DRPGPrideSupaaBlastGiver", 1, AAPTR_TRACER)
     TNT1 A 0 A_StopSound(6)
     TNT1 A 0 A_SetScale (6.0)
-    TNT1 A 0 A_Explode (666, 666, 0)
+    TNT1 A 0 A_Explode (256, 256, 0)
     TNT1 A 0 A_PlaySound("weapons/bfgx", 7, 1, 0, 0.1)
     TNT1 A 0 A_Quake (1, 32, 0, 2500, "")
     TNT1 A 0 A_Quake (9, 16, 0, 1500, "")
@@ -494,7 +494,7 @@ ACTOR DRPGPrideSupaaBlastGiver : CustomInventory
   Pickup:
     TNT1 A 0
     TNT1 A 0 A_TakeInventory("PowerInvulnerable", 1)
-    TNT1 A 0 ACS_NamedExecuteAlways("StatusEffect", 0, SE_EMP, random(5,30), 5)
+    TNT1 A 0 ACS_NamedExecuteAlways("StatusEffect", 0, SE_EMP, random(5,15), 5)
     TNT1 A 0 ACS_NamedExecuteAlways("StatusEffect", 0, SE_CONFUSION, random(5,10), 5)
     Stop
   }
@@ -514,7 +514,7 @@ ACTOR DRPGPrideSupaaShockwaveGiver : CustomInventory
     Stop
   Pickup:
     TNT1 A 0
-    TNT1 A 0 ACS_NamedExecuteAlways("StatusEffect", 0, SE_EMP, random(5,30), 5)
+    TNT1 A 0 ACS_NamedExecuteAlways("StatusEffect", 0, SE_EMP, random(5,15), 5)
     Stop
   }
 }

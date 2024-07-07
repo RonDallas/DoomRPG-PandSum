@@ -13,6 +13,9 @@ extern MonsterInfo const MonsterDataDF[MAX_DEF_MONSTERS_DF];
 extern MonsterInfo const MonsterDataLD[MAX_DEF_MONSTERS_DF];
 extern MonsterInfo const MonsterDataDRLA[MAX_DEF_MONSTERS_DRLA];
 extern MonsterInfo const MonsterDataCH[MAX_DEF_MONSTERS_CH];
+extern MonsterInfo const MonsterDataRAMPANCY[MAX_DEF_MONSTERS_RM];
+extern MonsterInfo const MonsterDataDEHACKED[MAX_DEF_MONSTERS_DF];
+extern MonsterInfo const MonsterDataPANDM[MAX_DEF_MONSTERS_PANDM];
 extern MegabossInfo const MegaBossesDF[MAX_MEGABOSSES_DF];
 extern MegabossInfo const MegaBossesCH[MAX_MEGABOSSES_CH];
 
@@ -30,6 +33,7 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int);
 NamedScript void MonsterStatsHandler();
 NamedScript void MonsterAuraDisplayHandler();
 NamedScript void MonsterAggressionHandler();
+NamedScript void MonsterFriendlyTeleport(bool);
 NamedScript void MonsterLevelupHandler();
 NamedScript void MonsterEPDrainHandler();
 NamedScript void MonsterRegenerationHandler();
@@ -40,8 +44,13 @@ NamedScript void MonsterFellowResurrectionHandler();
 NamedScript void MonsterEpicVisitTimeHandler();
 NamedScript DECORATE void MonsterRevive();
 NamedScript DECORATE void MonsterDeathCheck();
+OptionalArgs(1) NamedScript DECORATE void PropDeathCheck(int);
 NamedScript void MonsterDeath();
 NamedScript int WhoKilledMe();
+
+OptionalArgs(1) NamedScript void CalculateMonsterCredits(MonsterStatsPtr, int);
+NamedScript void CalculateMonsterStats(MonsterStatsPtr);
+NamedScript void DropCredits(int, MonsterStatsPtr);
 
 void MonsterLevelup(MonsterStatsPtr);
 void CapMonsterStats(MonsterStatsPtr);
@@ -63,7 +72,11 @@ NamedScript void MonsterOrangeAuraCheck(bool);
 //NamedScript void MonsterDarkBlueAuraCheck(bool);
 //NamedScript void MonsterYellowBlueAuraCheck(bool);
 
+fixed MapTotalMonstersMod();
+fixed MapTotalBossesMod();
+
+// Compatibility/Extensions
+NamedScript DECORATE void FamiliarInit(int, int);
 NamedScript DECORATE int GetMonsterHealthMax();
 NamedScript DECORATE int GetMonsterLevel();
-
 #endif

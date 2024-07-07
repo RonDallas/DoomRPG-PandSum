@@ -10,8 +10,10 @@ extern const str Version;
 extern bool Transported;
 extern bool GlobalsInitialized;
 extern int CompatMode;
+extern int CompatModeEx;
+extern int CompatModeLite;
 extern int CompatMonMode;
-extern bool WadSmoosh;
+extern bool MapPacks;
 
 // Arrays
 extern str PlayerWeapon[MAX_PLAYERS];
@@ -50,6 +52,7 @@ NamedScript Type_ENTER void Init();
 NamedScript void Loop();
 NamedScript void WeaponSpeed();
 NamedScript void PlayerHealth();
+NamedScript void PlayerSurvive();
 NamedScript DECORATE int PlayerDamage(int, int);
 NamedScript DECORATE int ShieldDamage(int);
 NamedScript void MoneyChecker();
@@ -64,7 +67,7 @@ NamedScript Type_RESPAWN void Respawn();
 NamedScript void SortStartingItems();
 NamedScript void DefaultLoadout();
 NamedScript void ReviveHandler();
-NamedScript int AlivePlayers();
+NamedScript bool SomePlayerAlive();
 
 void CheckHUD();
 void CheckKeys();

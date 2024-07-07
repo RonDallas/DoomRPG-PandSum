@@ -19,12 +19,12 @@ AugInfo RPGMap AugData[AUG_MAX] =
         .MaxLevel = 6,
         .Description =
         {
-            "+25% Damage",
-            "+50% Damage",
-            "+75% Damage",
-            "+100% Damage",
-            "+200% Damage",
-            "+300% Damage"
+            "+10% Total Damage",
+            "+15% Total Damage",
+            "+20% Total Damage",
+            "+30% Total Damage",
+            "+40% Total Damage",
+            "+50% Total Damage"
         },
         .TokenActor = "DRPGAugTokenStrength"
     },
@@ -33,23 +33,22 @@ AugInfo RPGMap AugData[AUG_MAX] =
         .MaxLevel = 5,
         .Description =
         {
-            "5% Damage Reduction",
-            "10% Damage Reduction",
-            "15% Damage Reduction",
-            "20% Damage Reduction",
-            "25% Damage Reduction"
+            "+5% Total Damage Reduction",
+            "+10% Total Damage Reduction",
+            "+15% Total Damage Reduction",
+            "+20% Total Damage Reduction",
+            "+25% Total Damage Reduction"
         },
         .TokenActor = "DRPGAugTokenDefense"
     },
     {
         .Name = "Pain Inhibitor",
-        .MaxLevel = 7,
+        .MaxLevel = 6,
         .Description =
         {
-            "2x Max Health",
-            "2x Health Regen",
-            "+5% Status Effect Resist",
-            "+10% Status Effect Resist",
+            "+50% HP Regen Amount",
+            "+25% Max HP Amount",
+            "+50% Max HP Amount",
             "+15% Status Effect Resist",
             "+20% Status Effect Resist",
             "+25% Status Effect Resist"
@@ -57,19 +56,18 @@ AugInfo RPGMap AugData[AUG_MAX] =
         .TokenActor = "DRPGAugTokenVitality"
     },
     {
-        .Name = "Psi Projector",
-        .MaxLevel = 9,
+        .Name = "PSI Projector",
+        .MaxLevel = 8,
         .Description =
         {
-            "2x Max EP",
-            "2x EP Regen",
-            "2x Aura Timer",
-            "2x Aura Range",
-            "5% Skill Cost Refund",
-            "10% Skill Cost Refund",
-            "15% Skill Cost Refund",
-            "20% Skill Cost Refund",
-            "25% Skill Cost Refund"
+            "+50% EP Regen Amount",
+            "+25% Max EP Amount",
+            "+50% Max EP Amount",
+            "+50% Aura Timer, +1 Aura Max Stack",
+            "+10% Skill Cost Refund",
+            "+15% Skill Cost Refund",
+            "+20% Skill Cost Refund",
+            "+25% Skill Cost Refund"
         },
         .TokenActor = "DRPGAugTokenEnergy"
     },
@@ -78,30 +76,27 @@ AugInfo RPGMap AugData[AUG_MAX] =
         .MaxLevel = 8,
         .Description =
         {
-            "2x HP/EP Regen Amounts",
-            "1/2 HP/EP Regen Timers",
-            "4x HP/EP Regen Amounts",
-            "1/4 HP/EP Regen Timers",
-            "-5 Seconds Toxicity Regen Timer",
-            "-10 Seconds Toxicity Regen Timer",
-            "-15 Seconds Toxicity Regen Timer",
-            "-20 Seconds Toxicity Regen Timer"
+            "+25% HP Regen Rate",
+            "+25% EP Regen Rate",
+            "+50% HP Regen Amount",
+            "+50% EP Regen Amount",
+            "-5 Seconds Toxicity Timer, -10% Stims Toxicity",
+            "-10 Seconds Toxicity Timer, -15% Stims Toxicity",
+            "-15 Seconds Toxicity Timer, -20% Stims Toxicity",
+            "-20 Seconds Toxicity Timer, -30% Stims Toxicity"
         },
         .TokenActor = "DRPGAugTokenRegen"
     },
     {
         .Name = "Wired Reflexes",
-        .MaxLevel = 4,
+        .MaxLevel = 5,
         .Description =
         {
-            "2x Movement Speed",
-            "2x Jump Height",
-            "Double Weapon Speed",
-            "+5% Survival Chance",
-            "+10% Survival Chance",
-            "+15% Survival Chance",
-            "+20% Survival Chance",
-            "+25% Survival Chance"
+            "+5% Weapon Speed, +2% Survival Bonus",
+            "+10% Weapon Speed, +4% Survival Bonus",
+            "+15% Weapon Speed, +6% Survival Bonus",
+            "+20% Weapon Speed, +8% Survival Bonus",
+            "+25% Weapon Speed, +10% Survival Bonus"
         },
         .TokenActor = "DRPGAugTokenAgility"
     },
@@ -110,41 +105,55 @@ AugInfo RPGMap AugData[AUG_MAX] =
         .MaxLevel = 3,
         .Description =
         {
-            "2x Ammo Limits",
-            "4x Ammo Limits",
-            "2x Stim Vial Capacity"
+            "+25% Ammo Limits",
+            "+50% Ammo Limits",
+            "+100% Ammo Limits"
         },
         .TokenActor = "DRPGAugTokenCapacity"
     },
     {
         .Name = "Precognition Unit",
-        .MaxLevel = 6,
+        .MaxLevel = 4,
         .Description =
         {
-            "1.25x Luck Drop Chances",
-            "1.5x Luck Drop Chances",
-            "1.75x Luck Drop Chances",
-            "2x Luck Drop Chances",
-            "3x Luck Drop Chances",
-            "4x Luck Drop Chances"
+            "+50% Luck Drop Chances",
+            "+100% Luck Drop Chances",
+            "+200% Luck Drop Chances",
+            "+300% Luck Drop Chances"
         },
         .TokenActor = "DRPGAugTokenLuck"
     },
     {
-        .Name = "Battery Recharger",
+        .Name = "Enhanced Battery",
         .MaxLevel = 8,
         .Description =
         {
-            "+0.5 Recharge Rate",
-            "+1 Recharge Rate",
-            "+1.5 Recharge Rate",
-            "+2 Recharge Rate",
-            "+2.5 Recharge Rate",
-            "+3 Recharge Rate",
-            "+3.5 Recharge Rate",
-            "+4 Recharge Rate"
+            "Capacity +25%, Self Recharge Rate +0.05/sec",
+            "Capacity +50%, Self Recharge Rate +0.1/sec",
+            "Capacity +75%, Self Recharge Rate +0.2/sec",
+            "Capacity +100%, Self Recharge Rate +0.3/sec",
+            "Capacity +125%, Self Recharge Rate +0.4/sec",
+            "Capacity +150%, Self Recharge Rate +0.5/sec",
+            "Capacity +175%, Self Recharge Rate +0.75/sec",
+            "Capacity +200%, Self Recharge Rate +1/sec"
         },
         .TokenActor = "DRPGAugTokenBattery"
+    },
+    {
+        .Name = "Telepathic Synchronizer",
+        .MaxLevel = 8,
+        .Description =
+        {
+            "Summoned Increased Vitality (depending on your Energy)",
+            "Summoned Increased Defense (depending on your Energy)",
+            "Summoned Increased Strength (depending on your Energy)",
+            "Summoned Increased HP Regen Rate",
+            "+10% Summoned Extra Power, -10% Summoning Reduced Cost",
+            "+15% Summoned Extra Power, -15% Summoning Reduced Cost",
+            "+20% Summoned Extra Power, -20% Summoning Reduced Cost",
+            "+25% Summoned Extra Power, -25% Summoning Reduced Cost"
+        },
+        .TokenActor = "DRPGAugTokenSummoner"
     }
 };
 
@@ -210,7 +219,10 @@ NamedScript DECORATE void AddBattery(int Amount)
     Player.Augs.Battery += Amount;
 
     if (Player.Augs.Battery > Player.Augs.BatteryMax)
+    {
         Player.Augs.Battery = Player.Augs.BatteryMax;
+        DrawBattery();
+    }
 
     if (PrevBattery != Player.Augs.Battery)
         DrawBattery();
@@ -245,7 +257,28 @@ void CheckAugs()
         Player.Augs.SlotsUsed = 0;
 
     // Determine max Battery
-    Player.Augs.BatteryMax = Player.CapacityTotal * 10;
+    Player.Augs.BatteryMax = 100;
+
+    // Battery Aug
+    if (Player.Augs.Active[AUG_BATTERY])
+    {
+        if (Player.Augs.CurrentLevel[AUG_BATTERY] == 1)
+            Player.Augs.BatteryMax += 25;
+        if (Player.Augs.CurrentLevel[AUG_BATTERY] == 2)
+            Player.Augs.BatteryMax += 50;
+        if (Player.Augs.CurrentLevel[AUG_BATTERY] == 3)
+            Player.Augs.BatteryMax += 75;
+        if (Player.Augs.CurrentLevel[AUG_BATTERY] == 4)
+            Player.Augs.BatteryMax += 100;
+        if (Player.Augs.CurrentLevel[AUG_BATTERY] == 5)
+            Player.Augs.BatteryMax += 125;
+        if (Player.Augs.CurrentLevel[AUG_BATTERY] == 6)
+            Player.Augs.BatteryMax += 150;
+        if (Player.Augs.CurrentLevel[AUG_BATTERY] == 7)
+            Player.Augs.BatteryMax += 175;
+        if (Player.Augs.CurrentLevel[AUG_BATTERY] >= 8)
+            Player.Augs.BatteryMax += 200;
+    }
 
     // Play energy drained sound
     if (Player.Augs.Battery <= 0 && Player.Augs.SlotsUsed > 0)
@@ -271,12 +304,40 @@ void CheckAugs()
         // Calculate Battery Drain
         for (int i = 0; i < AUG_MAX; i++)
             if (Player.Augs.Active[i] && i != AUG_BATTERY)
-                Player.Augs.BatteryDrain += Player.Augs.Level[i];
+                Player.Augs.BatteryDrain += Player.Augs.CurrentLevel[i];
+
+        // Calculate Battery Drain for Tutrret
+        if (Player.Turret.Active && Player.Turret.AugBattery)
+        {
+            // Battery Drain for Turret Active
+            Player.Augs.BatteryDrain++;
+
+            // Battery Drain for Tutrret's Weapon Module Active and Upgrades
+            if (GetUserVariable(Player.Turret.TID, "user_weapon") == TW_BULLET) Player.Augs.BatteryDrain += 1.0 + (Player.Turret.Upgrade[TU_WEAPON_BULLET_DAMAGE] + TU_WEAPON_BULLET_ROF) * (1.0 - ((fixed)Player.Turret.Upgrade[TU_BATTERY_CAPACITY] / 10.0)) * 0.5;
+            if (GetUserVariable(Player.Turret.TID, "user_weapon") == TW_PELLET) Player.Augs.BatteryDrain += 1.0 + (Player.Turret.Upgrade[TU_WEAPON_PELLET_DAMAGE] + TU_WEAPON_PELLET_ROF + TU_WEAPON_PELLET_SPREAD + TU_WEAPON_PELLET_AMOUNT) * (1.0 - ((fixed)Player.Turret.Upgrade[TU_BATTERY_CAPACITY] / 10.0)) * 0.5;
+            if (GetUserVariable(Player.Turret.TID, "user_weapon") == TW_ROCKET) Player.Augs.BatteryDrain += 1.0 + (Player.Turret.Upgrade[TU_WEAPON_ROCKET_DAMAGE] + TU_WEAPON_ROCKET_ROF + TU_WEAPON_ROCKET_SEEKING) * (1.0 - ((fixed)Player.Turret.Upgrade[TU_BATTERY_CAPACITY] / 10.0)) * 0.5;
+            if (GetUserVariable(Player.Turret.TID, "user_weapon") == TW_PLASMA) Player.Augs.BatteryDrain += 1.0 + (Player.Turret.Upgrade[TU_WEAPON_PLASMA_DAMAGE] + TU_WEAPON_PLASMA_ROF) * (1.0 - ((fixed)Player.Turret.Upgrade[TU_BATTERY_CAPACITY] / 10.0)) * 0.5;
+            if (GetUserVariable(Player.Turret.TID, "user_weapon") == TW_RAILGUN) Player.Augs.BatteryDrain += 1.0 + (Player.Turret.Upgrade[TU_WEAPON_RAILGUN_DAMAGE] + TU_WEAPON_RAILGUN_ROF + TU_WEAPON_RAILGUN_RIPPING) * (1.0 - ((fixed)Player.Turret.Upgrade[TU_BATTERY_CAPACITY] / 10.0)) * 0.5;
+
+            // Battery Drain for Tutrret's Ammo Module Active
+            if (Player.Turret.Upgrade[TU_AMMO_NANOGEN] > 0)
+            {
+                // Battery Drain for Tutrret's Ammo Nano-Generators Module Active
+                Player.Augs.BatteryDrain += 1.0 + Player.Turret.Upgrade[TU_AMMO_NANOGEN] * (1.0 - ((fixed)Player.Turret.Upgrade[TU_BATTERY_CAPACITY] / 10.0)) * 0.5;
+
+                // Battery Drain for Tutrret's Ammo Nano-Generators Module Upgrades
+                if (Player.Turret.Upgrade[TU_AMMO_NANOGEN_BULLET] && Player.Turret.BulletAmmo < Player.Turret.BulletAmmoMax) Player.Augs.BatteryDrain++;
+                if (Player.Turret.Upgrade[TU_AMMO_NANOGEN_SHELL] && Player.Turret.ShellAmmo < Player.Turret.ShellAmmoMax) Player.Augs.BatteryDrain++;
+                if (Player.Turret.Upgrade[TU_AMMO_NANOGEN_ROCKET] && Player.Turret.RocketAmmo < Player.Turret.RocketAmmoMax) Player.Augs.BatteryDrain++;
+                if (Player.Turret.Upgrade[TU_AMMO_NANOGEN_CELL] && Player.Turret.PlasmaAmmo < Player.Turret.PlasmaAmmoMax) Player.Augs.BatteryDrain++;
+                if (Player.Turret.Upgrade[TU_AMMO_NANOGEN_CELL] && Player.Turret.RailAmmo < Player.Turret.RailAmmoMax) Player.Augs.BatteryDrain++;
+            }
+        }
 
         // Decrease Battery
-        if (Player.Augs.SlotsUsed > 0 && (Timer() % 35) == 0)
+        if ((Player.Augs.SlotsUsed > 0 || (Player.Turret.Active && Player.Turret.AugBattery)) && (Timer() % 35) == 0)
         {
-            Player.Augs.Battery -= (Player.Augs.BatteryDrain / 10);
+            Player.Augs.Battery -= (Player.Augs.BatteryDrain * 0.055);
             DrawBattery();
         }
 
@@ -294,14 +355,30 @@ void CheckAugs()
         Player.Augs.Battery = Player.Augs.BatteryMax;
 
     // Battery Recharging
-    if ((!CurrentLevel->UACBase || ArenaActive || MarinesHostile) && Player.Augs.Active[AUG_BATTERY] && Player.Augs.Battery < Player.Augs.BatteryMax)
+    if ((!CurrentLevel->UACBase || ArenaActive || MarinesHostile) && Player.Augs.Active[AUG_BATTERY] && Player.Augs.Battery > 0 && Player.Augs.Battery < Player.Augs.BatteryMax)
         if ((Timer() % 35) == 0)
         {
             fixed Charge;
-            if (IsPlayerMoving())
-                Charge = (fixed)(Player.Augs.Level[AUG_BATTERY] * GetCVar("drpg_move_aug_battery_regen") / 200.0);
-            else
-                Charge = (fixed)Player.Augs.Level[AUG_BATTERY] / 2.0;
+            if (Player.Augs.CurrentLevel[AUG_BATTERY] == 1)
+                Charge = 0.05;
+            else if (Player.Augs.CurrentLevel[AUG_BATTERY] == 2)
+                Charge = 0.10;
+            else if (Player.Augs.CurrentLevel[AUG_BATTERY] == 3)
+                Charge = 0.20;
+            else if (Player.Augs.CurrentLevel[AUG_BATTERY] == 4)
+                Charge = 0.30;
+            else if (Player.Augs.CurrentLevel[AUG_BATTERY] == 5)
+                Charge = 0.40;
+            else if (Player.Augs.CurrentLevel[AUG_BATTERY] == 6)
+                Charge = 0.50;
+            else if (Player.Augs.CurrentLevel[AUG_BATTERY] == 7)
+                Charge = 0.75;
+            else if (Player.Augs.CurrentLevel[AUG_BATTERY] >= 8)
+                Charge = 1.00;
+
+            if (GetCVar("drpg_regen_movement") && IsPlayerMoving())
+                Charge += GetCVar("drpg_move_aug_battery_regen") / 100.0;
+
             Player.Augs.Battery += Charge;
             DrawBattery();
         }
@@ -309,129 +386,132 @@ void CheckAugs()
     // Strength Aug
     if (Player.Augs.Active[AUG_STRENGTH])
     {
-        if (Player.Augs.Level[AUG_STRENGTH] == 1)
-            Player.DamageMult += 0.25;
-        if (Player.Augs.Level[AUG_STRENGTH] == 2)
-            Player.DamageMult += 0.5;
-        if (Player.Augs.Level[AUG_STRENGTH] == 3)
-            Player.DamageMult += 0.75;
-        if (Player.Augs.Level[AUG_STRENGTH] == 4)
-            Player.DamageMult += 1;
-        if (Player.Augs.Level[AUG_STRENGTH] == 5)
-            Player.DamageMult += 2;
-        if (Player.Augs.Level[AUG_STRENGTH] >= 6)
-            Player.DamageMult += 3;
+        if (Player.Augs.CurrentLevel[AUG_STRENGTH] == 1)
+            Player.DamageMult += 0.101;
+        if (Player.Augs.CurrentLevel[AUG_STRENGTH] == 2)
+            Player.DamageMult += 0.151;
+        if (Player.Augs.CurrentLevel[AUG_STRENGTH] == 3)
+            Player.DamageMult += 0.201;
+        if (Player.Augs.CurrentLevel[AUG_STRENGTH] == 4)
+            Player.DamageMult += 0.301;
+        if (Player.Augs.CurrentLevel[AUG_STRENGTH] == 5)
+            Player.DamageMult += 0.401;
+        if (Player.Augs.CurrentLevel[AUG_STRENGTH] >= 6)
+            Player.DamageMult += 0.501;
     }
 
     // Defense Aug
     if (Player.Augs.Active[AUG_DEFENSE])
-        Player.DamageFactor -= (fixed)Player.Augs.Level[AUG_DEFENSE] / 20.0;
-    //Player.DamageFactor *= (1.0 - (fixed)Player.Augs.Level[AUG_DEFENSE] * 0.05);
+        Player.DamageFactor -= (fixed)Player.Augs.CurrentLevel[AUG_DEFENSE] / 20.0;
+    //Player.DamageFactor *= (1.0 - (fixed)Player.Augs.CurrentLevel[AUG_DEFENSE] * 0.05);
 
     // Vitality Aug
     if (Player.Augs.Active[AUG_VITALITY])
     {
-        if (Player.Augs.Level[AUG_VITALITY] >= 1)
-            Player.HealthMax *= 2;
-        if (Player.Augs.Level[AUG_VITALITY] >= 2)
-            Player.HPAmount *= 2;
-        if (Player.Augs.Level[AUG_VITALITY] == 3)
-            Player.StatusEffectResist += 5;
-        if (Player.Augs.Level[AUG_VITALITY] == 4)
-            Player.StatusEffectResist += 10;
-        if (Player.Augs.Level[AUG_VITALITY] == 5)
+        if (Player.Augs.CurrentLevel[AUG_VITALITY] >= 1)
+            Player.HPAmount *= 1.5;
+        if (Player.Augs.CurrentLevel[AUG_VITALITY] == 2)
+            Player.HealthMax *= 1.25;
+        if (Player.Augs.CurrentLevel[AUG_VITALITY] >= 3)
+            Player.HealthMax *= 1.5;
+        if (Player.Augs.CurrentLevel[AUG_VITALITY] == 4)
             Player.StatusEffectResist += 15;
-        if (Player.Augs.Level[AUG_VITALITY] == 6)
+        if (Player.Augs.CurrentLevel[AUG_VITALITY] == 5)
             Player.StatusEffectResist += 20;
-        if (Player.Augs.Level[AUG_VITALITY] >= 7)
+        if (Player.Augs.CurrentLevel[AUG_VITALITY] >= 6)
             Player.StatusEffectResist += 25;
     }
 
     // Energy Aug
     if (Player.Augs.Active[AUG_ENERGY])
     {
-        if (Player.Augs.Level[AUG_ENERGY] >= 1)
-            Player.EPMax *= 2;
-        if (Player.Augs.Level[AUG_ENERGY] >= 2)
-            Player.EPAmount *= 2;
-        if (Player.Augs.Level[AUG_ENERGY] >= 3)
-            Player.AuraBonus = true;
-        else
-            Player.AuraBonus = false;
-        if (Player.Augs.Level[AUG_ENERGY] >= 4)
-            Player.Aura.Range *= 2;
+        if (Player.Augs.CurrentLevel[AUG_ENERGY] >= 1)
+            Player.EPAmount *= 1.5;
+        if (Player.Augs.CurrentLevel[AUG_ENERGY] == 2)
+            Player.EPMax *= 1.25;
+        if (Player.Augs.CurrentLevel[AUG_ENERGY] >= 3)
+            Player.EPMax *= 1.5;
     }
+    if (Player.Augs.Active[AUG_ENERGY] && Player.Augs.CurrentLevel[AUG_ENERGY] >= 4)
+        Player.AuraBonus = true;
+    else
+        Player.AuraBonus = false;
 
     // Regeneration Aug
     if (Player.Augs.Active[AUG_REGENERATION])
     {
-        if (Player.Augs.Level[AUG_REGENERATION] >= 1)
+        if (Player.Augs.CurrentLevel[AUG_REGENERATION] >= 1)
         {
-            Player.HPAmount *= 2;
-            Player.EPAmount *= 2;
+            Player.HPTime /= 1.25;
         }
-        if (Player.Augs.Level[AUG_REGENERATION] >= 2)
+        if (Player.Augs.CurrentLevel[AUG_REGENERATION] >= 2)
         {
-            Player.HPTime /= 2;
-            Player.EPTime /= 2;
+            Player.EPTime /= 1.25;
         }
-        if (Player.Augs.Level[AUG_REGENERATION] >= 3)
+        if (Player.Augs.CurrentLevel[AUG_REGENERATION] >= 3)
         {
-            Player.HPAmount *= 2;
-            Player.EPAmount *= 2;
+            Player.HPAmount *= 1.5;
         }
-        if (Player.Augs.Level[AUG_REGENERATION] >= 4)
+        if (Player.Augs.CurrentLevel[AUG_REGENERATION] >= 4)
         {
-            Player.HPTime /= 2;
-            Player.EPTime /= 2;
+            Player.EPAmount *= 1.5;
         }
-        if (Player.Augs.Level[AUG_REGENERATION] == 5)
+        if (Player.Augs.CurrentLevel[AUG_REGENERATION] == 5)
             Player.ToxicityRegenBonus += 5;
-        if (Player.Augs.Level[AUG_REGENERATION] == 6)
+        if (Player.Augs.CurrentLevel[AUG_REGENERATION] == 6)
             Player.ToxicityRegenBonus += 10;
-        if (Player.Augs.Level[AUG_REGENERATION] == 7)
+        if (Player.Augs.CurrentLevel[AUG_REGENERATION] == 7)
             Player.ToxicityRegenBonus += 15;
-        if (Player.Augs.Level[AUG_REGENERATION] >= 8)
+        if (Player.Augs.CurrentLevel[AUG_REGENERATION] >= 8)
             Player.ToxicityRegenBonus += 20;
     }
 
     // Agility Aug
     if (Player.Augs.Active[AUG_AGILITY])
     {
-        if (Player.Augs.Level[AUG_AGILITY] >= 1)
-            Player.Speed *= 2;
-        if (Player.Augs.Level[AUG_AGILITY] >= 2)
-            Player.JumpHeight *= 2;
-        if (Player.Augs.Level[AUG_AGILITY] >= 3)
-            Player.WeaponSpeed = 100;
-        if (Player.Augs.Level[AUG_AGILITY] == 4)
-            Player.SurvivalBonus += 5;
-        if (Player.Augs.Level[AUG_AGILITY] == 5)
+        if (Player.Augs.CurrentLevel[AUG_AGILITY] == 1)
+        {
+            Player.WeaponSpeed += 5;
+            Player.SurvivalBonus += 2;
+        }
+        if (Player.Augs.CurrentLevel[AUG_AGILITY] == 2)
+        {
+            Player.WeaponSpeed += 10;
+            Player.SurvivalBonus += 4;
+        }
+        if (Player.Augs.CurrentLevel[AUG_AGILITY] == 3)
+        {
+            Player.WeaponSpeed += 15;
+            Player.SurvivalBonus += 6;
+        }
+        if (Player.Augs.CurrentLevel[AUG_AGILITY] == 4)
+        {
+            Player.WeaponSpeed += 20;
+            Player.SurvivalBonus += 8;
+        }
+        if (Player.Augs.CurrentLevel[AUG_AGILITY] >= 5)
+        {
+            Player.WeaponSpeed += 25;
             Player.SurvivalBonus += 10;
-        if (Player.Augs.Level[AUG_AGILITY] == 6)
-            Player.SurvivalBonus += 15;
-        if (Player.Augs.Level[AUG_AGILITY] == 7)
-            Player.SurvivalBonus += 20;
-        if (Player.Augs.Level[AUG_AGILITY] >= 8)
-            Player.SurvivalBonus += 25;
+        }
     }
 
     // Capacity Aug
     if (Player.Augs.Active[AUG_CAPACITY])
     {
-        int AmmoMult;
+        fixed AmmoMult;
 
-        if (Player.Augs.Level[AUG_CAPACITY] == 1)
+        if (Player.Augs.CurrentLevel[AUG_CAPACITY] == 1)
+            AmmoMult = 1.25;
+        if (Player.Augs.CurrentLevel[AUG_CAPACITY] == 2)
+            AmmoMult = 1.5;
+        if (Player.Augs.CurrentLevel[AUG_CAPACITY] >= 3)
             AmmoMult = 2;
-        if (Player.Augs.Level[AUG_CAPACITY] >= 2)
-            AmmoMult = 4;
-        if (Player.Augs.Level[AUG_CAPACITY] >= 3)
-            Player.Stim.VialMax *= 2;
 
-        SetAmmoCapacity("Clip", Player.CapacityTotal * 20 * AmmoMult);
-        SetAmmoCapacity("Shell", Player.CapacityTotal * 5 * AmmoMult);
-        SetAmmoCapacity("RocketAmmo", Player.CapacityTotal * 5 * AmmoMult);
-        SetAmmoCapacity("Cell", Player.CapacityTotal * 30 * AmmoMult);
+        SetAmmoCapacity("Clip", (60 + Player.CapacityTotal * 10) * AmmoMult);
+        SetAmmoCapacity("Shell", (20 + Player.CapacityTotal * 2) * AmmoMult);
+        SetAmmoCapacity("RocketAmmo", (2 + Player.CapacityTotal * 0.6) * AmmoMult);
+        SetAmmoCapacity("Cell", (Player.CapacityTotal * 10) * AmmoMult);
     }
 
     // Luck Aug
@@ -439,44 +519,40 @@ void CheckAugs()
     {
         fixed LuckMult;
 
-        if (Player.Augs.Level[AUG_LUCK] == 1)
-            LuckMult = 1.25;
-        if (Player.Augs.Level[AUG_LUCK] == 2)
+        if (Player.Augs.CurrentLevel[AUG_LUCK] == 1)
             LuckMult = 1.5;
-        if (Player.Augs.Level[AUG_LUCK] == 3)
-            LuckMult = 1.75;
-        if (Player.Augs.Level[AUG_LUCK] == 4)
+        if (Player.Augs.CurrentLevel[AUG_LUCK] == 2)
             LuckMult = 2;
-        if (Player.Augs.Level[AUG_LUCK] == 5)
+        if (Player.Augs.CurrentLevel[AUG_LUCK] == 3)
             LuckMult = 3;
-        if (Player.Augs.Level[AUG_LUCK] >= 6)
+        if (Player.Augs.CurrentLevel[AUG_LUCK] >= 4)
             LuckMult = 4;
 
         Player.HealthChance *= LuckMult;
         Player.EPChance *= LuckMult;
+        Player.AmmoChance *= LuckMult;
+        Player.TurretChance *= LuckMult;
+        Player.ModuleChance *= LuckMult;
         Player.ArmorChance *= LuckMult;
         Player.WeaponChance *= LuckMult;
-        Player.PowerupChance *= LuckMult;
-        Player.ModuleChance *= LuckMult;
-        Player.AugChance *= LuckMult;
         Player.ShieldChance *= LuckMult;
-        Player.StimChance *= LuckMult;
+        Player.AugChance *= LuckMult;
     }
 }
 
 void AugDamage(int Amount)
 {
     // Lightning damage type increases your Battery
-    if (Player.DamageType == DT_LIGHTNING && Amount / 5 > 0)
-        AddBattery(Amount / 5);
+    if (Player.DamageType == DT_LIGHTNING && Amount / 50 > 0)
+        AddBattery(Amount / 50);
 }
 
 void EquipAug(int Aug)
 {
     // If you don't have this aug yet, return
-    if (Player.Augs.Level[Aug] == 0)
+    if (Player.Augs.Level[Aug] == 0 || Player.Augs.CurrentLevel[Aug] == 0)
     {
-        PrintError("This aug has not been activated yet");
+        PrintError("This augmentation has\nnot been activated yet");
         ActivatorSound("menu/error", 127);
         return;
     }
@@ -484,7 +560,7 @@ void EquipAug(int Aug)
     // If battery is dead, return
     if (Player.Augs.Battery <= 0)
     {
-        PrintError("Your aug battery is depleted");
+        PrintError("Your augmentation\nbattery is depleted");
         ActivatorSound("menu/error", 127);
         return;
     }
@@ -503,7 +579,7 @@ void EquipAug(int Aug)
 
             if (Player.Augs.SlotsUsed > Player.Augs.Slots)
             {
-                PrintError("You are already using all of your aug slots");
+                PrintError("You are already using all\nof your augmentation slots");
                 ActivatorSound("menu/error", 127);
                 Player.Augs.SlotsUsed--;
             }
@@ -513,44 +589,5 @@ void EquipAug(int Aug)
                 Player.Augs.Active[Aug] = true;
             }
         }
-    }
-}
-
-void LevelUpAug(int AugIndex)
-{
-    if (Player.Augs.Level[AugIndex] < AugData[AugIndex].MaxLevel)
-    {
-        bool CanLevel = true;
-
-        if (Player.Augs.Level[AugIndex] == 0)
-        {
-            if (CheckInventory("DRPGAugCanister"))
-            {
-                ActivatorSound("aug/levelup", 127);
-                TakeInventory("DRPGAugCanister", 1);
-            }
-            else
-                CanLevel = false;
-        }
-        else
-        {
-            if (CheckInventory("DRPGAugCanister") && CheckInventory("DRPGAugUpgradeCanister") >= Player.Augs.Level[AugIndex] + 1)
-            {
-                ActivatorSound("aug/levelup", 127);
-                TakeInventory("DRPGAugCanister", 1);
-                TakeInventory("DRPGAugUpgradeCanister", Player.Augs.Level[AugIndex] + 1);
-            }
-            else
-                CanLevel = false;
-        }
-
-        if (!CanLevel)
-        {
-            PrintError("You cannot upgrade this aug");
-            ActivatorSound("menu/error", 127);
-            return;
-        }
-
-        Player.Augs.Level[AugIndex]++;
     }
 }

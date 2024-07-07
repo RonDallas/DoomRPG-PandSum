@@ -1,0 +1,986 @@
+
+//==============================================================================
+//		POWERUP SPAWNS
+//==============================================================================
+
+actor RLMegasphereSpotSpawner : RLMultiItemSpawner replaces Megasphere
+{
+    States
+    {
+    SpawnItems:
+	    TNT1 A 0 A_SpawnItemEx ("RLMegasphereTypeSpawner", 0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("RLRandomSkullSpawner", frandom(-24,24),frandom(-24,24),0, 0,0,0, 0, SXF_NOCHECKPOSITION, 128)
+		TNT1 A 0 A_SpawnItemEx ("RLSupplyCrateSpawner", frandom(-5,5),frandom(-5,5),0, 0,0,0, 0, 0, 0)
+	    TNT1 A 0 A_SpawnItemEx ("RLMegasphereSpot", 0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION)
+	    TNT1 A 0 A_Jump(256, "WaitForCollection")
+		Goto WaitForCollection
+    }
+}
+
+actor RLSoulsphereSpotSpawner : RLMultiItemSpawner replaces Soulsphere
+{
+    States
+    {
+    SpawnItems:
+	    TNT1 A 0 A_SpawnItemEx ("RLSoulsphere", 0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("RLSupplyCrateSpawner", frandom(-5,5),frandom(-5,5),0, 0,0,0, 0, 0, 64)
+	    TNT1 A 0 A_Jump(256, "WaitForCollection")
+		Goto WaitForCollection
+    }
+}
+
+actor RLInvulnerabilitySphereSpotSpawner : RLMultiItemSpawner replaces InvulnerabilitySphere
+{
+    States
+    {
+	Spawn:
+	    TNT1 A 0
+	    TNT1 A 0 A_Jump(256, "SpawnItems")
+		Goto SpawnItems
+    SpawnItems:
+	    TNT1 A 0 A_SpawnItemEx ("RLInvulnerabilitySphere", 0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("RLSupplyCrateSpawner", frandom(-5,5),frandom(-5,5),0, 0,0,0, 0, 0, 64)
+	    TNT1 A 0 A_Jump(256, "WaitForCollection")
+		Goto WaitForCollection
+    }
+}
+
+actor RLRadSuitSpotSpawner : RLMultiItemSpawner replaces RadSuit
+{
+    States
+    {
+	Spawn:
+	    TNT1 A 0
+	    TNT1 A 0 A_Jump(256, "SpawnItems")
+		Goto SpawnItems
+    SpawnItems:
+	    TNT1 A 0 A_SpawnItemEx ("RLRadSuit", 0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("RLSupplyCrateSpawner", frandom(-5,5),frandom(-5,5),0, 0,0,0, 0, 0, 192)
+	    TNT1 A 0 A_Jump(256, "WaitForCollection")
+		Goto WaitForCollection
+    }
+}
+
+actor RLInfraRedSpotSpawner : RLMultiItemSpawner replaces InfraRed
+{
+    States
+    {
+	Spawn:
+	    TNT1 A 0
+	    TNT1 A 0 A_Jump(256, "SpawnItems")
+		Goto SpawnItems
+    SpawnItems:
+	    TNT1 A 0 A_SpawnItemEx ("RLInfraRed", 0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("RLSupplyCrateSpawner", frandom(-24,24),frandom(-24,24),0, 0,0,0, 0, 0, 192)
+	    TNT1 A 0 A_Jump(256, "WaitForCollection")
+		Goto WaitForCollection
+    }
+}
+
+actor RLBlursphereSpotSpawner : RLMultiItemSpawner replaces Blursphere
+{
+    States
+    {
+	Spawn:
+	    TNT1 A 0
+	    TNT1 A 0 A_Jump(256, "SpawnItems")
+		Goto SpawnItems
+    SpawnItems:
+	    TNT1 A 0 A_SpawnItemEx ("RLBlursphere", 0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("RLSupplyCrateSpawner", frandom(-5,5),frandom(-5,5),0, 0,0,0, 0, 0, 192)
+	    TNT1 A 0 A_Jump(256, "WaitForCollection")
+		Goto WaitForCollection
+    }
+}
+
+actor RLAllMapSpotSpawner : RLMultiItemSpawner replaces AllMap
+{
+    States
+    {
+	Spawn:
+	    TNT1 A 0
+	    TNT1 A 0 A_Jump(256, "SpawnItems")
+		Goto SpawnItems
+    SpawnItems:
+	    TNT1 A 0 A_SpawnItemEx ("RLAllMapSpawner", 0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("RLSupplyCrateSpawner", frandom(-5,5),frandom(-5,5),0, 0,0,0, 0, 0, 192)
+	    TNT1 A 0 A_Jump(256, "WaitForCollection")
+		Goto WaitForCollection
+    }
+}
+
+actor RLBerserkSpotSpawner : RLMultiItemSpawner replaces Berserk
+{
+    States
+    {
+    SpawnItems:
+	    TNT1 A 0 A_SpawnItemEx ("RLBerserk", 0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("RLSupplyCrateSpawner", frandom(-5,5),frandom(-5,5),0, 0,0,0, 0, 0, 192)
+	    TNT1 A 0 A_Jump(256, "WaitForCollection")
+		Goto WaitForCollection
+    }
+}
+
+//==============================================================================
+//		RANDOM SPAWNERS
+//==============================================================================
+
+actor RLClipBoxSpawner : RandomSpawner replaces ClipBox
+{
+    DropItem "RLClipBox" 255 6
+    DropItem "RLModPackSpawner" 255 1
+}
+
+actor RLShellBoxSpawner : RandomSpawner replaces ShellBox
+{
+    DropItem "RLShellBox" 255 6
+    DropItem "RLModPackSpawner" 255 1
+}
+
+actor RLRocketBoxSpawner : RandomSpawner replaces RocketBox
+{
+    DropItem "RLRocketBox" 255 6
+    DropItem "RLModPackSpawner" 255 1
+}
+
+actor RLCellPackSpawner : RandomSpawner replaces CellPack
+{
+    DropItem "RLCellPack" 255 6
+    DropItem "RLModPackSpawner" 255 1
+}
+
+actor RLClipSpawner : RandomSpawner replaces Clip
+{
+    DropItem "RLClip" 255 18
+    DropItem "RLPistolPickup" 255 7
+    DropItem "RLExoticPistolSpawner" 255 1
+}
+
+actor RLShellSpawner : RandomSpawner replaces Shell
+{
+    DropItem "RLShell" 255 18
+}
+
+actor RLRocketAmmoSpawner : RandomSpawner replaces RocketAmmo
+{
+    DropItem "RLRocketAmmo" 255 18
+}
+
+actor RLCellSpawner : RandomSpawner replaces Cell
+{
+    DropItem "RLCell" 255 18
+}
+
+actor RLRandomAmmoSpawner : RandomSpawner
+{
+    DropItem "RLClip" 255 15
+    DropItem "RLClipBox" 255 8
+    DropItem "RLShell" 255 15
+    DropItem "RLShellbox" 255 8
+    DropItem "RLRocketAmmo" 255 6
+    DropItem "RLRocketBox" 255 2
+    DropItem "RLCell" 255 4
+    DropItem "RLCellPack" 255 1
+}
+
+actor RLRandomHealthSpawner : RandomSpawner
+{
+    DropItem "RLStimpack" 255 15
+    DropItem "RLMedikit" 255 8
+}
+
+actor RLRandomBackpackSpawner : RandomSpawner replaces Backpack
+{
+    DropItem "RLBackpack" 255 800
+	// Assembled backpacks
+	// Exotic backpacks
+    DropItem "RLCombatBackpackPickup" 255 50
+    DropItem "RLSpecialistBackpackPickup" 255 50
+    DropItem "RLScroungerBackpackPickup" 255 50
+    DropItem "RLDedicatedBackpackPickup" 255 50
+	// Superior backpacks
+	// Unique backpacks
+    DropItem "RLNuclearBackpackPickup" 255 1
+	// Demonic backpacks
+	// Legendary backpacks
+}
+
+actor RLRandomPowerupSpawner : RandomSpawner
+{
+    DropItem "RLSoulsphere" 255 55
+    DropItem "RLMegasphere" 255 32
+    DropItem "RLInvulnerabilitysphere" 255 28
+    DropItem "RLAaaghSphere" 255 1
+    DropItem "RLFIREBLUSphere" 255 1
+}
+
+actor RLRandomSkullSpawner : RandomSpawner 16728
+{
+    DropItem "RLHatredSkull" 255 1
+    DropItem "RLBloodSkull" 255 1
+    DropItem "RLFireSkull" 255 1
+}
+
+actor RLRandomPhaseDeviceSpawner : RandomSpawner 16729
+{
+  Tag "Random Phase Device"
+    //$category "DRLA Spawners"
+    DropItem "RLPhaseDevice" 255 200
+    DropItem "RLHomingPhaseDevice" 255 100
+    DropItem "RLRecallPhaseDevice" 255 100
+    DropItem "RLExperimentalPhaseDevice" 255 5
+}
+
+actor RLAllMapSpawner : RandomSpawner
+{
+    DropItem "RLAllmap" 255 3
+    DropItem "RLTrackingMap" 255 1
+    DropItem "RLBlueprintComputer" 255 1
+}
+
+//------------------------------------------------------------------------------
+
+actor RLMegasphereTypeSpawner : RandomSpawner
+{
+    DropItem "RLMegasphere" 255 48
+    DropItem "RLAaaghSphere" 255 1
+    DropItem "RLFIREBLUSphere" 255 1
+}
+
+//------------------------------------------------------------------------------
+
+actor RLStandardWeaponSpawner : RandomSpawner 16703
+{
+  Tag "Random Standard Weapon"
+    //$category "DRLA Spawners"
+    DropItem "RLChainsawPickup" 255 9
+    DropItem "RLPistolPickup" 255 17
+    DropItem "RLShotgunPickup" 255 15
+    DropItem "RLCombatShotgunPickup" 255 15
+    DropItem "RLDoubleShotgunPickup" 255 11
+    DropItem "RLChaingunPickup" 255 9
+    DropItem "RLBattleRiflePickup" 255 9
+    DropItem "RLRocketLauncherPickup" 255 7
+    DropItem "RLPlasmaRiflePickup" 255 5
+    DropItem "RLBFG9000Pickup" 255 3
+}
+
+actor RLExoticPistolSpawner : RandomSpawner
+{
+    DropItem "RLCombatPistolPickup" 255 5
+    DropItem "RLMarksmanPistolPickup" 255 3
+    DropItem "RLHandcannonPickup" 255 4
+    DropItem "RLBlasterPickup" 255 2
+    DropItem "RLUziPickup" 255 3
+    DropItem "RLHuntingRevolverPickup" 255 1
+    DropItem "RLPP7Pickup" 255 1
+}
+
+actor RLAllPistolSpawner : RandomSpawner 16710
+{
+  Tag "Random Pistol"
+    //$category "DRLA Spawners"
+    DropItem "RLPistolPickup" 255 20
+    DropItem "RLSpeedloaderPistolPickup" 255 6
+    DropItem "RLSilencedPistolPickup" 255 8
+    DropItem "RLCombatPistolPickup" 255 8
+    DropItem "RLMarksmanPistolPickup" 255 6
+    DropItem "RLHandcannonPickup" 255 6
+    DropItem "RLBlasterPickup" 255 7
+    DropItem "RLUziPickup" 255 5
+    DropItem "RLNuclearPlasmaPistolPickup" 255 1
+    DropItem "RLHuntingRevolverPickup" 255 1
+    DropItem "RLPP7Pickup" 255 1
+    DropItem "RLHighPowerPistolPickup" 255 5
+    DropItem "RLHighPowerCombatPistolPickup" 255 6
+    DropItem "RLHighPowerMarksmanPistolPickup" 255 6
+    DropItem "RLHighPowerHandcannonPickup" 255 2
+    DropItem "RLHighPowerBlasterPickup" 255 5
+    DropItem "RLHighPowerUziPickup" 255 3
+    DropItem "RLPlasmaPistolPickup" 255 5
+    DropItem "RLPlasmaCombatPistolPickup" 255 4
+    DropItem "RLPlasmaMarksmanPistolPickup" 255 4
+    DropItem "RLHighPowerHuntingRevolverPickup" 255 1
+    DropItem "RLHighPowerPP7Pickup" 255 1
+    DropItem "RLShredderPistolPickup" 255 3
+}
+
+actor RLChainsawSpawner : RandomSpawner replaces Chainsaw
+{
+    DropItem "RLChainsawPickup" 255 1400 // hue
+    DropItem "RLExoticChainsawSpawner" 255 1
+}
+
+actor RLExoticChainsawSpawner : RandomSpawner
+{
+    DropItem "RLExoticWeaponSpawner" 255 1
+    DropItem "RLSuperiorWeaponSpawner" 255 1
+    DropItem "RLAssembledWeaponSpawner" 255 1
+    DropItem "RLUniqueWeaponSpawner" 255 1
+}
+
+actor RLShotgunSpawner : RandomSpawner
+{
+  Tag "Random Shotgun"
+    //$category "DRLA Spawners"
+    DropItem "RLShotgunPickup" 255 14
+    DropItem "RLCombatShotgunPickup" 255 4
+    DropItem "RLExoticShotgunSpawner" 255 1
+}
+
+actor RLExoticShotgunSpawner : RandomSpawner
+{
+    DropItem "RLAssaultShotgunPickup" 255 5
+    DropItem "RLPlasmaShotgunPickup" 255 4
+    DropItem "RLUniqueWeaponSpawner" 255 1
+}
+
+actor RLShotgunSpawner2 : RandomSpawner replaces Shotgun
+{
+    DropItem "RLShotgunPickup" 255 5
+    DropItem "RLCombatShotgunPickup" 255 1
+}
+
+actor RLDoubleShotgunSpawner : RandomSpawner replaces SuperShotgun
+{
+    DropItem "RLDoubleShotgunPickup" 255 7
+    DropItem "RLExoticDoubleShotgunSpawner" 255 1
+}
+
+actor RLExoticDoubleShotgunSpawner : RandomSpawner
+{
+    DropItem "RLSuperShotgunPickup" 255 14
+    DropItem "RLUniqueWeaponSpawner" 255 1
+}
+
+actor RLChaingunSpawner : RandomSpawner
+{
+  Tag "Random Chaingun"
+    //$category "DRLA Spawners"
+    DropItem "RLChaingunPickup" 255 80
+    DropItem "RLBattleRiflePickup" 255 65
+    DropItem "RLSuperiorWeaponSpawner" 255 10
+    DropItem "RLExoticChaingunSpawner" 255 25
+}
+
+actor RLExoticChaingunSpawner : RandomSpawner
+{
+    DropItem "RLMinigunPickup" 255 45
+    DropItem "RLCombatPistolPickup" 255 80
+    DropItem "RLMarksmanPistolPickup" 255 75
+    DropItem "RLHandcannonPickup" 255 60
+    DropItem "RLUziPickup" 255 52
+    DropItem "RLSuperiorWeaponSpawner" 255 15
+    DropItem "RLUniqueWeaponSpawner" 255 10
+}
+
+actor RLChaingunSpawner2 : RandomSpawner replaces Chaingun
+{
+    DropItem "RLChaingunPickup" 255 1
+}
+
+actor RLRocketLauncherSpawner : RandomSpawner replaces RocketLauncher
+{
+    DropItem "RLRocketLauncherPickup" 255 12
+    DropItem "RLExoticRocketLauncherSpawner" 255 1
+}
+
+actor RLExoticRocketLauncherSpawner : RandomSpawner
+{
+    DropItem "RLNapalmLauncherPickup" 255 8
+    DropItem "RLMissileLauncherPickup" 255 10
+    DropItem "RLSuperiorWeaponSpawner" 255 2
+    DropItem "RLUniqueWeaponSpawner" 255 1
+}
+
+actor RLPlasmaRifleSpawner : RandomSpawner replaces PlasmaRifle
+{
+    DropItem "RLPlasmaRiflePickup" 255 7
+    DropItem "RLExoticPlasmaRifleSpawner" 255 1
+}
+
+actor RLExoticPlasmaRifleSpawner : RandomSpawner
+{
+    DropItem "RLNuclearPlasmaPistolPickup" 255 2
+    DropItem "RLNuclearPlasmaRiflePickup" 255 2
+    DropItem "RLBlasterPickup" 255 5
+    DropItem "RLLaserRiflePickup" 255 4
+    DropItem "RLTristarBlasterPickup" 255 3
+    DropItem "RLCombatTranslocatorPickup" 255 3
+    DropItem "RLSuperiorWeaponSpawner" 255 4
+    DropItem "RLUniqueWeaponSpawner" 255 1
+}
+
+actor RLBFG9000Spawner : RandomSpawner replaces BFG9000
+{
+    DropItem "RLBFG9000Pickup" 255 4
+    DropItem "RLExoticBFG9000Spawner" 255 1
+}
+
+actor RLExoticBFG9000Spawner : RandomSpawner
+{
+    DropItem "RLNuclearBFG9000Pickup" 255 3
+    DropItem "RLUniqueWeaponSpawner" 255 1
+}
+
+//------------------------------------------------------------------------------
+
+actor RLExoticWeaponSpawner : RandomSpawner 16704
+{
+  Tag "Random Exotic Weapon"
+    //$category "DRLA Spawners"
+    DropItem "RLBlasterPickup" 255 1
+    DropItem "RLCombatPistolPickup" 255 1
+    DropItem "RLMarksmanPistolPickup" 255 1
+    DropItem "RLHandcannonPickup" 255 1
+    DropItem "RLSuperShotgunPickup" 255 1
+    DropItem "RLAssaultShotgunPickup" 255 1
+    DropItem "RLPlasmaShotgunPickup" 255 1
+    DropItem "RLMinigunPickup" 255 1
+    DropItem "RLMissileLauncherPickup" 255 1
+    DropItem "RLNapalmLauncherPickup" 255 1
+    DropItem "RLTristarBlasterPickup" 255 1
+    DropItem "RLLaserRiflePickup" 255 1
+    DropItem "RLNuclearPlasmaPistolPickup" 255 1
+    DropItem "RLNuclearPlasmaRiflePickup" 255 1
+    DropItem "RLNuclearBFG9000Pickup" 255 1
+    DropItem "RLCombatTranslocatorPickup" 255 1
+}
+
+actor RLSuperiorWeaponSpawner : RandomSpawner 16726
+{
+  Tag "Random Superior Weapon"
+    //$category "DRLA Spawners"
+    DropItem "RLMarksmanRiflePickup" 255 1
+    DropItem "RLVanguardRiflePickup" 255 1
+    DropItem "RLHuntingRevolverPickup" 255 1
+    DropItem "RLThompsonPickup" 255 1
+    DropItem "RLPP7Pickup" 255 1
+    DropItem "RLHuntingShotgunPickup" 255 1
+    DropItem "RLRCP90Pickup" 255 1
+}
+
+actor RLAssembledWeaponSpawner : RandomSpawner 16705
+{
+  Tag "Random Assembled Weapon"
+    //$category "DRLA Spawners"
+    DropItem "RLSilencedPistolPickup" 255 1
+    DropItem "RLShredderPistolPickup" 255 1
+    DropItem "RLShredderShotgunPickup" 255 1
+    DropItem "RLSpeedloaderPistolPickup" 255 1
+    DropItem "RLElephantGunPickup" 255 1
+    DropItem "RLGatlingGunPickup" 255 1
+    DropItem "RLMicroLauncherPickup" 255 1
+    DropItem "RLTacticalShotgunPickup" 255 1
+    DropItem "RLFlamethrowerPickup" 255 1
+    DropItem "RLShrapnelCannonPickup" 255 1
+    DropItem "RLSniperRiflePickup" 255 1
+    DropItem "RLHeavyShotgunPickup" 255 1
+    DropItem "RLHeavyCombatShotgunPickup" 255 1
+    DropItem "RLHeavyDoubleShotgunPickup" 255 1
+    DropItem "RLHeavySuperShotgunPickup" 255 1
+    DropItem "RLHeavyAssaultShotgunPickup" 255 1
+    DropItem "RLHeavyPlasmaShotgunPickup" 255 1
+    DropItem "RLHeavyHuntingShotgunPickup" 255 1
+    DropItem "RLHighPowerPistolPickup" 255 1
+    DropItem "RLHighPowerChaingunPickup" 255 1
+    DropItem "RLHighPowerBattleRiflePickup" 255 1
+    DropItem "RLHighPowerPlasmaRiflePickup" 255 1
+    DropItem "RLHighPowerBFG9000Pickup" 255 1
+    DropItem "RLHighPowerBlasterPickup" 255 1
+    DropItem "RLHighPowerCombatPistolPickup" 255 1
+    DropItem "RLHighPowerMarksmanPistolPickup" 255 1
+    DropItem "RLHighPowerHandcannonPickup" 255 1
+    DropItem "RLHighPowerMinigunPickup" 255 1
+    DropItem "RLHighPowerLaserRiflePickup" 255 1
+    DropItem "RLHighPowerTristarBlasterPickup" 255 1
+    DropItem "RLHighPowerNuclearPlasmaPistolPickup" 255 1
+    DropItem "RLHighPowerNuclearPlasmaRiflePickup" 255 1
+    DropItem "RLHighPowerNuclearBFG9000Pickup" 255 1
+    DropItem "RLHighPowerUziPickup" 255 1
+    DropItem "RLHighPowerMarksmanRiflePickup" 255 1
+    DropItem "RLHighPowerVanguardRiflePickup" 255 1
+    DropItem "RLHighPowerHuntingRevolverPickup" 255 1
+    DropItem "RLHighPowerThompsonPickup" 255 1
+    DropItem "RLHighPowerPP7Pickup" 255 1
+    DropItem "RLHighPowerRCP90Pickup" 255 1
+    DropItem "RLPlasmaticShrapnelShotgunPickup" 255 1
+    DropItem "RLPlasmaticShrapnelCombatShotgunPickup" 255 1
+    DropItem "RLPlasmaticShrapnelDoubleShotgunPickup" 255 1
+    DropItem "RLPlasmaticShrapnelSuperShotgunPickup" 255 1
+    DropItem "RLPlasmaticShrapnelAssaultShotgunPickup" 255 1
+    DropItem "RLPlasmaticShrapnelPlasmaShotgunPickup" 255 1
+    DropItem "RLPlasmaticShrapnelHuntingShotgunPickup" 255 1
+    DropItem "RLDoubleChainsawPickup" 255 1
+    DropItem "RLTacticalRocketLauncherPickup" 255 1
+    DropItem "RLStormPistolPickup" 255 1
+    DropItem "RLStormCombatPistolPickup" 255 1
+    DropItem "RLStormMarksmanPistolPickup" 255 1
+    DropItem "RLStormHandcannonPickup" 255 1
+    DropItem "RLStormUziPickup" 255 1
+    DropItem "RLStormBlasterPickup" 255 1
+    DropItem "RLStormNuclearPlasmaPistolPickup" 255 1
+    DropItem "RLPlasmaPistolPickup" 255 1
+    DropItem "RLPlasmaCombatPistolPickup" 255 1
+    DropItem "RLPlasmaMarksmanPistolPickup" 255 1
+    DropItem "RLPlasmaHandcannonPickup" 255 1
+    DropItem "RLPlasmaUziPickup" 255 1
+    DropItem "RLOverchargedBlasterPickup" 255 1
+    DropItem "RLSuperchargedNuclearPlasmaPistolPickup" 255 1
+    DropItem "RLVBFG9000Pickup" 255 1
+    DropItem "RLNuclearVBFG9000Pickup" 255 1
+    DropItem "RLFocusedDoubleShotgunPickup" 255 1
+    DropItem "RLHyperblasterPickup" 255 1
+    DropItem "RLBulletstormChaingunPickup" 255 1
+    DropItem "RLAutoshotgunPickup" 255 1
+    DropItem "RLAutoDoubleShotgunPickup" 255 1
+    DropItem "RLPlasmaRifleMkIIPickup" 255 1
+    DropItem "RLMiniMissilePistolPickup" 255 1
+    DropItem "RLGrenadeLauncherPickup" 255 1
+    DropItem "RLNuclearPlasmaShotgunPickup" 255 1
+    DropItem "RLNuclearPlasmaRifleMkIIPickup" 255 1
+    DropItem "RLPlasmaShotgunMkIIPickup" 255 1
+    DropItem "RLLaserShotgunPickup" 255 1
+    DropItem "RLAssaultRifleChaingunPickup" 255 1
+    DropItem "RLAssaultRiflePlasmaRiflePickup" 255 1
+    DropItem "RLAssaultRifleMinigunPickup" 255 1
+    DropItem "RLAssaultRifleLaserRiflePickup" 255 1
+    DropItem "RLAssaultRifleNuclearPlasmaRiflePickup" 255 1
+    DropItem "RLAssaultRifleUziPickup" 255 1
+    DropItem "RLAssaultRifleBattleRiflePickup" 255 1
+    DropItem "RLBurstCannonChaingunPickup" 255 1
+    DropItem "RLBurstCannonPlasmaRiflePickup" 255 1
+    DropItem "RLBurstCannonMinigunPickup" 255 1
+    DropItem "RLBurstCannonLaserRiflePickup" 255 1
+    DropItem "RLBurstCannonNuclearPlasmaRiflePickup" 255 1
+    DropItem "RLBurstCannonUziPickup" 255 1
+    DropItem "RLBurstCannonBattleRiflePickup" 255 1
+    DropItem "RLNanoShrapnelShotgunPickup" 255 1
+    DropItem "RLNanoShrapnelCombatShotgunPickup" 255 1
+    DropItem "RLNanoShrapnelDoubleShotgunPickup" 255 1
+    DropItem "RLNanoShrapnelSuperShotgunPickup" 255 1
+    DropItem "RLNanoShrapnelAssaultShotgunPickup" 255 1
+    DropItem "RLNanoShrapnelPlasmaShotgunPickup" 255 1
+    DropItem "RLRipperWorldSpawnPickup" 255 1
+    DropItem "RLBiggestFuckingGunWorldSpawnPickup" 255 1
+    DropItem "RLNuclearBiggestFuckingGunWorldSpawnPickup" 255 1
+    DropItem "RLMotherInLawWorldSpawnPickup" 255 1
+    DropItem "RLAutocannonWorldSpawnPickup" 255 1
+    DropItem "RLPlasmaRefractorWorldSpawnPickup" 255 1
+    DropItem "RLClusterBombLauncherWorldSpawnPickup" 255 1
+    DropItem "RLMegatonShotgunWorldSpawnPickup" 255 1
+    DropItem "RLConquerorShotgunWorldSpawnPickup" 255 1
+    DropItem "RLVoltgunWorldSpawnPickup" 255 1
+    DropItem "RLAntiMaterielRifleWorldSpawnPickup" 255 1
+    DropItem "RLGaussRifleWorldSpawnPickup" 255 1
+    DropItem "RLSuperMachinegunWorldSpawnPickup" 255 1
+    DropItem "RLEnergysawWorldSpawnPickup" 255 1
+    DropItem "RLInfusionLauncherWorldSpawnPickup" 255 1
+    DropItem "RLPlasmaCannonWorldSpawnPickup" 255 1
+    DropItem "RLHeavyPulseBlasterWorldSpawnPickup" 255 1
+    DropItem "RLLaserMinigunWorldSpawnPickup" 255 1
+    DropItem "RLLaserPulseLauncherWorldSpawnPickup" 255 1
+    DropItem "RLIncinerationDeviceLauncherWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoPistolWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoChaingunWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoRocketLauncherWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoPlasmaRifleWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoBlasterWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoCombatPistolWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoMarksmanPistolWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoHandcannonWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoMinigunWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoMissileLauncherWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoNapalmLauncherWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoLaserRifleWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoTristarBlasterWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoUziWorldSpawnPickup" 255 1
+    DropItem "RLNanoManufactureAmmoBattleRifleWorldSpawnPickup" 255 1
+    DropItem "RLDemolitionAmmoPistolWorldSpawnPickup" 255 1
+    DropItem "RLDemolitionAmmoChaingunWorldSpawnPickup" 255 1
+    DropItem "RLDemolitionAmmoCombatPistolWorldSpawnPickup" 255 1
+    DropItem "RLDemolitionAmmoMarksmanPistolWorldSpawnPickup" 255 1
+    DropItem "RLDemolitionAmmoHandcannonWorldSpawnPickup" 255 1
+    DropItem "RLDemolitionAmmoMinigunWorldSpawnPickup" 255 1
+    DropItem "RLDemolitionAmmoUziWorldSpawnPickup" 255 1
+    DropItem "RLDemolitionAmmoBattleRifleWorldSpawnPickup" 255 1
+}
+
+actor RLUniqueWeaponSpawner : RandomSpawner 16706
+{
+  Tag "Random Unique Weapon"
+    //$category "DRLA Spawners"
+    DropItem "RLMysteriousMagnumWorldSpawnPickup" 255 2
+    DropItem "RLRailgunWorldSpawnPickup" 255 2
+    DropItem "RLJackhammerWorldSpawnPickup" 255 2
+	DropItem "RLBFG10KWorldSpawnPickup" 255 2
+    DropItem "RLUnknownHeraldWorldSpawnPickup" 255 2
+    DropItem "RLFragShotgunWorldSpawnPickup" 255 2
+    DropItem "RLQuadShotgunWorldSpawnPickup" 255 2
+    DropItem "RLLightweaverWorldSpawnPickup" 255 2
+    DropItem "RLTrigunWorldSpawnPickup" 255 2
+    DropItem "RLGrammatonClericBerettaWorldSpawnPickup" 255 2
+    DropItem "RLAntiFreakJackalWorldSpawnPickup" 255 2
+    DropItem "RLHellsingARMSCasullWorldSpawnPickup" 255 2
+    DropItem "RLTantrumCannonWorldSpawnPickup" 255 2
+    DropItem "RLRevenantsLauncherWorldSpawnPickup" 255 2
+    DropItem "RLNullPointerWorldSpawnPickup" 255 2
+    DropItem "RLParticleBeamCannonWorldSpawnPickup" 255 2
+    DropItem "RLPlasmaRedirectionCannonWorldSpawnPickup" 255 2
+    DropItem "RLSteelBeastWorldSpawnPickup" 255 2
+    DropItem "RLSussGunWorldSpawnPickup" 255 2
+    DropItem "RLMIRVLauncherWorldSpawnPickup" 255 2
+    DropItem "RLMarathonAssaultRifleWorldSpawnPickup" 255 2
+    DropItem "RLMarathonShotgunsWorldSpawnPickup" 255 2
+    DropItem "RLWidowmakerSMGWorldSpawnPickup" 255 2
+    DropItem "RLChameleonRifleWorldSpawnPickup" 255 2
+    DropItem "RLNanomachicArmamentGeneratorWorldSpawnPickup" 255 2
+    DropItem "RLNuclearOnslaughtWorldSpawnPickup" 255 2
+    DropItem "RLLuciferCannonWorldSpawnPickup" 255 2
+    DropItem "RLTriadCannonWorldSpawnPickup" 255 2
+    DropItem "RLDirectHitWorldSpawnPickup" 255 2
+    DropItem "RLDemonicWeaponSpawner" 255 12
+    DropItem "RLLegendaryWeaponSpawner" 255 5
+}
+
+actor RLDemonicWeaponSpawner : RandomSpawner 16707
+{
+  Tag "Random Demonic Weapon"
+    //$category "DRLA Spawners"
+    DropItem "RLDeathsGazeWorldSpawnPickup" 255 4
+    DropItem "RLHellsReignWorldSpawnPickup" 255 4
+    DropItem "RLSoulstormRifleWorldSpawnPickup" 255 4
+    DropItem "RLUnmakerWorldSpawnPickup" 255 1
+}
+
+actor RLLegendaryWeaponSpawner : RandomSpawner 16708
+{
+  Tag "Random Legendary Weapon"
+    //$category "DRLA Spawners"
+    DropItem "RLJudgeOfTheDeadWorldSpawnPickup" 255 1
+    DropItem "RLHurricaneCannonWorldSpawnPickup" 255 1
+    DropItem "RLNeuralStunnerWorldSpawnPickup" 255 1
+    DropItem "RLBaronBlasterWorldSpawnPickup" 255 1
+    DropItem "RLBFGInfinityWorldSpawnPickup" 255 1
+    DropItem "RLDuke2RifleWorldSpawnPickup" 255 1
+//    DropItem "RLRealityDistortionArrayWorldSpawnPickup" 255 1 // This only spawns from crates
+    DropItem "RLLonghornWorldSpawnPickup" 255 1
+//    DropItem "RLDragonslayerWorldSpawnPickup" 255 1 // Delayed till later
+}
+
+actor RLSuperWeaponSpawner : RandomSpawner 16709
+{
+  Tag "Random Superweapon"
+    //$category "DRLA Spawners"
+    DropItem "RLNanoShrapnelShotgunPickup" 255 6
+    DropItem "RLNanoShrapnelCombatShotgunPickup" 255 6
+    DropItem "RLNanoShrapnelDoubleShotgunPickup" 255 6
+    DropItem "RLNanoShrapnelSuperShotgunPickup" 255 6
+    DropItem "RLNanoShrapnelAssaultShotgunPickup" 255 6
+    DropItem "RLNanoShrapnelPlasmaShotgunPickup" 255 6
+    DropItem "RLRipperWorldSpawnPickup" 255 2
+    DropItem "RLBiggestFuckingGunWorldSpawnPickup" 255 2
+    DropItem "RLNuclearBiggestFuckingGunWorldSpawnPickup" 255 2
+    DropItem "RLConquerorShotgunWorldSpawnPickup" 255 2
+    DropItem "RLClusterBombLauncherWorldSpawnPickup" 255 2
+    DropItem "RLAutocannonWorldSpawnPickup" 255 2
+    DropItem "RLPlasmaRefractorWorldSpawnPickup" 255 2
+    DropItem "RLMotherInLawWorldSpawnPickup" 255 2
+    DropItem "RLGaussRifleWorldSpawnPickup" 255 2
+    DropItem "RLVoltgunWorldSpawnPickup" 255 2
+    DropItem "RLSuperMachinegunWorldSpawnPickup" 255 2
+    DropItem "RLAntiMaterielRifleWorldSpawnPickup" 255 2
+    DropItem "RLZeusCannonWorldSpawnPickup" 255 2
+    DropItem "RLMegatonShotgunWorldSpawnPickup" 255 2
+    DropItem "RLInfusionLauncherWorldSpawnPickup" 255 2
+    DropItem "RLPlasmaCannonWorldSpawnPickup" 255 2
+    DropItem "RLHeavyPulseBlasterWorldSpawnPickup" 255 2
+    DropItem "RLLaserMinigunWorldSpawnPickup" 255 2
+    DropItem "RLEnergysawWorldSpawnPickup" 255 2
+    DropItem "RLLaserPulseLauncherWorldSpawnPickup" 255 2
+    DropItem "RLIncinerationDeviceLauncherWorldSpawnPickup" 255 2
+    DropItem "RLNanoManufactureAmmoPistolWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoChaingunWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoRocketLauncherWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoPlasmaRifleWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoBlasterWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoCombatPistolWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoMarksmanPistolWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoHandcannonWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoMinigunWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoMissileLauncherWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoNapalmLauncherWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoLaserRifleWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoTristarBlasterWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoUziWorldSpawnPickup" 255 6
+    DropItem "RLNanoManufactureAmmoBattleRifleWorldSpawnPickup" 255 6
+    DropItem "RLDemolitionAmmoPistolWorldSpawnPickup" 255 4
+    DropItem "RLDemolitionAmmoChaingunWorldSpawnPickup" 255 4
+    DropItem "RLDemolitionAmmoCombatPistolWorldSpawnPickup" 255 4
+    DropItem "RLDemolitionAmmoMarksmanPistolWorldSpawnPickup" 255 4
+    DropItem "RLDemolitionAmmoHandcannonWorldSpawnPickup" 255 4
+    DropItem "RLDemolitionAmmoMinigunWorldSpawnPickup" 255 4
+    DropItem "RLDemolitionAmmoUziWorldSpawnPickup" 255 4
+    DropItem "RLDemolitionAmmoBattleRifleWorldSpawnPickup" 255 4
+    DropItem "RLMysteriousMagnumWorldSpawnPickup" 255 2
+    DropItem "RLRailgunWorldSpawnPickup" 255 2
+    DropItem "RLJackhammerWorldSpawnPickup" 255 2
+	DropItem "RLBFG10KWorldSpawnPickup" 255 2
+    DropItem "RLUnknownHeraldWorldSpawnPickup" 255 2
+    DropItem "RLFragShotgunWorldSpawnPickup" 255 2
+    DropItem "RLQuadShotgunWorldSpawnPickup" 255 2
+    DropItem "RLLightweaverWorldSpawnPickup" 255 2
+    DropItem "RLTrigunWorldSpawnPickup" 255 2
+    DropItem "RLGrammatonClericBerettaWorldSpawnPickup" 255 2
+    DropItem "RLAntiFreakJackalWorldSpawnPickup" 255 2
+    DropItem "RLTantrumCannonWorldSpawnPickup" 255 2
+    DropItem "RLRevenantsLauncherWorldSpawnPickup" 255 2
+    DropItem "RLNullPointerWorldSpawnPickup" 255 2
+    DropItem "RLParticleBeamCannonWorldSpawnPickup" 255 2
+    DropItem "RLPlasmaRedirectionCannonWorldSpawnPickup" 255 2
+    DropItem "RLSteelBeastWorldSpawnPickup" 255 2
+    DropItem "RLSussGunWorldSpawnPickup" 255 2
+    DropItem "RLMIRVLauncherWorldSpawnPickup" 255 2
+    DropItem "RLMarathonAssaultRifleWorldSpawnPickup" 255 2
+    DropItem "RLMarathonShotgunsWorldSpawnPickup" 255 2
+    DropItem "RLChameleonRifleWorldSpawnPickup" 255 2
+    DropItem "RLNanomachicArmamentGeneratorWorldSpawnPickup" 255 2
+    DropItem "RLNuclearOnslaughtWorldSpawnPickup" 255 2
+    DropItem "RLLuciferCannonWorldSpawnPickup" 255 2
+    DropItem "RLTriadCannonWorldSpawnPickup" 255 2
+    DropItem "RLDirectHitWorldSpawnPickup" 255 2
+    DropItem "RLDemonicWeaponSpawner" 255 2
+    DropItem "RLLegendaryWeaponSpawner" 255 1
+}
+
+actor RLSuperweaponModeSpawner : RandomSpawner
+{
+    DropItem "RLRipperWorldSpawnPickup" 255 2
+    DropItem "RLBiggestFuckingGunWorldSpawnPickup" 255 2
+    DropItem "RLNuclearBiggestFuckingGunWorldSpawnPickup" 255 2
+    DropItem "RLConquerorShotgunWorldSpawnPickup" 255 2
+    DropItem "RLClusterBombLauncherWorldSpawnPickup" 255 2
+    DropItem "RLAutocannonWorldSpawnPickup" 255 2
+    DropItem "RLPlasmaRefractorWorldSpawnPickup" 255 2
+    DropItem "RLMotherInLawWorldSpawnPickup" 255 2
+    DropItem "RLGaussRifleWorldSpawnPickup" 255 2
+    DropItem "RLVoltgunWorldSpawnPickup" 255 2
+    DropItem "RLSuperMachinegunWorldSpawnPickup" 255 2
+    DropItem "RLAntiMaterielRifleWorldSpawnPickup" 255 2
+    DropItem "RLZeusCannonWorldSpawnPickup" 255 2
+    DropItem "RLMegatonShotgunWorldSpawnPickup" 255 2
+    DropItem "RLInfusionLauncherWorldSpawnPickup" 255 2
+    DropItem "RLPlasmaCannonWorldSpawnPickup" 255 2
+    DropItem "RLHeavyPulseBlasterWorldSpawnPickup" 255 2
+    DropItem "RLLaserMinigunWorldSpawnPickup" 255 2
+    DropItem "RLEnergysawWorldSpawnPickup" 255 2
+    DropItem "RLLaserPulseLauncherWorldSpawnPickup" 255 2
+    DropItem "RLIncinerationDeviceLauncherWorldSpawnPickup" 255 2
+    DropItem "RLMysteriousMagnumWorldSpawnPickup" 255 2
+    DropItem "RLRailgunWorldSpawnPickup" 255 2
+    DropItem "RLJackhammerWorldSpawnPickup" 255 2
+	DropItem "RLBFG10KWorldSpawnPickup" 255 2
+    DropItem "RLUnknownHeraldWorldSpawnPickup" 255 2
+    DropItem "RLFragShotgunWorldSpawnPickup" 255 2
+    DropItem "RLQuadShotgunWorldSpawnPickup" 255 2
+    DropItem "RLLightweaverWorldSpawnPickup" 255 2
+    DropItem "RLTrigunWorldSpawnPickup" 255 2
+    DropItem "RLGrammatonClericBerettaWorldSpawnPickup" 255 2
+    DropItem "RLHellsingARMSCasullWorldSpawnPickup" 255 2
+    DropItem "RLAntiFreakJackalWorldSpawnPickup" 255 2
+    DropItem "RLTantrumCannonWorldSpawnPickup" 255 2
+    DropItem "RLRevenantsLauncherWorldSpawnPickup" 255 2
+    DropItem "RLNullPointerWorldSpawnPickup" 255 2
+    DropItem "RLParticleBeamCannonWorldSpawnPickup" 255 2
+    DropItem "RLPlasmaRedirectionCannonWorldSpawnPickup" 255 2
+    DropItem "RLSteelBeastWorldSpawnPickup" 255 2
+    DropItem "RLSussGunWorldSpawnPickup" 255 2
+    DropItem "RLMIRVLauncherWorldSpawnPickup" 255 2
+    DropItem "RLMarathonAssaultRifleWorldSpawnPickup" 255 2
+    DropItem "RLMarathonShotgunsWorldSpawnPickup" 255 2
+    DropItem "RLChameleonRifleWorldSpawnPickup" 255 2
+    DropItem "RLNanomachicArmamentGeneratorWorldSpawnPickup" 255 2
+    DropItem "RLNuclearOnslaughtWorldSpawnPickup" 255 2
+    DropItem "RLLuciferCannonWorldSpawnPickup" 255 2
+    DropItem "RLTriadCannonWorldSpawnPickup" 255 2
+    DropItem "RLDirectHitWorldSpawnPickup" 255 2
+
+    DropItem "RLDeathsGazeWorldSpawnPickup" 255 2
+    DropItem "RLHellsReignWorldSpawnPickup" 255 2
+    DropItem "RLSoulstormRifleWorldSpawnPickup" 255 2
+    DropItem "RLUnmakerWorldSpawnPickup" 255 1
+	
+    DropItem "RLJudgeOfTheDeadWorldSpawnPickup" 255 1
+    DropItem "RLHurricaneCannonWorldSpawnPickup" 255 1
+    DropItem "RLBaronBlasterWorldSpawnPickup" 255 1
+    DropItem "RLBFGInfinityWorldSpawnPickup" 255 1
+    DropItem "RLLonghornWorldSpawnPickup" 255 1
+//    DropItem "RLDragonslayerWorldSpawnPickup" 255 1
+}
+
+actor RLModPackSpawner : RandomSpawner 16700
+{
+  Tag "Random Modpack"
+    //$category "DRLA Spawners"
+    DropItem "RLBulkModItem" 255 2500
+    DropItem "RLPowerModItem" 255 2500
+    DropItem "RLAgilityModItem" 255 2500
+    DropItem "RLTechnicalModItem" 255 2500
+    DropItem "RLNanoModItem" 255 300
+    DropItem "RLSniperModItem" 255 300
+    DropItem "RLFirestormModItem" 255 300
+    DropItem "RLOnyxModItem" 255 300
+    DropItem "RLArmorModItem" 255 600
+//    DropItem "RLArtiModItem" 255 1 // banned for breaking the game, honestly should've expected that from him
+}
+
+actor RLBasicModPackSpawner : RandomSpawner 16701
+{
+  Tag "Random Basic Modpack"
+    //$category "DRLA Spawners"
+    DropItem "RLBulkModItem" 255 1
+    DropItem "RLPowerModItem" 255 1
+    DropItem "RLAgilityModItem" 255 1
+    DropItem "RLTechnicalModItem" 255 1
+}
+
+actor RLExoticModPackSpawner : RandomSpawner 16702
+{
+  Tag "Random Exotic Modpack"
+    //$category "DRLA Spawners"
+    DropItem "RLNanoModItem" 255 1
+    DropItem "RLSniperModItem" 255 1
+    DropItem "RLFirestormModItem" 255 1
+    DropItem "RLOnyxModItem" 255 1
+}
+
+actor RLUniqueItemSpawner : RandomSpawner 16727
+{
+  Tag "Random Unique Item"
+    //$category "DRLA Spawners"
+    DropItem "RLMysteriousMagnumWorldSpawnPickup" 255 1
+    DropItem "RLRailgunWorldSpawnPickup" 255 1
+    DropItem "RLJackhammerWorldSpawnPickup" 255 1
+	DropItem "RLBFG10KWorldSpawnPickup" 255 1
+    DropItem "RLUnknownHeraldWorldSpawnPickup" 255 1
+    DropItem "RLFragShotgunWorldSpawnPickup" 255 1
+    DropItem "RLQuadShotgunWorldSpawnPickup" 255 1
+    DropItem "RLLightweaverWorldSpawnPickup" 255 1
+    DropItem "RLTrigunWorldSpawnPickup" 255 1
+    DropItem "RLGrammatonClericBerettaWorldSpawnPickup" 255 1
+    DropItem "RLAntiFreakJackalWorldSpawnPickup" 255 1
+    DropItem "RLTantrumCannonWorldSpawnPickup" 255 1
+    DropItem "RLRevenantsLauncherWorldSpawnPickup" 255 1
+    DropItem "RLNullPointerWorldSpawnPickup" 255 1
+    DropItem "RLParticleBeamCannonWorldSpawnPickup" 255 1
+    DropItem "RLPlasmaRedirectionCannonWorldSpawnPickup" 255 1
+    DropItem "RLSteelBeastWorldSpawnPickup" 255 1
+    DropItem "RLSussGunWorldSpawnPickup" 255 1
+    DropItem "RLMIRVLauncherWorldSpawnPickup" 255 1
+    DropItem "RLMarathonAssaultRifleWorldSpawnPickup" 255 1
+    DropItem "RLMarathonShotgunsWorldSpawnPickup" 255 1
+    DropItem "RLChameleonRifleWorldSpawnPickup" 255 1
+    DropItem "RLNuclearOnslaughtWorldSpawnPickup" 255 1
+    DropItem "RLLuciferCannonWorldSpawnPickup" 255 1
+    DropItem "RLTriadCannonWorldSpawnPickup" 255 1
+    DropItem "RLDirectHitWorldSpawnPickup" 255 1
+	
+    DropItem "RLCyberneticArmorWorldSpawnPickup" 255 1
+    DropItem "RLLavaArmorWorldSpawnPickup" 255 1
+    DropItem "RLMaleksArmorWorldSpawnPickup" 255 1
+    DropItem "RLMedicalPowerArmorWorldSpawnPickup" 255 1
+    DropItem "RLNecroArmorWorldSpawnPickup" 255 1
+    DropItem "RLShieldedArmorWorldSpawnPickup" 255 1
+    DropItem "RLEnergyDischargeHarnessArmorWorldSpawnPickup" 255 1
+    DropItem "RLPrototypeAssaultShieldArmorWorldSpawnPickup" 255 1
+    DropItem "RLJetpackArmorWorldSpawnPickup" 255 1
+    DropItem "RLBerserkPowersuitArmorWorldSpawnPickup" 255 1
+    DropItem "RLGeosGoldenGauntletArmorWorldSpawnPickup" 255 1
+    DropItem "RLSoulshatterArmorWorldSpawnPickup" 255 1
+    DropItem "RLDemonicCarapaceArmorWorldSpawnPickup" 255 1
+    DropItem "RLNanoAblativeArmorWorldSpawnPickup" 255 1
+    DropItem "RLWildWeaselPeacekeeperArmorWorldSpawnPickup" 255 1
+    DropItem "RLXaserPowerArmorWorldSpawnPickup" 255 1
+    DropItem "RLBlazingPhoenixDeviceSuitArmorWorldSpawnPickup" 255 1
+    DropItem "RLKateMatterstormHarnessArmorWorldSpawnPickup" 255 1
+    DropItem "RLZeroDiamondAssaultforceArmorWorldSpawnPickup" 255 1
+    DropItem "RLKyleTeslaboltArmorWorldSpawnPickup" 255 1
+    DropItem "RLRyanCordellPsychicAmplifierSuitArmorWorldSpawnPickup" 255 1
+    DropItem "RLTerminusEst13BattlesuitArmorWorldSpawnPickup" 255 1
+    DropItem "RLRoystensCommandArmorWorldSpawnPickup" 255 1
+    DropItem "RLSoloOperativeSuitArmorWorldSpawnPickup" 255 1
+    DropItem "RLTorgueBlastplateArmorWorldSpawnPickup" 255 1
+    DropItem "RLFrontlineEngineerSuitArmorWorldSpawnPickup" 255 1
+    DropItem "RLTacticalAssemblerSuitArmorWorldSpawnPickup" 255 1
+    DropItem "RLNuclearPowerArmorWorldSpawnPickup" 255 1
+	
+    DropItem "RLEnviroBootsWorldSpawnPickup" 255 1
+    DropItem "RLNyarlaptotepsBootsWorldSpawnPickup" 255 1
+    DropItem "RLLavaBootsWorldSpawnPickup" 255 1
+    DropItem "RLLeonidasBootsWorldSpawnPickup" 255 1
+    DropItem "RLDemonicBootsWorldSpawnPickup" 255 1
+    DropItem "RLRoystensCombatBootsWorldSpawnPickup" 255 1
+    DropItem "RLSoloOperativeBootsWorldSpawnPickup" 255 1
+    DropItem "RLTorgueBlastBootsWorldSpawnPickup" 255 1
+    DropItem "RLFrontlineEngineerBootsWorldSpawnPickup" 255 1
+    DropItem "RLTacticalAssemblerBootsWorldSpawnPickup" 255 1
+    DropItem "RLNuclearPowerBootsWorldSpawnPickup" 255 1
+}
+
+actor RLExoticItemSpawner : RandomSpawner 16734
+{
+  Tag "Random Exotic Item"
+    //$category "DRLA Spawners"
+    DropItem "RLBlasterPickup" 255 1
+    DropItem "RLCombatPistolPickup" 255 1
+    DropItem "RLMarksmanPistolPickup" 255 1
+    DropItem "RLHandcannonPickup" 255 1
+    DropItem "RLSuperShotgunPickup" 255 1
+    DropItem "RLAssaultShotgunPickup" 255 1
+    DropItem "RLPlasmaShotgunPickup" 255 1
+    DropItem "RLMinigunPickup" 255 1
+    DropItem "RLMissileLauncherPickup" 255 1
+    DropItem "RLNapalmLauncherPickup" 255 1
+    DropItem "RLTristarBlasterPickup" 255 1
+    DropItem "RLLaserRiflePickup" 255 1
+    DropItem "RLNuclearPlasmaPistolPickup" 255 1
+    DropItem "RLNuclearPlasmaRiflePickup" 255 1
+    DropItem "RLNuclearBFG9000Pickup" 255 1
+    DropItem "RLCombatTranslocatorPickup" 255 1
+	
+    DropItem "RLBallisticShieldArmorPickup" 255 1
+    DropItem "RLBallisticVestArmorPickup" 255 1
+    DropItem "RLBulletProofVestArmorPickup" 255 1
+    DropItem "RLDuelistArmorPickup" 255 1
+    DropItem "RLEnergyShieldedVestArmorPickup" 255 1
+    DropItem "RLEnergyShieldArmorPickup" 255 1
+    DropItem "RLGothicArmorPickup" 255 1
+    DropItem "RLMedicalArmorPickup" 255 1
+    DropItem "RLPhaseshiftArmorPickup" 255 1
+    DropItem "RLPlasmaShieldArmorPickup" 255 1
+    DropItem "RLOnyxArmorPickup" 255 1
+    DropItem "RLOverchargeSystemArmorPickup" 255 1
+    DropItem "RLCyberwarriorArmorPickup" 255 1
+    DropItem "RLRepulsionWaveSuitArmorPickup" 255 1
+    DropItem "RLSurvivalMediArmorPickup" 255 1
+	
+    DropItem "RLAcidProofBootsPickup" 255 1
+    DropItem "RLGothicBootsPickup" 255 1
+    DropItem "RLPhaseshiftBootsPickup" 255 1
+    DropItem "RLShockwaveBootsPickup" 255 1
+}
+
+actor RLSuperiorItemSpawner : RandomSpawner 16735
+{
+  Tag "Random Superior Item"
+    //$category "DRLA Spawners"
+    DropItem "RLMarksmanRiflePickup" 255 1
+    DropItem "RLVanguardRiflePickup" 255 1
+    DropItem "RLHuntingRevolverPickup" 255 1
+    DropItem "RLThompsonPickup" 255 1
+    DropItem "RLPP7Pickup" 255 1
+    DropItem "RLHuntingShotgunPickup" 255 1
+    DropItem "RLRCP90Pickup" 255 1
+    DropItem "RLNuclearArmorPickup" 255 1
+    DropItem "RLRechargeableEnergyShieldArmorPickup" 255 1
+}

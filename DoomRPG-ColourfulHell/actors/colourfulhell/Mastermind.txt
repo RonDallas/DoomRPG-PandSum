@@ -12,6 +12,8 @@ ACTOR CommonMindRPG : CommonMind Replaces CommonMind
 {
 	Tag "Spider Mastermind"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -27,6 +29,8 @@ ACTOR CommonMindRPG : CommonMind Replaces CommonMind
 ACTOR GreenMindRPG : GreenMind Replaces GreenMind
 {
 	Tag "Uncommon Spider Mastermind"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -44,6 +48,8 @@ ACTOR CyanMind2RPG : CyanMind2 Replaces CyanMind2
 {
 	Tag "Icy Mastermind"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -60,6 +66,8 @@ ACTOR BlueMindRPG : BlueMind Replaces BlueMind
 {
 	Tag "Rare Spider Mastermind"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -74,6 +82,8 @@ ACTOR BlueMindRPG : BlueMind Replaces BlueMind
 ACTOR SpecialSpider1RPG : SpecialSpider1 Replaces SpecialSpider1
 {
 	Tag "Green Spider Baby"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -91,6 +101,8 @@ ACTOR PurpleMindRPG : PurpleMind Replaces PurpleMind
 {
 	Tag "Epic Spider Mastermind"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -106,6 +118,8 @@ ACTOR PurpleMindRPG : PurpleMind Replaces PurpleMind
 ACTOR YellowMindRPG : YellowMind Replaces YellowMind
 {
 	Tag "Legendary Spider Mastermind"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -123,6 +137,8 @@ ACTOR GrayMind2RPG : GrayMind2 Replaces GrayMind2
 {
 	Tag "Ancient Spider Mastermind"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -134,10 +150,30 @@ ACTOR GrayMind2RPG : GrayMind2 Replaces GrayMind2
 	}
 }
 
+// Brown Mastermind
+ACTOR BrownMind2RPG : BrownMind2 Replaces BrownMind2
+{
+	Tag "Monstrous Spider Mastermind"
+
+    DropItem "DRPGEmpty"
+
+	States
+	{
+	Spawn:
+		B05P A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::Spawn
+	See:
+		B05P A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS)
+		Goto Super::See
+	}
+}
+
 // Fireblu Mastermind
 ACTOR FireBluMind2RPG : FireBluMind2 Replaces FireBluMind2
 {
 	Tag "Enchanted Spider Mastermind"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -155,6 +191,8 @@ ACTOR RedMindRPG : RedMind Replaces RedMind
 {
 	Tag "Arachnophyte"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -170,6 +208,8 @@ ACTOR RedMindRPG : RedMind Replaces RedMind
 ACTOR AbyssMind2RPG : AbyssMind2 Replaces AbyssMind2
 {
 	Tag "Abyssal Mastermind"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -187,6 +227,8 @@ ACTOR BlackMind2RPG : BlackMind2 Replaces BlackMind2
 {
 	Tag "Pseudo Old God"
 
+    DropItem "DRPGEmpty"
+
 	States
 	{
 	Spawn:
@@ -194,6 +236,42 @@ ACTOR BlackMind2RPG : BlackMind2 Replaces BlackMind2
 		Goto Super::Spawn
 	See:
 		ARNQ A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS | MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+// White Mastermind
+ACTOR WhiteMind2RPG : WhiteMind2 Replaces WhiteMind2
+{
+	Tag "Old God"
+
+    DropItem "DRPGEmpty"
+
+	States
+	{
+	Spawn:
+		ARNQ A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS | MF_NOAURA)
+		Goto Super::Spawn
+	See:
+		ARNQ A 0 ACS_NamedExecuteAlways("MonsterInit", 0, MF_BOSS | MF_NOAURA)
+		Goto Super::See
+	}
+}
+
+// Mini Sentinel Spider
+ACTOR MiniSentinelSpiderRPG : MiniSentinelSpider Replaces MiniSentinelSpider
+{
+	Tag "Mini Sentinel Spider"
+
+    DropItem "DRPGEmpty"
+
+	States
+	{
+	Spawn:
+		HEAD A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		HEAD A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
 		Goto Super::See
 	}
 }

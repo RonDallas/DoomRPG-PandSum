@@ -1,0 +1,1009 @@
+Class RLSargeEvents : StaticEventHandler
+{
+    override void RenderUnderlay (RenderEvent event) 
+    {
+        if(automapactive)
+        {
+            return;
+        }
+        RLSargeInv s = RLSargeInv(players[consoleplayer].mo.FindInventory("RLSargeInv"));
+
+
+        if(s && players[consoleplayer].mo.health > 0)
+        {
+            let window_aspect    = 1.0 * Screen.GetWidth() / Screen.GetHeight();
+            let resolution        = 240 * (window_aspect, 1);
+
+            int aspectoffs;
+
+            if(Screen.GetAspectRatio() < 1.7)
+            {
+                aspectoffs = -90;
+            }
+
+
+            Screen.DrawTexture(TexMan.CheckForTexture(s.ssprite, TexMan.Type_Sprite, 0), false, 32 + s.offs.x + aspectoffs, 0 + s.offs.y,
+            DTA_VIRTUALWIDTHF,    resolution.x,
+            DTA_VIRTUALHEIGHTF,    resolution.y,
+            DTA_ALPHA, 1.0,
+            DTA_KEEPRATIO, true, DTA_HUDRules);
+
+            // light
+            double lv = 256 - Clamp(players[consoleplayer].mo.cursector.LightLevel, 0, 256);
+
+            lv = lv / 256;
+
+            Screen.DrawTexture(TexMan.CheckForTexture(s.ssprite, TexMan.Type_Sprite, 0), false, 32 + s.offs.x + aspectoffs, 0 + s.offs.y,
+            DTA_VIRTUALWIDTHF,    resolution.x,
+            DTA_VIRTUALHEIGHTF,    resolution.y,
+            DTA_FillColor, Color(0,0,0),
+            DTA_ALPHA, lv,
+            DTA_KEEPRATIO, true, DTA_HUDRules);
+
+            // brightmap
+
+            String br = s.ssprite;
+            br.Replace("D", "B");
+
+            Screen.DrawTexture(TexMan.CheckForTexture(br, TexMan.Type_Sprite, 0), false, 32 + s.offs.x + aspectoffs, 0 + s.offs.y,
+            DTA_VIRTUALWIDTHF,    resolution.x,
+            DTA_VIRTUALHEIGHTF,    resolution.y,
+            DTA_ALPHA, 1.0,
+            DTA_KEEPRATIO, true, DTA_HUDRules);
+        }
+    }
+
+    override void RenderOverlay (RenderEvent event)
+    {
+        if(automapactive || !Cvar.GetCvar("drpg_drla_hud_on", players[consoleplayer]).GetBool())
+        {
+            return;
+        }
+        
+        RLSargeInv s = RLSargeInv(players[consoleplayer].mo.FindInventory("RLSargeInv"));
+        if(s && s.shoulderweapon)
+        {
+			int X = CVar.GetCVar("drpg_drla_x", players[consoleplayer]).GetInt();
+			int Y = CVar.GetCVar("drpg_drla_y", players[consoleplayer]).GetInt();   
+			int XOff = + 120, YOff = - 10;	
+
+            if(Screen.GetAspectRatio() < 1.3)
+            {
+                XOff = - 19;
+                YOff = + 5;
+            }
+            else if(Screen.GetAspectRatio() < 1.4)
+            {
+                XOff = + 12;
+                YOff = - 10;
+            }
+            else if(Screen.GetAspectRatio() < 1.7)
+            {
+                XOff = + 77;
+                YOff = - 10;
+            }
+            else if(Screen.GetAspectRatio() < 1.8)
+            {
+                XOff = + 120;
+                YOff = - 10;
+            }			
+            else if(Screen.GetAspectRatio() > 2.3)
+            {
+                XOff = + 262;
+                YOff = - 10;
+            }
+
+            let window_aspect    = 1.0 * Screen.GetWidth() / Screen.GetHeight();
+            let resolution        = 480 * (window_aspect, 1);
+
+            Screen.DrawTexture(TexMan.CheckForTexture("SSHOULDA", TexMan.Type_Sprite, 0), false, X + XOff, Y + YOff,
+            DTA_VIRTUALWIDTHF,    resolution.x,
+            DTA_VIRTUALHEIGHTF,    resolution.y,
+            DTA_KEEPRATIO, true, DTA_HUDRules);
+
+            String rocketammo = "" .. s.owner.CountInv("RocketAmmo");
+
+            Screen.DrawText("CONFONT", Font.CR_GOLD, X + XOff + 9, Y + YOff + 5, rocketammo, 
+            DTA_VIRTUALWIDTHF,    resolution.x,
+            DTA_VIRTUALHEIGHTF,    resolution.y,
+            DTA_KEEPRATIO, true, DTA_HUDRules);
+
+            TextureID readylit;
+
+            if(s.reloadingtics > 0)
+            {
+                if(Level.Time % 14 < 6)
+                {
+                    readylit = TexMan.CheckForTexture("SSHOULDX", TexMan.Type_Sprite, 0);
+                }
+                else
+                {    
+                    readylit = TexMan.CheckForTexture("SSHOULDZ", TexMan.Type_Sprite, 0);
+                }
+            }
+            else
+            {
+                readylit = TexMan.CheckForTexture("SSHOULDR", TexMan.Type_Sprite, 0);
+            }
+
+            Screen.DrawTexture(readylit, false, X + XOff, Y + YOff + 18,
+            DTA_VIRTUALWIDTHF,    resolution.x,
+            DTA_VIRTUALHEIGHTF,    resolution.y,
+            DTA_KEEPRATIO, true, DTA_HUDRules);
+        }
+    }
+}
+
+Class RLSargeInvBar : CustomInventory
+{
+    Default
+    {
+        +INVENTORY.INVBAR;
+        +INVENTORY.UNCLEARABLE;
+        +INVENTORY.UNDROPPABLE;
+		+INVENTORY.UNTOSSABLE;
+        +INVENTORY.HUBPOWER;
+        Inventory.Icon "LAXITE9";
+	    Inventory.Amount 1;
+	    Inventory.MaxAmount 1;
+	    Inventory.UseSound "";
+	    Tag "Shoulder Arsenal - No Weapon";
+    }
+
+    Class<Actor> readyweapon;
+    bool useready;
+
+    states
+    {
+        Use:
+        TNT1 A 0;
+        fail;
+    }
+
+    uint cooldown;
+
+    override bool Use(bool pickup)
+    {
+        RLSargeInv inv = RLSargeInv(owner.FindInventory("RLSargeInv"));
+
+        if(!inv || cooldown > 0)
+        {
+            return false;
+        }
+
+        if(inv.animstate != 0)
+        {
+            return false;
+        }
+
+        if(inv.shoulderweapon)
+        {
+            if(!useready)
+            {
+                readyweapon = owner.player.readyweapon.GetClass();
+                useready = true;
+                owner.A_Print("Use this again to drop the currently equipped weapon or switch weapons to cancel.", 5);
+                return false;
+            }
+
+            SetTag("Shoulder Arsenal - No Weapon");
+            inv.readytodrop = true;
+            useready = false;
+            icon = TexMan.CheckForTexture("LAXITE9");
+            owner.A_Print("");
+            cooldown = 35;
+        }
+        else
+        {
+            if(!useready)
+            {
+                readyweapon = owner.player.readyweapon.GetClass();
+                useready = true;
+                owner.A_Print("Use this again to equip a nearby Rocket based weapon or switch weapons to cancel.", 5);
+                return false;
+            }
+
+            String s = inv.ScanForPickups();
+
+            if(s)
+            {
+                s.Replace(" [Pickup]", "");
+                
+                SetTag("Shoulder Arsenal \cd(\cj" .. s .. "\cd)");
+                owner.A_Print("");
+                icon = TexMan.CheckForTexture("LAXITE8");
+            }
+            else
+            {
+                owner.A_PlaySound ("hud/error", CHAN_ITEM, 1, 0, 1.5);
+                owner.A_Print("There are no nearby Rocket weapons to equip.", 5);
+            }
+            cooldown = 35;
+            useready = false;
+            return false;
+        }
+            
+        return false;
+    }
+
+    override void Tick()
+    {
+        if(!owner.player || !owner.player.readyweapon)
+        {
+            Super.Tick();
+            return;
+        }
+        
+        if(owner.player.readyweapon.GetClass() != readyweapon)
+        {
+            useready = false;
+        }
+
+        if(cooldown > 0)
+        {
+            cooldown--;
+        }
+        Super.Tick();
+    }
+}
+
+Class RLSargeDropHelper : Actor
+{
+    String dropstring;
+
+    Default
+    {
+        +NOINTERACTION;
+        -SOLID;
+    }
+
+    states
+    {
+        Spawn:
+        TNT1 A 0;
+        TNT1 A 2
+        {
+            bool spawned;
+            Actor act;
+		    [spawned, act] = A_SpawnItemEx(dropstring, 0, 0, 40, 16, 0, 0, 0, SXF_SETMASTER);
+            act.ObtainInventory(self);
+        }
+        stop;
+    }
+}
+
+Class RLSargeCrushedBoy : Inventory {}
+
+Class RLSargePassive : Inventory
+{
+    Default
+    {
+        +INVENTORY.UNCLEARABLE;
+        +INVENTORY.UNDROPPABLE;
+		+INVENTORY.UNTOSSABLE;
+        +INVENTORY.HUBPOWER;
+    }
+
+    override void Tick()
+    {
+        if(GetAge() % 4 == 0 && owner.floorz - owner.pos.z == 0)
+        {
+            BlockThingsIterator bti = BlockThingsIterator.Create(owner, 64);
+            while(bti.Next())
+            {
+                if(!bti.thing || !bti.thing.bISMONSTER || !IsSquashable(bti.thing) || bti.thing.Distance3D(owner) > 48)
+                {
+                    continue;
+                }
+
+                if(bti.thing.health < 1 && !bti.thing.bSOLID && bti.thing.CountInv("RLSargeCrushedBoy") == 0)
+                {
+                    String a = "RLRandomGib";
+                    Class<Actor> cls = a;
+                    if(cls)
+                    {
+                        //bti.thing.A_StartSound ("gibbage/xsplat");
+                        for(int i; i<2; i++)
+                        {
+                        bti.thing.A_SpawnItemEx (a, 
+                        FRandom(-16,16),FRandom(-16,16),FRandom(0,56),
+                        FRandom(-3,3),FRandom(-3,3),FRandom(-3,3),
+                        FRandom(0,360), 
+                        SXF_USEBLOODCOLOR |SXF_ABSOLUTEMOMENTUM | SXF_TRANSFERALPHA | SXF_TRANSFERRENDERSTYLE | SXF_TRANSFERTRANSLATION | SXF_NOCHECKPOSITION, 64);
+                        }
+                    }
+  
+                    RLSargeItemChance g = RLSargeItemChance(bti.thing.Spawn("RLSargeItemChance", bti.thing.pos));
+                    g.ownerhp = bti.thing.default.health;
+                    bti.thing.Grind(false);
+                    
+                    if(bti.thing)
+                    {
+                        bti.thing.GiveInventory("RLSargeCrushedBoy", 1);
+                    }
+                }
+            }
+        }
+        Super.Tick();
+    }
+
+
+    bool IsSquashable(Actor other)
+    {
+        if(other && other.GetClassName() == "RLCyberneticPainElemental")
+        {
+            return false;
+        }
+        
+        if(other.health < - 250 || other.health < other.gibhealth || other.health < -other.default.health)
+        {
+            return true;
+        }
+
+        if(other.default.health <= 150)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    
+/*
+    int damagepertic;
+
+    
+    override void ModifyDamage (int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
+    {
+        if (passive && damage > 0 && owner.health > 0 && damageType != "Telefrag" && source)
+        {
+            Inventory inv = owner.FindInventory("RLGenericArmor", true);
+            if(inv)
+            {
+                damage = ApplyDamageFactors(inv.GetClass(), damageType, damage, damage);
+            }
+
+            damagepertic += damage;
+
+            newdamage = newdamage - Max(0, (damagepertic - 45));
+
+            if(damagepertic > 45)
+            {
+                owner.GiveInventory("RLSargePassiveTriggerSound", 1);
+            }
+        }       
+    }
+
+    override void Tick()
+    {
+        damagepertic = 0;
+        Super.Tick();
+    }
+}
+
+Class RLSargePassiveTriggerSound : Powerup
+{
+    Default
+    {
+        powerup.duration 40;
+        powerup.color "AAAAAA";
+    }
+
+    override void DoEffect()
+    {
+        if(owner && GetAge() == 1)
+        {
+            owner.A_StartSound("sarge/passivetrigger", CHAN_BODY);
+        }
+
+        Super.DoEffect();
+    }
+    */
+}
+
+
+Class RLSargeItemChance : Actor
+{
+    Default
+    {
+        +THRUACTORS;
+        -SOLID;
+    }
+
+    int ownerhp;
+
+    states
+    {
+        Spawn:
+        TNT1 A 30;
+        TNT1 A 30
+        {
+            String spawneditem;
+            if(ownerhp < 150)
+            {
+                if(random(0, 12) == 0)
+                {
+                    switch(random(0, 6))
+                    {
+                        Case 0: 
+                        Case 1: spawneditem = "DRPGHealthBonus2"; break;
+                        Case 2: spawneditem = "RLArmorBonusPickup"; break;
+                        Case 3: spawneditem = "RLClip3"; break;
+                        Case 4: spawneditem = "RLShell3"; break;
+                        Case 5: spawneditem = "RLCell3"; break;
+                        Case 6: spawneditem = "RLRocketAmmo2"; break;
+                    }
+                }
+            }
+            else
+            {
+                if(random(0, 7) == 0)
+                {
+                    switch(random(0, 4))
+                    {
+                        Case 0:
+                        Case 1: spawneditem = "RLCellPack3"; break;
+                        Case 2: spawneditem = "RLRocketBox3"; break;
+                        Case 3: spawneditem = "RLShellBox3"; break;
+                        Case 4: spawneditem = "RLClipBox3"; break;
+                        break;
+                    }
+                }
+            }
+
+            bool spawned;
+            Actor act;
+		    [spawned, act] = A_SpawnItemEx(spawneditem, 0, 0, 0, frandom(-1, 1), frandom(-1, 1), 5, flags:SXF_NOCHECKPOSITION);
+            if(spawned && act)
+            {
+                act.A_StartSound("sarge/passivetrigger");
+            }
+        }
+        stop;
+    }
+
+    override void PostBeginPlay()
+    {
+        A_StartSound("sarge/passivesplat", volume: 0.45);
+    }
+}
+
+Class RLSargeInvTrigger : Inventory
+{
+    Default
+    {
+        //powerup.duration 2;
+        inventory.maxamount 1;
+    }
+}
+
+Class RLSargeInv : Inventory
+{
+    bool readytodrop;
+
+    Vector2 offs;
+    int animframe;
+    int animstate;
+
+    String ssprite;
+
+    int animspeed;
+    int animcount;
+    int firingframe;
+    int reloadingtics;
+
+    RLShoulderArsenal shoulderweapon;
+
+    Default
+    {
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.UNTOSSABLE;
+    }
+
+    override void PostBeginPlay()
+    {
+        //offs = (111, 100);
+        ssprite = "SSHOULD1";
+        /* debug default
+        ammotype = "RocketAmmo";
+        ammoneeded = 1;
+        fireactor = "RLRocket";
+        */
+
+        //SetupWeapons();
+    }
+
+    bool IsAlting()
+    {
+        if(readytodrop)
+        {
+            return false;
+        }
+
+        uint flags;
+
+        flags = BT_ALTATTACK;
+
+        if(owner.CountInv("RLSargeInvTrigger") > 0)
+        {
+            return true;
+        }
+
+        if(Cvar.GetCvar("DRLAX_nosargealtfire", owner.player).GetBool())
+        {
+            return false;
+        }
+
+        if(WeaponHasAltfire())
+        {
+            return (animframe == 0 && owner.player.cmd.buttons & flags && owner.player.cmd.buttons & BT_USE);
+        }
+
+        return (animframe == 0 && owner.player.cmd.buttons & flags);
+    }
+
+    bool WeaponHasAltfire()
+    {
+        String altfireweps[] = {
+        "RLFist", 
+        "RLDoubleShotgun", 
+        "RLCombatTranslocator", 
+        "RLHighPowerRCP90",
+        "RLAssaultRifleBattleRifle",
+        "RLPlasmaticShrapnelDoubleShotgun", 
+        "RLShredderShotgun",
+        "RLSniperRifle",
+        //"RLStormUzi",
+        "RLWidowmakerSMG",
+        "RLNanoShrapnelDoubleShotgun",
+        "RLHeavyPulseBlaster",
+        "RLLaserPulseLauncher",
+        "RLMegatonShotgun",
+        "RLGaussRifle",
+        "RLAntiMaterielRifle"
+        "RLLuciferCannon"
+        };
+
+        if(!owner.player || !owner.player.readyweapon)
+        {
+            return false;
+        }
+
+        for(int i; i<altfireweps.Size(); i++)
+        {
+            if(altfireweps[i] == owner.player.readyweapon.GetClassName())
+            {
+                return true;
+            }
+        }
+        //owner.player.readyweapon.GetClassName() == "RLFist";
+        return false;
+    }
+
+    bool CheckAmmo()
+    {
+        if(owner.CountInv(shoulderweapon.ammotype) >= shoulderweapon.ammoneeded)
+        {
+            return true;
+        }
+
+        return (CountInv("PowerInfiniteAmmo") > 0);
+    }
+
+    void StatsInit()
+    {
+        animstate = 2; 
+        animframe = 0; 
+        animspeed = Max(1, 4 - shoulderweapon.firepseed);
+        animcount = shoulderweapon.firecount;
+        firingframe = 0;
+    }
+
+    String modstring;
+
+    String ScanForPickups()
+    {
+        modstring = "";
+
+        BlockThingsIterator bti = BlockThingsIterator.Create(owner, 256);
+        while(bti.Next())
+        {
+            CustomInventory i = CustomInventory(bti.Thing);
+            RLShoulderArsenal w;
+
+            if(i && i.Distance3D(owner) <= 150 && i.CheckSight(owner))
+            {
+                w = GetValidWeapon(i.GetClassName());
+            }
+
+            if(w)
+            {
+                shoulderweapon = w;
+                //ObtainInventory(i);
+                
+                //weaponname = i.GetClassName();
+
+                owner.A_StartSound("sarge/wepget");
+
+                uint bm, tm, pm, am, fm, sm, nm;
+
+                for(inventory item=i.inv; item!=null; item=item.inv)
+                {
+                    //A_Log(item.getclassname()); //replace with whatever you actually want to do instead
+                    //FindMod(item.GetClassName(), "NanoMod");
+                    nm += FindMod(i, item.GetClassName(), "NanoMod");
+                    sm += FindMod(i, item.GetClassName(), "SniperMod");
+                    fm += FindMod(i, item.GetClassName(), "FirestormMod");
+                    pm += FindMod(i, item.GetClassName(), "PowerMod");
+                    am += FindMod(i, item.GetClassName(), "AgilityMod");
+                    bm += FindMod(i, item.GetClassName(), "BulkMod");
+                    tm += FindMod(i, item.GetClassName(), "TechnicalMod");
+                    //FindMod(item.GetClassName(), "TechnicalMod");
+                } 
+                
+                String wname = i.GetTag();
+                RLSargeShoulderObtainFX fx = RLSargeShoulderObtainFX(i.Spawn("RLSargeShoulderObtainFX", i.pos));
+                fx.tracer = owner;
+                fx.sprite = i.sprite;
+                fx.A_SetScale(i.scale.x, i.scale.y);
+                fx.frame = i.frame;
+
+                i.Destroy();
+                w.GetMods(bm, tm, pm, am, fm, sm, nm);
+                //Console.Printf(modstring);
+                return wname;
+            }  
+        }
+
+        return "";
+    }
+
+    RLShoulderArsenal GetValidWeapon(String s)
+    {
+        for(int i; i<allclasses.Size(); i++)
+        {
+            Class<RLShoulderArsenal> r = (Class<RLShoulderArsenal>)(allclasses[i]);
+
+            if(r)
+            {
+                RLShoulderArsenal a = RLShoulderArsenal(new(r));
+                a.Init();
+
+                if(!a.weaponname)
+                {
+                    a.Destroy();
+                    continue;
+                }
+
+                String wep = a.weaponname .. "Pickup";
+                //Console.Printf(s .. "");
+
+                if(wep ~== s || wep .. "Modded" ~== s || a.weaponname .. "WorldSpawnPickup" ~== s)
+                {
+                    //GiveInventory(s,1); //?
+                    return a;
+                }
+
+                a.Destroy();
+            }
+        }
+
+        return null;
+    }
+
+    uint FindMod(Actor item, String s, String m)
+    {
+        //Console.Printf(s.IndexOf(m) .. "");
+        String inv = s;
+        s = s.Mid(s.IndexOf(m));
+
+        uint count = 0;
+
+        if(s == m)
+        {
+            for(int i = 0; i<item.CountInv(inv); i++)
+            {
+                //modstring = modstring .. m.Left(1);
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    bool notready;
+
+    void DropShoulderWeapon()
+    {
+        String dropstring;
+        String wepname = shoulderweapon.weaponname;
+        dropstring = wepname .. "Pickup";
+
+        RLSargeDropHelper dropper = RLSargeDropHelper(owner.Spawn("RLSargeDropHelper", owner.pos));
+        dropper.angle = owner.angle;
+
+        int totalmods = shoulderweapon.bmods + shoulderweapon.amods + shoulderweapon.tmods + shoulderweapon.pmods 
+        + shoulderweapon.smods + shoulderweapon.fmods + shoulderweapon.nmods;
+
+        dropper.GiveInventory(shoulderweapon.weaponname .. "BulkMod", shoulderweapon.bmods);
+        dropper.GiveInventory(shoulderweapon.weaponname .. "AgilityMod", shoulderweapon.amods);
+        dropper.GiveInventory(shoulderweapon.weaponname .. "TechnicalMod", shoulderweapon.tmods);
+        dropper.GiveInventory(shoulderweapon.weaponname .. "PowerMod", shoulderweapon.pmods);
+        dropper.GiveInventory(shoulderweapon.weaponname .. "SniperMod", shoulderweapon.smods);
+        dropper.GiveInventory(shoulderweapon.weaponname .. "FirestormMod", shoulderweapon.fmods);
+        dropper.GiveInventory(shoulderweapon.weaponname .. "NanoMod", shoulderweapon.nmods);
+        dropper.GiveInventory(shoulderweapon.weaponname .. "ModLimit", totalmods);
+
+        if(totalmods > 0)
+        {
+            dropstring = dropstring .. "Modded";
+        }
+
+        //Console.Printf(dropstring);
+        dropper.dropstring = dropstring;        
+
+        shoulderweapon = null;
+    }
+
+    override void Tick()
+    {
+        //Console.Printf(owner.player.WeaponState .. "");
+        if(!shoulderweapon)
+        {/*
+            if(owner.player.cmd.buttons & BT_USE)
+            {
+                ScanForPickups();
+            }
+*/
+            Super.Tick();
+            return;
+        }
+
+        if(owner.health < 1)
+        {
+            animstate = 0;
+            shoulderweapon.attackcount = 0;
+            reloadingtics = 0;
+            offs = (0, 0);
+            Super.Tick();
+            return;
+        }
+
+        if(reloadingtics > 0)
+        {
+            reloadingtics--;
+            Super.Tick();
+            return;
+        }
+        //Console.Printf(animstate .. " - " .. animframe);
+
+        if(animstate == 0)
+        {
+            animframe = 0;
+            
+            if(readytodrop)
+            {
+                DropShoulderWeapon();
+                readytodrop = false;
+                Super.Tick();
+                return;
+            }
+
+            bool hasammo = CheckAmmo();
+
+            if(IsAlting() && hasammo)
+            {
+                animframe = 0;
+                animstate = 1;
+            }
+
+            if(notready && hasammo)
+            {
+                owner.A_StartSound("sarge/wepready", CHAN_7);
+                notready = false;
+            }
+
+        }
+
+        animframe++;
+
+        if(animstate == 1)
+        {
+            switch(animframe)
+            {
+                Case 1: offs = (111 - 98, 100 - 98); 
+                notready = true;
+                owner.A_StartSound("sarge/weparm", CHAN_6);
+                break;
+                Case 2: offs = (111 - 85, 100 - 85); break;
+                Case 3: offs = (111 - 70, 100 - 70); break;
+                Case 4: offs = (111 - 60, 100 - 60); break;
+                Case 5: offs = (111 - 50, 100 - 50); break;
+                Case 6: offs = (111 - 40, 100 - 40); break;
+                Case 7: offs = (111 - 30, 100 - 30); break;
+                Case 8: offs = (111 - 20, 100 - 20); break;
+                Case 9: offs = (111 - 10, 100 - 10); break;
+                Case 10: offs = (111, 100); break;
+                Case 11: offs = (111 - 2, 100 - 2); break;
+                Case 12:
+                StatsInit();
+                break;
+            }
+        }
+
+        if(animstate == 2)
+        {
+            if(animframe == 0 && !shoulderweapon.aoesafe && owner.CountInv("PowerInvulnerable") == 0)
+            {
+                FLineTraceData RemoteRay;
+                bool hit = owner.LineTrace(
+                owner.angle,
+                68,
+                owner.pitch,
+                offsetz: 52 * owner.GetCrouchFactor(),
+                data: RemoteRay
+                );
+
+                if (hit && RemoteRay.HitType == TRACE_HitWall || RemoteRay.HitType == TRACE_HitActor)
+                {
+                    animstate = 3;
+                    owner.A_StartSound("sarge/weperror", CHAN_BODY);
+                }
+            }
+
+            ssprite = "SSHOULD" .. firingframe+1;
+
+            shoulderweapon.FireTick(owner);
+
+            if(animframe == animspeed)
+            {
+                firingframe++;
+                animframe = 0;
+            }
+
+            if(firingframe == 1 && animframe == 0)
+            {
+                //Owner.A_FireProjectile("RLRocket", 0, 0, -8, 48);
+                shoulderweapon.Attack(owner);
+                owner.A_AlertMonsters();
+                shoulderweapon.attackcount++;
+                //attack
+            }
+
+            if(firingframe == 6)
+            {
+                bool repeat;
+
+                if(shoulderweapon.CanRefire() && IsAlting())
+                {
+                    firingframe = 0;
+                    repeat = true;
+                }
+
+                if(animcount>0 && IsAlting() && CheckAmmo())
+                {
+                    //Console.Printf("refire");
+                    animcount--;
+                    firingframe = 0;
+                    repeat = true;
+                }
+                
+                if(!repeat)
+                {
+                    animstate = 3;
+                    animframe = 0;
+                    ssprite = "SSHOULD1";
+                }
+            }
+        }
+
+
+        if(animstate == 3)
+        {
+            /*if(IsAlting() && CheckAmmo())
+            {
+                StatsInit();
+                animstate = 2;
+            }*/
+
+            switch(animframe - 10)
+            {
+                Case 1: offs = (111 - 10, 100 - 10); 
+                owner.A_StartSound("sarge/wepreturn", CHAN_6);
+                break;
+                Case 2: offs = (111 - 20, 100 - 20); break;
+                Case 3: offs = (111 - 30, 100 - 30); break;
+                Case 4: offs = (111 - 40, 100 - 40); break;
+                Case 5: offs = (111 - 50, 100 - 50); break;
+                Case 6: offs = (111 - 60, 100 - 60); break;
+                Case 7: offs = (111 - 70, 100 - 70); break;
+                Case 8: offs = (111 - 85, 100 - 85); break;
+                Case 9: offs = (111 - 98, 100 - 98); break;
+                Case 10: offs = (111 - 90, 100 - 90); break;
+                Case 11: offs = (0, 0);
+                reloadingtics = shoulderweapon.GetReloadTics()  * 0.65;
+                animstate = 0;
+                shoulderweapon.attackcount = 0;
+                break;
+            }
+        }
+
+        Super.Tick();
+    }
+
+    //Array<RLShoulderArsenal> weaponlist;
+
+
+    // Make each one a class so you can override functions to define how mod packs work etc
+    void SetupWeapons()
+    {
+        RLShoulderArsenal rs;
+
+        rs.weaponname = "RLMissileLauncherPickup";
+        rs.fireactor = "RLMissile";
+        rs.firecount = 5;
+
+        rs.weaponname = "RLFlamethrowerPickup";
+        rs.fireactor = "RLFlamethrowerFlame";
+        rs.firecount = 1;
+        rs.firepseed = 8;
+    }
+
+}
+
+class RLSargeStartingLoadout : CustomInventory
+{
+	states
+	{
+		Pickup:
+        TNT1 A 0 A_GiveInventory("RLSargeInvBar", 1);
+        TNT1 A 0 A_GiveInventory("RLSargePassive", 1);
+		TNT1 A 0 A_GiveInventory("RocketAmmo", 25);
+		TNT1 A 0 A_GiveInventory("RLSargeInv");
+		stop;
+	}
+}
+
+class RLSargeShoulderObtainFX : Actor
+{
+    Default
+    {
+        +THRUACTORS;
+        -SOLID;
+        +NOGRAVITY;
+        +ROLLSPRITE;
+        +MISSILE;
+        +SEEKERMISSILE;
+        speed 15;
+    }
+
+    states
+    {
+        Spawn:
+        "####" "#" 35;
+        stop;
+    }
+
+    Vector3 dest, startpos;
+
+    override void PostBeginPlay()
+    {
+        //dest = target.pos + (cos(target.angle + 90) * 16, sin(target.angle + 90) * 16, target.height);
+        startpos = pos;
+    }
+
+    override void Tick()
+    {
+        //SetOrigin((startpos + dest) * (0.001 * GetAge()), true);
+        A_SeekerMissile(90, 90, SMF_PRECISE);
+        A_ChangeVelocity(0, -8, 5, CVF_RELATIVE);
+        speed++;
+        //roll += 10;
+        if(Distance2D(tracer) < 16)
+        {
+            Destroy();
+            return;
+        }
+        Super.Tick();
+    }
+}

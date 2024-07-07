@@ -1,0 +1,30 @@
+actor DRPGLegenDoomLiteActive : Inventory
+{
+    Inventory.MaxAmount 1
+}
+
+actor DRPGLegenDoomMonsterInit : Inventory
+{
+    Inventory.MaxAmount 1
+}
+
+// --------------------------------------------------
+// DRLA LOOT GENERATION (DOOMRPG COMPATIBILITY)
+//
+
+actor LDLiteDRLARandomPowerupRPG : RandomSpawner replaces LDLiteDRLARandomPowerup
+{
+    DropItem "DRPGBackpackRandomizer2" 255 70
+    DropItem "RLRandomSkullSpawner" 255 70
+    DropItem "RLRandomPhaseDeviceSpawner" 255 70
+    DropItem "Berserk2" 255 60
+    DropItem "RLAllmap2" 255 80
+    DropItem "Infrared2" 255 80
+    DropItem "BlurSphere2" 255 80
+    DropItem "RadSuit2" 255 40
+    DropItem "RLSoulsphere2" 255 30
+    DropItem "InvulnerabilitySphere2" 255 10
+    DropItem "Megasphere2" 255 20
+    DropItem "RLAaaghSphere" 255 1
+    DropItem "RLFIREBLUSphere" 255 1
+}

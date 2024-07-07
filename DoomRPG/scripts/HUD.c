@@ -153,7 +153,7 @@ Start:
     {
         SetHudSize(0, 0, false);
         SetFont("BIGFONT");
-        if (AlivePlayers() >= 1)
+        if (SomePlayerAlive())
         {
             HudMessage("Incapacitated\nHealth: %d", Player.ActualHealth);
             EndHudMessage(HUDMSG_PLAIN, 0, "Brick", 1.5, 0.25, 0.05);
@@ -222,7 +222,177 @@ NamedScript Type_ENTER void OverviewHUD()
     // Misc
     int CreditColor;
 
-    fixed X, Y;
+    // XP Bar
+    str ClassName[13];
+    bool XpBarAnim;
+    int XPBarText;
+    int XPBarType;
+    int CurrentClass = PlayerClass(PlayerNumber());
+    int XPPercentCurrent = Player.XPPercent;
+    int XPPercentOld = Player.XPPercent;
+    int XPIterations;
+
+    // Rank Bar
+    int RankBarText;
+    int RankBarType;
+    int RankPercentCurrent = Player.RankPercent;
+    int RankPercentOld = Player.RankPercent;
+    int RankIterations;
+
+    // XP Bar Types
+    str XpBarEmpty;
+    str XpBarProgress;
+    str XpBarProgressAnim;
+
+    // Rank Bar Types
+    str RankBarEmpty;
+    str RankBarProgress;
+    str RankBarProgressAnim;
+
+    // XP Bars parameters
+    fixed XpBarHeigh;
+    fixed XpBarHalfLength;
+    fixed XpProgressPercentModifier;
+    fixed XpBarTextXOff;
+    fixed XpBarTextYOff;
+
+    // Rank Bars parameters
+    fixed RankBarHeigh;
+    fixed RankBarHalfLength;
+    fixed RankProgressPercentModifier;
+    fixed RankBarTextXOff;
+    fixed RankBarTextYOff;
+
+    // Compatibility Handling - DoomRL Arsenal
+    if (CompatMode == COMPAT_DRLA)
+    {
+        ClassName[0] = "Marine";
+        ClassName[1] = "Scout";
+        ClassName[2] = "Technician";
+        ClassName[3] = "Renegade";
+        ClassName[4] = "Demolitionist";
+
+        // Compatibility Handling - DoomRL Arsenal Extended
+        if (CompatModeEx == COMPAT_DRLAX)
+        {
+            ClassName[6] = "Mechanoid";
+            ClassName[7] = "Nomad";
+            ClassName[8] = "Nano Maniac";
+            ClassName[9] = "Phase Sisters";
+            ClassName[10] = "Sarge";
+            ClassName[11] = "Trespasser";
+            ClassName[12] = "Bunker";
+        }
+    }
+    else
+        ClassName[0] = "Doom Guy";
+
+    // XP Bar Long Types/Color
+    str XPBarShortThinEmpty[3] =
+    {
+        "XSTBarB1",
+        "XSTBarR1",
+        "XSTBarW1"
+    };
+
+    str XPBarShortThinProgress[3] =
+    {
+        "XSTBarB2",
+        "XSTBarR2",
+        "XSTBarW2"
+    };
+
+    str XPBarShortThinProgressAnim[3] =
+    {
+        "XSTBarB3",
+        "XSTBarR3",
+        "XSTBarW3"
+    };
+
+    str XPBarShortWideEmpty[3] =
+    {
+        "XSWBarB1",
+        "XSWBarR1",
+        "XSWBarW1"
+    };
+
+    str XPBarShortWideProgress[3] =
+    {
+        "XSWBarB2",
+        "XSWBarR2",
+        "XSWBarW2"
+    };
+
+    str XPBarShortWideProgressAnim[3] =
+    {
+        "XSWBarB3",
+        "XSWBarR3",
+        "XSWBarW3"
+    };
+
+    // XP Bar Long Types/Color
+    str XPBarLongThinEmpty[3] =
+    {
+        "XLTBarB1",
+        "XLTBarR1",
+        "XLTBarW1"
+    };
+
+    str XPBarLongThinProgress[3] =
+    {
+        "XLTBarB2",
+        "XLTBarR2",
+        "XLTBarW2"
+    };
+
+    str XPBarLongThinProgressAnim[3] =
+    {
+        "XLTBarB3",
+        "XLTBarR3",
+        "XLTBarW3"
+    };
+
+    str XPBarLongWideEmpty[3] =
+    {
+        "XLWBarB1",
+        "XLWBarR1",
+        "XLWBarW1"
+    };
+
+    str XPBarLongWideProgress[3] =
+    {
+        "XLWBarB2",
+        "XLWBarR2",
+        "XLWBarW2"
+    };
+
+    str XPBarLongWideProgressAnim[3] =
+    {
+        "XLWBarB3",
+        "XLWBarR3",
+        "XLWBarW3"
+    };
+
+    // Rank Bar Types
+    str RankBarThinEmpty[3] =
+    {
+        "RSTBar1",
+        "RLTBar1"
+    };
+
+    str RankBarThinProgress[3] =
+    {
+        "RSTBar2",
+        "RLTBar2"
+    };
+
+    str RankBarThinProgressAnim[3] =
+    {
+        "RSTBar3",
+        "RLTBar3"
+    };
+
+    fixed X, X1, Y, Y1;
 
 Start:
     NOP;
@@ -242,6 +412,8 @@ Start:
 
     X = GetActivatorCVar("drpg_credits_x");
     Y = GetActivatorCVar("drpg_credits_y");
+    X1 = GetActivatorCVar("drpg_xp_bar_x");
+    Y1 = GetActivatorCVar("drpg_xp_bar_y");
 
     SetHudSize(GetActivatorCVar("drpg_hud_width"), GetActivatorCVar("drpg_hud_height"), false);
 
@@ -260,6 +432,283 @@ Start:
     {
         ModulesCollected += (Modules.Value - Modules.OldValue);
         ModulesCollectionTimer = 35 * 6;
+    }
+
+    // XP Bar
+    if (GetActivatorCVar("drpg_xp_bar_enable") && !(Player.InMenu || Player.InShop || Player.InMinigame || Player.OutpostMenu > 0))
+    {
+        if (Timer() % 35 == 0)
+        {
+            // Set XP Bar Text/Type
+            XPBarText = GetActivatorCVar("drpg_xp_bar_text");
+            XPBarType = GetActivatorCVar("drpg_xp_bar_type");
+            XpBarAnim = GetActivatorCVar("drpg_xp_bar_anim_enable");
+
+            // Set Rank Bar Text
+            RankBarText = GetActivatorCVar("drpg_rank_bar_text");
+
+            // Set XP Bar Type/Color
+            if (XPBarType == 0)
+            {
+                XpBarEmpty = XPBarShortThinEmpty[GetActivatorCVar("drpg_xp_bar_color")];
+                XpBarProgress = XPBarShortThinProgress[GetActivatorCVar("drpg_xp_bar_color")];
+                XpBarProgressAnim = XPBarShortThinProgressAnim[GetActivatorCVar("drpg_xp_bar_color")];
+                XpBarHeigh = 4.0;
+                XpBarHalfLength = 75.0;
+                XpProgressPercentModifier = 1.5;
+            }
+            else if (XPBarType == 1)
+            {
+                XpBarEmpty = XPBarShortWideEmpty[GetActivatorCVar("drpg_xp_bar_color")];
+                XpBarProgress = XPBarShortWideProgress[GetActivatorCVar("drpg_xp_bar_color")];
+                XpBarProgressAnim = XPBarShortWideProgressAnim[GetActivatorCVar("drpg_xp_bar_color")];
+                XpBarHeigh = 8.0;
+                XpBarHalfLength = 75.0;
+                XpProgressPercentModifier = 1.5;
+            }
+            else if (XPBarType == 2)
+            {
+                XpBarEmpty = XPBarLongThinEmpty[GetActivatorCVar("drpg_xp_bar_color")];
+                XpBarProgress = XPBarLongThinProgress[GetActivatorCVar("drpg_xp_bar_color")];
+                XpBarProgressAnim = XPBarLongThinProgressAnim[GetActivatorCVar("drpg_xp_bar_color")];
+                XpBarHeigh = 4.0;
+                XpBarHalfLength = 150.0;
+                XpProgressPercentModifier = 3.0;
+            }
+            else if (XPBarType == 3)
+            {
+                XpBarEmpty = XPBarLongWideEmpty[GetActivatorCVar("drpg_xp_bar_color")];
+                XpBarProgress = XPBarLongWideProgress[GetActivatorCVar("drpg_xp_bar_color")];
+                XpBarProgressAnim = XPBarLongWideProgressAnim[GetActivatorCVar("drpg_xp_bar_color")];
+                XpBarHeigh = 8.0;
+                XpBarHalfLength = 150.0;
+                XpProgressPercentModifier = 3.0;
+            }
+
+            // Set Text X offset for Bar Long Type
+            if (XPBarType >= 2)
+            {
+                // If XP Bar position is equal to Rank Bar position
+                if (RankBarText > 0 && ((XPBarText == RankBarText
+                                         || (XPBarText + 1) == RankBarText || (XPBarText) == RankBarText + 1)))
+                {
+                    if (XPBarText == 1)
+                        XpBarTextXOff = (XpBarHalfLength / 3) * (-1);
+                    else if (XPBarText == 2)
+                        XpBarTextXOff = 0;
+                    else if (XPBarText == 3)
+                        XpBarTextXOff = (XpBarHalfLength / 3);
+                }
+                else
+                {
+                    if (XPBarText == 1)
+                        XpBarTextXOff = (XpBarHalfLength / 2) * (-1);
+                    else if (XPBarText == 2)
+                        XpBarTextXOff = 0;
+                    else if (XPBarText == 3)
+                        XpBarTextXOff = (XpBarHalfLength / 2);
+                }
+            }
+            else
+                XpBarTextXOff = 0;
+
+            // Set Text Y offset for Bar Wide Type
+            if (XPBarType == 1 || XPBarType == 3)
+            {
+                XpBarTextYOff = - 8.0;
+            }
+            else
+                XpBarTextYOff = - 7.0;
+        }
+
+        // XP Bar Text set
+        if (XPBarText > 0)
+        {
+            SetFont("SMALLFONT");
+
+            // If XP Bar position is equal to Rank Bar position
+            if (RankBarText > 0 && ((XPBarType >= 2 && (XPBarText == RankBarText
+                                     || (XPBarText + 1) == RankBarText || (XPBarText) == RankBarText + 1))))
+            {
+                if (XPBarText == RankBarText || (XPBarText + 1) == RankBarText)
+                    HudMessage("LVL %d %S RANK %d %S", Player.Level, ClassName[CurrentClass], Player.RankLevel, Ranks[Player.RankLevel]);
+                else if (XPBarText == RankBarText + 1)
+                    HudMessage("RANK %d %S LVL %d %S", Player.RankLevel, Ranks[Player.RankLevel], Player.Level, ClassName[CurrentClass]);
+            }
+            else
+                HudMessage("LVL %d %S", Player.Level, ClassName[CurrentClass]);
+
+            EndHudMessage(HUDMSG_PLAIN, 0, "White", X1 + XpBarTextXOff, Y1 + XpBarTextYOff, 0.05);
+        }
+
+        // Get XP Percent
+        XPPercentCurrent = Player.XPPercent;
+        if (XPPercentCurrent < 1 && Player.XP > 0)
+            XPPercentCurrent = 1;
+
+        if ((XPPercentCurrent == XPPercentOld && Player.XPGained <= 0) || !XpBarAnim)
+        {
+            SetHudClipRect(X1 - XpBarHalfLength, Y1 - (XpBarHeigh / 2.0), RoundInt(XPPercentCurrent * XpProgressPercentModifier), XpBarHeigh);
+            PrintSprite(XpBarProgress, 0, X1, Y1, 0.05);
+        }
+        else
+        {
+            if (XPPercentCurrent > XPPercentOld)
+            {
+                SetHudClipRect(X1 - XpBarHalfLength, Y1 - (XpBarHeigh / 2.0), RoundInt(XPPercentOld * XpProgressPercentModifier), XpBarHeigh);
+                PrintSprite(XpBarProgress, 0, X1, Y1, 0.05);
+                SetHudClipRect(X1 + XPPercentOld * XpProgressPercentModifier - XpBarHalfLength, Y1 - (XpBarHeigh / 2.0), RoundInt((XPPercentCurrent - XPPercentOld) * XpProgressPercentModifier), XpBarHeigh);
+                PrintSpriteAlpha(XpBarProgressAnim, 0, X1, Y1, 0.05, 0.75 + Sin((Timer()) / 32.0) * 0.25);
+            }
+            else if (XPPercentCurrent < XPPercentOld)
+            {
+                SetHudClipRect(X1 - XpBarHalfLength, Y1 - (XpBarHeigh / 2.0), RoundInt(XPPercentCurrent * XpProgressPercentModifier), XpBarHeigh);
+                PrintSpriteAlpha(XpBarProgressAnim, 0, X1, Y1, 0.05, 0.75 + Sin((Timer()) / 32.0) * 0.25);
+            }
+            else if (Player.XPGained > 0)
+            {
+                SetHudClipRect(X1 - XpBarHalfLength, Y1 - (XpBarHeigh / 2.0), RoundInt(XPPercentOld * XpProgressPercentModifier) - 1, XpBarHeigh);
+                PrintSprite(XpBarProgress, 0, X1, Y1, 0.05);
+                SetHudClipRect(X1 + XPPercentOld * XpProgressPercentModifier - XpBarHalfLength - 1.0, Y1 - (XpBarHeigh / 2.0), RoundInt((XPPercentCurrent - XPPercentOld + 1) * XpProgressPercentModifier), XpBarHeigh);
+                PrintSpriteAlpha(XpBarProgressAnim, 0, X1, Y1, 0.05, 0.75 + Sin((Timer()) / 32.0) * 0.25);
+            }
+
+            if (Player.XPGained > 0)
+                XPIterations = 0;
+            else
+                XPIterations++;
+
+            if (XPIterations > 35)
+            {
+                XPPercentOld = XPPercentCurrent;
+                XPIterations = 0;
+            }
+        }
+
+        SetHudClipRect(0, 0, 0, 0);
+        PrintSprite(XpBarEmpty, 0, X1, Y1, 0.05);
+    }
+
+    // Rank Bar
+    if (GetActivatorCVar("drpg_rank_bar_enable") && !(Player.InMenu || Player.InShop || Player.InMinigame || Player.OutpostMenu > 0))
+    {
+        if (Timer() % 35 == 0)
+        {
+            // Set Rank Bar Text/Type
+            RankBarText = GetActivatorCVar("drpg_rank_bar_text");
+            RankBarType = GetActivatorCVar("drpg_rank_bar_type");
+
+            // Set XP Bar Text/Type
+            XPBarText = GetActivatorCVar("drpg_xp_bar_text");
+            XPBarType = GetActivatorCVar("drpg_xp_bar_type");
+            XpBarAnim = GetActivatorCVar("drpg_xp_bar_anim_enable");
+
+            // Set Rank Bar Type
+            if (RankBarType == 0)
+            {
+                RankBarEmpty = RankBarThinEmpty[0];
+                RankBarProgress = RankBarThinProgress[0];
+                RankBarProgressAnim = RankBarThinProgressAnim[0];
+                RankBarHeigh = 4.0;
+                RankBarHalfLength = 75.0;
+                RankProgressPercentModifier = 1.5;
+            }
+            else if (RankBarType == 1)
+            {
+                RankBarEmpty = RankBarThinEmpty[1];
+                RankBarProgress = RankBarThinProgress[1];
+                RankBarProgressAnim = RankBarThinProgressAnim[1];
+                RankBarHeigh = 4.0;
+                RankBarHalfLength = 150.0;
+                RankProgressPercentModifier = 3.0;
+            }
+
+            // Set Text offset for Bar Long Type
+            if (RankBarType == 1)
+            {
+                if (RankBarText == 1)
+                    RankBarTextXOff = (RankBarHalfLength / 2) * (-1);
+                else if (RankBarText == 2)
+                    RankBarTextXOff = 0;
+                else if (RankBarText == 3)
+                    RankBarTextXOff = (RankBarHalfLength / 2);
+            }
+            else
+                RankBarTextXOff = 0;
+
+            // Set Text Y offset for Bar Long Type
+            if (GetActivatorCVar("drpg_xp_bar_enable") && XPBarText > 0 && XPBarType >= 2)
+            {
+                if (XPBarType == 3)
+                    RankBarTextYOff = - 14.0;
+                else
+                    RankBarTextYOff = - 11.0;
+            }
+            else
+                RankBarTextYOff = - 7.0;
+        }
+
+        // Set Rank Bar Y offset
+        if (XPBarType == 1 || XPBarType == 3)
+            Y1 += 6.0;
+        else
+            Y1 += 4.0;
+
+        // Rank Bar Text set
+        if (RankBarText > 0 && (!GetActivatorCVar("drpg_xp_bar_enable") || (GetActivatorCVar("drpg_xp_bar_enable") && XPBarText > 0 && XPBarType >= 2
+                                && XPBarText != RankBarText && (XPBarText + 1) != RankBarText) && (XPBarText) != RankBarText + 1))
+        {
+            SetFont("SMALLFONT");
+            HudMessage("%d RANK %S", Player.RankLevel, Ranks[Player.RankLevel]);
+            EndHudMessage(HUDMSG_PLAIN, 0, "White", X1 + RankBarTextXOff, Y1 + RankBarTextYOff, 0.05);
+        }
+
+        // Get Rank Percent
+        RankPercentCurrent = Player.RankPercent;
+        if (RankPercentCurrent < 1 && Player.Rank > 0)
+            RankPercentCurrent = 1;
+
+        if ((RankPercentCurrent == RankPercentOld && Player.RankGained <= 0) || !XpBarAnim)
+        {
+            SetHudClipRect(X1 - RankBarHalfLength, Y1 - (RankBarHeigh / 2.0), RoundInt(RankPercentCurrent * RankProgressPercentModifier), RankBarHeigh);
+            PrintSprite(RankBarProgress, 0, X1, Y1, 0.05);
+        }
+        else
+        {
+            if (RankPercentCurrent > RankPercentOld)
+            {
+                SetHudClipRect(X1 - RankBarHalfLength, Y1 - (RankBarHeigh / 2.0), RoundInt(RankPercentOld * RankProgressPercentModifier), RankBarHeigh);
+                PrintSprite(RankBarProgress, 0, X1, Y1, 0.05);
+                SetHudClipRect(X1 + RankPercentOld * RankProgressPercentModifier - RankBarHalfLength, Y1 - (RankBarHeigh / 2.0), RoundInt((RankPercentCurrent - RankPercentOld) * RankProgressPercentModifier), RankBarHeigh);
+                PrintSpriteAlpha(RankBarProgressAnim, 0, X1, Y1, 0.05, 0.75 + Sin((Timer()) / 32.0) * 0.25);
+            }
+            else if (RankPercentCurrent < RankPercentOld)
+            {
+                SetHudClipRect(X1 - RankBarHalfLength, Y1 - (RankBarHeigh / 2.0), RoundInt(RankPercentCurrent * RankProgressPercentModifier), RankBarHeigh);
+                PrintSpriteAlpha(RankBarProgressAnim, 0, X1, Y1, 0.05, 0.75 + Sin((Timer()) / 32.0) * 0.25);
+            }
+            else if (Player.RankGained > 0)
+            {
+                SetHudClipRect(X1 - RankBarHalfLength, Y1 - (RankBarHeigh / 2.0), RoundInt(RankPercentOld * RankProgressPercentModifier) - 1, RankBarHeigh);
+                PrintSprite(RankBarProgress, 0, X1, Y1, 0.05);
+                SetHudClipRect(X1 + RankPercentOld * RankProgressPercentModifier - RankBarHalfLength - 1.0, Y1 - (RankBarHeigh / 2.0), RoundInt((RankPercentCurrent - RankPercentOld + 1) * RankProgressPercentModifier), RankBarHeigh);
+                PrintSpriteAlpha(RankBarProgressAnim, 0, X1, Y1, 0.05, 0.75 + Sin((Timer()) / 32.0) * 0.25);
+            }
+
+            if (Player.RankGained > 0)
+                RankIterations = 0;
+            else
+                RankIterations++;
+
+            if (RankIterations > 35)
+            {
+                RankPercentOld = RankPercentCurrent;
+                RankIterations = 0;
+            }
+        }
+
+        SetHudClipRect(0, 0, 0, 0);
+        PrintSprite(RankBarEmpty, 0, X1, Y1, 0.05);
     }
 
     // Credits
@@ -403,24 +852,51 @@ Start:
 
     // Combo Info
     SetFont("BIGFONT");
-    if (Combo.DisplayValue > 0 || GetActivatorCVar("drpg_hud_preview"))
+    if (Combo.DisplayValue > 0 && Combo.DisplayValue <= (GetLevelInfo(LEVELINFO_TOTAL_MONSTERS) * 2 + 100) || GetActivatorCVar("drpg_hud_preview"))
     {
         HudMessage("%ld", Combo.DisplayValue);
         EndHudMessage(HUDMSG_PLAIN, 0, "Purple", X + 0.1, Y + 10.0, 0.05);
     }
-    if (XP.DisplayValue != 0 || GetActivatorCVar("drpg_hud_preview"))
+    if (XP.DisplayValue != 0 && Combo.DisplayValue <= (GetLevelInfo(LEVELINFO_TOTAL_MONSTERS) * 2 + 100) || GetActivatorCVar("drpg_hud_preview"))
     {
-        HudMessage("%ld", XP.DisplayValue);
+        if (XP.DisplayValue >= 10000l || Bonus.DisplayValue >= 1000l)
+        {
+            if (XP.DisplayValue >= 1000l)
+                HudMessage("%ld k.", XP.DisplayValue / 1000l);
+            else
+                HudMessage("< 1 k.");
+        }
+        else
+            HudMessage("%ld", XP.DisplayValue);
+
         EndHudMessage(HUDMSG_PLAIN, 0, (XP.DisplayValue >= 0 ? "White" : "Gray"), X + 0.1, Y + 22.0, 0.05);
     }
-    if (Rank.DisplayValue != 0 || GetActivatorCVar("drpg_hud_preview"))
+    if (Rank.DisplayValue != 0 && Combo.DisplayValue <= (GetLevelInfo(LEVELINFO_TOTAL_MONSTERS) * 2 + 100) || GetActivatorCVar("drpg_hud_preview"))
     {
-        HudMessage("%ld", Rank.DisplayValue);
+        if (XP.DisplayValue >= 10000l || Bonus.DisplayValue >= 1000l)
+        {
+            if (Rank.DisplayValue >= 1000l)
+                HudMessage("%ld k.", Rank.DisplayValue / 1000l);
+            else
+                HudMessage("< 1 k.");
+        }
+        else
+            HudMessage("%ld", Rank.DisplayValue);
+
         EndHudMessage(HUDMSG_PLAIN, 0, (Rank.DisplayValue >= 0 ? "Yellow" : "DarkBrown"), X + 0.1, Y + 34.0, 0.05);
     }
-    if (Bonus.DisplayValue != 0 || GetActivatorCVar("drpg_hud_preview"))
+    if (Bonus.DisplayValue != 0 && Combo.DisplayValue <= (GetLevelInfo(LEVELINFO_TOTAL_MONSTERS) * 2 + 100) || GetActivatorCVar("drpg_hud_preview"))
     {
-        HudMessage("%ld", Bonus.DisplayValue);
+        if (XP.DisplayValue >= 10000l || Bonus.DisplayValue >= 1000l)
+        {
+            if (Bonus.DisplayValue >= 1000l)
+                HudMessage("%ld k.", Bonus.DisplayValue / 1000l);
+            else
+                HudMessage("< 1 k.");
+        }
+        else
+            HudMessage("%ld", Bonus.DisplayValue);
+
         EndHudMessage(HUDMSG_PLAIN, 0, (Bonus.DisplayValue >= 0 ? "Green" : "DarkGreen"), X + 0.1, Y + 46.0, 0.05);
     }
 
@@ -578,16 +1054,31 @@ Start:
 
     Delay(1);
 
-    if (Player.Mission.Active && Player.Mission.Current != OldAmount || GetActivatorCVar("drpg_hud_preview"))
+    if (Player.Mission.Active && Player.Mission.Current != OldAmount || GetActivatorCVar("drpg_hud_preview") || GetActivatorCVar("drpg_notifications_preview"))
     {
         SetHudSize(GetActivatorCVar("drpg_hud_width"), GetActivatorCVar("drpg_hud_height"), false);
         SetFont("BIGFONT");
 
-        if (GetActivatorCVar("drpg_hud_preview")) // Preview
+        if (GetActivatorCVar("drpg_hud_preview") || GetActivatorCVar("drpg_notifications_preview")) // Preview
         {
-            HudMessage("0 / 0");
-            EndHudMessage(HUDMSG_FADEOUT, MISSION_ID, "Green", X + 0.1, Y, 2.0, 1.0);
-            PrintSpriteFade("PISTA0", MISSION_ID + 1, X + 11.0 - 40.0 + 0.4, Y + 15.0 + 0.4, 2.0, 1.0);
+            // Mission's Notifications
+            if (GetActivatorCVar("drpg_notifications_preview"))
+            {
+                if (GetActivatorCVar("drpg_notifications_detailed"))
+                    HudMessage("Mission Complete!\n\n\Cj+%d XP\n\Ck+%d Rank\n\Cf+%d Credits\n\Cd+%d Modules\n\n\CiItem: \Cj%S",
+                               0, 0, 0, 0, "Reward");
+                else
+                    HudMessage("Mission Complete!");
+                EndHudMessage(HUDMSG_FADEOUT, MISSION_ID + 2, "Green", GetActivatorCVar("drpg_mission_complete_x") + 0.4, GetActivatorCVar("drpg_mission_complete_y"), 3.0, 2.0);
+            }
+
+            // Mission's HUD
+            if (GetActivatorCVar("drpg_hud_preview"))
+            {
+                HudMessage("0 / 0");
+                EndHudMessage(HUDMSG_FADEOUT, MISSION_ID, "Green", X + 0.1, Y, 2.0, 1.0);
+                PrintSpriteFade("PISTA0", MISSION_ID + 1, X + 11.0 - 40.0 + 0.4, Y + 15.0 + 0.4, 2.0, 1.0);
+            }
         }
         else
         {
@@ -1060,7 +1551,7 @@ Start:
         Delay(1);
     }
 }
-
+/*
 NamedScript Type_ENTER void MultiplayerHUD()
 {
     fixed X, Y, Alpha;
@@ -1127,7 +1618,7 @@ Start:
     Delay(1);
     goto Start;
 }
-
+*/
 NamedScript Type_ENTER void TurretHUD()
 {
     str const AmmoColors[5] =
@@ -1208,12 +1699,21 @@ Start:
 
             // Timers
             SetFont("BIGFONT");
-            HudMessage("%S", FormatTime(Player.Turret.ChargeTimer * 35));
-            EndHudMessage(HUDMSG_PLAIN, 0, "Yellow", X + 24.1, Y - 16.0, 0.05);
-            HudMessage("%S", FormatTime(Player.Turret.RepairTimer * 35));
-            EndHudMessage(HUDMSG_PLAIN, 0, (Player.Turret.PaidForRepair ? "Brick" : "Red"), X + 24.1, Y, 0.05);
-            HudMessage("%S", FormatTime(Player.Turret.RefitTimer * 35));
-            EndHudMessage(HUDMSG_PLAIN, 0, "LightBlue", X + 24.1, Y + 16.0, 0.05);
+            if (Player.Turret.RepairTimer > 0)
+            {
+                HudMessage("%S", FormatTime(Player.Turret.RepairTimer * 35));
+                EndHudMessage(HUDMSG_PLAIN, 0, (Player.Turret.PaidForRepair ? "Brick" : "Red"), X + 24.1, Y - 16.0, 0.05);
+            }
+            if (Player.Turret.ChargeTimer > 0)
+            {
+                HudMessage("%S", FormatTime(Player.Turret.ChargeTimer * 35));
+                EndHudMessage(HUDMSG_PLAIN, 0, "Yellow", X + 24.1, Y, 0.05);
+            }
+            if (Player.Turret.RefitTimer > 0)
+            {
+                HudMessage("%S", FormatTime(Player.Turret.RefitTimer * 35));
+                EndHudMessage(HUDMSG_PLAIN, 0, "LightBlue", X + 24.1, Y + 16.0, 0.05);
+            }
         }
         else if (!Player.Turret.Maintenance || GetActivatorCVar("drpg_hud_preview"))
         {
@@ -1226,8 +1726,11 @@ Start:
             SetFont("BIGFONT");
             HudMessage("%ld", Health.DisplayValue);
             EndHudMessage(HUDMSG_PLAIN, 0, "Red", X + 24.1, Y - 16.0, 0.05);
-            HudMessage("%S", FormatTime(Player.Turret.Battery * 35));
-            EndHudMessage(HUDMSG_PLAIN, 0, "Yellow", X + 24.1, Y, 0.05);
+            if (!Player.Turret.AugBattery)
+            {
+                HudMessage("%S", FormatTime(Player.Turret.Battery * 35));
+                EndHudMessage(HUDMSG_PLAIN, 0, "Yellow", X + 24.1, Y, 0.05);
+            }
             if (Player.Turret.Weapon != TW_NONE)
             {
                 HudMessage("%d", Ammo[Player.Turret.Weapon]);
@@ -1393,8 +1896,9 @@ NamedScript void DamageHUD(int Amount, bool Critical)
 
 NamedScript Type_ENTER void DRLAHUD()
 {
-    str const RaritySuffix[6] =
+    str const RaritySuffix[7] =
     {
+        " \Cc[Common]\C-",
         " \Ct[Exotic]\C-",
         " \Ci[Superior]\C-",
         " \Cv[Assembled]\C-",
@@ -1440,11 +1944,14 @@ Start:
     // If we're on the title map, terminate
     if (InTitle) return;
 
-    if (Player.GUI.Open || Player.InMenu || Player.InShop || Player.OutpostMenu)
+    if (Player.GUI.Open || Player.InMenu || Player.InShop || Player.InMinigame || Player.OutpostMenu)
     {
+        SetActivatorCVar("drpg_drla_hud_on", false);
         Delay(1);
         goto Start;
     }
+    else
+        SetActivatorCVar("drpg_drla_hud_on", true);
 
     // Offset = 0.0;
 
@@ -1456,6 +1963,11 @@ Start:
     ModPacks = (IsTechnician ? CheckInventory("RLScavengerModLimit") : CheckInventory("RLModLimit"));
     Skulls = CheckInventory("RLSkullLimit");
     Devices = CheckInventory("RLPhaseDeviceLimit");
+
+    // Compatibility Handling - DoomRL Arsenal Extended
+    // Phase Sisters - Change the Weapons calculation
+    if (CompatModeEx == COMPAT_DRLAX && PlayerClass(PlayerNumber()) == 9)
+        Weapons -= 2;
 
     SetHudSize(GetActivatorCVar("drpg_hud_width"), GetActivatorCVar("drpg_hud_height"), false);
 
@@ -1499,7 +2011,7 @@ Start:
         if (ModPacks > 0 || GetCVar("drpg_hud_preview"))
         {
             SetFont("BIGFONT");
-            if ((!IsTechnician && ModPacks >= 4) || (IsTechnician && ModPacks >= 8))
+            if (ModPacks >= DRLA_MODPACKS_MAX)
             {
                 HudMessage("%d", ModPacks);
                 EndHudMessage(HUDMSG_ALPHA, 0, "Gold", XOff, Y + 12.0, 0.05, 0.75 + (Sin((fixed)Timer() / 32.0) * 0.25));
@@ -1531,7 +2043,7 @@ Start:
         if (Weapons > 0 || GetCVar("drpg_hud_preview"))
         {
             SetFont("BIGFONT");
-            if (Weapons >= 6)
+            if (Weapons >= DRLA_WEAPON_MAX)
             {
                 HudMessage("%d", Weapons);
                 EndHudMessage(HUDMSG_ALPHA, 0, "Gold", XOff, Y + 12.0, 0.05, 0.75 + (Sin((fixed)Timer() / 32.0) * 0.25));
@@ -1586,42 +2098,43 @@ Start:
             // Determine total modpacks and the color char to use
             if (CheckInventory("RLStandardWeaponToken"))
             {
+                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[0]));
                 Color = "\Cj";
                 TotalMax = 4;
             }
             else if (CheckInventory("RLExoticWeaponToken"))
             {
-                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[0]));
+                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[1]));
                 Color = "\Ct";
                 TotalMax = 4;
             }
             else if (CheckInventory("RLSuperiorWeaponToken"))
             {
-                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[1]));
+                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[2]));
                 Color = "\Ci";
                 TotalMax = 2;
             }
             else if (CheckInventory("RLAssembledWeaponToken"))
             {
-                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[2]));
+                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[3]));
                 Color = "\Cv";
                 TotalMax = 2;
             }
             else if (CheckInventory("RLUniqueWeaponToken"))
             {
-                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[3]));
+                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[4]));
                 Color = "\Cd";
                 TotalMax = 1;
             }
             else if (CheckInventory("RLDemonicWeaponToken"))
             {
-                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[4]));
+                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[5]));
                 Color = "\Cg";
                 TotalMax = 1;
             }
             else if (CheckInventory("RLLegendaryWeaponToken"))
             {
-                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[5]));
+                Name = StrLeft(Name, StrLen(Name) - StrLen(RaritySuffix[6]));
                 Color = "\Cf";
                 TotalMax = 1;
             }
@@ -1824,8 +2337,8 @@ Start:
             {
                 if (CheckWeapon("RLAntiFreakJackal") && CheckInventory("RLAntiFreakJackalDemonArtifacts")) // Jackal/Casull
                 {
-                    JackelItem = &ItemData[0][42]; // Should probably come up with a better way to reference these?
-                    CasullItem = &ItemData[0][43];
+                    JackelItem = &ItemData[0][54]; // Should probably come up with a better way to reference these?
+                    CasullItem = &ItemData[0][42];
 
                     PrintSprite(JackelItem->Sprite.Name, 0, X + JackelItem->Sprite.XOff, Y + JackelItem->Sprite.YOff + (int)(Sin((fixed)Timer() / 128.0) * 4.0), 0.05);
                     PrintSprite(CasullItem->Sprite.Name, 0, X + CasullItem->Sprite.XOff + 32.0, Y + CasullItem->Sprite.YOff + (int)(Cos((fixed)Timer() / 128.0) * 4.0), 0.05);
@@ -1855,7 +2368,7 @@ Start:
     // Stamina Bar
     for (int i = 0; i < 15; i++)
     {
-        if (i * 6.66 > CheckInventory("RLStamina") || !GetCVar("drpg_drla_hud_staminabar"))
+        if (i * 6.66 > CheckInventory("RLStamina") || !GetActivatorCVar("drpg_drla_hud_staminabar"))
             break;
 
         if (i >= 0 && i <= 2)

@@ -12,6 +12,8 @@ ACTOR CommonZombieRPG : CommonZombie Replaces CommonZombie
 {
 	Tag "Former Human"
 
+    DropItem "DRPGClipSpawner"
+
 	States
 	{
 	Spawn:
@@ -23,11 +25,31 @@ ACTOR CommonZombieRPG : CommonZombie Replaces CommonZombie
 	}
 }
 
+// Brown Zombie
+ACTOR BrownZombie2RPG : BrownZombie2 Replaces BrownZombie2
+{
+	Tag "Monstrous Former Human"
+
+    DropItem "DRPGClipSpawner"
+
+	States
+	{
+	Spawn:
+		SGAR A 0 NoDelay ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::Spawn
+	See:
+		SGAR A 0 ACS_NamedExecuteAlways("MonsterInit", 0)
+		Goto Super::See
+	}
+}
+
 // Green Zombie
 ACTOR GreenZombieRPG : GreenZombie Replaces GreenZombie
 {
 	Tag "Uncommon Former Human"
-	
+
+    DropItem "DRPGClipSpawner"
+
 	States
 	{
 	Spawn:
@@ -43,6 +65,8 @@ ACTOR GreenZombieRPG : GreenZombie Replaces GreenZombie
 ACTOR BlueZombieRPG : BlueZombie Replaces BlueZombie
 {
 	Tag "Rare Former Human"
+
+    DropItem "DRPGClipSpawner"
 
 	States
 	{
@@ -60,6 +84,8 @@ ACTOR CyanZombie2RPG : CyanZombie2 Replaces CyanZombie2
 {
 	Tag "Icy Former Human"
 
+    DropItem "DRPGClipSpawner"
+
 	States
 	{
 	Spawn:
@@ -75,6 +101,8 @@ ACTOR CyanZombie2RPG : CyanZombie2 Replaces CyanZombie2
 ACTOR AbyssZombie2RPG : AbyssZombie2 Replaces AbyssZombie2
 {
 	Tag "Abyssal Former Human"
+
+    DropItem "DRPGClipSpawner"
 
 	States
 	{
@@ -92,6 +120,8 @@ ACTOR AbyssZombie3RPG : AbyssZombie3 Replaces AbyssZombie3
 {
 	Tag "Abyssal Former Human"
 
+    DropItem "DRPGClipSpawner"
+
 	States
 	{
 	Spawn:
@@ -107,6 +137,8 @@ ACTOR AbyssZombie3RPG : AbyssZombie3 Replaces AbyssZombie3
 ACTOR GrayZombie2RPG : GrayZombie2 Replaces GrayZombie2
 {
 	Tag "Ancient Former Human"
+
+    DropItem "DRPGClipSpawner"
 
 	States
 	{
@@ -124,6 +156,8 @@ ACTOR FireBluZombie2RPG : FireBluZombie2 Replaces FireBluZombie2
 {
 	Tag "Enchanted Former Human"
 
+    DropItem "DRPGRocketAmmoSpawner"
+
 	States
 	{
 	Spawn:
@@ -139,6 +173,8 @@ ACTOR FireBluZombie2RPG : FireBluZombie2 Replaces FireBluZombie2
 ACTOR PurpleZombieRPG : PurpleZombie Replaces PurpleZombie
 {
 	Tag "Epic Former Human"
+
+    DropItem "DRPGClipSpawner"
 
 	States
 	{
@@ -156,6 +192,8 @@ ACTOR YellowZombieRPG : YellowZombie Replaces YellowZombie
 {
 	Tag "Legendary Former Human"
 
+    DropItem "DRPGClipSpawner"
+
 	States
 	{
 	Spawn:
@@ -172,6 +210,8 @@ ACTOR RedZombieRPG : RedZombie Replaces RedZombie
 {
 	Tag "Demonic Former Human"
 
+    DropItem "DRPGClipSpawner"
+
 	States
 	{
 	Spawn:
@@ -186,6 +226,8 @@ ACTOR RedZombieRPG : RedZombie Replaces RedZombie
 // Black Zombie
 ACTOR BlackZombie1RPG : BlackZombie1 Replaces BlackZombie1
 {
+    DropItem "DRPGBackpackRandomizer"
+
 	States
 	{
 	Spawn:
@@ -200,6 +242,8 @@ ACTOR BlackZombie1RPG : BlackZombie1 Replaces BlackZombie1
 // Black Zombie EX
 ACTOR BlackZombieEXRPG : BlackZombieEX Replaces BlackZombieEX
 {
+    DropItem "DRPGBackpackRandomizer"
+
 	States
 	{
 	Spawn:
@@ -216,6 +260,8 @@ ACTOR WhiteZombie1RPG : WhiteZombie1 Replaces WhiteZombie1
 {
 	Tag "The Undertaker"
 
+    DropItem "DRPGBackpackRandomizer"
+
 	States
 	{
 	Spawn:
@@ -231,7 +277,9 @@ ACTOR WhiteZombie1RPG : WhiteZombie1 Replaces WhiteZombie1
 
 ACTOR ThePlanBonerRPG : ThePlanBoner Replaces ThePlanBoner
 {
-	Tag "???"
+	Tag "Mr. Bones"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{
@@ -247,6 +295,8 @@ ACTOR ThePlanBonerRPG : ThePlanBoner Replaces ThePlanBoner
 ACTOR MrBonesRPG : MrBones Replaces MrBones
 {
 	Tag "Mr. Bones"
+
+    DropItem "DRPGEmpty"
 
 	States
 	{

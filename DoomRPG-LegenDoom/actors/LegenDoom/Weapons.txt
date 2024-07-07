@@ -1,3 +1,4 @@
+// Standard Weapon
 actor LDChainsawRPG : LDChainsaw Replaces DRPGChainsaw {}
 actor LDPistolRPG : LDPistol Replaces DRPGPistol {}
 actor LDShotgunRPG : LDShotgun Replaces DRPGShotgun {}
@@ -6,3 +7,113 @@ actor LDChaingunRPG : LDChaingun Replaces DRPGChaingun {}
 actor LDRocketLauncherRPG : LDRocketLauncher Replaces DRPGRocketLauncher {}
 actor LDPlasmaRifleRPG : LDPlasmaRifle Replaces DRPGPlasmaRifle {}
 actor LDBFG9000RPG : LDBFG9000 Replaces DRPGBFG9000 {}
+
+// Weapon spawners
+actor LDChainsawSpawnerRPG : LDChainsaw Replaces DRPGChainsawSpawner {}
+actor LDPistolSpawnerRPG : LDPistol Replaces DRPGPistolSpawner {}
+actor LDShotgunSpawnerRPG : LDShotgun Replaces DRPGShotgunSpawner {}
+actor LDSuperShotgunSpawnerRPG : LDSuperShotgun Replaces DRPGSuperShotgunSpawner {}
+actor LDChaingunSpawnerRPG : LDChaingun Replaces DRPGChaingunSpawner {}
+actor LDRocketLauncherSpawnerRPG : LDRocketLauncher Replaces DRPGRocketLauncherSpawner {}
+actor LDPlasmaRifleSpawnerRPG : LDPlasmaRifle Replaces DRPGPlasmaRifleSpawner {}
+actor LDBFG9000SpawnerRPG : LDBFG9000 Replaces DRPGBFG9000Spawner {}
+
+actor LDPistolPickupRPG : LDPistolPickup Replaces LDPistolPickup
+{
+    States
+    {
+    AmmoPickup:
+        TNT1 A 0 A_JumpIf(CallACS("GetSkillLevel") > 2, "AmmoPickupHard")
+        goto Super::AmmoPickup
+    AmmoPickupHard:
+		"####" "#" 0
+		"####" "#" 0 A_JumpIfInventory("Clip",0,"NotPickupNothing")
+		"####" "#" 0 A_PlaySound("pistol/pickup", CHAN_ITEM)
+		"####" "#" 0 A_JumpIfInventory ("LDPistolEffect_Hoarder", 1, "HoarderEffect")
+		"####" "#" 0 A_JumpIfInventory ("LDChaingunEffect_Hoarder", 1, "HoarderEffect")
+		"####" "#" 1 A_GiveInventory("Clip",5)
+		Stop
+
+    HoarderEffectAmmo:
+        TNT1 A 0 A_JumpIf(CallACS("GetSkillLevel") > 2, "HoarderEffectAmmoHard")
+        goto Super::HoarderEffectAmmo
+    HoarderEffectAmmoHard:
+        "####" "#" 0 A_GiveInventory ("Clip", 5)
+        goto Super::HoarderEffect
+    }
+}
+
+actor LDShotgunPickupRPG : LDShotgunPickup Replaces LDShotgunPickup
+{
+    States
+    {
+    AmmoPickup:
+        TNT1 A 0 A_JumpIf(CallACS("GetSkillLevel") > 2, "AmmoPickupHard")
+        goto Super::AmmoPickup
+    AmmoPickupHard:
+		"####" "#" 0
+		"####" "#" 0 A_JumpIfInventory("Shell",0,"NotPickupNothing")
+		"####" "#" 0 A_PlaySound("shotgun/pickup", CHAN_ITEM)
+		"####" "#" 0 A_JumpIfInventory ("LDShotgunEffect_Hoarder", 1, "HoarderEffect")
+		"####" "#" 0 A_JumpIfInventory ("LDSuperShotgunEffect_Hoarder", 1, "HoarderEffect")
+		"####" "#" 1 A_GiveInventory("Shell",2)
+		Stop
+
+    HoarderEffectAmmo:
+        TNT1 A 0 A_JumpIf(CallACS("GetSkillLevel") > 2, "HoarderEffectAmmoHard")
+        goto Super::HoarderEffectAmmo
+    HoarderEffectAmmoHard:
+        "####" "#" 0 A_GiveInventory ("Shell", 2)
+        goto Super::HoarderEffect
+    }
+}
+
+actor LDSuperShotgunPickupRPG : LDSuperShotgunPickup Replaces LDSuperShotgunPickup
+{
+    States
+    {
+    AmmoPickup:
+        TNT1 A 0 A_JumpIf(CallACS("GetSkillLevel") > 2, "AmmoPickupHard")
+        goto Super::AmmoPickup
+    AmmoPickupHard:
+		"####" "#" 0
+		"####" "#" 0 A_JumpIfInventory("Shell",0,"NotPickupNothing")
+		"####" "#" 0 A_PlaySound("supershotgun/pickup", CHAN_ITEM)
+		"####" "#" 0 A_JumpIfInventory ("LDShotgunEffect_Hoarder", 1, "HoarderEffect")
+		"####" "#" 0 A_JumpIfInventory ("LDSuperShotgunEffect_Hoarder", 1, "HoarderEffect")
+		"####" "#" 1 A_GiveInventory("Shell",4)
+		Stop
+
+    HoarderEffectAmmo:
+        TNT1 A 0 A_JumpIf(CallACS("GetSkillLevel") > 2, "HoarderEffectAmmoHard")
+        goto Super::HoarderEffectAmmo
+    HoarderEffectAmmoHard:
+        "####" "#" 0 A_GiveInventory ("Shell", 4)
+        goto Super::HoarderEffect
+    }
+}
+
+actor LDPlasmaRiflePickupRPG : LDPlasmaRiflePickup Replaces LDPlasmaRiflePickup
+{
+    States
+    {
+    AmmoPickup:
+        TNT1 A 0 A_JumpIf(CallACS("GetSkillLevel") > 2, "AmmoPickupHard")
+        goto Super::AmmoPickup
+    AmmoPickupHard:
+		"####" "#" 0
+		"####" "#" 0 A_JumpIfInventory("Cell",0,"NotPickupNothing")
+		"####" "#" 0 A_PlaySound("plasmarifle/pickup", CHAN_ITEM)
+		"####" "#" 0 A_JumpIfInventory ("LDPlasmaRifleEffect_Hoarder", 1, "HoarderEffect")
+		"####" "#" 0 A_JumpIfInventory ("LDBFG9000Effect_Hoarder", 1, "HoarderEffect")
+		"####" "#" 1 A_GiveInventory("Cell",20)
+		Stop
+
+    HoarderEffectAmmo:
+        TNT1 A 0 A_JumpIf(CallACS("GetSkillLevel") > 2, "HoarderEffectAmmoHard")
+        goto Super::HoarderEffectAmmo
+    HoarderEffectAmmoHard:
+        "####" "#" 0 A_GiveInventory ("Cell", 20)
+        goto Super::HoarderEffect
+    }
+}

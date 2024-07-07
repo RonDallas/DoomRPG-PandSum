@@ -1,6 +1,6 @@
 actor LDStimpackPickupRPG : LDStimpackPickup Replaces DRPGStimpack
 {
-    Inventory.PickupMessage "You got a Stimpack!"
+    Inventory.PickupMessage "You picked up a stimpack."
     Inventory.PickupSound "items/health"
     
     States
@@ -39,7 +39,7 @@ actor LDStimpackPickupRPG : LDStimpackPickup Replaces DRPGStimpack
 
 actor LDMedikitPickupRPG : LDMedikitPickup Replaces DRPGMedikit
 {
-    Inventory.PickupMessage "You got a medium Medikit!"
+    Inventory.PickupMessage "You picked up a medium medikit."
     Inventory.PickupSound "items/health"
 
     States
@@ -78,7 +78,7 @@ actor LDMedikitPickupRPG : LDMedikitPickup Replaces DRPGMedikit
 
 actor LDLargeMedikitRPG : LDMedikitPickup Replaces DRPGLargeMedikit
 {
-    Inventory.PickupMessage "You got a large Medikit!"
+    Inventory.PickupMessage "You picked up a large medikit."
     Inventory.PickupSound "items/health"
     
     States
@@ -117,7 +117,7 @@ actor LDLargeMedikitRPG : LDMedikitPickup Replaces DRPGLargeMedikit
 
 actor LDXLMedikitRPG : LDMedikitPickup Replaces DRPGXLMedikit
 {
-    Inventory.PickupMessage "You got an Extra-large Medikit!"
+    Inventory.PickupMessage "You picked up an extra large medikit."
     Inventory.PickupSound "items/health"
     
     States
@@ -156,7 +156,7 @@ actor LDXLMedikitRPG : LDMedikitPickup Replaces DRPGXLMedikit
 
 actor LDMedpackRPG : LDMedikitPickup Replaces DRPGMedPack
 {
-    Inventory.PickupMessage "You got a Med Pack!"
+    Inventory.PickupMessage "You picked up a med pack."
     Inventory.PickupSound "items/health"
     
     States
@@ -195,7 +195,7 @@ actor LDMedpackRPG : LDMedikitPickup Replaces DRPGMedPack
 
 actor LDSurgeryKitRPG : LDMedikitPickup Replaces DRPGSurgeryKit
 {
-    Inventory.PickupMessage "You got a Surgery Kit!"
+    Inventory.PickupMessage "You picked up a surgery kit."
     Inventory.PickupSound "items/health"
     
     States
@@ -242,7 +242,7 @@ ACTOR LDSoulsphereRPG : LDSoulspherePickup replaces DRPGSoulsphere
     +INVENTORY.FANCYPICKUPSOUND
     +INVENTORY.BIGPOWERUP
     
-    Inventory.PickupMessage "You got a Soulsphere!"
+    Inventory.PickupMessage "You picked up a lesser soul sphere."
     Inventory.PickupSound "powerups/soulsphere"
     
     States
@@ -261,6 +261,8 @@ ACTOR LDSoulsphereRPG : LDSoulspherePickup replaces DRPGSoulsphere
 
 ACTOR LDSoulsphereRPG2 : LDSoulsphereRPG replaces DRPGSoulsphere2
 {
+    Inventory.PickupMessage "You picked up a soul sphere."
+
     Translation "192 : 207 = 112 : 127", "240 : 247 = 127 : 127"
     
     States
@@ -274,6 +276,8 @@ ACTOR LDSoulsphereRPG2 : LDSoulsphereRPG replaces DRPGSoulsphere2
 
 ACTOR LDSoulsphereRPG3 : LDSoulsphereRPG replaces DRPGSoulsphere3
 {
+	Inventory.PickupMessage "You picked up a greater soul sphere."
+	
     Translation "192 : 207 = 172 : 187", "240 : 247 = 191 : 191"
     
     States

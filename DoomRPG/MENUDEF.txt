@@ -1,3 +1,7 @@
+// --------------------------------------------------
+// GENERAL
+//
+
 /*OptionValue "DropStyle"
 {
     1, "DOOM"
@@ -89,6 +93,13 @@ OptionValue "SimpleAuras"
     3, "Both"
 }
 
+OptionValue "CorpsesCleanup"
+{
+    0, "Off"
+    1, "Half"
+    2, "Full"
+}
+
 OptionValue "StartArmorType"
 {
     -1, "None"
@@ -169,18 +180,95 @@ OptionValue "StartDRLAArmorTypes"
 OptionValue "ExtraMapChallenges"
 {
     0, "Never"
-    1, "Hell and above"
+    1, "Hard Skill and above"
     2, "Always"
 }
 
 OptionString "OutpostStartLevel"
 {
-    "E1M1",    "E1M1 (Doom)"
-    "E2M1",    "E2M1 (Doom)"
-    "E3M1",    "E3M1 (Doom)"
-    "E4M1",    "E4M1 (Ultimate Doom)"
     "MAP01",   "MAP01 (Doom II)"
-    "LEVEL01", "LEVEL01 (Doom II BFG)"
+}
+
+OptionValue "LootTypes"
+{
+    0, "Adaptive"
+    1, "\caMap Level"
+    2, "\cfLuck Level"
+    3, "\ciRoguelike"
+}
+
+OptionValue "XPBarTypes"
+{
+    0, "Short Thin"
+    1, "Short Wide"
+    2, "Long Thin"
+    3, "Long Wide"
+}
+
+OptionValue "XPBarTextTypes"
+{
+    0, "Off"
+    1, "Left"
+    2, "Middle"
+    3, "Right"
+}
+
+OptionValue "XPBarColors"
+{
+    0, "Blue"
+    1, "Red"
+    2, "White"
+}
+
+OptionValue "RankBarTypes"
+{
+    0, "Short Thin"
+    1, "Long Thin"
+}
+
+OptionValue "RankBarTextTypes"
+{
+    0, "Off"
+    1, "Left"
+    2, "Middle"
+    3, "Right"
+}
+
+OptionMenu "DoomRPGControls"
+{
+    Title "Customize Controls"
+    ScrollTop 2
+    StaticTextSwitchable "ENTER to change, BACKSPACE to clear", "Press new key for control, ESC to cancel", "ControlMessage"
+    StaticText ""
+    SubMenu "Full Control Menu", "CustomizeControls"
+    StaticText ""
+    StaticText "Controls", "White"
+    Control "Open Menu", drpg_menu
+    Control "Open Shop", drpg_shop
+    Control "Quick Heal", drpg_quickheal
+    Control "Focus Mode", drpg_focusmode
+    Control "Toggle Shield", drpg_shield
+    Control "Use Stim", drpg_usestim
+    Control "Dispose Stim", drpg_throwawaystim
+    Control "Skill Wheel", "+user1"
+    Control "Turret Command Wheel", "+user2"
+    Control "Use Skill", drpg_useskill
+    Control "Quick Use Skill 1", drpg_useskill_1
+    Control "Quick Use Skill 2", drpg_useskill_2
+    Control "Quick Use Skill 3", drpg_useskill_3
+    Control "Quick Use Skill 4", drpg_useskill_4
+    Control "Quick Use Skill 5", drpg_useskill_5
+    Control "Quick Use Skill 6", drpg_useskill_6
+    Control "Quick Use Skill 7", drpg_useskill_7
+    Control "Quick Use Skill 8", drpg_useskill_8
+    Control "Reactivate disabled augs", drpg_augs_reactivate
+
+    StaticText ""
+    StaticText "Gamepad Control Helper", "White"
+    Control "Open Gamepad Control Helper", Gamepad_Control_Helper_Open
+    Control "Toggle Freelook", freelook_on_gch
+    Control "Toggle Map", toggle_map_gch
+    Control "Open/Close DoomRLA PDA/LegenDoom Weapon Menu", drla_pda_open_gch
 }
 
 OptionMenu "DoomRPGXPSystem"
@@ -208,8 +296,8 @@ OptionMenu "DoomRPGMonsters"
     Slider "Monster Health Boost", "drpg_monster_vitality_boost", 0.0, 100.0, 0.1
     StaticText ""
 
-    Slider "Monster Level Weight", "drpg_monster_level_weight", 0.5, 10.0, 0.1
-    Slider "Monster Map Weight", "drpg_monster_map_weight", 0.5, 10.0, 0.1
+    Slider "Monster Level Weight", "drpg_monster_level_weight", 0.1, 10.0, 0.1
+    Slider "Monster Map Weight", "drpg_monster_map_weight", 0.1, 10.0, 0.1
     Slider "Monster Random Min Multiplier", "drpg_monster_random_min_mult", 0.5, 10.0, 0.1
     Slider "Monster Random Max Multiplier", "drpg_monster_random_max_mult", 0.5, 10.0, 0.1
     Slider "Monster Aura Curve", "drpg_aura_curve", -1000, 1000, 10
@@ -293,6 +381,7 @@ OptionMenu "DoomRPGDifficulty"
 
     Slider "Scale EP Costs", "drpg_skill_costscale", 0.5, 10.0, 0.1
     Option "Keep Auras between levels", "drpg_skill_keepauras", "OnOff"
+    Slider "Aura Timer Cap (Min.)", "drpg_skill_auratimercap", 1, 60, 1
     Slider "Skill Cost Cooldown Time (Sec.)", "drpg_skill_costcooldown", 1, 60, 1
     StaticText ""
 
@@ -310,6 +399,8 @@ OptionMenu "DoomRPGDifficulty"
     Slider "Monster Population %", "drpg_monster_population", 10.0, 200.0, 1.0
     Slider "Absolute Monster Limit", "drpg_monster_limit", 0.0, 16200.0, 50.0
     Option "Map-based monster spawns", "drpg_monster_adaptive_spawns", "OnOff"
+    Option "Monster spawner sight constraint ", "drpg_spawnercheck_sight", "OnOff"
+    Option "Monster spawner sector constraint", "drpg_spawnercheck_sector", "OnOff"
     StaticText ""
 
     Slider "Enemy Aura Steal Rate", "drpg_aurasteal_rate", 10, 175, 1
@@ -336,6 +427,9 @@ OptionMenu "DoomRPGLootGeneration"
     StaticText ""
 
     Option "UAC Premium kill bonus", "drpg_uac_premium", "OnOff"
+    StaticText ""
+
+    Option "Weapon/Armor Loot Quality Type", "drpg_loot_type", "LootTypes"
 }
 
 OptionMenu "DoomRPGMapEvents"
@@ -362,9 +456,16 @@ OptionMenu "DoomRPGMapEvents"
     Option "Feeding Frenzy", "drpg_mapevent_feedingfrenzy", "OnOff"
     Option "Overmind", "drpg_mapevent_overmind", "OnOff"
     Option "RAINBOWS", "drpg_mapevent_rainbows", "OnOff"
-    Option "Hell", "drpg_mapevent_skill_hell", "OnOff"
+    Option "Technophobia", "drpg_mapevent_skill_technophobia", "OnOff"
     Option "Armageddon", "drpg_mapevent_skill_armageddon", "OnOff"
     Option "Sinstorm", "drpg_mapevent_sinstorm", "OnOff"
+    StaticText ""
+
+    StaticText "Advanced option"
+    StaticText ""
+
+    Slider "Acid rain intensity during Vicious Downpour", "drpg_acidrain_intensity", 1, 5, 1
+    Slider "Floor mist intensity during The Dark Zone", "drpg_darkzone_floormist_intensity", 1, 5, 1
 }
 
 OptionMenu "DoomRPGStats"
@@ -379,15 +480,14 @@ OptionMenu "DoomRPGStats"
 
     Slider "Hard Stat Cap", "drpg_hard_stat_cap", 1, 10000, 1
     Slider "Soft Stat Cap Multiplier", "drpg_soft_stat_cap_mult", 1, 100, 1
+    StaticText ""
+
     Option "Stat Randomizer", "drpg_auto_spend", "OnOff"
     Option "Stat Preference", "drpg_auto_spend_pref", "StatPreference"
     StaticText ""
 
     Option "Auto Healing", "drpg_auto_heal", "OnOff"
     Option "Auto Healing Percentage", "drpg_auto_heal_percent", "AutoHealing"
-    StaticText ""
-
-    Slider "Stim Time Multiplier", "drpg_stim_time_multiplier", 1, 50, 1
     StaticText ""
 
     Option "Movement Regeneration Mechanics", "drpg_regen_movement", "OnOff"
@@ -400,7 +500,13 @@ OptionMenu "DoomRPGStats"
     Option "Inventory Capacity System", "drpg_inv_capacity", "OnOff"
     StaticText ""
     
-    Slider "Skill Overdrive % Limit", "drpg_overdrive_limit", 0, 1000, 1
+    Option "Skill Overdrive Enable", "drpg_overdrive_enable", "OnOff"
+    Slider "Skill Overdrive % Limit", "drpg_overdrive_limit", 100, 1000, 1
+    StaticText ""
+
+    Option "Disable Luck perk", "drpg_disable_luck_perk", "YesNo"
+    StaticText "Disables constant full map reveal gained by having 100/200+ Luck", "Orange"
+    StaticText "Switch to 'Yes' if it spoils gameplay", "Orange"
 }
 
 OptionMenu "DoomRPGStatsNatural"
@@ -414,14 +520,14 @@ OptionMenu "DoomRPGStatsNatural"
     Option "Stat Specialization", "drpg_character_spec", "StatPreference"
     StaticText ""
 
-    Slider "Strength XP Multiplier", "drpg_strength_scalexp", 0.25, 8.0, 0.25
-    Slider "Defense XP Multiplier", "drpg_defense_scalexp", 0.25, 8.0, 0.25
-    Slider "Vitality XP Multiplier", "drpg_vitality_scalexp", 0.25, 8.0, 0.25
-    Slider "Energy XP Multiplier", "drpg_energy_scalexp", 0.25, 8.0, 0.25
-    Slider "Regeneration XP Multiplier", "drpg_regeneration_scalexp", 0.25, 8.0, 0.25
-    Slider "Agility XP Multiplier", "drpg_agility_scalexp", 0.25, 8.0, 0.25
-    Slider "Capacity XP Multiplier", "drpg_capacity_scalexp", 0.25, 8.0, 0.25
-    Slider "Luck XP Multiplier", "drpg_luck_scalexp", 0.25, 8.0, 0.25
+    Slider "Strength XP Multiplier", "drpg_strength_scalexp", 0.1, 8.0, 0.1
+    Slider "Defense XP Multiplier", "drpg_defense_scalexp", 0.1, 8.0, 0.1
+    Slider "Vitality XP Multiplier", "drpg_vitality_scalexp", 0.1, 8.0, 0.1
+    Slider "Energy XP Multiplier", "drpg_energy_scalexp", 0.1, 8.0, 0.1
+    Slider "Regeneration XP Multiplier", "drpg_regeneration_scalexp", 0.1, 8.0, 0.1
+    Slider "Agility XP Multiplier", "drpg_agility_scalexp", 0.1, 8.0, 0.1
+    Slider "Capacity XP Multiplier", "drpg_capacity_scalexp", 0.1, 8.0, 0.1
+    Slider "Luck XP Multiplier", "drpg_luck_scalexp", 0.1, 8.0, 0.1
 }
 
 OptionMenu "DoomRPGPopoffs"
@@ -472,10 +578,11 @@ OptionMenu "DoomRPGMultiplayer"
     Option "Restore Ammo on Respawn", "drpg_multi_restoreammo", "OnOff"
     StaticText ""
 
-    Option "Share credit drops", "drpg_multi_sharecredits", "OnOff"
+    Option "Share credit evenly", "drpg_multi_sharecredits", "OnOff"
+    Option "Share XP evenly", "drpg_multi_sharexp", "OnOff"
     StaticText ""
 
-	Option "Player revive mechanics", "drpg_multi_revives", "OnOff"
+    Option "Player revive mechanics", "drpg_multi_revives", "OnOff"
 }
 
 OptionMenu "DoomRPGShop"
@@ -513,6 +620,9 @@ OptionMenu "DoomRPGTurret"
 
     Slider "Pursuit Time (Sec.)", "drpg_turret_pursuittime", 1.0, 20.0, 1.0
     Slider "Teleport Wait Time (Sec.)", "drpg_turret_telewaittime", 2.0, 20.0, 1.0
+    StaticText ""
+
+    Option "Targeting Laser", "drpg_turret_targeting_laser", "OnOff"
 }
 
 OptionMenu "DoomRPGMenus"
@@ -531,7 +641,12 @@ OptionMenu "DoomRPGMenus"
 
     Option "Menu background border", "drpg_menu_background_border", "OnOff"
     StaticText ""
-    StaticText "Emulates the effect of holding down key(s) while navigating menus. May cause input lag. Only works in singleplayer.", "Orange"
+
+    Option "Delta Touch Compatibility", "drpg_deltatouch", "OnOff"
+    StaticText ""
+
+    StaticText "Emulates the effect of holding down key(s) while navigating menus.", "Orange"
+    StaticText "May cause input lag. Only works in singleplayer.", "Orange"
     Option "Input Repetition", "drpg_menu_repetition", "OnOff"
 }
 
@@ -605,15 +720,47 @@ OptionMenu "DoomRPGHUD"
     Slider "Co-op View Y Position", "drpg_coopview_y", -240, 1080, 1
     StaticText ""
 
-    Option "Multiplayer Player HUD", "drpg_multiplayer_hud", "OnOff"
-    Slider "Multiplayer X Position", "drpg_multiplayer_x", -320, 1920, 1
-    Slider "Multiplayer Y Position", "drpg_multiplayer_y", -240, 1080, 1
+    Option "Multiplayer HUD", "drpg_multiplayer_hud", "OnOff"
+    Option "Skip self in Multiplayer HUD", "drpg_multiplayer_hud_skip", "OnOff"
+    Slider "Multiplayer HUD X Position", "drpg_multiplayer_x", -320, 1920, 1
+    Slider "Multiplayer HUD Y Position", "drpg_multiplayer_y", -240, 1080, 1
     StaticText ""
 
     Slider "Turret Info X Position", "drpg_turret_x", -320, 1920, 1
     Slider "Turret Info Y Position", "drpg_turret_y", -240, 1080, 1
     StaticText ""
 
+    StaticText "XP/Rank Bar"
+    Option "XP Bar Enable", "drpg_xp_bar_enable", "OnOff"
+    Option "XP Bar Text", "drpg_xp_bar_text", "XPBarTextTypes"
+    Option "XP Bar Type", "drpg_xp_bar_type", "XPBarTypes"
+    Option "XP Bar Color", "drpg_xp_bar_color", "XPBarColors"
+    StaticText ""
+
+    Option "Rank Bar Enable", "drpg_rank_bar_enable", "OnOff"
+    Option "Rank Bar Text", "drpg_rank_bar_text", "RankBarTextTypes"
+    Option "Rank Bar Type", "drpg_rank_bar_type", "RankBarTypes"
+    StaticText ""
+
+    Option "XP/Rank Bar Animation Enable", "drpg_xp_bar_anim_enable", "OnOff"
+    Slider "XP/Rank Bar X Position", "drpg_xp_bar_x", -320, 1920, 1
+    Slider "XP/Rank Bar Y Position", "drpg_xp_bar_y", -240, 1080, 1
+    StaticText ""
+
+    StaticText "Notifications"
+    Option "Notifications Preview", "drpg_notifications_preview", "OnOff"
+    Option "Detailed Notifications", "drpg_notifications_detailed", "OnOff"
+    StaticText ""
+
+    Slider "Level Up X Position", "drpg_level_up_x", -320, 1920, 1
+    Slider "Level Up Y Position", "drpg_level_up_y", -240, 1080, 1
+    Slider "Rank Up X Position", "drpg_rank_up_x", -320, 1920, 1
+    Slider "Rank Up Y Position", "drpg_rank_up_y", -240, 1080, 1
+    Slider "Mission Complete X Position", "drpg_mission_complete_x", -320, 1920, 1
+    Slider "Mission Complete Y Position", "drpg_mission_complete_y", -240, 1080, 1
+    StaticText ""
+
+    StaticText "Misc"
     Option "Skill Wheel Animation Speed", "drpg_skill_wheelspeed", "WheelSpeed"
     Option "Always Show Stats", "drpg_stats_alwaysshow", "OnOff"
     Option "Always Show Aug Battery", "drpg_aug_alwaysshow", "OnOff"
@@ -645,14 +792,39 @@ OptionMenu "DoomRPGMisc"
     StaticText ""
 
     Slider "Monster Drop Distance", "drpg_monster_dropdist", 0.1, 16.0, 0.1
+    StaticText ""
+
+    Option "Friendly Monsters Can Teleport To The Player", "drpg_monster_friendly_teleport_enable", "OnOff"
+    Slider "Minimum Distance For Teleport", "drpg_monster_friendly_teleport_distance", 0, 10, 1
+    StaticText ""
+
+    Option "Shield Charging Enable", "drpg_shield_charging_enable", "OnOff"
+    Option "Sound Empty Energy Shield", "drpg_shield_sound_empty_enable", "OnOff"
+    Option "Sound Charging Energy Shield", "drpg_shield_sound_charge_enable", "OnOff"
+    Option "Sound Full Energy Shield", "drpg_shield_sound_full_enable", "OnOff"
+    Option "Sound and Effect of Hitting Energy Shield", "drpg_shield_effect_hit_enable", "OnOff"
+    StaticText ""
+    Option "Disable Doom RPG related screen flashes", "drpg_screen_flash_disable", "OnOff"
+    StaticText ""
+
+    StaticText "Quality loot items, armor, weapons and monster spawns depend on the number of WADs passed."
+    StaticText "Lower number of WADs that you plan to go through to increase the intensity."
+    StaticText ""
+    StaticText "Use the slider below to set up the number of WADs that you plan to go through."
+    StaticText ""
+    Slider "Estimated count of WADs", "drpg_ws_use_wads", 1, 20, 1, 0
+    StaticText ""
 }
 
 OptionMenu "DoomRPGPerformance"
 {
     Title "Performance"
 
-    Option "Toaster Mode", "drpg_toaster", "OnOff"
+    Option "Toaster Mode*", "drpg_toaster", "OnOff"
     Option "Disable Fancy Auras", "drpg_simple_auras", "SimpleAuras"
+    Option "Disable Players Aura Icons", "drpg_players_aura_icons_disable", "OnOff"
+    Option "Corpses Cleanup", "drpg_corpses_cleanup", "CorpsesCleanup"
+    Slider "Corpses Cleanup Timer (sec)", "drpg_corpses_cleanup_timer", 15, 120, 15
     StaticText ""
 
     Slider "Monster Aura Draw Distance*", "drpg_auras_drawdistance", 0, 10000, 100
@@ -660,6 +832,7 @@ OptionMenu "DoomRPGPerformance"
     StaticText ""
 
     Option "Virtual credit drops", "drpg_virtual_credits", "OnOff"
+    Option "No credit clips", "drpg_noclip_credits", "OnOff"
 }
 
 OptionMenu "DoomRPGCharacter"
@@ -673,9 +846,13 @@ OptionMenu "DoomRPGCharacter"
     StaticText ""
 
     StaticText "Save/Load", 1
-    SafeCommand "Save Character", "pukename SaveCharacter", "Are you sure? Put your armour and boots into your inventory before continuing!"
+    SafeCommand "Save Character", "pukename SaveCharacter", "Are you sure? Put your armor, boots and shoulder weapon into your inventory before continuing!"
     SafeCommand "Load Character", "pukename LoadCharacter", "Are you sure?"
     SafeCommand "Clear Character", "pukename ClearCharacter", "Are you sure?"
+    StaticText ""
+
+    StaticText "Options", 1
+    Option "Load Map Level", "drpg_char_load_maplevel", "OnOff"
     StaticText ""
 }
 
@@ -686,6 +863,7 @@ OptionMenu "DoomRPGStart"
     StaticText "Outpost Start", 1
     StaticText "You only need these options set if you"
     StaticText "are starting from the default Outpost."
+	StaticText "Add a Starting Map to the Teleport."
     Option "Starting Map", "drpg_startmap", "OutpostStartLevel"
     Option "Add Starting Map", "drpg_addstartmap", "YesNo"
     StaticText ""
@@ -730,10 +908,10 @@ OptionMenu "DoomRPGStart"
     StaticText ""
 
     StaticText "Augmentations", 1
-    Slider "Active Augs Count", "drpg_start_aug_amount", 0, 9, 1
+    Slider "Active Augs Count", "drpg_start_aug_amount", 0, 10, 1
     Slider "Aug Canisters", "drpg_start_aug_canisters", 0, 100, 1
     Slider "Aug Upgrades", "drpg_start_aug_upgrades", 0, 100, 1
-    Slider "Aug Slots", "drpg_start_aug_slots", 0, 9, 1
+    Slider "Aug Slots", "drpg_start_aug_slots", 0, 10, 1
     StaticText ""
 
     StaticText "Shield", 1
@@ -776,6 +954,7 @@ OptionMenu "DoomRPG"
     StaticText "Changes to options marked * take effect upon next map.", "Orange"
     StaticText ""
 
+    SubMenu "Customize Controls",           "DoomRPGControls"
     SubMenu "XP System",                    "DoomRPGXPSystem"
     SubMenu "Monster Levels/Stat System",   "DoomRPGMonsters"
     SubMenu "Game Difficulty",              "DoomRPGDifficulty"
@@ -804,4 +983,41 @@ OptionMenu "DoomRPG"
 OptionMenu "OptionsMenu"
 {
     SubMenu "Doom RPG Options",         "DoomRPG"
+}
+
+// --------------------------------------------------
+// GAMEPAD CONTROL HELPER (GCH) SECTION
+//
+
+
+OptionMenu Gamepad_Control_Helper
+{
+    Title "Gamepad Control Helper"
+    StaticText " "
+
+    StaticText "General Commands"
+    Command "Main Menu", menu_main
+    Command "Save Menu", menu_save
+    Command "Load Menu", menu_load
+    StaticText " "
+
+    StaticText "DoomRPG Commands"
+    Command "Quick Heal", drpg_quickheal_gch
+    Command "Focus Mode", drpg_focusmode_gch
+    Command "Toggle Shield", drpg_shield_gch
+    Command "Use Stim", drpg_usestim_gch
+    Command "Dispose Stim", drpg_throwawaystim_gch
+    StaticText " "
+
+    StaticText "DoomRPG Skills"
+    Command "Recall", drpg_recall_gch
+    Command "Transport", drpg_transport_gch
+    StaticText " "
+
+    StaticText "Music Box Commands"
+    Command "Next Song", nextsong_gch
+    Command "Original Song", origsong_gch
+    Command "Auto Next On", autonexton_gch
+    Command "Auto Next Off", autonextoff_gch
+    StaticText " "
 }

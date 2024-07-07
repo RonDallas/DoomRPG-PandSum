@@ -122,6 +122,7 @@
 // Aliases
 #define CallACS(script)         ACS_NamedExecuteWithResult((script))
 #define Arbitrator              (PlayerNumber() == 0)
+#define InSingleplayer          (GameType() == GAME_SINGLE_PLAYER)
 #define InMultiplayer           (GameType() == GAME_NET_COOPERATIVE)
 #define InTitle                 (GameType() == GAME_TITLE_MAP)
 #define GetMonsterID(N)         GetActorProperty((N), APROP_Score)
@@ -136,8 +137,12 @@
 
 // Constants
 #define MAX_PLAYERS             8
+#define MAX_MAGNET_ITEM_SCAN    1024
 #define PLAYER_TID              31337
 #define PI                      3.14159265359
+
+// Calculate Map Level Modifier
+#define MapLevelModifier        MapLevelMod()
 
 // Struct Aliases
 #define Players(N)              _PlayerData[(N)]
@@ -188,12 +193,8 @@ typedef enum
     ABONUS_CHIPDROP,
     ABONUS_AMMODROP,
     ABONUS_HEALTHDROP,
-    ABONUS_ARMORDROP,
-    ABONUS_WEAPONDROP,
     ABONUS_POWERUPDROP,
     ABONUS_STIMDROP,
-    ABONUS_CRATEDROP,
-    ABONUS_MODDROP,
     ABONUS_KEYDROP,
     ABONUS_MAX,
 } EArenaBonusTypes;
@@ -221,6 +222,7 @@ typedef enum
     AUG_CAPACITY,
     AUG_LUCK,
     AUG_BATTERY,
+    AUG_SUMMONER,
     AUG_MAX,
 } EAugTypes;
 
@@ -309,6 +311,8 @@ typedef enum
 #define MAP_EXIT_SCRIPTNUM          30000
 #define MAP_EXIT_TELEPORT_SCRIPTNUM 30001
 
+#define MAP_START_TID           (MAKE_ID('S', 'T', 'R', 'T'))
+
 typedef enum
 {
     MAPEVENT_NONE,
@@ -331,7 +335,7 @@ typedef enum
 
     MAPEVENT_BONUS_RAINBOWS,
 
-    MAPEVENT_SKILL_HELL,
+    MAPEVENT_SKILL_TECHNOPHOBIA,
     MAPEVENT_SKILL_ARMAGEDDON,
 
     MAPEVENT_SPECIAL_SINSTORM,
@@ -430,12 +434,14 @@ typedef enum
 #define MAX_MONSTERS            16384
 #define MAX_DEF_MONSTERS_DF     17
 #define MAX_DEF_MONSTERS_DRLA   79
-#define MAX_DEF_MONSTERS_CH		135
+#define MAX_DEF_MONSTERS_CH     135
+#define MAX_DEF_MONSTERS_RM     38
 #define MAX_TEMP_MONSTERS       150
+#define MAX_DEF_MONSTERS_PANDM  113
 #define MAX_MEGABOSSES_DF       2
 #define MAX_MEGABOSSES_CH       2
 #define MAX_SKILLLEVELS_DF		6
-#define MAX_SKILLLEVELS_DRLA	6
+#define MAX_SKILLLEVELS_DRLA	8
 
 typedef enum
 {
@@ -483,6 +489,7 @@ typedef enum
 typedef enum
 {
     OMENU_LEVELTRANSPORT = 1,
+    OMENU_ARENATRANSPORT,
     OMENU_SKILLCOMPUTER,
     OMENU_MODULECONVERTER,
     OMENU_WAVESELECTOR,
@@ -491,6 +498,11 @@ typedef enum
     OMENU_BBS,
     OMENU_MINIGAMES,
     OMENU_STIMINJECTOR,
+    OMENU_OPERATINGCAPSULE,
+    OMENU_DISASSEMBLINGDEVICE,
+    OMENU_DISASSEMBLING,
+    OMENU_ASSEMBLING,
+    OMENU_DEMONSANCTUARY,
     OMENU_MAX
 } EOutpostMenu;
 
@@ -567,8 +579,13 @@ typedef enum
     COMPAT_NONE,
     COMPAT_EXTRAS,
     COMPAT_LEGENDOOM,
+    COMPAT_LEGENDOOMLITE,
     COMPAT_DRLA,
-    COMPAT_CH
+    COMPAT_DRLAX,
+    COMPAT_CH,
+    COMPAT_RAMPANCY,
+    COMPAT_DEHACKED,
+    COMPAT_PANDEMONIA
 } ECompatibilityMode;
 
 typedef enum
@@ -653,6 +670,7 @@ typedef enum
 #define MAX_SKILLS              17
 #define MAX_LEVELS              16
 #define MAX_SUMMONS             10
+#define MAX_FAMILIARS           5
 #define MAX_SKILLKEYS           8
 
 typedef enum
@@ -699,51 +717,52 @@ typedef enum
 #define MODULE_STAT_MULT        25
 #define MODULE_SKILL_MULT       250
 
-#define LUCK_HEALTHDROP         10
-#define LUCK_EPDROP             15
-#define LUCK_ARMORDROP          20
-#define LUCK_WEAPONDROP         25
-#define LUCK_POWERUPDROP        50
-#define LUCK_STIMDROP           75
-#define LUCK_MODULEDROP         100
-#define LUCK_SHIELDDROP         125
-#define LUCK_AUGDROP            150
+#define LUCK_HEALTHDROP         (GetCVar("drpg_levelup_natural") ? 15 : 10)
+#define LUCK_EPDROP             (GetCVar("drpg_levelup_natural") ? 25 : 15)
+#define LUCK_AMMODROP           (GetCVar("drpg_levelup_natural") ? 40 : 25)
+#define LUCK_TURRETDROP         (GetCVar("drpg_levelup_natural") ? 50 : 30)
+#define LUCK_MODULEDROP         (GetCVar("drpg_levelup_natural") ? 75 : 50)
+#define LUCK_ARMORDROP          (GetCVar("drpg_levelup_natural") ? 100 : 75)
+#define LUCK_WEAPONDROP         (GetCVar("drpg_levelup_natural") ? 125 : 100)
+#define LUCK_SHIELDDROP         (GetCVar("drpg_levelup_natural") ? 150 : 125)
+#define LUCK_AUGDROP            (GetCVar("drpg_levelup_natural") ? 200 : 150)
 
 #define LUCK_HEALTHCHANCE       0.025
 #define LUCK_EPCHANCE           0.025
-#define LUCK_ARMORCHANCE        0.025
-#define LUCK_WEAPONCHANCE       0.0125
-#define LUCK_POWERUPCHANCE      0.0125
-#define LUCK_STIMCHANCE         0.0125
-#define LUCK_MODULECHANCE       0.01
+#define LUCK_AMMOCHANCE         0.025
+#define LUCK_TURRETCHANCE       0.0125
+#define LUCK_MODULECHANCE       0.0125
+#define LUCK_ARMORCHANCE        0.01
+#define LUCK_WEAPONCHANCE       0.01
 #define LUCK_SHIELDCHANCE       0.005
 #define LUCK_AUGCHANCE          0.0025
 
 #define LUCK_MAXHEALTHCHANCE    16.163076
 #define LUCK_MAXEPCHANCE        14.641911
-#define LUCK_MAXARMORCHANCE     13.064138
-#define LUCK_MAXWEAPONCHANCE    5.712424
-#define LUCK_MAXPOWERUPCHANCE   5.3415475
-#define LUCK_MAXSTIMCHANCE      4.9230437
-#define LUCK_MAXMODULECHANCE    3.5358825
-#define LUCK_MAXSHIELDCHANCE    0.73634326
-#define LUCK_MAXAUGCHANCE       1.0753031
+#define LUCK_MAXAMMOCHANCE      13.064138
+#define LUCK_MAXTURRETCHANCE    5.712424
+#define LUCK_MAXMODULECHANCE    5.3415475
+#define LUCK_MAXARMORCHANCE     4.9230437
+#define LUCK_MAXWEAPONCHANCE    3.5358825
+#define LUCK_MAXSHIELDCHANCE    1.0753031
+#define LUCK_MAXAUGCHANCE       0.73634326
 
 #define LUCK_HEALTHINC          0.0025
 #define LUCK_EPINC              0.0025
-#define LUCK_ARMORINC           0.0025
-#define LUCK_WEAPONINC          0.00125
-#define LUCK_POWERUPINC         0.00125
-#define LUCK_STIMINC            0.00125
-#define LUCK_MODULEINC          0.001
+#define LUCK_AMMOINC            0.0025
+#define LUCK_TURRETINC          0.00125
+#define LUCK_MODULEINC          0.00125
+#define LUCK_ARMORINC           0.001
+#define LUCK_WEAPONINC          0.001
 #define LUCK_SHIELDINC          0.0005
 #define LUCK_AUGINC             0.00025
 
-#define AURA_CALCTIME           (((35 * 30) + (Player.EnergyTotal * 5.25)) * (Player.AuraBonus + 1))
-#define DRLA_WEAPON_MAX         6
-#define DRLA_ARMOR_MAX          2 + (Player.CapacityTotal / 25)
+#define AURA_CALCTIME           (((GetCVar("drpg_levelup_natural")) ? ((35 * 100) + (35 * Player.EnergyTotal * 2)) : ((35 * 80) + (35 * Player.EnergyTotal * 4))) * (long fixed)(1.0 + Player.AuraBonus * 0.5))
+#define DRLA_WEAPON_MAX         (CompatModeEx == COMPAT_DRLAX && PlayerClass(PlayerNumber()) == 9 ? 4 : 6)
+#define DRLA_ARMOR_MAX          2 + ((GetCVar("drpg_levelup_natural")) ? (Player.CapacityTotal / 50) : (Player.CapacityTotal / 25))
 #define DRLA_SKULL_MAX          DRLA_ARMOR_MAX
 #define DRLA_DEVICE_MAX         4 + (Player.CapacityTotal / 50)
+#define DRLA_MODPACKS_MAX       (CompatMode == COMPAT_DRLA && PlayerClass(PlayerNumber()) == 2 ? 8 : 4)
 
 #define NATURALCAP              100
 
@@ -808,8 +827,8 @@ typedef enum
 // Turret
 //
 
-#define MAX_UPGRADES            55
-#define MAX_COMMANDS            15
+#define MAX_UPGRADES            56
+#define MAX_COMMANDS            16
 #define TURRET_BATTERY_CHARGE   60 * 3
 
 typedef enum
@@ -861,6 +880,7 @@ typedef enum
     TU_ARMOR_MODULE_PHASE,
 
     // Battery
+    TU_BATTERY_AUGBATTERY,
     TU_BATTERY_CAPACITY,
     TU_BATTERY_GENERATOR_KINETIC,
     TU_BATTERY_GENERATOR_ILLUMINATION,
@@ -1034,20 +1054,167 @@ typedef struct PlayerData_S         PlayerData;
 typedef struct LegendaryDef_S       LegendaryDef;
 
 //------------------------------------------------
-// WadSmoosh Compatibility
+// Map Packs Compatibility
 //
 
-#define MAX_WSMAPPACKS  6
-
+// WadSmoosh Map Packs
+#define MAX_WSMAPPACKS  7
 typedef enum
 {
     WS_DOOM1,
+    WS_SIGIL,
     WS_DOOM2,
-    WS_MASTER,
     WS_NERVE,
-    WS_PLUT,
-    WS_TNT
+    WS_MASTER,
+    WS_TNT,
+    WS_PLUT
 } EnumWSMapSets;
+
+// Lexicon Map Packs
+#define MAX_LEXMAPPACKS 71
+typedef enum
+{
+    LEX_VR,
+    LEX_AA1,
+    LEX_AAA1,
+    LEX_AAA2,
+    LEX_AV,
+    LEX_BX1,
+    LEX_CC1,
+    LEX_CC2,
+    LEX_CC3,
+    LEX_CC4,
+    LEX_CHX,
+    LEX_COC,
+    LEX_CS,
+    LEX_CS2,
+    LEX_CW,
+    LEX_DC,
+    LEX_DIB,
+    LEX_DKE,
+    LEX_DU1,
+    LEX_DV,
+    LEX_DV2,
+    LEX_EP1,
+    LEX_EP2,
+    LEX_EST,
+    LEX_EYE,
+    LEX_FSW,
+    LEX_GD,
+    LEX_HC,
+    LEX_HLB,
+    LEX_HP1,
+    LEX_HP103,
+    LEX_HPH,
+    LEX_HR,
+    LEX_HR2,
+    LEX_INT,
+    LEX_KS,
+    LEX_KSS,
+    LEX_MAY,
+    LEX_MOC,
+    LEX_MOM,
+    LEX_NG1,
+    LEX_NG2,
+    LEX_NV1,
+    LEX_PIZ,
+    LEX_RDX,
+    LEX_SC2,
+    LEX_SD6,
+    LEX_SD7,
+    LEX_SDE,
+    LEX_SF2,
+    LEX_SF3,
+    LEX_SL,
+    LEX_SLU,
+    LEX_SND,
+    LEX_SOD,
+    LEX_SW1,
+    LEX_TAT,
+    LEX_TSP,
+    LEX_TSP2,
+    LEX_TT1,
+    LEX_TT2,
+    LEX_TT3,
+    LEX_TU,
+    LEX_UAC,
+    LEX_UHR,
+    LEX_VAL,
+    LEX_VAN,
+    LEX_WID,
+    LEX_WOS,
+    LEX_ZTH,
+    LEX_ZOF
+} EnumLEXMapSets;
+
+// Compendium Map Packs
+#define MAX_COMPMAPPACKS 60
+typedef enum
+{
+    COMP_HUBMAP,
+    COMP_MM101,
+    COMP_MM201,
+    COMP_REQ01,
+    COMP_INS01,
+    COMP_OBT01,
+    COMP_STR01,
+    COMP_BIO01,
+    COMP_DRK01,
+    COMP_TTP01,
+    COMP_PGR01,
+    COMP_PST01,
+    COMP_TVR01,
+    COMP_SCI01,
+    COMP_ICA01,
+    COMP_HTP01,
+    COMP_ABY01,
+    COMP_TAL01,
+    COMP_ALH01,
+    COMP_ENI01,
+    COMP_RLM01,
+    COMP_DYS01,
+    COMP_ETE01,
+    COMP_REB01,
+    COMP_SCY01,
+    COMP_COD01,
+    COMP_DK201,
+    COMP_EQU01,
+    COMP_MRS01,
+    COMP_BLR01,
+    COMP_OSI01,
+    COMP_RUI01,
+    COMP_NJZ01,
+    COMP_DAE01,
+    COMP_CLE01,
+    COMP_ASD01,
+    COMP_PLE01,
+    COMP_DCV01,
+    COMP_SLA01,
+    COMP_HFA01,
+    COMP_CDR01,
+    COMP_GAT01,
+    COMP_ERT01,
+    COMP_END01,
+    COMP_RES01,
+    COMP_ENS01,
+    COMP_BTK01,
+    COMP_CIT01,
+    COMP_SLP01,
+    COMP_DIS01,
+    COMP_SID01,
+    COMP_MAN01,
+    COMP_LEP01,
+    COMP_VFL01,
+    COMP_VCO01,
+    COMP_TW201,
+    COMP_NEO01,
+    COMP_ANN01,
+    COMP_99W01,
+    COMP_BTH01
+} EnumCOMPMapSets;
+
+// Max Map Packs
+#define MAX_MAPPACKS  (MAX_WSMAPPACKS + MAX_LEXMAPPACKS + MAX_COMPMAPPACKS)
 
 // --------------------------------------------------
 // Pointer Types

@@ -1,6 +1,9 @@
 #include "actors/DoomRL/Ammo.txt"
 #include "actors/DoomRL/Armor.txt"
+#include "actors/DoomRL/Craft.txt"
+#include "actors/DoomRL/Crates.txt"
 #include "actors/DoomRL/DamageMods.txt"
+#include "actors/DoomRL/DeadBodies.txt"
 #include "actors/DoomRL/Dummies.txt"
 #include "actors/DoomRL/Health.txt"
 #include "actors/DoomRL/Marines.txt"
@@ -9,6 +12,7 @@
 #include "actors/DoomRL/Props.txt"
 #include "actors/DoomRL/Randomizers.txt"
 #include "actors/DoomRL/Shield.txt"
+#include "actors/DoomRL/Skulls.txt"
 #include "actors/DoomRL/Summons.txt"
 #include "actors/DoomRL/Weapons.txt"
 
