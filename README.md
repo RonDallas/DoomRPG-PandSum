@@ -1,3 +1,11 @@
+# Sumwunn Rebalance-Master - Rebalance saves compatible!
+
+This is WNC12k's Rebalance + changes deemed safe for use. Text past the dashed line is original (except for updated mod versions and links).
+
+- Current Merged Rebalance: v1.34 (Mar 8, 2024)
+
+## --------------------------------------------------------------------------------------
+
 ## Fork overview
 
 DoomRPG and DoomRLA contain a lot of content which can be enough for the passage of several WADs in a row. However, the original versions of these modifications give players most of the content in a short period of time, which is why the player does not have time to feel the depth of the possibilities of DoomRPG and DoomRLA.
@@ -13,7 +21,7 @@ Enjoy!
 ## Installing (build)
 
 Below is the download link:
-1. [DoomRPG SE Rebalance Last Build (for GZDoom 4.10.0)](https://drive.google.com/drive/folders/1lbhGQVh_MXSTBQ-iCmuOIHOE31HREPUE?usp=sharing)
+1. [DoomRPG SE Rebalance WIP Last Commit Build (for GZDoom v4.10.0)](https://github.com/Sumwunn/DoomRPG/archive/refs/heads/rebalance-sync.zip)
 
 Installation Instructions:
 
@@ -24,9 +32,12 @@ Installation Instructions:
 
 ## Manual Installing
 
-- [GZDoom v4.10.0](https://github.com/coelckers/gzdoom/releases/download/g4.10.0/gzdoom-4-10-0-Windows-64bit.zip) is required to play this mod.
-- LZDoom v3.83a or higher.
-- Delta Touch (Android) v4.6 or higher (includes the above versions or higher).
+- GZDoom versions 4.6.0 - 4.10.0 can be used to play this mod.
+  - **DoomRL Arsenal Extended requires GZDoom v4.8.2 or higher.**
+    - **GZDoom v4.11.0 or higher may cause odd issues with compatible mods.**
+
+- LZDoom v3.88b or higher.
+- Delta Touch (Android) v5.1 or higher (includes the above versions or higher).
 
 To run the mod I recommend using [Doom RPG SE Launcher 1.3.1](https://github.com/Forevener/DRPGSEL/releases/tag/1.3.1).
 
@@ -34,26 +45,32 @@ After installation be sure to DoomRPG settings reset (Options -> DoomRPG Otions 
 
 Use the following load order:
 
-1. [WadSmoosh](https://forum.zdoom.org/viewtopic.php?f=19&t=52757) and/or [The Sentinel's Lexicon - PvE mapset Compilaition](https://github.com/WNC12k/DoomRPG-Lexicon/releases) or another mapset;
-2. [DoomRL Arsenal 1.1.5](https://forum.zdoom.org/viewtopic.php?f=43&t=37044) or [LegenDoom v2.8.3](https://forum.zdoom.org/viewtopic.php?t=51035);
-3. [DoomRL Monsters Beta 7.3](https://forum.zdoom.org/viewtopic.php?f=43&t=37044) or [Colourful Hell v0.99b](https://forum.zdoom.org/viewtopic.php?t=47980) or [Rampancy v2.0](https://forum.zdoom.org/viewtopic.php?f=43&t=67193) or [Dehacked Attack v4.0](https://forum.zdoom.org/viewtopic.php?f=43&t=72362) or [Pandemonia Monsters v2.2](https://forum.zdoom.org/viewtopic.php?t=60984);
-4. [DoomRL Arsenal Extended 1.1c](https://forum.zdoom.org/viewtopic.php?f=43&t=70549);
-5. [Corruption Cards 5.1c](https://forum.zdoom.org/viewtopic.php?t=67939);
-6. DoomRPG;
-7. DoomRPG compatibility patches (as per modifications).
+1. [Relighting v4.0165b](https://forum.zdoom.org/viewtopic.php?t=76706);
+2. [WadSmoosh](https://forum.zdoom.org/viewtopic.php?f=19&t=52757) or [The Sentinel's Lexicon - PvE mapset Compilaition](https://github.com/WNC12k/DoomRPG-Lexicon/releases) or another mapset;
+3. [DoomRL Arsenal 1.1.5](https://forum.zdoom.org/viewtopic.php?f=43&t=37044) or [LegenDoom v2.8.3](https://forum.zdoom.org/viewtopic.php?t=51035);
+4. [DoomRL Monsters Beta 7.3](https://forum.zdoom.org/viewtopic.php?f=43&t=37044) or [Colourful Hell v1.01](https://forum.zdoom.org/viewtopic.php?t=47980) or [Rampancy v2.0](https://forum.zdoom.org/viewtopic.php?f=43&t=67193) or [Dehacked Attack v4.0](https://forum.zdoom.org/viewtopic.php?f=43&t=72362) or [Pandemonia Monsters v2.2](https://forum.zdoom.org/viewtopic.php?t=60984);
+5. [DoomRL Arsenal Extended 1.1c](https://forum.zdoom.org/viewtopic.php?f=43&t=70549);
+6. [LegenDoomLite v4.2](https://forum.zdoom.org/viewtopic.php?t=51035);
+7. [Corruption Cards 5.5](https://cutstuff.net/public/CorruptionCards-v5.5.pk3);
+8. DoomRPG;
+9. DoomRPG compatibility patches (as per modifications).
 
 ## Compatible mods
+- Compatibility is strict; using unlisted mods may break DRPG.
 
 - [DoomRL Arsenal - v1.1.5](https://forum.zdoom.org/viewtopic.php?f=43&t=37044);
 - [DoomRL Monsters Beta 7.3](https://forum.zdoom.org/viewtopic.php?f=43&t=37044);
 - [DoomRL Arsenal Extended - v1.1c](https://forum.zdoom.org/viewtopic.php?f=43&t=70549);
-- [Corruption Cards 5.1c](https://forum.zdoom.org/viewtopic.php?t=67939);
+- [Corruption Cards 5.5](https://forum.zdoom.org/viewtopic.php?t=67939);
 - [Rampancy v2.0](https://forum.zdoom.org/viewtopic.php?f=43&t=67193);
 - [LegenDoom v2.8.3](https://forum.zdoom.org/viewtopic.php?t=51035);
-- [Colourful Hell v0.99b](https://forum.zdoom.org/viewtopic.php?t=47980);
+- [LegenDoomLite v4.2](https://forum.zdoom.org/viewtopic.php?t=51035);
+- [Colourful Hell v1.01](https://forum.zdoom.org/viewtopic.php?t=47980);
 - [Dehacked Attack v4.0](https://forum.zdoom.org/viewtopic.php?f=43&t=72362);
 - [Pandemonia Monsters v2.2](https://forum.zdoom.org/viewtopic.php?t=60984);
-- Custom version of Jimmy's Jukebox Instant Randomizer has been included which allows DRPG's map events and Outpost music to play.
+- [Relighting v4.0165b](https://forum.zdoom.org/viewtopic.php?t=76706);
+- Custom version of Jimmy's Jukebox Instant Randomizer has been included that allows DRPG's map events and Outpost music to play.
+- Champions doesn't play well with a number of mods, it seems. Be aware that numerous will break when using it.
 
 ## Donate
 
