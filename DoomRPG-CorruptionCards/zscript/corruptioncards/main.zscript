@@ -6,6 +6,8 @@ Class CCards_Global : Thinker
 	uint chosendeck;
 
 	CCards_Game game;
+	
+	CCards_RulesList ruleslist;
 	CCards_Rules rules;
 	CCards_Observer observer;
 	
@@ -31,12 +33,12 @@ Class CCards_Global : Thinker
 	uint permacount;
 
 	int rcount;
-	int baseseed;
 	String ccversion;
 
 	bool hasloaded;
-
 	bool spawnwildcard;
+
+	bool ignorespecies;
 
 	uint scoreneeded;
 	uint wildscore;
@@ -56,7 +58,7 @@ Class CCards_Global : Thinker
 
 	void ResetWildScore()
 	{
-		scoreneeded = random(6, 12);
+		scoreneeded = random(3, 10);
 	}
 
 	CCards_Global Init()
@@ -64,11 +66,11 @@ Class CCards_Global : Thinker
 		ChangeStatNum(STAT_STATIC);
 		vc = new ("CCards_CardList");
 		vc.global = self;
-		vc.Init();		
-		rules = new ("CCards_Rules");
-		rules.global = self;
-		ccversion = "5.5";
-		scoreneeded = random(4, 8);
+		vc.Init();
+		ruleslist = new("CCards_RulesList");
+		ruleslist.Init(self);
+		ccversion = "6.2";
+		scoreneeded = random(5, 12);
 		return self;
 	}
 
@@ -191,48 +193,12 @@ Class CCards_Game : EventHandler
 	{
 		CCards_Game g = CCards_Functions.GetGame();
 
-		/*if(e.name == "test")
-		{
-			Actor spawner = players[e.player].mo;
-			for(int i=0; i<2; i++)
-			{
-				FLineTraceData RemoteRay;
-				bool hit = spawner.LineTrace(
-				spawner.angle,
-				300,
-				0,
-				offsetz: 40,
-				offsetside: -14 + (i*28),
-				data: RemoteRay
-				);
-
-				Actor.Spawn("HealthBonus", RemoteRay.HitLocation);
-				if (RemoteRay.HitType != TRACE_HitWall || RemoteRay.Distance < 64)
-				{
-					
-					Console.Printf("NO!");
-					//return;
-				}
-							
-				hit = spawner.LineTrace(
-				spawner.angle + 180,
-				300,
-				0,
-				offsetz: 40,
-				offsetside: -14 + (i*28),
-				data: RemoteRay
-				);
-
-				
-				Actor.Spawn("HealthBonus", RemoteRay.HitLocation);
-
-				if (RemoteRay.HitType != TRACE_HitWall || RemoteRay.Distance < 64)
-				{
-					Console.Printf("NO!");
-					//return;
-				}
-			}
-		}*/
+		if(e.name == "setdaily" && g)
+        {
+            g.global.dailyseed = e.args[0];
+            g.global.systemtime = e.args[1];
+			uisetupseed = true;
+        }
 
 		if(e.name == "dailyseed")
 		{
@@ -327,6 +293,11 @@ Class CCards_Game : EventHandler
 
 				Console.Printf(s .. "");
 			}
+		}
+
+		if(e.name == "spawnhorror")
+		{
+			CCards_Actor_Horror.SpawnPortal(Ccards_Functions.RandomPlayer().pos, e.args[0], "CCards_Poison");
 		}
 	}
 
@@ -457,6 +428,11 @@ Class CCards_Game : EventHandler
 	
 	void Start()
 	{	
+		if(gen && global.donemaps.Size() == 0)
+		{
+			gen.AddForcedCards();
+		}
+
 		DeckOperationCard op;
 
 		if(!CCards_Functions.CheckBannedMap(Level.MapName)) // Prevent mutation crash
@@ -473,14 +449,17 @@ Class CCards_Game : EventHandler
 		}
 
 		
-		if(global.rules.minTierIncrease > 0 && global.progress % global.rules.minTierIncrease == 0)
+		if(global && global.rules)
 		{
-			global.rules.SetTiers(global.rules.mintier + 1, global.rules.maxtier);
-		}
+			if(global.rules.minTierIncrease > 0 && global.progress % global.rules.minTierIncrease == 0)
+			{
+				global.rules.SetTiers(global.rules.mintier + 1, global.rules.maxtier);
+			}
 
-		if(global.rules.maxTierIncrease > 0 && global.progress % global.rules.maxTierIncrease == 0)
-		{
-			global.rules.SetTiers(global.rules.mintier, global.rules.maxtier + 1);
+			if(global.rules.maxTierIncrease > 0 && global.progress % global.rules.maxTierIncrease == 0)
+			{
+				global.rules.SetTiers(global.rules.mintier, global.rules.maxtier + 1);
+			}
 		}
 
 			//Console.PRintf(global.rules.mintier .. " - " .. global.rules.maxtier);
@@ -528,7 +507,7 @@ Class CCards_Game : EventHandler
 			//CCards_Functions.DebugLog("Card " .. deck[i].GetClassName() .. " added to active cards.");
 		}
 
-		if(global.rules.concealed)
+		if(global && global.rules && global.rules.concealed)
 		{
 			if(publicdeck.Size() == 1)
 			{	
@@ -544,6 +523,7 @@ Class CCards_Game : EventHandler
 		CCards_StatueHandler.Init();
 		
 		isStarted = true;
+		
 		//CallACS("CC_ACS_CardScrollerStart", deck.Size());
 
 		if(global.spawnwildcard || Cvar.GetCvar("ccards_wildcarddebug").GetBool())
@@ -561,7 +541,6 @@ Class CCards_Game : EventHandler
 				global.wildscore = global.scoreneeded = 1;
 				
 				global.allowextremewildcards = true;
-				//Console.Printf("YOU DIDNT PICK ONE AAAAAA");
 			}
 			gen.Destroy();
 		}
@@ -569,6 +548,7 @@ Class CCards_Game : EventHandler
 		CCards_BuffManager ev = CCards_BuffManager.Get();
 		ev.FindBuffs();
 
+		// DRPG Patch
 		//global.donemaps.Push(Level.MapName);
 	}
 
@@ -579,6 +559,7 @@ Class CCards_Game : EventHandler
 	{
 			Array<Line> thelines;
             Array<Sector> sectors;
+			Array<Actor> invs;
 
             ThinkerIterator ti = ThinkerIterator.Create("Actor");
 				
@@ -590,15 +571,21 @@ Class CCards_Game : EventHandler
                 {
 					Inventory i = Inventory(t);
 
-					if(i && i.owner)
+					if(i)
 					{
-						continue;
+						if(i.owner || i.vel != (0,0,0))
+						{
+							continue;
+						}
 					}
+
+					//Check if on moving floor here
 
 					//Console.Printf("" .. t.GetClassName());
 					if(sectors.Find(t.cursector) == sectors.Size())
 					{
                     	sectors.Push(t.cursector);
+						invs.Push(t);
 					}
                 }
             }
@@ -608,9 +595,9 @@ Class CCards_Game : EventHandler
                 return;
             }
 
-            for(int i; i<sectors.Size(); i++)
+            for(int i = 0; i<sectors.Size(); i++)
             {
-                for(int l; l<sectors[i].lines.Size(); l++)
+                for(int l = 0; l<sectors[i].lines.Size(); l++)
                 {
                     if(sectors[i].lines[l].BackSector || sectors[i].lines[l].special || sectors[i].lines[l].Activation)
                     {
@@ -621,7 +608,26 @@ Class CCards_Game : EventHandler
 
                     if(d <= 128 && d >= 48)
                     {
-                        thelines.Push(sectors[i].lines[l]);
+						for(int j = 0; j<invs.Size(); j++)
+						{
+							vector2 loc = (sectors[i].lines[l].v1.p + sectors[i].lines[l].v2.p )/ 2;
+							Vector3 thepos = (loc.x, loc.y, sectors[i].FloorPlane.d + 48);
+							int angle = atan2(sectors[i].lines[l].delta.y, sectors[i].lines[l].delta.x);
+							let m = Actor.Spawn("MapSpot", thepos);
+							if(m)
+							{
+								m.angle = angle;
+								m.Warp(m, 5, flags:WARPF_NOCHECKPOSITION);
+								if(invs[j].IsVisible(m, true))
+								{
+									thelines.Push(sectors[i].lines[l]);
+									
+									//sectors[i].lines[l].Sidedef[0].SetTexture(Side.Mid, Texman.CheckForTexture("CC_MFI", TexMan.TYPE_ANY));
+								}
+
+								m.Destroy();
+							}
+						}
                     }
                 }
             }
@@ -648,11 +654,17 @@ Class CCards_Game : EventHandler
 			wildcardLine = chosenline;
 			wildcardLine.activation |= SPAC_Use;
 			wildcardLine.special = 19;
-			//Actor.Spawn("Cyberdemon", (chosenline.V1.p.X, chosenline.V1.p.Y, 0));
+
+			Actor.Spawn("CCards_Actor_WildcardHelper", (chosenline.V1.p.X, chosenline.V1.p.Y, 0));
 	}
 
-	void SetupSeed(void)
+	void SetupSeed(int selectorseed = 0)
 	{
+		if(selectorseed)
+		{
+			global.seed = selectorseed;
+		}
+
 		CVar seedcvar = CVar.GetCvar('ccards_seed', players[Net_Arbitrator]);
 		
 		if(seedcvar.GetInt()<1 || seedcvar.GetInt()>9999)
@@ -664,13 +676,10 @@ Class CCards_Game : EventHandler
 			global.seed = seedcvar.GetInt();
 		}
 
-		if(global.rules.forcedseed > 0)
+		if(global.rules && global.rules.usedaily)
 		{
-			
-			global.seed = global.rules.forcedseed;
+			global.seed = global.dailyseed;
 		}
-		
-		global.baseseed = global.seed;
 		//global.seed = global.seed + Level.Total_Monsters + Level.LevelNum;
 	}
 
@@ -685,6 +694,16 @@ Class CCards_Game : EventHandler
 			global.CreateMonsterList();
 		}	
 		SetupSeed();
+	}
+
+	bool uisetupseed;
+
+	override void UiTick ()
+	{
+		if(!uisetupseed)
+		{
+			EventHandler.SendNetworkEvent("setdaily", CCards_UIFunctions.DailySeed(), SystemTime.Now());
+		}
 	}
 	
 	void NextPlayer()
@@ -715,6 +734,7 @@ Class CCards_Game : EventHandler
 
 	override void WorldUnloaded(WorldEvent e)
 	{
+		// DRPG Patch - Start
 		global = CCards_Global.Get();	
 
 		if(!isReturnedMap() && !CCards_Functions.CheckBannedMap(Level.MapName))
@@ -722,6 +742,7 @@ Class CCards_Game : EventHandler
 			global.donemaps.Push(Level.MapName);
 			global.progress++;
 		}
+		// DRPG Patch - End
 
 		if(!e.isSaveGame)
 		{
@@ -757,6 +778,7 @@ Class CCards_Game : EventHandler
 
 	Override void WorldLoaded(WorldEvent e)
 	{
+		// DRPG Patch - Start
 		if(Level.MapName == "OUTPOST")
 		{
 			global = CCards_Global.Get();
@@ -776,6 +798,7 @@ Class CCards_Game : EventHandler
 				global.progress++;
 			}
 		}
+		// DRPG Patch - End
 
 		if(Level.MapName == "TITLEMAP" || CCards_Functions.GameDisabled() || level.ClusterFlags & Level.CLUSTER_HUB)
 		{
@@ -788,12 +811,12 @@ Class CCards_Game : EventHandler
 		{
 			if(Cvar.GetCvar("ccards_skipmenus").GetBool() && global.progress == 0)
 			{
-				CCards_Functions.SetGameMode(Cvar.GetCvar("ccards_preferedmode").GetInt() + 1);
+				CCards_Functions.SetGameMode(CCards_Functions.GetPreferredMode());
 				CCards_Functions.SelectDeck(0);
 			}
 
 			CCards_Functions.Log("\cvRunning Corruption Cards version " .. global.ccversion);
-			CCards_Functions.Log("\cpRandom Seed: \cj" .. global.baseseed);
+			CCards_Functions.Log("\cpRandom Seed: \cj" .. global.seed);
 
 			NextPlayer();
 			
@@ -805,12 +828,18 @@ Class CCards_Game : EventHandler
 				global.collection[i].started = true;
 			}
 
+			// DRPG Patch - Start
 			if(global.progress-1 >= 0)
 			{
 				CCards_Functions.Log("Win Streak: " .. global.progress-1);
 			}
 
-			if(global.rules.cvarname != "")
+			//global.progress++;
+			//CCards_Functions.Log("Win Streak: " .. global.progress-1);
+			
+			// DRPG Patch - End
+
+			if(global.rules && global.rules.cvarname != "")
 			{
 				if(global.progress-1 > Cvar.GetCvar(global.rules.cvarname).GetInt())
 				{
@@ -890,7 +919,7 @@ Class CCards_Game : EventHandler
 
 		if(publicdeck.Size() == 10 && global.rules.cvarname == "ccards_dailybest")
 		{
-			int d = CCards_Functions.GetDailyNo(global.rules.forcedseed);
+			int d = CCards_Functions.GetDailyNo(global.dailyseed);
 			if(!CCards_CardList.HasUnlockedDaily(d))
 			{
 				Console.Printf("\cvDaily Deck \c-" .. Ccards_Functions.GetDeckInfo(global.chosendeck, 0) .. " \cvhas been unlocked!");
@@ -952,7 +981,8 @@ Class CCards_Game : EventHandler
 
 		//global.collection.Clear()z
 		gen.GenerateHand();
-		gen.PreloadCards();
+		
+		//gen.PreloadCards();
 
 		if(gen.hand.Size() == 0)
 		{
@@ -1102,6 +1132,15 @@ Class CCards_Game : EventHandler
 			{
 				sws.Trigger(e.ActivatedLine, e.Thing);
 			}
+
+			if(e.ActivatedLine.args[0] == 69)
+			{
+				let ew = CCards_Actor_69Watcher(e.Thing.FindInventory("CCards_Actor_69Watcher"));
+				if(ew)
+				{
+					ew.EggTrigger("nothing");
+				}
+			}
 		}
 
 		if(e.Thing)
@@ -1211,156 +1250,4 @@ class cybertest : Cyberdemon
 
 class CCards_Token_Crushed : CCards_Token
 {
-}
-
-Class CCards_Rules
-{
-	String modename;
-	String cvarname;
-	uint permaProgression;
-	uint minTier;
-	uint maxTier;
-	uint handsize;
-	uint cardamount;
-
-	uint maxTierIncrease;
-	uint minTierIncrease;
-	
-	int forcedseed;
-	uint dailydeck;
-	bool draft;
-	bool concealed;
-
-	bool nounlocks;
-
-	bool nowildcards;
-	bool nopermawildcards;
-	bool extremewildcardprotection;
-	bool usedaily;
-	uint forcedwildcard;
-
-	CCards_Global global;
-
-	void SetTiers(int a, int b)
-	{
-		a = Clamp(a, 1, 5);
-		b = Clamp(b, 1, 5);
-
-		if(a>b)
-		{
-			a = b;
-		}
-		
-		minTier = a;
-		maxTier = b;
-
-		//Console.Printf(a .. " - " .. b);
-	}
-
-	void SetStandardRules()
-	{
-		modename = "Standard";
-		cvarname = "ccards_standardbest";
-		SetTiers(1, 2);
-		permaProgression = 2;
-		handsize = 3;
-		cardamount = 1;
-		maxTierIncrease = 3;
-		minTierIncrease = 10;
-		nopermawildcards = true;
-		extremewildcardprotection = true;
-	}
-	
-	void SetHardcoreRules()
-	{
-		modename = "\cgHardcore";
-		cvarname = "ccards_hardcorebest";
-		SetTiers(1, 5);
-		permaProgression = 0;
-		handsize = 3;
-		cardamount = 1;
-		minTierIncrease = 8;
-		extremewildcardprotection = true;
-	}
-	
-	void SetChaosRules()
-	{
-		modename = "\ctChaos";
-		cvarname = "ccards_chaosbest";
-		SetTiers(1, 5);
-		permaProgression = 0;
-		handsize = 1;
-		cardamount = 1;
-		extremewildcardprotection = true;
-	}
-	
-	void SetCustomRules()
-	{
-		modename = "\cvCustom";
-		cvarname = "ccards_custombest";
-		SetTiers(CvarSetting('ccards_mintier'), CvarSetting('ccards_maxtier'));
-		permaProgression = CvarSetting('ccards_permaprogression');
-
-		if(!CvarSetting('ccards_nodifficultyincrease'))
-		{
-			maxTierIncrease = 3;
-			minTierIncrease = 10;
-		}
-
-		handsize = Clamp(CvarSetting('ccards_handsize'), 1, 8);
-		cardamount = Clamp(CvarSetting('ccards_cardamount'), 1, 8);
-		nowildcards = CvarSetting('ccards_nowildcards');
-		nopermawildcards = CvarSetting('ccards_nopermawildcards');
-		//Console.Printf("" .. permaProgression);
-	}
-
-	void SetDailyRules()
-	{
-		modename = "\ckDaily Challenge";
-		cvarname = "ccards_dailybest";
-		SetTiers(1, 5);
-		permaProgression = 0;
-		handsize = 3;
-		cardamount = 1;
-    	forcedseed = global.dailyseed;
-		usedaily = true;
-
-		//dailydeck = 1;
-
-		if(forcedseed % 6 == 0)
-		{
-			handsize = 2;
-		}
-
-		if(forcedseed % 8 == 0)
-		{
-			handsize = 1;
-		}
-
-		maxTierIncrease = 3;
-		minTierIncrease = 10;
-
-		nowildcards = true;
-	}
-
-	void SetMasterRules()
-	{
-		modename = "\cwMaster";
-		cvarname = "ccards_masterbest";
-		SetTiers(1, 5);
-		permaProgression = 0;
-		handsize = 1;
-		cardamount = 2;
-		minTierIncrease = 5;
-		concealed = true;
-		nowildcards = true;
-		forcedwildcard = 12;
-		nounlocks = true;
-	}
-	
-	int CvarSetting(String c)
-	{
-		CVar c = CVar.GetCvar(c, players[Net_Arbitrator]);
-		return c.GetInt();
-	}
 }

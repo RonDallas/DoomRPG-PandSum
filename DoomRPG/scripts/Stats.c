@@ -865,7 +865,7 @@ void DoRegen()
         Thing_ChangeTID(AuraTID, 0);
     }
 
-    // Regeneration Perk - Exponentially increase Health/Energy regeneration rates up to 4x as they lower
+    // Regeneration Perk - Greatly increase Health/Energy regeneration rates up to 4x as they lower
     if (Player.Perks[STAT_REGENERATION])
     {
         // Health
@@ -1141,11 +1141,11 @@ void CheckPerks()
     if (DefensePercent > 1.0)
         DefensePercent = 1.0;
 
-    // Strength Perk - Exponentially increase Strength as Health Decreases
+    // Strength Perk - Greatly increase Strength as Health Decreases
     if (Player.Perks[STAT_STRENGTH] && StrengthPercent < 100)
         Player.DamageMult += ((100 - StrengthPercent) / 250);
 
-    // Defense Perk - Exponentially increase Defense as Health Decreases
+    // Defense Perk - Greatly increase Defense as Health Decreases
     if (Player.Perks[STAT_DEFENSE] && DefensePercent > 0)
         Player.DamageFactor *= DefensePercent;
 

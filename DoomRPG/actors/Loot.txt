@@ -207,12 +207,12 @@ Actor DRPGLootExperimentalParts : DRPGLoot
     }
 }
 
-// Demon Artifact
+// Demon Chalice (previously Artifact)
 Actor DRPGLootDemonArtifact : DRPGLoot
 {
     Scale 0.85
     
-    Inventory.PickupMessage "You picked up a demon artifact."
+    Inventory.PickupMessage "You picked up a demon chalice."
     
     States
     {

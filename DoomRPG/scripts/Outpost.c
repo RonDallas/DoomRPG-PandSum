@@ -243,8 +243,8 @@ NamedScript MapSpecial void RegenArea(int ID)
                 if (GetArmorInfoString(ARMORINFO_CLASSNAME) == ArmorExceptions[i])
                 {
                     SetFont("BIGFONT");
-                    HudMessage("This type of armor can't be repairing");
-                    EndHudMessage(HUDMSG_FADEOUT, 1, "Red", 0.5, 0.33, 2.0, 0.5);
+                    HudMessage("This type of armor can't be repaired");
+                    EndHudMessage(HUDMSG_FADEOUT, 1, "Red", 0.5, 0.33 + (0.05 * 1), 2.0, 0.5);
                     ActivatorSound("menu/error", 127);
                     return;
                 }
@@ -253,6 +253,7 @@ NamedScript MapSpecial void RegenArea(int ID)
 
         int ArmorPercent = CheckInventory("Armor") * 100 / GetArmorInfo(ARMORINFO_SAVEAMOUNT);
         int ArmorFee = (100 - ArmorPercent) / 5 * 5;
+
         if (ArmorFee < 5)
             ArmorFee = 5;
 
@@ -260,7 +261,7 @@ NamedScript MapSpecial void RegenArea(int ID)
         {
             SetFont("BIGFONT");
             HudMessage("You need %d credits to repair armor", ArmorFee);
-            EndHudMessage(HUDMSG_FADEOUT, 1, "Red", 0.5, 0.33, 2.0, 0.5);
+            EndHudMessage(HUDMSG_FADEOUT, 1, "Red", 0.5, 0.33 + (0.05 * 1), 2.0, 0.5);
             ActivatorSound("menu/error", 127);
             return;
         }
@@ -270,7 +271,7 @@ NamedScript MapSpecial void RegenArea(int ID)
 
         SetFont("BIGFONT");
         HudMessage("Armor repaired");
-        EndHudMessage(HUDMSG_FADEOUT, 0, "Green", 0.5, 0.33, 2.0, 0.5);
+        EndHudMessage(HUDMSG_FADEOUT, 0, "Green", 0.5, 0.33 + (0.05 * 1), 2.0, 0.5);
         FadeRangeFlash(0, 255, 0, 0.5, 0, 255, 0, 0.0, 1.0);
         ActivatorSound("regen/armor", 127);
 
@@ -392,7 +393,7 @@ NamedScript MapSpecial void RegenArea(int ID)
 
             SetFont("BIGFONT");
             HudMessage("Shield restored");
-            EndHudMessage(HUDMSG_FADEOUT, 0, "Cyan", 0.5, 0.33, 2.0, 0.5);
+            EndHudMessage(HUDMSG_FADEOUT, 0, "Cyan", 0.5, 0.33 + (0.05 * 2), 2.0, 0.5);
             FadeRangeFlash(0, 255, 255, 0.5, 0, 255, 255, 0.0, 1.0);
             ActivatorSound("regen/shield", 127);
         }
@@ -420,7 +421,7 @@ NamedScript MapSpecial void RegenArea(int ID)
                 {
                     SetFont("BIGFONT");
                     HudMessage("EP pad is cooling down: %S remaining", FormatTime(Player.EPPadCooldownTimer - CurrentTime));
-                    EndHudMessage(HUDMSG_FADEOUT, 0, "LightBlue", 0.5, 0.33, 2.0, 0.5);
+                    EndHudMessage(HUDMSG_FADEOUT, 0, "LightBlue", 0.5, 0.33 + (0.05 * 2), 2.0, 0.5);
                     return;
                 }
             }
@@ -483,7 +484,7 @@ NamedScript MapSpecial void RegenArea(int ID)
 
             SetFont("BIGFONT");
             HudMessage("EP restored");
-            EndHudMessage(HUDMSG_FADEOUT, 0, "LightBlue", 0.5, 0.33, 2.0, 0.5);
+            EndHudMessage(HUDMSG_FADEOUT, 0, "LightBlue", 0.5, 0.33 + (0.05 * 2), 2.0, 0.5);
             FadeRangeFlash(0, 255, 255, 0.5, 0, 255, 255, 0.0, 1.0);
             ActivatorSound("regen/ep", 127);
         }
@@ -506,7 +507,7 @@ NamedScript MapSpecial void RegenArea(int ID)
 
         SetFont("BIGFONT");
         HudMessage("Augmentation battery recharged");
-        EndHudMessage(HUDMSG_FADEOUT, 0, "Yellow", 0.5, 0.33, 2.0, 0.5);
+        EndHudMessage(HUDMSG_FADEOUT, 0, "Yellow", 0.5, 0.33 + (0.05 * 3), 2.0, 0.5);
         FadeRangeFlash(255, 255, 0, 0.5, 255, 255, 0, 0.0, 1.0);
         ActivatorSound("regen/battery", 127);
     }
@@ -3211,13 +3212,13 @@ NamedScript MapSpecial void DisassemblingDevice()
                                     HudMessage("Experimental Parts: \Cd%d pcs\C-", AmountExperimentalParts);
                                     EndHudMessage(HUDMSG_FADEOUT, MENU_ID + AddMenuID, "White", X + dX + 64.0, Y + dY + Y1 + 272.0, 3.0, 3.0);
                                 }
-                                // For Demon Artifacts
+                                // For Demon Chalices (previously Artifacts)
                                 if (AmountDemonArtifacts > 0)
                                 {
                                     Y1 += 8.0;
                                     AddMenuID += 1;
                                     SetFont("SMALLFONT");
-                                    HudMessage("\CaDemon Artifacts\C-: \Cd%d pcs\C-", AmountDemonArtifacts);
+                                    HudMessage("\CaDemon Chalices\C-: \Cd%d pcs\C-", AmountDemonArtifacts);
                                     EndHudMessage(HUDMSG_FADEOUT, MENU_ID + AddMenuID, "White", X + dX + 64.0, Y + dY + Y1 + 272.0, 3.0, 3.0);
                                 }
                                 // For Chip Gold

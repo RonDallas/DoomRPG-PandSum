@@ -76,7 +76,7 @@ Use the following load order:
 - [Pandemonia Monsters v2.2](https://forum.zdoom.org/viewtopic.php?t=60984);
 - [Relighting v4.0165b](https://forum.zdoom.org/viewtopic.php?t=76706);
 - Custom version of Jimmy's Jukebox Instant Randomizer has been included that allows DRPG's map events and Outpost music to play.
-- Champions doesn't play well with a number of mods, it seems. Be aware that numerous will break when using it.
+- Champions doesn't play well with a number of mods, it seems. Be aware that numerous thing will break while using it.
 
 ## Donate
 

@@ -953,14 +953,14 @@ void DrawStatsMenu(fixed X, fixed Y)
             // Strength
             {
                 StrParam("Strength level - %d:", (naturalStats ? 150 : 75)),
-                "Total damage dealt exponentially increases as HP gets lower",
+                "Total damage dealt greatly increases as HP gets lower",
                 NULL
             },
 
             // Defense
             {
                 StrParam("Defense level - %d:", (naturalStats ? 150 : 75)),
-                "Total damage taken exponentially decreases as HP gets lower",
+                "Total damage taken greatly decreases as HP gets lower",
                 NULL
             },
 

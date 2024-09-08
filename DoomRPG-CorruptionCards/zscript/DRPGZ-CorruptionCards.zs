@@ -18,13 +18,15 @@ class CCards_MonsterInit : EventHandler
                 "CCards_Actor_AllyMarine",
                 "CCards_Actor_PossessedMarine",
                 "CCards_Actor_Werewolf",
+                "CCards_Actor_Horror",
                 "CCards_SpookySkeleton"
             };
 
             static const string CCBosses[] =
             {
                 "CCards_Actor_TheAncientOne",
-                "CCards_Actor_Bane"
+                "CCards_Actor_Bane",
+                "CCards_Boss_Romero"
             };
 
             for (int i = 0; i < CCMonsters.size(); i++)

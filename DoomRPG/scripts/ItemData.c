@@ -368,7 +368,7 @@ NamedScript void BuildItemData()
     ITEMDATA_DEF("DRPGLootScrapMetals",         "Scrap Metals",         100, 0, -1, "LT10A0", 12, 15);
     ITEMDATA_DEF("DRPGLootScrapElectronics",    "Scrap Electronics",    100, 0, -1, "LT11A0",  8, 22);
     ITEMDATA_DEF("DRPGLootExperimentalParts",   "Experimental Parts",   500, 0, -1, "LT12A0", 15, 21);
-    ITEMDATA_DEF("DRPGLootDemonArtifact",       "Demon Artifacts",      500, 0, -1, "LT13A0", 12, 22);
+    ITEMDATA_DEF("DRPGLootDemonArtifact",       "Demon Chalices",      500, 0, -1, "LT13A0", 12, 22);
     ITEMDATA_CATEGORY_END;
 
     // Compatibility handling - Extras

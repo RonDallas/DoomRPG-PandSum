@@ -1,2 +1,2 @@
 Name=Corruption Cards
-Mods=CorruptionCards-v5.5.pk3
+Mods=CorruptionCards-v6.2.pk3
