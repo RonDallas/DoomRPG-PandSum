@@ -1,0 +1,3 @@
+version "4.6"
+
+#include "zscript/DRPGZ-CorruptionCards.zs"

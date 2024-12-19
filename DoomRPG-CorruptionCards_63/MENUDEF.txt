@@ -1,0 +1,16 @@
+AddOptionMenu "DoomRPG"
+{
+    StaticText ""
+    SubMenu "Corruption Cards Options",            "Corruption Cards Options"
+}
+
+OptionMenu "Corruption Cards Options"
+{
+    Title "Corruption Cards Options"
+
+    StaticText ""
+    Option "Generate new cards on the second visit to the map", "ccards_allowreturnmaps", "OnOff"
+    StaticText ""
+    StaticText "Note: turn off is recommended for Hardcore mode"
+    StaticText "(or a similar mode with permanent cards at each map)"
+}
