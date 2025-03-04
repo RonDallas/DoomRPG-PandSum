@@ -432,7 +432,7 @@ MonsterInfo const MonsterDataPANDM[MAX_DEF_MONSTERS_PANDM] =
     { "NewShotgunguy",                     "Shotgun Zombie",                     12,      1, false, "You hear the sound of shotguns pumping!" },
     { "SlugShotgunZombie",                 "Slug Shotgun Zombie",                50,      2, false, "You hear the sound of shotguns pumping!\nCorpses are lying around with a single hole in their heads..." },
     { "AutoShotgunZombie",                 "Auto Shotgun Zombie",                75,      5, false, "You see couple of 12cal. mags on the ground!" },
-	{ "SuperShotgunZombie",                "Super Shotgun Zombie",               90,      7, false, "The sound of break action flies above splattered bodies!" },
+    { "SuperShotgunZombie",                "Super Shotgun Zombie",               90,      7, false, "The sound of break action flies above splattered bodies!" },
     { "RocketZombie",                      "Rocket Zombie",                     101,      8, false, "A persistent smell of blood and rocket fuel is in the air." },
     { "PyroZombie",                		   "Pyro Zombie",               		117,      9, false, "A ship with a flamethrower supplies crashed nearby." },
     { "SpecOpsShotgunner",                 "Spec Ops Shotgunner",               138,     10, false, "Systems catch a mumbling radio communications.\nYou hear the sound of shotguns pumping behind your back!" },
@@ -449,7 +449,7 @@ MonsterInfo const MonsterDataPANDM[MAX_DEF_MONSTERS_PANDM] =
     { "BFGCommando",                       "BFG Commando",                      100,      8, false, "You notice some wasted power cells on the floor,\nused only by the most powerful weapons!" },
     { "InfernalCommando",                  "Infernal Commando",                 150,     11, false, "Enemy uses lots of pyro blast devices!" },
     { "ChaosDeathmark",                    "Chaos Deathmark",                   175,     14, false, "Something is wrong here...\nYou are marked for death!" },
-	{ "SpecOpsLieutenant",                 "Spec Ops Lieutenant",               200,     15, false, "An evil laughter echoes everywhere! \nThe infernal gods demand a sacrifice..." },
+    { "SpecOpsLieutenant",                 "Spec Ops Lieutenant",               200,     15, false, "An evil laughter echoes everywhere! \nThe infernal gods demand a sacrifice..." },
     { "BFG10kWarrior",                     "BFG10k Warrior",                    225,     18, false, "Walls around you are twisted with a huge plasma holes." },
 
     // Imp
@@ -484,7 +484,7 @@ MonsterInfo const MonsterDataPANDM[MAX_DEF_MONSTERS_PANDM] =
     { "DarkCacodemon",                     "Dark Cacodemon",                     86,      7, false, "Aggressive screeches drown out all other sound!" },
     { "Agathodemon",                       "Agathodemon",                       119,      9, false, "You hear the hum of an electrical substation...\nWhich is not there!" },
     { "Crackodemon",                       "Crackodemon",                       140,     11, false, "Your hair is on end from the electric field in this place!" },
-	{ "Abaddon",                           "Abaddon",                       	155,     12, false, "The fires are looking for you!" },
+    { "Abaddon",                           "Abaddon",                       	155,     12, false, "The fires are looking for you!" },
     { "Witherdemon",                       "Witherdemon",                       178,     13, false, "The local corpses melted from some infection!" },
     { "Cacobot",                           "Cacobot",                           238,     15, false, "Something is interrupting the incoming signal..." },
     { "ChaosStalker",                      "Chaos Stalker",                     250,     16, false, "Something is wrong here...\nScreeches drown out all other sound!" },
@@ -565,14 +565,14 @@ MonsterInfo const MonsterDataPANDM[MAX_DEF_MONSTERS_PANDM] =
 
     // Other
     { "Epic2Alien",                        "Alien",                              20,      4, false, "It seems aliens are hunting for our technology." },
-	{ "ChaosCultist",                      "Chaos Cultist",                      30,      5, false, "You hear distant prayers in an unknown language." },
-	{ "ChaosAcolyte",                      "Chaos Acolyte",                      40,      6, false, "Incoming radio transmission...\nDisrupt the summon of the Ecclesiarch, now!" },
+    { "ChaosCultist",                      "Chaos Cultist",                      30,      5, false, "You hear distant prayers in an unknown language." },
+    { "ChaosAcolyte",                      "Chaos Acolyte",                      40,      6, false, "Incoming radio transmission...\nDisrupt the summon of the Ecclesiarch, now!" },
     { "Scythe2Marine",                     "Traitor Marine",                     60,      8, false, "Traitors want to sacrifice you to the infernal gods!" },
     { "Scythe2Afrit",                      "Infernal Afrit",                     82,     14, false, "Strong flames are burning your gear!" },
 
     // Mastermind
     { "NewSpiderMastermind",               "Spider Mastermind",                 278,     24, true, "The smell of metal and gunpowder hangs in the air, the war machine is close." },
-	{ "DarkMastermind",              	   "Dark Mastermind",                   285,     24, true, "Sensors detected massive dark technology in this location!" },
+    { "DarkMastermind",              	   "Dark Mastermind",                   285,     24, true, "Sensors detected massive dark technology in this location!" },
     { "Demolisher",                        "Demolisher",                        298,     24, true, "Superheavy weapon platforms detected in this area." },
     { "Arachnophyte",                      "Arachnophyte",                      299,     24, true, "Infernal aviation razes this place to the ground!" },
     { "SpiderMasterspark",                 "Spider Masterspark",                305,     24, true, "Some thoughts of hell have reached space..." },

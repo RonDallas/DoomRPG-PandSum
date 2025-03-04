@@ -1,0 +1,5 @@
+// Exclude maps
+excludemap OUTPOST
+
+// Exclude actors
+excludeactor DRPGPracticeTarget

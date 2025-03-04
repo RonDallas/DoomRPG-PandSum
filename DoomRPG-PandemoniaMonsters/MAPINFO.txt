@@ -9,7 +9,7 @@ clearskills
 // Easy skill
 skill easy
 {
-    damagefactor = 1.0
+    damagefactor = 0.6
     monsterhealth = 0.75
     aggressiveness = 0.0
     spawnfilter = normal
@@ -21,7 +21,7 @@ skill easy
     acsreturn = 1
 	Key = "h"
     
-	MustConfirm = "75% of monsters health, less aggressive monsters, normal damage taken, nerfed Icon of Sin, can see keys on the map"
+	MustConfirm = "75% of monsters health, less aggressive monsters, -40% damage taken, nerfed Icon of Sin, can see keys on the map"
     name = "Hey, not too rough!"
     textcolor = "Green"
 }
@@ -29,9 +29,9 @@ skill easy
 // Normal skill
 skill normal
 {
-    damagefactor = 1.0
-    monsterhealth = 1.0
-    aggressiveness = 0.25
+    damagefactor = 0.7
+    monsterhealth = 0.9
+    aggressiveness = 0.3
     spawnfilter = hard
     
     autousehealth
@@ -39,7 +39,7 @@ skill normal
     acsreturn = 2
 	Key = "p"
     
-	MustConfirm = "Full monsters health, more aggressive monsters, normal damage taken, harder spawns."
+	MustConfirm = "90% monsters health, more aggressive monsters, -30% damage taken, harder spawns."
     name = "Hurt me plenty!"
     textcolor = "Yellow"
 }
@@ -47,8 +47,8 @@ skill normal
 // Hard skill
 skill hard
 {
-    damagefactor = 1.0
-    monsterhealth = 1.25
+    damagefactor = 0.8
+    monsterhealth = 1.2
     aggressiveness = 0.5
     spawnfilter = nightmare
     
@@ -58,7 +58,7 @@ skill hard
     acsreturn = 3
 	Key = "u"
     
-	MustConfirm = "125% of monsters health, medium aggressive monsters, normal damage taken, more harder spawns."
+	MustConfirm = "120% of monsters health, medium aggressive monsters, -20% damage taken, more harder spawns."
     name = "Ultra-Violence!"
     textcolor = "Orange"
 }
@@ -66,9 +66,9 @@ skill hard
 // Nightmare skill
 skill nightmare
 {
-    damagefactor = 1.25
+    damagefactor = 1.2
     monsterhealth = 1.5
-    aggressiveness = 1.0
+    aggressiveness = 0.7
     spawnfilter = nightmare
     
     autousehealth
@@ -76,7 +76,7 @@ skill nightmare
     acsreturn = 4
 	Key = "o"
     
-	MustConfirm = "150% of monsters health, very aggressive monsters, +25% damage taken, nightmare spawns."
+	MustConfirm = "150% of monsters health, very aggressive monsters, +20% damage taken, nightmare spawns."
     name = "Overkill!"
     textcolor = "Red"
 }
@@ -84,8 +84,8 @@ skill nightmare
 // Hell skill
 skill hell
 {
-    damagefactor = 1.5
-    monsterhealth = 2.0
+    damagefactor = 1.4
+    monsterhealth = 1.8
     aggressiveness = 1.0
     spawnfilter = nightmare
     
@@ -94,7 +94,7 @@ skill hell
     acsreturn = 5
 	Key = "n"
     
-	MustConfirm = "200% monsters health, very aggressive monsters, +50% damage taken, nightmare spawns."
+	MustConfirm = "180% monsters health, very aggressive monsters, +40% damage taken, nightmare spawns."
     name = "NIGHTMARE!"
     textcolor = "Brick"
 }

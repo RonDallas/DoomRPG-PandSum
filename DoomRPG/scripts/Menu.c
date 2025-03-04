@@ -766,7 +766,7 @@ void DrawStatsMenu(fixed X, fixed Y)
         // Luck
         SetFont("BIGFONT");
         HudMessage("%d", LUCK_HEALTHDROP);
-        EndHudMessage(HUDMSG_PLAIN, 0, (Player.HealthDrop ? "Gold" : "Gray"), 266.0, Y + 204.0, 0.05);
+        EndHudMessage(HUDMSG_PLAIN, 0, (Player.HealthDrop ? "Gold" : "Gray"), X + 266.0, Y + 204.0, 0.05);
         HudMessage("%d", LUCK_EPDROP);
         EndHudMessage(HUDMSG_PLAIN, 0, (Player.EPDrop ? "Gold" : "Gray"), X + 304.0, Y + 204.0, 0.05);
         HudMessage("%d", LUCK_AMMODROP);
