@@ -340,8 +340,10 @@ class DRPGZExtraWad : StaticEventHandler
     bool wsLoaded;
 
     // Types
-    // 1: WadSmoosh
-    // 2: Either Lexicon or Compendium (only one can be loaded OK or array overflow will occur)
+    // 0 = IWAD
+    // 1 = WadSmoosh
+    // 2 = Lexicon
+    // 3 = Compendium
     static int WadDetect(int Type)
     {
         // Get class data pointer
