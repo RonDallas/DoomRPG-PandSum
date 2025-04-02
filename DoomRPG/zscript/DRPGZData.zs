@@ -174,321 +174,319 @@ class DRPGZData : EventHandler
 
 class DRPGZExtraWad : StaticEventHandler
 {
+    // WadSmoosh WAD Lumps
+    static const string wsLumps[] =
+    {
+        // Uses PK3 path
+        "/MAPS/E1M1.WAD",
+        "/MAPS/E5M1.WAD",
+        "/MAPS/E6M1.WAD",
+        "/MAPS/MAP01.WAD",
+        "/MAPS/NV_MAP01.WAD",
+        "/MAPS/ML_MAP01.WAD",
+        "/MAPS/TN_MAP01.WAD",
+        "/MAPS/PL_MAP01.WAD"
+    };
+
+    // Lexicon WAD Lumps
+    // Lumps Source: https://github.com/WNC12k/DoomRPG-Rebalance/blob/master/DoomRPG/scripts/Map.c#L3710
+    static const string lxLumps[] =
+    {
+        // Uses PK3 path
+        "/MAPS/VR.WAD:HUB",
+        "/MAPS/AA101.WAD",
+        "/MAPS/AAA01.WAD",
+        "/MAPS/AAA02.WAD",
+        "/MAPS/AV01.WAD",
+        "/MAPS/BX101.WAD",
+        "/MAPS/CC101.WAD",
+        "/MAPS/CC201.WAD",
+        "/MAPS/CC301.WAD",
+        "/MAPS/CC401.WAD",
+        "/MAPS/CHX01.WAD",
+        "/MAPS/COC01.WAD",
+        "/MAPS/CS01.WAD",
+        "/MAPS/CS201.WAD",
+        "/MAPS/CW101.WAD",
+        "/MAPS/DC01.WAD",
+        "/MAPS/DIB01.WAD",
+        "/MAPS/DKE01.WAD",
+        "/MAPS/DU101.WAD",
+        "/MAPS/DV01.WAD",
+        "/MAPS/DV201.WAD",
+        "/MAPS/EP101.WAD",
+        "/MAPS/EP201.WAD",
+        "/MAPS/EST01.WAD",
+        "/MAPS/EYE01.WAD",
+        "/MAPS/FSW01.WAD",
+        "/MAPS/GD01.WAD",
+        "/MAPS/HC01.WAD",
+        "/MAPS/HLB01.WAD",
+        "/MAPS/HP101.WAD",
+        "/MAPS/HP103.WAD",
+        "/MAPS/HPH01.WAD",
+        "/MAPS/HR01.WAD",
+        "/MAPS/HR201.WAD",
+        "/MAPS/INT01.WAD",
+        "/MAPS/KS01.WAD",
+        "/MAPS/KSS01.WAD",
+        "/MAPS/MAY01.WAD",
+        "/MAPS/MOC01.WAD",
+        "/MAPS/MOM01.WAD",
+        "/MAPS/NG101.WAD",
+        "/MAPS/NG201.WAD",
+        "/MAPS/NV101.WAD",
+        "/MAPS/PIZ01.WAD",
+        "/MAPS/RDX01.WAD",
+        "/MAPS/SC201.WAD",
+        "/MAPS/SD601.WAD",
+        "/MAPS/SD701.WAD",
+        "/MAPS/SDE01.WAD",
+        "/MAPS/SF201.WAD",
+        "/MAPS/SF301.WAD",
+        "/MAPS/SL20.WAD",
+        "/MAPS/SLU01.WAD",
+        "/MAPS/SND01.WAD",
+        "/MAPS/SOD01.WAD",
+        "/MAPS/SW101.WAD",
+        "/MAPS/TAT01.WAD",
+        "/MAPS/TSP01.WAD",
+        "/MAPS/TSP201.WAD",
+        "/MAPS/TT101.WAD",
+        "/MAPS/TT201.WAD",
+        "/MAPS/TT301.WAD",
+        "/MAPS/TU01.WAD",
+        "/MAPS/UAC01.WAD",
+        "/MAPS/UHR01.WAD",
+        "/MAPS/VAL01.WAD",
+        "/MAPS/VAN01.WAD",
+        "/MAPS/WID01.WAD",
+        "/MAPS/WOS01.WAD",
+        "/MAPS/ZTH01.WAD",
+        "/MAPS/ZOF01.WAD"
+    };
+
+    // Compendium WAD Lumps
+    // Lumps Source: https://github.com/WNC12k/DoomRPG-Rebalance/blob/master/DoomRPG/scripts/Map.c#L3710
+    static const string cmLumps[] =
+    {
+        // Uses PK3 path
+        "/MAPS/HUBMAP.WAD:HUB",
+        "/MAPS/MM101.WAD",
+        "/MAPS/MM201.WAD",
+        "/MAPS/REQ01.WAD",
+        "/MAPS/INS01.WAD",
+        "/MAPS/OBT01.WAD",
+        "/MAPS/STR01.WAD",
+        "/MAPS/BIO01.WAD",
+        "/MAPS/DRK01.WAD",
+        "/MAPS/TTP01.WAD",
+        "/MAPS/PGR01.WAD",
+        "/MAPS/PST01.WAD",
+        "/MAPS/TVR01.WAD",
+        "/MAPS/SCI01.WAD",
+        "/MAPS/ICA01.WAD",
+        "/MAPS/HTP01.WAD",
+        "/MAPS/ABY01.WAD",
+        "/MAPS/TAL01.WAD",
+        "/MAPS/ALH01.WAD",
+        "/MAPS/ENI01.WAD",
+        "/MAPS/RLM01.WAD",
+        "/MAPS/DYS01.WAD",
+        "/MAPS/ETE01.WAD",
+        "/MAPS/REB01.WAD",
+        "/MAPS/SCY01.WAD",
+        "/MAPS/COD01.WAD",
+        "/MAPS/DK201.WAD",
+        "/MAPS/EQU01.WAD",
+        "/MAPS/MRS01.WAD",
+        "/MAPS/BLR01.WAD",
+        "/MAPS/OSI01.WAD",
+        "/MAPS/RUI01.WAD",
+        "/MAPS/NJZ01.WAD",
+        "/MAPS/DAE01.WAD",
+        "/MAPS/CLE01.WAD",
+        "/MAPS/ASD01.WAD",
+        "/MAPS/PLE01.WAD",
+        "/MAPS/DCV01.WAD",
+        "/MAPS/SLA01.WAD",
+        "/MAPS/HFA01.WAD",
+        "/MAPS/CDR01.WAD",
+        "/MAPS/GAT01.WAD",
+        "/MAPS/ERT01.WAD",
+        "/MAPS/END01.WAD",
+        "/MAPS/RES01.WAD",
+        "/MAPS/ENS01.WAD",
+        "/MAPS/BTK01.WAD",
+        "/MAPS/CIT01.WAD",
+        "/MAPS/SLP01.WAD",
+        "/MAPS/DIS01.WAD",
+        "/MAPS/SID01.WAD",
+        "/MAPS/MAN01.WAD",
+        "/MAPS/LEP01.WAD",
+        "/MAPS/VFL01.WAD",
+        "/MAPS/VCO01.WAD",
+        "/MAPS/TW201.WAD",
+        "/MAPS/NEO01.WAD",
+        "/MAPS/ANN01.WAD",
+        "/MAPS/99W01.WAD",
+        "/MAPS/BTH01.WAD"
+    };
+
     // Copied lumps stored here
     private Array<string> ewLumps;
-    // Position of ewActors and for detection, I suppose (I wanted pointers but oh well)
-    int ewPack;
 
-    static string WadTools(int Function, int Data)
+    // Misc
+    bool wsLoaded;
+
+    // Types
+    // 1: WadSmoosh
+    // 2: Either Lexicon or Compendium (only one can be loaded OK or array overflow will occur)
+    static int WadDetect(int Type)
     {
-        // Used for detection
-        static const string ewActors[] =
-        {
-            "DRPGWadSmooshActive",
-            "DRPGLexiconActive",
-            "DRPGCompendiumActive"
-        };
-
-        // WadSmoosh WAD Lumps
-        static const string wsLumps[] =
-        {
-            // Uses PK3 path
-            "/MAPS/E1M1.WAD",
-            "/MAPS/E5M1.WAD",
-            "/MAPS/E6M1.WAD",
-            "/MAPS/MAP01.WAD",
-            "/MAPS/NV_MAP01.WAD",
-            "/MAPS/ML_MAP01.WAD",
-            "/MAPS/TN_MAP01.WAD",
-            "/MAPS/PL_MAP01.WAD"
-        };
-
-        // Lexicon WAD Lumps
-        // Lumps Source: https://github.com/WNC12k/DoomRPG-Rebalance/blob/master/DoomRPG/scripts/Map.c#L3710
-        static const string lxLumps[] =
-        {
-            // Uses PK3 path
-            "/MAPS/VR.WAD:HUB",
-            "/MAPS/AA101.WAD",
-            "/MAPS/AAA01.WAD",
-            "/MAPS/AAA02.WAD",
-            "/MAPS/AV01.WAD",
-            "/MAPS/BX101.WAD",
-            "/MAPS/CC101.WAD",
-            "/MAPS/CC201.WAD",
-            "/MAPS/CC301.WAD",
-            "/MAPS/CC401.WAD",
-            "/MAPS/CHX01.WAD",
-            "/MAPS/COC01.WAD",
-            "/MAPS/CS01.WAD",
-            "/MAPS/CS201.WAD",
-            "/MAPS/CW101.WAD",
-            "/MAPS/DC01.WAD",
-            "/MAPS/DIB01.WAD",
-            "/MAPS/DKE01.WAD",
-            "/MAPS/DU101.WAD",
-            "/MAPS/DV01.WAD",
-            "/MAPS/DV201.WAD",
-            "/MAPS/EP101.WAD",
-            "/MAPS/EP201.WAD",
-            "/MAPS/EST01.WAD",
-            "/MAPS/EYE01.WAD",
-            "/MAPS/FSW01.WAD",
-            "/MAPS/GD01.WAD",
-            "/MAPS/HC01.WAD",
-            "/MAPS/HLB01.WAD",
-            "/MAPS/HP101.WAD",
-            "/MAPS/HP103.WAD",
-            "/MAPS/HPH01.WAD",
-            "/MAPS/HR01.WAD",
-            "/MAPS/HR201.WAD",
-            "/MAPS/INT01.WAD",
-            "/MAPS/KS01.WAD",
-            "/MAPS/KSS01.WAD",
-            "/MAPS/MAY01.WAD",
-            "/MAPS/MOC01.WAD",
-            "/MAPS/MOM01.WAD",
-            "/MAPS/NG101.WAD",
-            "/MAPS/NG201.WAD",
-            "/MAPS/NV101.WAD",
-            "/MAPS/PIZ01.WAD",
-            "/MAPS/RDX01.WAD",
-            "/MAPS/SC201.WAD",
-            "/MAPS/SD601.WAD",
-            "/MAPS/SD701.WAD",
-            "/MAPS/SDE01.WAD",
-            "/MAPS/SF201.WAD",
-            "/MAPS/SF301.WAD",
-            "/MAPS/SL20.WAD",
-            "/MAPS/SLU01.WAD",
-            "/MAPS/SND01.WAD",
-            "/MAPS/SOD01.WAD",
-            "/MAPS/SW101.WAD",
-            "/MAPS/TAT01.WAD",
-            "/MAPS/TSP01.WAD",
-            "/MAPS/TSP201.WAD",
-            "/MAPS/TT101.WAD",
-            "/MAPS/TT201.WAD",
-            "/MAPS/TT301.WAD",
-            "/MAPS/TU01.WAD",
-            "/MAPS/UAC01.WAD",
-            "/MAPS/UHR01.WAD",
-            "/MAPS/VAL01.WAD",
-            "/MAPS/VAN01.WAD",
-            "/MAPS/WID01.WAD",
-            "/MAPS/WOS01.WAD",
-            "/MAPS/ZTH01.WAD",
-            "/MAPS/ZOF01.WAD"
-        };
-
-        // Compendium WAD Lumps
-        // Lumps Source: https://github.com/WNC12k/DoomRPG-Rebalance/blob/master/DoomRPG/scripts/Map.c#L3710
-        static const string cmLumps[] =
-        {
-            // Uses PK3 path
-            "/MAPS/HUBMAP.WAD:HUB",
-            "/MAPS/MM101.WAD",
-            "/MAPS/MM201.WAD",
-            "/MAPS/REQ01.WAD",
-            "/MAPS/INS01.WAD",
-            "/MAPS/OBT01.WAD",
-            "/MAPS/STR01.WAD",
-            "/MAPS/BIO01.WAD",
-            "/MAPS/DRK01.WAD",
-            "/MAPS/TTP01.WAD",
-            "/MAPS/PGR01.WAD",
-            "/MAPS/PST01.WAD",
-            "/MAPS/TVR01.WAD",
-            "/MAPS/SCI01.WAD",
-            "/MAPS/ICA01.WAD",
-            "/MAPS/HTP01.WAD",
-            "/MAPS/ABY01.WAD",
-            "/MAPS/TAL01.WAD",
-            "/MAPS/ALH01.WAD",
-            "/MAPS/ENI01.WAD",
-            "/MAPS/RLM01.WAD",
-            "/MAPS/DYS01.WAD",
-            "/MAPS/ETE01.WAD",
-            "/MAPS/REB01.WAD",
-            "/MAPS/SCY01.WAD",
-            "/MAPS/COD01.WAD",
-            "/MAPS/DK201.WAD",
-            "/MAPS/EQU01.WAD",
-            "/MAPS/MRS01.WAD",
-            "/MAPS/BLR01.WAD",
-            "/MAPS/OSI01.WAD",
-            "/MAPS/RUI01.WAD",
-            "/MAPS/NJZ01.WAD",
-            "/MAPS/DAE01.WAD",
-            "/MAPS/CLE01.WAD",
-            "/MAPS/ASD01.WAD",
-            "/MAPS/PLE01.WAD",
-            "/MAPS/DCV01.WAD",
-            "/MAPS/SLA01.WAD",
-            "/MAPS/HFA01.WAD",
-            "/MAPS/CDR01.WAD",
-            "/MAPS/GAT01.WAD",
-            "/MAPS/ERT01.WAD",
-            "/MAPS/END01.WAD",
-            "/MAPS/RES01.WAD",
-            "/MAPS/ENS01.WAD",
-            "/MAPS/BTK01.WAD",
-            "/MAPS/CIT01.WAD",
-            "/MAPS/SLP01.WAD",
-            "/MAPS/DIS01.WAD",
-            "/MAPS/SID01.WAD",
-            "/MAPS/MAN01.WAD",
-            "/MAPS/LEP01.WAD",
-            "/MAPS/VFL01.WAD",
-            "/MAPS/VCO01.WAD",
-            "/MAPS/TW201.WAD",
-            "/MAPS/NEO01.WAD",
-            "/MAPS/ANN01.WAD",
-            "/MAPS/99W01.WAD",
-            "/MAPS/BTH01.WAD"
-        };
-
         // Get class data pointer
         DRPGZExtraWad cData = DRPGZExtraWad(StaticEventHandler.Find("DRPGZExtraWad"));
 
-        // Init ewPack
-        if (cData.ewPack == 0)
-            cData.ewPack = EW_NONE;
+        // Used for detection
+        static const name ewActors[] =
+        {
+            'DRPGWadSmooshActive',
+            'DRPGLexiconActive',
+            'DRPGCompendiumActive'
+        };
+
+        // Detect type
+        for (int i = 0; i < AllActorClasses.size(); i++)
+        {
+            name aName = AllActorClasses[i].GetClassName();
+
+            // ---- WadSmoosh ----
+            if (Type == 1)
+                if (aName == ewActors[0])
+                    return 1;
+            // ---- Lexicon ----
+            if (Type == 2)
+                if (aName == ewActors[1])
+                    return 2;
+            // ---- Compendium ----
+            if (Type == 3)
+                if (aName == ewActors[2])
+                    return 3;
+        }
+
+        return 0;
+    }
+
+    static string WadTools(int Function, int Data, int ewWAD)
+    {
+        // Get class data pointer
+        DRPGZExtraWad cData = DRPGZExtraWad(StaticEventHandler.Find("DRPGZExtraWad"));
 
         // Default return value
         string rValue = "";
-
-        // ------
-        // Part 1
-        // ------
-        // Detect Extra WAD
-        // ----------------
-        for (int i = 0; i < AllActorClasses.size(); i++)
-        {
-            // ---- WadSmoosh ----
-            if (AllActorClasses[i].GetClassName() == ewActors[EW_WS])
-            {
-                cData.ewPack = EW_WS;
-                break;
-            }
-            // ---- Lexicon ----
-            else if (AllActorClasses[i].GetClassName() == ewActors[EW_LX])
-            {
-                cData.ewPack = EW_LX;
-                break;
-            }
-            // ---- Compendium ----
-            else if (AllActorClasses[i].GetClassName() == ewActors[EW_CM])
-            {
-                cData.ewPack = EW_CM;
-                break;
-            }
-        }
 
         // ------
         // Part 2
         // ------
         // Detect lumps only if an Extra WAD exists
         // ----------------------------------------
-        if (cData.ewPack != EW_NONE)
+        // ------
+        // Part 3
+        // ----------------------------------------------------
+        // Copy detected lumps into a separate array for Part 4
+        // ----------------------------------------------------
+        if (cData.ewLumps.size() == 0)
         {
-            // ------
-            // Part 3
-            // ----------------------------------------------------
-            // Copy detected lumps into a separate array for Part 4
-            // ----------------------------------------------------
-            if (cData.ewLumps.size() == 0)
+            switch(ewWAD)
             {
-                switch(cData.ewPack)
-                {
-                // ---- WadSmoosh ----
-                case EW_WS:
-                {
-                    if (cData.ewPack == EW_WS)
-                        for (int i = 0; i < wsLumps.size(); i++)
-                            cData.ewLumps.push(wsLumps[i]);
-                }
-                break;
-                // ---- Lexicon ----
-                case EW_LX:
-                {
-                    if (cData.ewPack == EW_LX)
-                        for (int i = 0; i < lxLumps.size(); i++)
-                            cData.ewLumps.push(lxLumps[i]);
-                }
-                break;
-                // ---- Compendium ----
-                case EW_CM:
-                {
-                    if (cData.ewPack == EW_CM)
-                        for (int i = 0; i < cmLumps.size(); i++)
-                            cData.ewLumps.push(cmLumps[i]);
-                }
-                break;
-                }
-            }
-
-            // ------
-            // Part 4
-            // ----------------------------------------------------------
-            // Sift through copied lumps to detect existing lumps for ACS
-            // ----------------------------------------------------------
-            switch (Function)
-            {
-            // Process valid lump for return
+            // ---- WadSmoosh ----
             case 1:
             {
-                string Lump;
-
-                // ACS relies on -1 and -2 to stop
-                // -1 = WAD not detected
-                // -2 = No more WADs
-
-                // End of copied lumps
-                if (Data >= cData.ewLumps.size())
-                {
-                    rValue = "-2";
-                    break;
-                }
-
-                // Get Lump
-                Lump = cData.ewLumps[Data];
-
-                // Check if lump exists (mainly for WadSmoosh but good to have)
-                // Hub gets through so ACS can detect it
-                if (WADS.CheckNumForFullName((Lump)) == -1 && Lump.RightIndexOf(":HUB") == -1)
-                {
-                    //console.printf("DEBUG: Extra WAD(s): Invalid Lump %s", Lump);
-                    rValue = "-1";
-                }
-                else
-                {
-                    // Snip path
-                    Lump.Remove(Lump.IndexOf("/MAPS/"), 6);
-                    // Snip extension
-                    Lump.Remove(Lump.RightIndexOf(".WAD"), 4);
-
-                    // Done
-                    rValue = Lump;
-                }
+                for (int i = 0; i < cData.wsLumps.size(); i++)
+                    cData.ewLumps.push(cData.wsLumps[i]);
             }
             break;
-            // Delete array; no longer needed
-            case 99:
+            // ---- Lexicon ----
+            case 2:
             {
-                cData.ewLumps.clear();
+                for (int i = 0; i < cData.lxLumps.size(); i++)
+                    cData.ewLumps.push(cData.lxLumps[i]);
+            }
+            break;
+            // ---- Compendium ----
+            case 3:
+            {
+                for (int i = 0; i < cData.cmLumps.size(); i++)
+                    cData.ewLumps.push(cData.cmLumps[i]);
             }
             break;
             }
         }
-        else // No Extra WAD(s) detected
-            rValue = "-2";
+
+        // ------
+        // Part 4
+        // ----------------------------------------------------------
+        // Sift through copied lumps to detect existing lumps for ACS
+        // ----------------------------------------------------------
+        switch (Function)
+        {
+        // Process valid lump for return
+        case 1:
+        {
+            string Lump;
+
+            // ACS relies on -1 and -2 to stop
+            // -1 = WAD not detected
+            // -2 = No more WADs
+
+            // End of copied lumps
+            if (Data >= cData.ewLumps.size())
+            {
+                if (ewWAD == 1)
+                    cData.wsLoaded = true;
+
+                rValue = "-2";
+                break;
+            }
+
+            // Get Lump
+            Lump = cData.ewLumps[Data];
+
+            // Check if lump exists (mainly for WadSmoosh but good to have)
+            // Hub gets through so ACS can detect it
+            if (WADS.CheckNumForFullName((Lump)) == -1 && Lump.RightIndexOf(":HUB") == -1)
+            {
+                //console.printf("DEBUG: Extra WAD(s): Invalid Lump %s", Lump);
+                rValue = "-1";
+            }
+            else
+            {
+                // Snip path
+                Lump.Remove(Lump.IndexOf("/MAPS/"), 6);
+                // Snip extension
+                Lump.Remove(Lump.RightIndexOf(".WAD"), 4);
+
+                // Done
+                rValue = Lump;
+            }
+        }
+        break;
+        }
 
         return rValue;
     }
 
+    static void ClearWADArray()
+    {
+        // Get class data pointer
+        DRPGZExtraWad cData = DRPGZExtraWad(StaticEventHandler.Find("DRPGZExtraWad"));
+
+        cData.ewLumps.clear();
+    }
+
     // Names of each WAD
-    static string GetNiceName(int wadNum)
+    // Chosen via Lump detection
+    static string GetNiceName(string Lump, int LevelNum)
     {
         // WadSmoosh Nice Names
         static const string wsNiceNames[] =
@@ -647,23 +645,80 @@ class DRPGZExtraWad : StaticEventHandler
         // Get class data pointer
         DRPGZExtraWad cData = DRPGZExtraWad(StaticEventHandler.Find("DRPGZExtraWad"));
         // Default return value
-        string rValue = "";
+        string rValue = "Unknown Area";
 
-        switch (cData.ewPack)
+        // 0 = IWAD
+        // 1 = WadSmoosh
+        // 2 = Lexicon
+        // 3 = Compendium
+        int ewSource = 0;
+        int ewWad;
+        string truncatedLump;
+
+        // Remove level number
+        if (LevelNum > 1)
+            truncatedLump = Lump.Left(Lump.Length()-2);
+        else
+            truncatedLump = Lump;
+
+        // WadSmoosh handling
+        if (cData.wsLoaded)
         {
-        case EW_WS:
+            if (truncatedLump == "MAP")
+                truncatedLump = "MAP01";
+        }
+
+        // WadSmoosh
+        for (int i = 0; i < cData.wsLumps.size(); i++)
+            if (cData.wsLumps[i].IndexOf(truncatedLump) != -1)
+            {
+                ewSource = 1;
+                ewWad = i;
+
+                break;
+            }
+
+        // Lexicon
+        for (int i = 0; i < cData.lxLumps.size(); i++)
+            if (cData.lxLumps[i].IndexOf(truncatedLump) != -1)
+            {
+                ewSource = 2;
+                ewWad = i;
+
+                break;
+            }
+
+        // Compendium
+        for (int i = 0; i < cData.cmLumps.size(); i++)
+            if (cData.cmLumps[i].IndexOf(truncatedLump) != -1)
+            {
+                ewSource = 3;
+                ewWad = i;
+
+                break;
+            }
+
+        switch(ewSource)
         {
-            rValue = wsNiceNames[wadNum];
+        case 1:
+        {
+            rValue = wsNiceNames[ewWad];
+
+            rValue.AppendFormat("%s", " - [WS]");
         }
         break;
-        case EW_LX:
+        case 2:
         {
-            rValue = lxNiceNames[wadNum];
+            rValue = lxNiceNames[ewWad];
+
+            rValue.AppendFormat("%s", " - [LX]");
         }
         break;
-        case EW_CM:
+        case 3:
         {
-            rValue = cmNiceNames[wadNum];
+            rValue = cmNiceNames[ewWad];
+
+            rValue.AppendFormat("%s", " - [CM]");
         }
         break;
         }

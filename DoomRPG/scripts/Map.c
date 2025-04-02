@@ -36,6 +36,7 @@ bool WaitingForReplacements;
 
 // Extra WAD(s)
 bool ExtraWadInit, ExtraWadActive, ExtraWadHasHub;
+
 int KnownWadCount;
 
 int AllBonusMaps; // For the OCD Shield
@@ -3593,8 +3594,36 @@ NamedScript void InitExtraWad()
     if (DebugLog)
         Log("\CdDEBUG: \C-\CdExtra WAD(s): Started Initialization");
 
+    // Detect WADs
+    bool wsExists = false;
+    bool lxExists = false;
+    bool cmExists = false;
+
+    if (ScriptCall("DRPGZExtraWad", "WadDetect", 1) == 1)
+    {
+        if (DebugLog)
+            Log("\CdDEBUG: \C-\CdWadSmoosh detected");
+
+        wsExists = true;
+    }
+
+    if (ScriptCall("DRPGZExtraWad", "WadDetect", 2) == 2)
+    {
+        if (DebugLog)
+            Log("\CdDEBUG: \C-\CdLexicon detected");
+
+        lxExists = true;
+    }
+    else if (ScriptCall("DRPGZExtraWad", "WadDetect", 3) == 3)
+    {
+        if (DebugLog)
+            Log("\CdDEBUG: \C-\CdCompendium detected");
+
+        cmExists = true;
+    }
+
     // No compatible Extra WAD(s) detected
-    if ((str)ScriptCall("DRPGZExtraWad", "WadTools", 1, 0) == "-2")
+    if (!wsExists && !lxExists && !cmExists)
     {
         ExtraWadInit = true;
 
@@ -3604,14 +3633,38 @@ NamedScript void InitExtraWad()
         return;
     }
 
+    // Extra WAD Status
+    bool wsDone = false;
+    bool lxDone = false;
+    bool cmDone = false;
+
     // Add all compatible Extra WAD(s) first lumps into the levels array
     for (int i = 0; i < MAX_WADS; i++)
     {
+        int ExtraWadLoaded;
         str Lump;
         str HubLump;
         str HubNiceName;
 
-        Lump = (str)ScriptCall("DRPGZExtraWad", "WadTools", 1, i);
+        // Load WadSmoosh
+        if (wsExists && !wsDone)
+        {
+            Lump = (str)ScriptCall("DRPGZExtraWad", "WadTools", 1, i, 1);
+
+            ExtraWadLoaded = 1;
+        }
+        else if (lxExists && !lxDone)
+        {
+            Lump = (str)ScriptCall("DRPGZExtraWad", "WadTools", 1, i, 2);
+
+            ExtraWadLoaded = 2;
+        }
+        else if (cmExists && !cmDone)
+        {
+            Lump = (str)ScriptCall("DRPGZExtraWad", "WadTools", 1, i, 3);
+
+            ExtraWadLoaded = 3;
+        }
 
         // ACS relies on -1 and -2 to stop
         // -1 = WAD not detected
@@ -3619,63 +3672,87 @@ NamedScript void InitExtraWad()
         if      (Lump == "-1")
             continue;
         else if (Lump == "-2")
-            break;
-
-        // Initial Hub detection
-        if (!ExtraWadHasHub && Contains(Lump, ":HUB"))
         {
-            // Exclude ":HUB" from Lump
-            HubLump = StrLeft(Lump, (StrLen(Lump)-4));
-            // Get WAD's nice name
-            HubNiceName = (str)ScriptCall("DRPGZExtraWad", "GetNiceName", 0);
+            if (wsExists && !wsDone)
+            {
+                // All done, clear array
+                ScriptCall("DRPGZExtraWad", "ClearWADArray");
 
-            // Add Hub to WAD 0
-            LevelInfo *NewMap = klArrayUtils(1, 0, NULL);
-            NewMap->LumpName = HubLump;
-            NewMap->NiceName = HubNiceName;
-            NewMap->LevelNum = 0;
-            NewMap->SecretMap = false;
-            NewMap->UACBase = false;
-            NewMap->UACArena = false;
-            NewMap->EWHub = true;
-            NewMap->SecretMap = false;
-            NewMap->Completed = false;
-            NewMap->NeedsRealInfo = true;
+                wsDone = true;
 
-            if (DebugLog)
-                Log("\CdDEBUG: \C-Extra WAD(s): Added Hub: %S", HubLump);
+                i = -1;
+            }
+            else if (lxExists && !lxDone)
+            {
+                // All done, clear array
+                ScriptCall("DRPGZExtraWad", "ClearWADArray");
 
-            ExtraWadHasHub = true;
+                lxDone = true;
+            }
+            else if (cmExists && !cmDone)
+            {
+                // All done, clear array
+                ScriptCall("DRPGZExtraWad", "ClearWADArray");
+
+                cmDone = true;
+            }
+            else
+                break;
         }
-        // Add levels
         else
-        {
-            // Keeps track of how many Extra WAD(s) are loaded
-            KnownWadCount++;
+            // Initial Hub detection
+            if (!ExtraWadHasHub && Contains(Lump, ":HUB"))
+            {
+                // Exclude ":HUB" from Lump
+                HubLump = StrLeft(Lump, (StrLen(Lump)-4));
 
-            // Need +1 for correct level number tracking
-            NextLevelNum[KnownWadCount]++;
-            NextPrimaryLevelNum[KnownWadCount]++;
+                // Get WAD's nice name
+                HubNiceName = (str)ScriptCall("DRPGZExtraWad", "GetNiceName", HubLump, 0);
 
-            LevelInfo *NewMap = klArrayUtils(1, KnownWadCount, NULL);
-            NewMap->LumpName = Lump;
-            NewMap->NiceName = "Unknown Area";
-            NewMap->LevelNum = 0;
-            NewMap->SecretMap = false;
-            NewMap->UACBase = false;
-            NewMap->UACArena = false;
-            NewMap->EWHub = false;
-            NewMap->SecretMap = false;
-            NewMap->Completed = false;
-            NewMap->NeedsRealInfo = true;
+                // Add Hub to WAD 0
+                LevelInfo *NewMap = klArrayUtils(1, 0, NULL);
+                NewMap->LumpName = HubLump;
+                NewMap->NiceName = HubNiceName;
+                NewMap->LevelNum = 0;
+                NewMap->SecretMap = false;
+                NewMap->UACBase = false;
+                NewMap->UACArena = false;
+                NewMap->EWHub = true;
+                NewMap->SecretMap = false;
+                NewMap->Completed = false;
+                NewMap->NeedsRealInfo = true;
 
-            if (DebugLog)
-                Log("\CdDEBUG: \C-Extra WAD(s): Added Lump: %S", Lump);
-        }
+                if (DebugLog)
+                    Log("\CdDEBUG: \C-Extra WAD(s): Added Hub: %S", HubLump);
+
+                ExtraWadHasHub = true;
+            }
+        // Add levels
+            else
+            {
+                // Keeps track of how many Extra WAD(s) are loaded
+                KnownWadCount++;
+
+                // Need +1 for correct level number tracking
+                NextLevelNum[KnownWadCount]++;
+                NextPrimaryLevelNum[KnownWadCount]++;
+
+                LevelInfo *NewMap = klArrayUtils(1, KnownWadCount, NULL);
+                NewMap->LumpName = Lump;
+                NewMap->NiceName = "Unknown Area";
+                NewMap->LevelNum = 0;
+                NewMap->SecretMap = false;
+                NewMap->UACBase = false;
+                NewMap->UACArena = false;
+                NewMap->EWHub = false;
+                NewMap->SecretMap = false;
+                NewMap->Completed = false;
+                NewMap->NeedsRealInfo = true;
+
+                if (DebugLog)
+                    Log("\CdDEBUG: \C-Extra WAD(s): Added Lump: %S", Lump);
+            }
     }
-
-    // All done, clear array
-    ScriptCall("DRPGZExtraWad", "WadTools", 99, NULL);
 
     ExtraWadInit = true;
     ExtraWadActive = true;

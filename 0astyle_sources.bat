@@ -1,1 +1,1 @@
-Utilities\astyle\astyle.exe --style=allman --recursive DoomRPG/scripts/*.c,*.h DoomRPG/zscript/*.zs DoomRPG-CorruptionCards/zscript/*.zs DoomRPG-CorruptionCards/zscript/corruptioncards/*.zscript
+Utilities\astyle\astyle.exe --style=allman --recursive DoomRPG/scripts/*.c,*.h DoomRPG/zscript/*.zs

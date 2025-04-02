@@ -66,23 +66,23 @@ Use the following load order:
 4. [DoomRL Monsters Beta 7.3](https://forum.zdoom.org/viewtopic.php?f=43&t=37044) or [Colourful Hell v1.01](https://forum.zdoom.org/viewtopic.php?t=47980) or [Rampancy v2.0](https://forum.zdoom.org/viewtopic.php?f=43&t=67193) or [Dehacked Attack v4.0](https://forum.zdoom.org/viewtopic.php?f=43&t=72362) or [Pandemonia Monsters v2.2](https://forum.zdoom.org/viewtopic.php?t=60984);
 5. [DoomRL Arsenal Extended 1.1c](https://forum.zdoom.org/viewtopic.php?f=43&t=70549);
 6. [LegenDoomLite v4.2](https://forum.zdoom.org/viewtopic.php?t=51035);
-7. [Corruption Cards 5.5](https://cutstuff.net/public/CorruptionCards-v5.5.pk3);
+7. [Corruption Cards v6.3a](https://mm8bdm.net/storage/public/CorruptionCards-v6.3a.pk3);
 8. DoomRPG;
 9. DoomRPG compatibility patches (as per modifications).
 
 ## Compatible mods
-- Compatibility is strict; using unlisted mods may break DRPG.
+- Compatibility is strict; using unlisted mods may break DRPG or others in unexpected ways.
 
 - [DoomRL Arsenal - v1.1.5](https://forum.zdoom.org/viewtopic.php?f=43&t=37044);
 - [DoomRL Monsters Beta 7.3](https://forum.zdoom.org/viewtopic.php?f=43&t=37044);
 - [DoomRL Arsenal Extended - v1.1c](https://forum.zdoom.org/viewtopic.php?f=43&t=70549);
-- [Corruption Cards 5.5](https://forum.zdoom.org/viewtopic.php?t=67939);
+- [Corruption Cards v6.3a](https://forum.zdoom.org/viewtopic.php?t=67939);
 - [Rampancy v2.0](https://forum.zdoom.org/viewtopic.php?f=43&t=67193);
 - [LegenDoom v2.8.3](https://forum.zdoom.org/viewtopic.php?t=51035);
 - [LegenDoomLite v4.2](https://forum.zdoom.org/viewtopic.php?t=51035);
 - [Colourful Hell v1.01](https://forum.zdoom.org/viewtopic.php?t=47980);
 - [Dehacked Attack v4.0](https://forum.zdoom.org/viewtopic.php?f=43&t=72362);
-- [Pandemonia Monsters v2.2](https://forum.zdoom.org/viewtopic.php?t=60984);
+- [Pandemonia Monsters v2.4.1](https://forum.zdoom.org/viewtopic.php?t=60984);
 - [Relighting v4.0165b](https://forum.zdoom.org/viewtopic.php?t=76706);
 - Custom version of Jimmy's Jukebox Instant Randomizer has been included that allows DRPG's map events and Outpost music to play.
 - Champions doesn't play well with a number of mods, it seems. Be aware that numerous thing will break while using it.

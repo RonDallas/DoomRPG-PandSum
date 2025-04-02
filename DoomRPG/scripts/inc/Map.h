@@ -18,8 +18,7 @@ extern bool UsedSecretExit;
 extern bool PreviousLevelSecret;
 extern bool WaitingForReplacements;
 
-extern bool ExtraWadActive;
-extern bool ExtraWadHasHub;
+extern bool ExtraWadInit, ExtraWadActive, ExtraWadHasHub;
 
 extern int KnownWadCount;
 

@@ -49,12 +49,3 @@ const DT_LIGHTNING = 6;
 // ---------------------------
 
 const MAX_WAD_LUMPS = 100;
-
-// Position of ewActors and for detection, I suppose (I wanted pointers but oh well)
-enum ewPacks
-{
-    EW_NONE = -1,
-    EW_WS,
-    EW_LX,
-    EW_CM
-};
