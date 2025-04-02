@@ -1,4 +1,3 @@
 Name=Compendium
 Conflicts=Lexicon
-Conflicts=WadSmoosh
 Mods=Compendium-v1a.pk3
