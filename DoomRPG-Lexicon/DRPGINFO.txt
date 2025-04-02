@@ -1,4 +1,3 @@
 Name=Lexicon
 Conflicts=Compendium
-Conflicts=WadSmoosh
 Mods=Lexicon-beta-build-137.pk3
