@@ -864,10 +864,6 @@ NamedScript MapSpecial void AddUnknownMap(str Name, str DisplayName, int LevelNu
     // Give a chance for data to load
     Delay(15);
 
-    // These WADs are already set up
-    if (ExtraWadActive)
-        return;
-
     // This map was already unlocked, so ignore it
     if (FindLevelInfo(Name) != NULL)
         return;
