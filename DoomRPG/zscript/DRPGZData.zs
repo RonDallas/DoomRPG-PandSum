@@ -666,6 +666,11 @@ class DRPGZExtraWad : StaticEventHandler
         // WadSmoosh handling
         if (cData.wsLoaded)
         {
+            // The Ultimate DOOM
+            if (truncatedLump == "E2" || truncatedLump == "E3" || truncatedLump == "E4")
+                truncatedLump = "E1";
+
+            // DOOM 2
             if (truncatedLump == "MAP")
                 truncatedLump = "MAP01";
         }
