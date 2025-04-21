@@ -1,23 +1,18 @@
-## Sumwunn Rebalance-Dev *[WIP!]* - Rebalance saves not compatible!
-
-### Use the branch "Rebalance-Master" for normal playthroughs as it has changes that should be safe.
-
---------------------------
---------------------------
-
-# <ins>Update 3/16/2025<ins>
-- After much thought, I've decided to walk away from this project for good. It's a cool mod and I enjoyed working on it, but it's a burden to maintain and it eats time to make progress with it, and I wish to move away from anything ACS heavy. Last thing I will do is add WadSmoosh + LX/CM support in the future, and that will be it.
-
-- I hope somebody will pick this up in the future, as it does deserve to be maintained.
+## Rebalance w/ additional fixes
+## <ins>Saves from WNC12k's branch are not compatible!</ins>
 
 --------------------------
---------------------------
 
-This is WNC12k's Rebalance + my WIP changes. Text past the dashed line is original (except for updated mod versions and links).
-
-*Also, this build is considered WIP so please be aware that stuff may break. I don't recommend for normal playthroughs. Overtime, this build will probably be merged into Rebalance itself.*
+This is WNC12k's Rebalance w/ additional fixes. Text past "<ins>Fork overview</ins>" is original (except for updated mod versions and links).
 
 - Current Merged Rebalance: v1.34 (Mar 8, 2024)
+
+--------------------------
+
+# <ins>Update 3/16/2025</ins>
+- After much thought, I've decided to walk away from this project for good. It's a cool mod and I enjoyed working on it, but it's a burden to maintain and it eats time to make progress with it. That, and I wish to move away from anything ACS heavy. ~Last thing I will do is add WadSmoosh + LX/CM support in the future, and that will be it.~ **[Done!]**
+
+- I hope somebody picks this up in the future, as it does deserve to be maintained.
 
 ## --------------------------------------------------------------------------------------
 
