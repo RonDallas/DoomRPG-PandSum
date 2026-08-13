@@ -1,21 +1,22 @@
 ## Rebalance w/ additional fixes
-## <ins>Saves from WNC12k's branch are not compatible!</ins>
+## <ins>Saves from other branches are not compatible!</ins>
 
 --------------------------
 
-This is WNC12k's Rebalance w/ additional fixes. Text past "<ins>Fork overview</ins>" is original (except for updated mod versions and links).
+This fork is based on Sumwunn Rebalance, for full playable version go there.
 
-- Current Merged Rebalance: v1.34 (Mar 8, 2024)
+I want to add full Dusted Pandemonia compatibility, so i started this.
+Last log of changes for that you can find in ReadMe in DoomRPG-Pandemonia.
 
 --------------------------
 
-# <ins>Update 3/16/2025</ins>
-- After much thought, I've decided to walk away from this project for good. It's a cool mod and I enjoyed working on it, but it's a burden to maintain and it eats time to make progress with it. That, and I wish to move away from anything ACS heavy. ~Last thing I will do is add WadSmoosh + LX/CM support in the future, and that will be it.~ **[Done!]**
-
-- I hope somebody picks this up in the future, as it does deserve to be maintained.
+# <ins>Update 8/13/2026</ins>
+- Alpha Dusted Pandemonia compatibility (Pandemonia-v2.6.6.pk3).
+- Updated font for Pandemonia Monsters patch, so it`s not so garbage.
+- Updated Outpost map texture errors and little cosmetic changes.
 
 ## --------------------------------------------------------------------------------------
-
+Old text.
 ## Fork overview
 
 DoomRPG and DoomRLA contain a lot of content which can be enough for the passage of several WADs in a row. However, the original versions of these modifications give players most of the content in a short period of time, which is why the player does not have time to feel the depth of the possibilities of DoomRPG and DoomRLA.
