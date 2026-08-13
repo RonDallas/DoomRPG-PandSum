@@ -1219,6 +1219,7 @@ Start:
 
     // Invulnerability
     InvulnTime = GetActorPowerupTics(0, "PowerInvulnerable");
+	//InvulnTime = GetActorPowerupTics(0, "PandPowerInvulnerable");
     if (InvulnTime > 0 || GetActivatorCVar("drpg_hud_preview"))
     {
         SetFont("SMALLFONT");

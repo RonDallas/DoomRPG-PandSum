@@ -1941,6 +1941,12 @@ NamedScript MapSpecial void OutpostSecret()
         ActivatorSound("misc/secret", 127);
         Teleport(SecretTeleportTID + PlayerNumber(), false);
     }
+	if (CheckInventory("DRPGRedCardPand") && CheckInventory("DRPGYellowCardPand") && CheckInventory("DRPGBlueCardPand") &&
+            CheckInventory("DRPGRedSkullPand") && CheckInventory("DRPGYellowSkullPand") && CheckInventory("DRPGBlueSkullPand"))
+    {
+        ActivatorSound("misc/secret", 127);
+        Teleport(SecretTeleportTID + PlayerNumber(), false);
+    }
 }
 
 NamedScript MapSpecial void PowerOutage()
