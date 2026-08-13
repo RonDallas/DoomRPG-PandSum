@@ -1,0 +1,45 @@
+Class DustPlayerRPG : DustPlayer
+{
+    Default
+    {
+  Species "Player";
+  
+  Player.ForwardMove 2,1;
+  Player.SideMove 2,1;
+  Player.MugShotMaxHealth -1;
+  
+  Player.DamageScreenColor "Green", 1, "Slime";
+  Player.DamageScreenColor "Green", 1, "Radiation";
+  Player.DamageScreenColor "Green", 1, "Toxicity";
+  
+  +THRUSPECIES;
+  +QUICKTORETALIATE;
+
+    }
+	  States
+  {  
+  Pain:
+	TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_NORMAL);
+	PLAY G 4;
+	PLAY G 4 A_Pain;
+	Goto Spawn;
+  Pain.Slime:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_TOXIC);
+    Goto Pain+1;
+  Pain.Radiation:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_RADIATION);
+    Goto Pain+1;
+  Pain.Melee:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_MELEE);
+    Goto Pain+1;
+  Pain.Fire:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_FIRE);
+    Goto Pain+1;
+  Pain.Plasma:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_PLASMA);
+    Goto Pain+1;
+  Pain.Electric:
+    TNT1 A 0 ACS_NamedExecuteAlways("SetDamageType", 0, DT_LIGHTNING);
+    Goto Pain+1;
+	}
+}
