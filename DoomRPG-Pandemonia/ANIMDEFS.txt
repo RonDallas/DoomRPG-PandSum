@@ -1,0 +1,12 @@
+// --------------------------------------------------
+// INVENTORY PAND
+
+// Computer Area Map
+texture PMAA
+	pic PMAA tics 4
+	pic PMAAB tics 4
+	pic PMAAC tics 4
+	pic PMAAD tics 4
+	pic PMAAC tics 4
+	pic PMAAB tics 4
+	

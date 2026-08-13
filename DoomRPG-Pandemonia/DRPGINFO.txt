@@ -1,0 +1,10 @@
+Name=Dusted Pandemonia
+Conflicts=Colourful Hell
+Conflicts=Rampancy
+Conflicts=Dehacked Attack
+Conflicts=DoomRL Arsenal - Monster Pack
+Conflicts=Pandemonia - Monster Pack
+Conflicts=LegenDoom
+Conflicts=DoomRL Arsenal
+Conflicts=DoomRL Arsenal Extended
+Mods=Pandemonia-v2.6.6.pk3

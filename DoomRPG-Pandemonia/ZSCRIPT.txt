@@ -1,0 +1,15 @@
+version "4.10.0"
+
+#include "zscript/DRPGZ-PandemoniaReplacingThing.zs"
+
+#include "zscript/DRPGZ-PandemoniaPlayer.zs"
+#include "zscript/DRPGZ-PandemoniaAmmo.zs"
+#include "zscript/DRPGZ-PandemoniaArmor.zs"
+#include "zscript/DRPGZ-PandemoniaMonsters.zs"
+#include "zscript/DRPGZ-PandemoniaEvent.zs"
+#include "zscript/DRPGZ-PandemoniaHealth.zs"
+#include "zscript/DRPGZ-PandemoniaKeys.zs"
+#include "zscript/DRPGZ-PandemoniaPowerups.zs"
+#include "zscript/DRPGZ-PandemoniaRandomizers.zs"
+#include "zscript/DRPGZ-PandemoniaShields.zs"
+#include "zscript/DRPGZ-PandemoniaStims.zs"

@@ -1,0 +1,8 @@
+//Font?
+//Graphic DBIGFONT, 1411, 17 { Offset 0, 6 XScale 0.75 YScale 0.5 Graphic DBIGFONT, 0, 0 }
+
+// Inventory Bar Icons
+Graphic PMAA, 28, 19 { Offset -1, -4 XScale 1 YScale 1 Graphic PMAAA0, 0, 0 }
+Graphic PMAAB, 28, 19 { Offset -1, -4 XScale 1 YScale 1 Graphic PMAAB0, 0, 0 }
+Graphic PMAAC, 28, 19 { Offset -1, -4 XScale 1 YScale 1 Graphic PMAAC0, 0, 0 }
+Graphic PMAAD, 28, 19 { Offset -1, -4 XScale 1 YScale 1 Graphic PMAAD0, 0, 0 }

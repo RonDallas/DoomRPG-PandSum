@@ -1,0 +1,5 @@
+gameinfo
+{
+	playerclasses = "DustPlayerRPG"
+	AddEventHandlers = "Pand_ReplacerHandlerRPG", "Pandemonia_MonsterInit"
+}

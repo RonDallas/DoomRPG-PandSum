@@ -1,0 +1,2 @@
+// Megasphere
+object NewMegasphereRPG		    { frame MEGA { light MEGASPHERE } }
