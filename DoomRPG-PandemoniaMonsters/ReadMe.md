@@ -1,3 +1,7 @@
+13.08.2026
+New:
+- Bigfont updated to not look bad.
+
 05.07.2024
 
 New:
