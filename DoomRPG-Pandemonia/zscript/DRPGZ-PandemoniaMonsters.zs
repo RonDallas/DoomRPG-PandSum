@@ -2158,11 +2158,11 @@ class Pandemonia_MonsterInit : EventHandler
 				"FearBossRPG", "CyberBaronRPG", "AbyssalDesecratorRPG",
 
                 "NewArchvileRPG", "CryptekRPG", "DarkVileRPG", "DiabolistRPG", "DistortionistRPG", 							//Arch-Viles
-                "Illusionist", "InfernalistRPG", "MachinaRPG", "PulsedemonRPG",
+                "IllusionistRPG", "InfernalistRPG", "MachinaRPG", "PulsedemonRPG",
 
                 "ChaosCultistRPG", "ChaosAcolyteRPG",																		//Nazi
 
-                "Epic2AlienRPG", "Scythe2AfritRPG", "Scythe2MarineRPG", "NDCP2Guy"											//Patch
+                "Epic2AlienRPG", "Scythe2AfritRPG", "Scythe2MarineRPG", "NDCP2GuyRPG"									    //Patch
             };
 
             static const string PandemoniaBosses[] =
@@ -2180,7 +2180,7 @@ class Pandemonia_MonsterInit : EventHandler
 
             static const string PandemoniaOtherThings[] =
             {
-                "SayoriRPG" 																								//Other Things
+                "SayoriRPG", "PlagueMite" 																					//Other Things
             };
 
             static const string PandemoniaLostSouls[] =
