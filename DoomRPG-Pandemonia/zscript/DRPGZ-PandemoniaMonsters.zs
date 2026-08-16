@@ -2106,9 +2106,9 @@ class Pandemonia_MonsterInit : EventHandler
         {
             static const string PandemoniaMonsters[] =
             {
-                "LaserRifleZombieRPG", "PistolZombieRPG", "PlasmaPistolZombieRPG",											//Zombies
-                "SpecOpsRiflemanRPG", "CinderZombieRPG", "SeraphRPG",
-				"LaserBorgRPG", "PelterRPG", "PistolBorgRPG",
+                "PistolZombieRPG", "PlasmaPistolZombieRPG", "LaserRifleZombieRPG", 											//Zombies
+                "CinderZombieRPG", "SpecOpsRiflemanRPG", "SeraphRPG",
+				"PistolBorgRPG", "PelterRPG", "LaserBorgRPG",
 
                 "AutoShotgunZombieRPG", "ChaosWarriorRPG", "RocketZombieRPG", "ShotgunAdmiralRPG", 							//Shotgunners
                 "NewShotgunguyRPG",	"SlugShotgunZombieRPG", "SpecOpsShotgunnerRPG", "SuperShotgunZombieRPG",
@@ -2133,7 +2133,7 @@ class Pandemonia_MonsterInit : EventHandler
                 "WretchRPG", "FacelessRPG", "TriteRPG",
 
                 "ChaosHollowRPG", "DarkRevenantRPG", "MissileRevenantRPG", "NewRevenantRPG", "PandSentinelRPG",				//Revevants
-                "SentryRPG", "ApollyonRPG", "AncientGladiatorRPG",
+                "SentryRPG", "ApollyonRPG", "AncientGladiatorRPG", "PestilenceRPG",
 
                 "AgathodemonRPG", "CacobotRPG", "NewCacodemonRPG", "CrackodemonRPG", "DarkCacodemonRPG",					//Cacodemons
                 "WitherdemonRPG", "AbaddonRPG", "ChaosStalkerRPG", "NethersystRPG", "HadesRavagerRPG",
