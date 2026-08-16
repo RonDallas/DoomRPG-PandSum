@@ -14,6 +14,7 @@ Last log of changes for that you can find in ReadMe in DoomRPG-Pandemonia.
 - Alpha Dusted Pandemonia compatibility (Pandemonia-v2.6.6.pk3).
 - Updated font for Pandemonia Monsters patch, so it`s not so garbage.
 - Updated Outpost map texture errors and little cosmetic changes.
+- Fix for DRLAX familiars in new versions of GZ/UZ (by Someone64 i believe).
 
 ## --------------------------------------------------------------------------------------
 Old text.
