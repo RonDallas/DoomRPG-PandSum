@@ -796,7 +796,7 @@ MonsterInfo const MonsterDataPANDMFULL[MAX_DEF_MONSTERS_PANDMFULL] =
 	{ "Conflagrator",                      "Conflagrator",                      290,     24, true, "The very spirit of this place was steeped in fire." },
     { "SpiderMasterspark",                 "Spider Masterspark",                300,     24, true, "Some thoughts of hell have reached space..." },
 	{ "CerebralWarMachine",                "Cerebral War Machine",              305,     25, true, "Experimental heavy demonic weaponry are located in this area." },
-    { "ChaosMonolith",                     "ChaosMonolith",                     310,     25, true, "Something is wrong here...\nAll wrong..." },
+    { "ChaosMonolith",                     "Chaos Monolith",                    310,     25, true, "Something is wrong here...\nAll wrong..." },
 	{ "SacrosanctOverseer",                "Sacrosanct Overseer",               318,     25, true, "Something is wrong here...\nFoolish mortal." },
 
     // Cyberdemon
