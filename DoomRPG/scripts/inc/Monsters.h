@@ -16,6 +16,7 @@ extern MonsterInfo const MonsterDataCH[MAX_DEF_MONSTERS_CH];
 extern MonsterInfo const MonsterDataRAMPANCY[MAX_DEF_MONSTERS_RM];
 extern MonsterInfo const MonsterDataDEHACKED[MAX_DEF_MONSTERS_DF];
 extern MonsterInfo const MonsterDataPANDM[MAX_DEF_MONSTERS_PANDM];
+extern MonsterInfo const MonsterDataPANDMFULL[MAX_DEF_MONSTERS_PANDMFULL];
 extern MegabossInfo const MegaBossesDF[MAX_MEGABOSSES_DF];
 extern MegabossInfo const MegaBossesCH[MAX_MEGABOSSES_CH];
 
