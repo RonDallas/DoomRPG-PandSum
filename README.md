@@ -9,6 +9,10 @@ I want to add full Dusted Pandemonia compatibility, so i started this.
 Last log of changes for that you can find in ReadMe in DoomRPG-Pandemonia.
 
 --------------------------
+# <ins>Update 8/17/2026</ins>
+-Added basic compatability function for Dusted Pandemonia (RPG.c).
+-Changed monster in compatability function check for Pandemonia Monsters (RPG.c) so it`s not conflict with DP.
+-Add Dusted Pandemonia items array to ItemData.c.
 
 # <ins>Update 8/13/2026</ins>
 - Alpha Dusted Pandemonia compatibility (Pandemonia-v2.6.6.pk3).

@@ -2,6 +2,11 @@
 // ----- Bits 'n bobs ----- //
 
 -------------------------------------------------------------------------------------------------------------------------------------
+// ----- Debug Log CVAR ----- //
+You need to "set drpg_debug 1" to debug loging work.
+And set it back to zero, if you done.
+
+-------------------------------------------------------------------------------------------------------------------------------------
 // ----- Regarding Lost Souls ----- //
 
 To accommodate new Lost Souls or similar monsters, the example DECORATE class below contains the appropriate code for the Spawn and See states. 
