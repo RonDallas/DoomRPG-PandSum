@@ -2619,7 +2619,7 @@ void CheckCompatibility()
     }
 
     // Pandemonia Monsters
-    Success = SpawnForced("PistolZombie", 0, 0, 0, TID, 0);
+    Success = SpawnForced("FusionArachnotron", 0, 0, 0, TID, 0);
     if (Success)
     {
         if (DebugLog)
@@ -2628,6 +2628,19 @@ void CheckCompatibility()
         CompatMonMode = COMPAT_PANDEMONIA;
         MonsterData = MonsterDataPANDM;
         MonsterDataAmount = MAX_DEF_MONSTERS_PANDM;
+        Thing_Remove(TID);
+    }
+	
+	// Dusted Pandemonia
+    Success = SpawnForced("Seraph", 0, 0, 0, TID, 0);
+    if (Success)
+    {
+        if (DebugLog)
+            Log("\CdDEBUG: \CdDusted Pandemonia\C- detected");
+
+        CompatMonMode = COMPAT_PANDEMONIAFULL;
+        MonsterData = MonsterDataPANDMFULL;
+        MonsterDataAmount = MAX_DEF_MONSTERS_PANDMFULL;
         Thing_Remove(TID);
     }
 

@@ -1053,6 +1053,134 @@ NamedScript void BuildItemData()
         ItemData[4][7].Actor = "LDAllMapPickupRPG";
     }
 
+    // Compatibility Handling - Dusted Pandemonia
+    if (CompatMode == COMPAT_PANDEMONIAFULL)
+    {
+        // Weapons
+        ITEMDATA_CATEGORY(0, "\CgWeapons", CF_NONE);
+		ITEMDATA_DEF("DustChainsaw",        	"Chainsaw",          							300, 0, 0, "CSAWA0", 31, 23);
+		
+		ITEMDATA_DEF("DustPistol",          	"Pistol",            							125, 0, 0, "DEPIA0", 11, 15);
+		ITEMDATA_DEF("DustLaserRifle",      	"Laser Rifle",      							175, 1, 1, "LSRFZ0", 11, 15);
+		
+		ITEMDATA_DEF("DustShotgun",         	"Shotgun",           							250, 0, 0, "SHOTA0", 31, 17);
+		ITEMDATA_DEF("DustAutoShotgun",     	"Auto Shotgun",      							350, 2, 2, "DEASA0", 31, 17);
+		ITEMDATA_DEF("DustSuperShotgun",    	"Super Shotgun",     							500, 1, 1, "SGN2A0", 27, 15);
+		ITEMDATA_DEF("DustStreetsweeper",   	"Streetsweeper \Ci[Durability Weapon]\C-",     	900, 3, 5, "STSWZ0", 27, 15);
+		
+		ITEMDATA_DEF("DustAssaultRifle",    	"Assault Rifle",     							750, 0, 0, "RIFLA0", 25, 18);
+		ITEMDATA_DEF("DustNailgun",         	"Nailgun",           							950, 2, 2, "NAIGA0", 25, 18);
+		ITEMDATA_DEF("DustFirestorm",       	"Firestorm \Ci[Durability Weapon]\C-",        	1200, 4, 5, "FRSWZ0", 25, 18);
+		
+		ITEMDATA_DEF("DustRocketLauncher",  	"Rocket Launcher",  							1000, 1, 1, "LAUNA0", 31, 18);
+		ITEMDATA_DEF("DustGrenadeLauncher", 	"Grenade Launcher",  							1300, 3, 2, "DEGLA0", 31, 18);
+		ITEMDATA_DEF("DustDarkBlaster",  		"Dark Blaster",  								1600, 4, 3, "DRBLA0", 31, 18);
+		ITEMDATA_DEF("DustMeteorite", 			"Meteorite \Ci[Durability Weapon]\C-",  		2000, 5, 5, "MTRIZ0", 31, 18);
+		
+		ITEMDATA_DEF("DustPlasmaRifle",     	"Plasma Rifle",     							2500, 1, 2, "PLASA0", 27, 19);
+		ITEMDATA_DEF("DustRailgun",     		"Railgun",     									3000, 2, 2, "RAIGA0", 27, 19);
+		ITEMDATA_DEF("DustPlasmaRepeater",  	"Plasma Repeater",     							3400, 3, 3, "REPPA0", 27, 19);
+		ITEMDATA_DEF("DustScourgeRifle",    	"Scourge Rifle",     							3900, 4, 4, "6S04Z0", 27, 19);
+		ITEMDATA_DEF("DustEnlightener",     	"Enlightener \Ci[Durability Weapon]\C-",     	4200, 5, 5, "6S05Z0", 27, 19);
+		
+		ITEMDATA_DEF("DustBFG9000",         	"BFG9000",          							5000, 1, 3, "BFUGA0", 31, 38);
+		ITEMDATA_DEF("DustBFG10000",        	"BFG10000",          							6000, 5, 5, "BFG2A0", 31, 38);
+		ITEMDATA_DEF("DustHeliacalArkh",    	"Heliacal Arkh \Ci[Durability Weapon]\C-",      7000, 6, 6, "BFUGA0", 31, 38);
+		
+		ITEMDATA_DEF("DustSacrosanctAeonstave", "Sacrosanct Aeonstave",          				10000, -1, 7, "CSTFZ0", 31, 38);
+		ITEMDATA_DEF("DustConvergence",        	"Convergence",          						13000, -1, 8, "WCONA0", 31, 38);
+		ITEMDATA_CATEGORY_END;
+		
+		// Ammo
+		ITEMDATA_CATEGORY(1, "\CeAmmo/Sidegrades", CF_NOSELL);
+		ITEMDATA_DEF("DRPGClip",            	 "Clip",               			10, 0, -1, "CLIPA0",  2, 11);
+		ITEMDATA_DEF("DRPGClipBox",         	 "Box of Bullets",     			50, 0, -1, "AMMOA0", 12, 16);
+		ITEMDATA_DEF("DRPGShell",           	 "Shells",             			25, 0, -1, "SHELA0",  5,  7);
+		ITEMDATA_DEF("DRPGShellBox",        	 "Box of Shells",     			125, 0, -1, "SBOXA0", 16, 12);
+		ITEMDATA_DEF("DRPGRocketAmmo",      	 "Rockets",            			50, 1, -1, "ROCKA0",  6, 27);
+		ITEMDATA_DEF("DRPGRocketBox",       	 "Box of Rockets",    			250, 1, -1, "BROKA0", 27, 20);
+		ITEMDATA_DEF("DRPGCell",            	 "Cells",             			200, 1, -1, "CELLA0",  8, 12);
+		ITEMDATA_DEF("DRPGCellPack",        	 "Cell Pack",        			1000, 1, -1, "CELPA0", 15, 20);
+
+		ITEMDATA_DEF("PandBackpackSRPG",   	     "Ammo Satchel",      			500, 1, -1, "BPAKH0", 14, 30);
+		ITEMDATA_DEF("PandBackpackMRPG",         "Backpack",         			1250, 1, -1, "BPAKI0",  8, 25);
+		ITEMDATA_DEF("PandBackpackBRPG",     	 "Big Backpack",     			2500, 1, -1, "GPAKA0", 11, 29);
+		
+		ITEMDATA_DEF("ShotgunSidegrade1",   	 "Shotgun Sidegrade",							2000, 3, -1, "SGUPA0",  8, 25);
+		ITEMDATA_DEF("SuperShotgunSidegrade1",   "Super Shotgun Sidegrade",  					3000, 4, -1, "SSUPA0",  8, 25);
+		ITEMDATA_DEF("AutoShotgunSidegrade1",    "Auto Shotgun Sidegrade",   					4000, 5, -1, "ASUPA0",  8, 25);
+		ITEMDATA_DEF("AssaultRifleSidegrade1",   "Assault Rifle Sidegrade",  					2500, 4, -1, "RFUPA0",  8, 25);
+		ITEMDATA_DEF("NailgunSidegrade1",        "Nailgun Sidegrade",        					4500, 6, -1, "NGUPA0",  8, 25);
+		ITEMDATA_DEF("RocketLauncherSidegrade1", "Rocket Launcher Sidegrade",					5000, 7, -1, "RLUPA0",  8, 25);
+		ITEMDATA_DEF("GrenadeLauncherSidegrade1","Grenade Launcher Sidegrade (Napalm)",  		5500, 8, -1, "GLUPA0",  8, 25);
+		ITEMDATA_DEF("GrenadeLauncherSidegrade2","Grenade Launcher Sidegrade (Stickybombs)",	5600, 8, -1, "GLUPB0",  8, 25);
+		ITEMDATA_DEF("PlasmaRifleSidegrade1",    "Plasma Rifle Sidegrade",         				6125, 9, -1, "PLUPA0",  8, 25);
+		ITEMDATA_DEF("RailgunSidegrade1",        "Railgun Sidegrade",         					6500, 9, -1, "RGUPA0",  8, 25);
+		ITEMDATA_DEF("PlasmaRepeaterSidegrade1", "Plasma Repeater Sidegrade",         			7000, 10, -1, "PRUPA0",  8, 25);
+		ITEMDATA_DEF("BFG9000Sidegrade1",        "BFG9000 Sidegrade",         					10000, 11, -1, "BFUPA0",  8, 25);
+		ITEMDATA_CATEGORY_END;
+		
+		// Armor
+		ITEMDATA_CATEGORY(3, "\CdArmor", CF_NONE);
+		ITEMDATA_DEF("ArmorBoost",         	        "Armor Boost",                100, 0, 1, "ABSTC0",  7, 13);
+		ITEMDATA_DEF("ArmorReconstructionKit",      "Armor Reconstruction Kit",   1000, -1, -1, "AMCKB0",  7, 13);
+
+		ITEMDATA_DEF("SecurityArmor",               "Security Armor",    		  200, 0, 0, "ARM1A0", 15, 17);
+		ITEMDATA_DEF("BulletproofVest",             "BulletproofVest",    		  250, 0, 0, "BARMA0", 15, 17);
+		ITEMDATA_DEF("CombatArmor",                 "Combat Armor",       		  500, 0, 0, "ARM2A0", 15, 17);
+		ITEMDATA_DEF("OperativeArmor",              "Operative Armor",            600, 1, 0, "ARM3A0", 15, 17);
+		ITEMDATA_DEF("PlasmaticDetonationPack",     "Plasmatic Detonation Pack",  800, 1, 1, "ARM3A0", 15, 17);
+		ITEMDATA_DEF("SkirmishArmor",               "Skirmish Armor",            1000, 2, 2, "RARMA0", 15, 17);
+		ITEMDATA_DEF("AdmiralArmor",                "Admiral Armor",             1300, 3, 3, "ARM4A0", 15, 17);
+		ITEMDATA_DEF("ObsidianArmor",               "Obsidian Armor",            2000, 5, 5, "OBRMA0", 15, 17);
+		ITEMDATA_DEF("CyberneticArmor",             "Cybernetic Armor",          3000, 5, 5, "CARMA0", 15, 17);
+		ITEMDATA_DEF("DemolitionistArmor",          "Demolitionist Armor",       4000, 6, 6, "DMRMA0", 15, 17);
+		ITEMDATA_DEF("MedicalArmor",                "Medical Armor",             5000, 7, 7, "MARMA0", 15, 17);
+
+		ITEMDATA_DEF("BrimstoneArmor",    			"Brimstone Armor",    		 5500, 7, 7, "BMRMA0", 15, 17);
+		ITEMDATA_DEF("ChaoticChestplate",    		"ChaoticChestplate",    	 6000, 8, 7, "CXRMA0", 15, 17);
+		ITEMDATA_DEF("FirebluArmor",  			 	"FirebluArmor",   			 6200, -1, 8, "FBRMA0", 15, 17);
+		ITEMDATA_DEF("SacrosanctPalisade",          "Sacrosanct Palisade",      10000, 9, 9, "CXRMZ0", 15, 17);
+		ITEMDATA_DEF("DistortedArmor",    			"Distorted Armor",   		12000, 10, 9, "DSRMA0", 15, 17);
+		ITEMDATA_CATEGORY_END;
+		
+		// Powerups
+		ITEMDATA_CATEGORY(4, "\CqPowerups", CF_NONE);
+		ITEMDATA_DEF("DRPGInvulnerabilityChargePand",   	"Invulnerability Charge",              			5000, 2, 5, "CRG2A0",  6, 22);
+		ITEMDATA_DEF("DRPGInvisibilityChargePand",      	"Invisibility Charge",                 			2000, 1, 1, "CRG1A0",  6, 22);
+		ITEMDATA_DEF("DRPGTimeSpherePand",              	"Time Sphere",                         			2500, 4, 1, "TIMEA0", 16, 45);
+		ITEMDATA_DEF("DRPGRegenSpherePand",             	"Regeneration Sphere",                 			1000, 2, 1, "REGNA0", 12, 38);
+		ITEMDATA_DEF("DRPGRadSuitPand",                 	"Radiation Suit",                       		250, 0, 0, "SUITA0", 11, 51);
+		ITEMDATA_DEF("DRPGInfraredPand",                	"IR Goggles",                           		500, 0, 0, "PVISA0", 11,  9);
+		ITEMDATA_DEF("GammaVisionGoggles",              	"Gamma-Vision Goggles",                			1000, 3, 3, "PVI0D0", 11,  9);
+		ITEMDATA_DEF("WeaponSupplyKit",              		"Weapon Supply Kit",                			2000, 3, 3, "RPKTZ0", 11,  9);
+		ITEMDATA_DEF("DRPGBerserkPand",                 	"Berserk Pack",                        			5000, 6,-1, "PSTRA0", 12, 15);
+		ITEMDATA_DEF("DRPGAllMapPand",                  	"Computer Area Map",                  			10000, 4, 3, "PMAPA0", 13, 23);
+		ITEMDATA_DEF("PandMapScanner",                  	"Computer Area Map - Scanner Module!",			10000, 4, 3, "PMA9A0", 13, 23);
+		ITEMDATA_DEF("DRPGWingsPand",                   	"Wings",                               			5000, 2, 2, "WINGA0", 13, 36);
+		ITEMDATA_DEF("NewMegasphereRPG",               		"Megasphere",                          			5000, 4, 4, "MEGAA0", 12, 32);
+		ITEMDATA_DEF("DRPGImmunityCrystalMeleePand",    	"Melee Immunity Crystal",             			50000, 8, 8, "CRYSA0", 16, 48);
+		ITEMDATA_DEF("DRPGImmunityCrystalBulletPand",   	"\CcBullet\C- Immunity Crystal",      			50000, 8, 8, "CRYSB0", 16, 48);
+		ITEMDATA_DEF("DRPGImmunityCrystalFirePand",     	"\CaFire\C- Immunity Crystal",        			50000, 8, 8, "CRYSC0", 16, 48);
+		ITEMDATA_DEF("DRPGImmunityCrystalPlasma",    		"\CnPlasma\C- Immunity Crystal",      			50000, 8, 8, "CRYSD0", 16, 48);
+		ITEMDATA_DEF("DRPGImmunityCrystalLightningPand",	"\CfLightning\C- Immunity Crystal",   			50000, 8, 8, "CRYSE0", 16, 48);
+		ITEMDATA_DEF("DRPGImmunityCrystalToxicPand",    	"\CdToxic\C- Immunity Crystal",       			50000, 8, 8, "CRYSF0", 16, 48);
+		ITEMDATA_DEF("DRPGImmunityCrystalRadiationPand",	"\CqChaos-Radiation fused\C- Immunity Crystal", 50000, 8, 8, "CRYSG0", 16, 48);
+		ITEMDATA_DEF("DRPGThermonuclearBombPickupPand",  	"Thermonuclear Bomb",                			100000,-1,-1, "NUKE", -1, 0);
+		ITEMDATA_DEF("DRPGLife",                     		"\CdExtra Life\C-",                   			20000,-1,-1, "L1UPA0", 0, 4);
+		
+		ITEMDATA_DEF("ProvisionalVessel",               	"Provisional Vessel",                          	2000,-1,-1, "VESLC0", 12, 32);
+		ITEMDATA_DEF("DistortionMark",               		"Distortion Mark",                          	5000,-1,-1, "DSRUB0", 12, 32);
+		ITEMDATA_DEF("InfernalWard",  						"Infernal Ward",                				4000,-1,-1, "INFWY0", -1, 0);
+		ITEMDATA_DEF("BulwarkRune",  						"Bulwark Rune",                					50000,-1,-1, "RUBWZ0", -1, 0);
+		ITEMDATA_DEF("DrainRune",  							"Drain Rune",                					45000,-1,-1, "RUDRZ0", -1, 0);
+		ITEMDATA_DEF("PersistanceRune",  					"Persistance Rune",                				40000,-1,-1, "RUPRZ0", -1, 0);
+		ITEMDATA_DEF("RageRune",  							"Rage Rune",                					45000,-1,-1, "RURGZ0", -1, 0);
+		ITEMDATA_DEF("ResistanceRuneRPG",  					"Resistance Rune",                				53000,-1,-1, "RURSZ0", -1, 0);
+		ITEMDATA_DEF("StrengthRune",  						"Strength Rune",                				50000,-1,-1, "RUSTZ0", -1, 0);
+		ITEMDATA_CATEGORY_END;
+	}
+	
     // Misc Hidden Stuff
     ITEMDATA_CATEGORY(ItemCategories, "Misc", CF_NOBUY | CF_NOSELL | CF_NOSTORE);
     ITEMDATA_DEF("None",                    "\CaUnknown Item\C-",           0, -1, -1, "SprNone", 0, 0);

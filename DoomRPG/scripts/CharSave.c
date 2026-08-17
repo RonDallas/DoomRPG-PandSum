@@ -420,7 +420,7 @@ NamedScript MenuEntry void SaveCharacter()
         if (DebugLog)
             Log("\CdDEBUG: \C-Saved Char RL Danger Level: %i", rlmDL);
     }
-
+	
     // ------ Save Level Data ------
     if (Success && GetActivatorCVar("drpg_char_load_maplevel"))
     {
@@ -803,6 +803,10 @@ NamedScript MenuEntry void ClearCharacter()
     // Danger Level
     if (CompatMonMode == COMPAT_DRLA)
         SetActivatorCVar("drpg_char_data_rl_dangerlevel", 0);
+	
+	// Game Level (Pandemonia)
+    if (CompatMonMode == COMPAT_PANDEMONIAFULL)
+        SetActivatorCVar("drpg_char_data_dp_gamelevel", 0);
 
     // Notification
     ActivatorSound("charsave/accept", 127);
