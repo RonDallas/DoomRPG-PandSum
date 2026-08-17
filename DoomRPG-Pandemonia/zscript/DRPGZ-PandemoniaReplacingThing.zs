@@ -89,6 +89,7 @@ class Pand_ReplacerHandlerRPG : EventHandler
 		case 'DRPGInfrared'	: a.Replacement = 'DRPGInfraredPand'; break;
 		case 'DRPGAllMap'	: a.Replacement = 'DRPGAllMapPand'; break;
 		case 'DRPGBerserk'	: a.Replacement = 'DRPGBerserkPand'; break;
+		case 'DRPGWings'	: a.Replacement = 'DRPGWingsPand'; break;
 		
 		//Immunity Crystals
 		case 'DRPGImmunityCrystalMelee'	: a.Replacement = 'DRPGImmunityCrystalMeleePand'; break;
